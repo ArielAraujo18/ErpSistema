@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>frm_Main</class>
+ <widget class="QMainWindow" name="frm_Main">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>719</width>
+    <height>294</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true">background-color: #2c2c2c;</string>
+   </property>
+   <widget class="QPushButton" name="btn_cliente">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>81</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{
+    background-color: #f5f5f5;
+    border: 2px solid #cccccc;
+    border-radius: 10px; 
+    padding: 10px; 
+    color: #333333; 
+    font-size: 14px;
+	background-image: url(:/icon_cli/cliente.png);
+    background-repeat: no-repeat;
+    background-position: center;
+	transition: all 0.3s ease;
+}
+QPushButton:hover{
+    background-color: #e0e0e0;
+    border-color: #aaaaaa;
+	transform: scale(1.05); 
+}
+QPushButton:pressed{
+	background-color: #d6d6d6;
+	border-color: #888888;
+	transform: scale(0.95);
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_receber">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>0</y>
+      <width>81</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{
+    background-color: #f5f5f5;
+    border: 2px solid #cccccc;
+    border-radius: 10px; 
+    padding: 10px;
+    color: #333333;
+    font-size: 14px; 
+	background-image:url(:/icon_receb/receber.png);
+    background-repeat: no-repeat; 
+    background-position: center; 
+	transition: all 0.3s ease;
+}
+QPushButton:hover{
+    background-color: #e0e0e0; 
+    border-color: #aaaaaa; 
+	transform: scale(1.05); 
+}
+QPushButton:pressed{
+	background-color: #d6d6d6;
+	border-color: #888888;
+	transform: scale(0.95);
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_produtos">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>0</y>
+      <width>81</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{
+    background-color: #f5f5f5;
+    border: 2px solid #cccccc;
+    border-radius: 10px;
+    padding: 10px; 
+    color: #333333; 
+    font-size: 14px; 
+	background-image:url(:/icon_prod/produtos.png); 
+    background-repeat: no-repeat; 
+    background-position: center; 
+	transition: all 0.3s ease;
+}
+QPushButton:hover{
+    background-color: #e0e0e0;
+    border-color: #aaaaaa;
+	transform: scale(1.05); 
+}
+QPushButton:pressed{
+	background-color: #d6d6d6;
+	border-color: #888888;
+	transform: scale(0.95);
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_vendas">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>0</y>
+      <width>81</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{
+    background-color: #f5f5f5;
+    border: 2px solid #cccccc;
+    border-radius: 10px; 
+    padding: 10px;
+    color: #333333;
+    font-size: 14px; 
+	background-image: url(:/icon_vend/venda.png);
+    background-repeat: no-repeat; 
+    background-position: center; 
+	transition: all 0.3s ease;
+}
+QPushButton:hover{
+    background-color: #e0e0e0;
+    border-color: #aaaaaa;
+	transform: scale(1.05); 
+}
+QPushButton:pressed{
+	background-color: #d6d6d6;
+	border-color: #888888;
+	transform: scale(0.95);
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_pagar">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>0</y>
+      <width>81</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{
+    background-color: #f5f5f5; 
+    border: 2px solid #cccccc; 
+    border-radius: 10px;
+    padding: 10px;
+    color: #333333;
+    font-size: 14px;
+	background-image:url(:/icon_cont/contasPagar.png);
+    background-repeat: no-repeat;
+    background-position: center;
+	transition: all 0.3s ease;
+}
+QPushButton:hover{
+    background-color: #e0e0e0;
+    border-color: #aaaaaa; 
+	transform: scale(1.05); 
+}
+QPushButton:pressed{
+	background-color: #d6d6d6;
+	border-color: #888888;
+	transform: scale(0.95);
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_bancos">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>0</y>
+      <width>81</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{
+    background-color: #f5f5f5;
+    border: 2px solid #cccccc;
+    border-radius: 10px;
+    padding: 10px;
+    color: #333333;
+    font-size: 14px;
+	background-image:url(:/icon_bank/banco.png);
+    background-repeat: no-repeat;
+    background-position: center;
+	transition: all 0.3s ease;
+}
+QPushButton:hover{
+    background-color: #e0e0e0;
+    border-color: #aaaaaa; 
+	transform: scale(1.05); 
+}
+QPushButton:pressed{
+	background-color: #d6d6d6;
+	border-color: #888888;
+	transform: scale(0.95);
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_caixa">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>0</y>
+      <width>81</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{
+    background-color: #f5f5f5;
+    border: 2px solid #cccccc; 
+    border-radius: 10px; 
+    padding: 10px; 
+    color: #333333; 
+    font-size: 14px;
+	background-image:url(:/icon_caix/caixa.png); 
+    background-repeat: no-repeat; 
+    background-position: center; 
+	transition: all 0.3s ease;
+}
+QPushButton:hover{
+    background-color: #e0e0e0;
+    border-color: #aaaaaa;
+	transform: scale(1.05); 
+}
+QPushButton:pressed{
+	background-color: #d6d6d6;
+	border-color: #888888;
+	transform: scale(0.95);
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_fornecedor">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>0</y>
+      <width>81</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{
+    background-color: #f5f5f5;
+    border: 2px solid #cccccc;
+    border-radius: 10px;
+    padding: 10px;
+    color: #333333;
+    font-size: 14px;
+	background-image:url(:/icon_forn/fornecedor.png);
+    background-repeat: no-repeat;
+    background-position: center;
+	transition: all 0.3s ease;
+}
+QPushButton:hover{
+    background-color: #e0e0e0;
+    border-color: #aaaaaa; 
+	transform: scale(1.05); 
+}
+QPushButton:pressed{
+	background-color: #d6d6d6;
+	border-color: #888888;
+	transform: scale(0.95);
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_sair">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>0</y>
+      <width>81</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{
+    background-color: #f5f5f5; 
+    border: 2px solid #cccccc; 
+    border-radius: 10px; 
+    padding: 10px; 
+    color: #333333; 
+    font-size: 14px; 
+	background-image:url(:/icon_sair/sair.png); 
+    background-repeat: no-repeat; 
+    background-position: center; 
+	transition: all 0.3s ease;
+}
+QPushButton:hover{
+    background-color: #e0e0e0;
+    border-color: #aaaaaa;
+	transform: scale(1.05); 
+}
+QPushButton:pressed{
+	background-color: #d6d6d6;
+	border-color: #888888;
+	transform: scale(0.95);
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>719</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QMenuBar {
+    background-color: #2E3440;
+    color: white;
+    padding: 5px;
+}
+
+QMenuBar::item {
+    background: transparent;
+    padding: 4px 10px;
+}
+
+QMenuBar::item:selected {   
+    background: #3B4252;    
+    color: #88C0D0;          
+}
+
+QMenu {
+    background-color: #2E3440;
+    color: white; 
+    border: 1px solid #4C566A;
+}
+
+QMenu::item:selected {      
+    background-color: #3B4252;
+    color: #A3BE8C;
+}
+</string>
+   </property>
+   <widget class="QMenu" name="menuCadastros">
+    <property name="title">
+     <string>Cadastros</string>
+    </property>
+    <addaction name="actionCliente"/>
+    <addaction name="actionFornecedor"/>
+    <addaction name="actionUsu_rio_do_sistema"/>
+   </widget>
+   <widget class="QMenu" name="menuOpera_es">
+    <property name="title">
+     <string>Operações</string>
+    </property>
+    <widget class="QMenu" name="menuSa_da_de_produtos">
+     <property name="title">
+      <string>Saída de produtos</string>
+     </property>
+     <addaction name="actionVenda"/>
+     <addaction name="actionConsumo_de_produtos"/>
+    </widget>
+    <widget class="QMenu" name="menuEstoque">
+     <property name="title">
+      <string>Estoque</string>
+     </property>
+     <addaction name="actionSaldo"/>
+    </widget>
+    <widget class="QMenu" name="menuCompras">
+     <property name="title">
+      <string>Compras</string>
+     </property>
+     <addaction name="actionCompras_2"/>
+     <addaction name="actionPedido"/>
+     <addaction name="actionCancelar_compra"/>
+    </widget>
+    <addaction name="menuSa_da_de_produtos"/>
+    <addaction name="menuEstoque"/>
+    <addaction name="menuCompras"/>
+   </widget>
+   <widget class="QMenu" name="menuFinanceiro">
+    <property name="title">
+     <string>Financeiro</string>
+    </property>
+    <addaction name="actionCaixa"/>
+    <addaction name="actionBanco"/>
+    <addaction name="actionContas_para_pagar"/>
+    <addaction name="actionContas_para_receber"/>
+    <addaction name="actionContas_pagas"/>
+    <addaction name="actionContas_recebidas"/>
+   </widget>
+   <widget class="QMenu" name="menuConsultas">
+    <property name="title">
+     <string>Consultas</string>
+    </property>
+    <widget class="QMenu" name="menuVendas">
+     <property name="title">
+      <string>Vendas</string>
+     </property>
+     <addaction name="actionGeral"/>
+     <addaction name="actionResumido"/>
+    </widget>
+    <widget class="QMenu" name="menuConsumos">
+     <property name="title">
+      <string>Consumos</string>
+     </property>
+     <addaction name="actionGeral_3"/>
+     <addaction name="actionResumido_2"/>
+    </widget>
+    <addaction name="menuVendas"/>
+    <addaction name="menuConsumos"/>
+   </widget>
+   <addaction name="menuCadastros"/>
+   <addaction name="menuOpera_es"/>
+   <addaction name="menuConsultas"/>
+   <addaction name="menuFinanceiro"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionCliente">
+   <property name="text">
+    <string>Cliente</string>
+   </property>
+  </action>
+  <action name="actionFornecedor">
+   <property name="text">
+    <string>Fornecedor</string>
+   </property>
+  </action>
+  <action name="actionUsu_rio_do_sistema">
+   <property name="text">
+    <string>Usuário</string>
+   </property>
+  </action>
+  <action name="actionVenda">
+   <property name="text">
+    <string>Venda</string>
+   </property>
+  </action>
+  <action name="actionConsumo_de_produtos">
+   <property name="text">
+    <string>Consumo de produtos</string>
+   </property>
+  </action>
+  <action name="actionSaldo">
+   <property name="text">
+    <string>Saldo</string>
+   </property>
+  </action>
+  <action name="actionCompras_2">
+   <property name="text">
+    <string>Compras</string>
+   </property>
+  </action>
+  <action name="actionPedido">
+   <property name="text">
+    <string>Pedido</string>
+   </property>
+  </action>
+  <action name="actionCancelar_compra">
+   <property name="text">
+    <string>Cancelar</string>
+   </property>
+  </action>
+  <action name="actionCaixa">
+   <property name="text">
+    <string>Caixa</string>
+   </property>
+  </action>
+  <action name="actionBanco">
+   <property name="text">
+    <string>Banco</string>
+   </property>
+  </action>
+  <action name="actionContas_para_pagar">
+   <property name="text">
+    <string>Contas para pagar</string>
+   </property>
+  </action>
+  <action name="actionContas_para_receber">
+   <property name="text">
+    <string>Contas para receber</string>
+   </property>
+  </action>
+  <action name="actionContas_pagas">
+   <property name="text">
+    <string>Contas pagas</string>
+   </property>
+  </action>
+  <action name="actionContas_recebidas">
+   <property name="text">
+    <string>Contas recebidas</string>
+   </property>
+  </action>
+  <action name="actionGeral">
+   <property name="text">
+    <string>Geral</string>
+   </property>
+  </action>
+  <action name="actionResumido">
+   <property name="text">
+    <string>Resumido</string>
+   </property>
+  </action>
+  <action name="actionGeral_3">
+   <property name="text">
+    <string>Geral</string>
+   </property>
+  </action>
+  <action name="actionResumido_2">
+   <property name="text">
+    <string>Resumido</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="icon_cliente.qrc"/>
+  <include location="icon_sair.qrc"/>
+  <include location="icon_caixa.qrc"/>
+  <include location="icon_receber.qrc"/>
+  <include location="icon_bancos.qrc"/>
+  <include location="icon_pagar.qrc"/>
+  <include location="icon_vendas.qrc"/>
+  <include location="icon_produtos.qrc"/>
+  <include location="icon_fornecedor.qrc"/>
+ </resources>
+ <connections/>
+</ui>
