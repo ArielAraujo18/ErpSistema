@@ -7,6 +7,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
     QSizePolicy, QWidget)
+import mysql.connector
+import pandas as pd
+
+##Imagens da tela
 import icon_excluirD
 import icon_cadastrar
 
@@ -39,6 +43,7 @@ class Ui_frm_DadosCliente(object):
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
+"    color: #000000; \n"
 "    transition: all 0.3s ease;\n"
 "}\n"
 "\n"
@@ -106,6 +111,7 @@ class Ui_frm_DadosCliente(object):
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
+"    color: #000000; \n"
 "    transition: all 0.3s ease;\n"
 "}\n"
 "\n"
@@ -123,6 +129,7 @@ class Ui_frm_DadosCliente(object):
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
+"    color: #000000; \n"
 "    transition: all 0.3s ease;\n"
 "}\n"
 "\n"
@@ -150,6 +157,7 @@ class Ui_frm_DadosCliente(object):
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
+"    color: #000000; \n"
 "    transition: all 0.3s ease;\n"
 "}\n"
 "\n"
@@ -205,6 +213,7 @@ class Ui_frm_DadosCliente(object):
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
+"    color: #000000; \n"
 "    transition: all 0.3s ease;\n"
 "}\n"
 "\n"
@@ -232,6 +241,7 @@ class Ui_frm_DadosCliente(object):
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
+"    color: #000000; \n"
 "    transition: all 0.3s ease;\n"
 "}\n"
 "\n"
@@ -259,6 +269,7 @@ class Ui_frm_DadosCliente(object):
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
+"    color: #000000; \n"
 "    transition: all 0.3s ease;\n"
 "}\n"
 "\n"
@@ -276,6 +287,7 @@ class Ui_frm_DadosCliente(object):
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
+"    color: #000000; \n"
 "    transition: all 0.3s ease;\n"
 "}\n"
 "\n"
@@ -303,6 +315,7 @@ class Ui_frm_DadosCliente(object):
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
+"    color: #000000; \n"
 "    transition: all 0.3s ease;\n"
 "}\n"
 "\n"
@@ -326,6 +339,44 @@ class Ui_frm_DadosCliente(object):
 
         QMetaObject.connectSlotsByName(frm_DadosCliente)
     # setupUi
+    def adicionarCliente(self):
+        nomeCliente = self.txt_nome.text()
+        celularCliente = self.txt_celular.text()
+        cpfCliente = self.txt_cpf.text()
+        cidadeCliente = self.txt_cidade.text()
+        ruaCliente = self.txt_Rua.text()
+        bairroCliente = self.txt_bairro.text()
+        numeroCliente = self.txt_Numero.text()
+        cepCliente = self.txt_cep.text()
+        emailCliente = self.txt_cidade_6.text()
+
+        mydb = mysql.connector.connect(
+            host = 'localhost',
+            user = 'Ariel',
+            password = 'IRani18@#',
+            database = 'sistema'
+        )
+
+        mycursor = mydb.cursor()
+        sql = "INSERT INTO cliente(Nome, Celular, Cpf, Cidade, Rua, Bairro, Número, Cep, `E-mail` ) values (%s, %s, %s, %s, %s, %s, %s, %s, %s )"
+        val = (nomeCliente, celularCliente, cpfCliente, cidadeCliente, ruaCliente, bairroCliente, numeroCliente, cepCliente, emailCliente)
+        mycursor.execute(sql, val)
+        mydb.commit()
+        print(mycursor.rowcount, 'Record(s) inserted')
+        mycursor.close()
+
+        self.txt_nome.setText("")
+        self.txt_celular.setText("")
+        self.txt_cpf.setText("")
+        self.txt_cidade.setText("")
+        self.txt_Rua.setText("")
+        self.txt_bairro.setText("")
+        self.txt_Numero.setText("")
+        self.txt_cep.setText("")
+        self.txt_cidade_6.setText("")
+
+    def sairTela(self, frm_DadosCliente):
+        frm_DadosCliente.close()
 
     def retranslateUi(self, frm_DadosCliente):
         frm_DadosCliente.setWindowTitle(QCoreApplication.translate("frm_DadosCliente", u"Form", None))
@@ -345,6 +396,10 @@ class Ui_frm_DadosCliente(object):
         self.txt_cidade_6.setText("")
         self.lbl_email.setText(QCoreApplication.translate("frm_DadosCliente", u"E-mail:", None))
     # retranslateUi
+
+    ##Botões sistema
+        self.btn_cadastrar_3.clicked.connect(self.adicionarCliente)
+        self.btn_cancelar.clicked.connect(lambda: self.sairTela(frm_DadosCliente))
 
 if __name__ == "__main__":
     app = QApplication([])

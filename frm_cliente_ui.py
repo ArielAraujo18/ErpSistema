@@ -20,8 +20,12 @@ import icon_voltar
 import icon_alterar
 #Import da variaveis de controle
 import Controle
+#host = Controle.host
+#user = Controle.user
+#password = Controle.password
+#database = Controle.database
 #print(ControleBd.__file__)
-
+from frm_DadosCliente import Ui_frm_DadosCliente
 
 class Ui_frm_Cliente(object):
     def setupUi(self, frm_Cliente):
@@ -456,6 +460,13 @@ class Ui_frm_Cliente(object):
 
         mycursor.close()
 
+    def cadastrarCliente(self):
+        self.frm_DadosCliente = QWidget()
+        self.ui = Ui_frm_DadosCliente()
+        self.ui.setupUi(self.frm_DadosCliente)
+        self.frm_DadosCliente.show()
+
+        
     def retranslateUi(self, frm_Cliente):
         frm_Cliente.setWindowTitle(QCoreApplication.translate("frm_Cliente", u"Cliente", None))
         self.btn_Add.setText("")
@@ -492,7 +503,7 @@ class Ui_frm_Cliente(object):
         self.btn_filtro.clicked.connect(self.consultarGeral)
         self.btn_voltar.clicked.connect(lambda: self.sairTela(frm_Cliente))
         self.btn_pesquisar.clicked.connect(self.pesquisarCliente)
-        
+        self.btn_Add.clicked.connect(self.cadastrarCliente)
 
 if __name__ == "__main__":
     app = QApplication([])
