@@ -10,6 +10,8 @@ from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
 import mysql.connector
 import pandas as pd
 
+import Controle
+
 ##Imagens da tela
 import icon_excluirD
 import icon_cadastrar
@@ -398,8 +400,73 @@ class Ui_frm_DadosCliente(object):
     # retranslateUi
 
     ##Botões sistema
-        self.btn_cadastrar_3.clicked.connect(self.adicionarCliente)
+        if Controle.tiposTelaDadosCliente == 'incluir':
+                self.btn_cadastrar_3.clicked.connect(self.adicionarCliente)
         self.btn_cancelar.clicked.connect(lambda: self.sairTela(frm_DadosCliente))
+   ##Condições da tela
+        if Controle.tiposTelaDadosCliente == 'incluir':
+                print('DadosCliente: ', Controle.tiposTelaDadosCliente)
+                self.txt_nome.setEnabled(True)
+                self.txt_celular.setEnabled(True)
+                self.txt_cpf.setEnabled(True)
+                self.txt_cidade.setEnabled(True)
+                self.txt_Rua.setEnabled(True)
+                self.txt_bairro.setEnabled(True)
+                self.txt_Numero.setEnabled(True)
+                self.txt_cep.setEnabled(True)
+                self.txt_cidade_6.setEnabled(True)
+                self.btn_cadastrar_3.setEnabled(True)
+        elif Controle.tiposTelaDadosCliente == 'consultar':
+                print('DadosCliente: ', Controle.tiposTelaDadosCliente)
+                self.txt_nome.setEnabled(False)
+                self.txt_celular.setEnabled(False)
+                self.txt_cpf.setEnabled(False)
+                self.txt_cidade.setEnabled(False)
+                self.txt_Rua.setEnabled(False)
+                self.txt_bairro.setEnabled(False)
+                self.txt_Numero.setEnabled(False)
+                self.txt_cep.setEnabled(False)
+                self.txt_cidade_6.setEnabled(False)
+                self.btn_cadastrar_3.setEnabled(False)
+                #Conexão com bd
+                self.host = Controle.host
+                self.user = Controle.user
+                self.password = Controle.password
+                self.database = Controle.database 
+                print('Conectando...')
+                mydb = mysql.connector.connect(
+                        host = self.host,
+                        user = self.user,
+                        password = self.password,
+                        database = self.database
+                )
+                mycursor = mydb.cursor()
+                consultaSQL = "SELECT * FROM cliente WHERE idCliente = '" + Controle.idConsulta + "'"
+                mycursor.execute(consultaSQL)
+                myresult = mycursor.fetchall()
+                mycursor.close()
+                #Converte resultados bd para dataframe#
+                df = pd.DataFrame(myresult, columns=["idCliente", "Nome", "Celular", "Cpf", "Cidade", "Rua", "Bairro", "Número", "Cep", "E-mail"])
+                nomeCliente = df['Nome'][0]
+                celularCliente = df['Celular'][0]
+                cpfCliente = df['Cpf'][0]
+                cidadeCliente = df['Cidade'][0]
+                ruaCliente = df['Rua'][0]
+                bairroCliente = df['Bairro'][0]
+                NumeroCliente = df['Número'][0]
+                cepCliente = df['Cep'][0]
+                emailCliente = df['E-mail'][0]
+                #Setar na tela do sitema
+                self.txt_nome.setText(nomeCliente)
+                self.txt_celular.setText(celularCliente)
+                self.txt_cpf.setText(cpfCliente)
+                self.txt_Rua.setText(ruaCliente)
+                self.txt_cidade.setText(cidadeCliente)
+                self.txt_bairro.setText(bairroCliente)
+                self.txt_Numero.setText(str(NumeroCliente))
+                self.txt_cep.setText(cepCliente)
+                self.txt_cidade_6.setText(emailCliente)
+
 
 if __name__ == "__main__":
     app = QApplication([])

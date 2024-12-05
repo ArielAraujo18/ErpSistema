@@ -18,16 +18,12 @@ import icon_filtro
 import icon_pesquisar
 import icon_voltar
 import icon_alterar
-#Import da variaveis de controle
 import Controle
-#host = Controle.host
-#user = Controle.user
-#password = Controle.password
-#database = Controle.database
-#print(ControleBd.__file__)
+
 from frm_DadosCliente import Ui_frm_DadosCliente
 
 class Ui_frm_Cliente(object):
+    
     def setupUi(self, frm_Cliente):
         if not frm_Cliente.objectName():
             frm_Cliente.setObjectName(u"frm_Cliente")
@@ -380,17 +376,22 @@ class Ui_frm_Cliente(object):
 
     ##Função dos botões##
     def consultarGeral(self):
+        self.host = Controle.host
+        self.user = Controle.user
+        self.password = Controle.password
+        self.database = Controle.database
         print('Conectando...')
         mydb = mysql.connector.connect(
-        host = '127.0.0.1',
-        user = 'Ariel',
-        password = 'IRani18@#',
-        database = 'sistema'
+                host = self.host,
+                user = self.user,
+                password = self.password,
+                database = self.database
         )
         print('Conexão bem-sucedida!')
-
         mycursor = mydb.cursor()
-        mycursor.execute('SELECT * FROM cliente')
+        nomeConsulta = self.txt_nomeCliente.text()
+        consultaSQL = "SELECT * FROM cliente WHERE nome LIKE '" + nomeConsulta + "%'"
+        mycursor.execute(consultaSQL)
         myresult = mycursor.fetchall()
 
         # Criando DataFrame
@@ -417,16 +418,22 @@ class Ui_frm_Cliente(object):
 
 
     def sairTela(self, frm_Cliente):
+         Controle.tiposTelaDadosCliente == ''
          frm_Cliente.close()
 
 
     def pesquisarCliente(self):
+
+        self.host = Controle.host
+        self.user = Controle.user
+        self.password = Controle.password
+        self.database = Controle.database 
         print('Conectando...')
         mydb = mysql.connector.connect(
-                host = '127.0.0.1',
-                user = 'Ariel',
-                password = 'IRani18@#',
-                database = 'sistema'
+                host = self.host,
+                user = self.user,
+                password = self.password,
+                database = self.database
         )
         print('Conexão bem-sucedida!')
 
@@ -461,12 +468,27 @@ class Ui_frm_Cliente(object):
         mycursor.close()
 
     def cadastrarCliente(self):
+        Controle.tiposTelaDadosCliente = "incluir"
+        print('frmCliente: ', Controle.tiposTelaDadosCliente)
         self.frm_DadosCliente = QWidget()
         self.ui = Ui_frm_DadosCliente()
         self.ui.setupUi(self.frm_DadosCliente)
         self.frm_DadosCliente.show()
 
-        
+    def consultarCliente(self):
+        #Tipo tela dados Cliente
+        Controle.tiposTelaDadosCliente = "consultar"
+        print('frmCliente: ', Controle.tiposTelaDadosCliente)
+        #Id cliente para consulta#
+        line = self.tableWidget.currentRow()
+        item = self.tableWidget.item(line, 0)
+        Controle.idConsulta = item.text()
+        #Abertura da tela ConsultarCliente#
+        self.frm_DadosCliente = QWidget()
+        self.ui = Ui_frm_DadosCliente()
+        self.ui.setupUi(self.frm_DadosCliente)
+        self.frm_DadosCliente.show()
+
     def retranslateUi(self, frm_Cliente):
         frm_Cliente.setWindowTitle(QCoreApplication.translate("frm_Cliente", u"Cliente", None))
         self.btn_Add.setText("")
@@ -504,6 +526,7 @@ class Ui_frm_Cliente(object):
         self.btn_voltar.clicked.connect(lambda: self.sairTela(frm_Cliente))
         self.btn_pesquisar.clicked.connect(self.pesquisarCliente)
         self.btn_Add.clicked.connect(self.cadastrarCliente)
+        self.btn_consul.clicked.connect(self.consultarCliente)
 
 if __name__ == "__main__":
     app = QApplication([])
