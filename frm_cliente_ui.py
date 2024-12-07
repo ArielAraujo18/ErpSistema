@@ -7,7 +7,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QTableWidget, QTableWidgetItem,
-    QWidget)
+    QWidget, QMessageBox)
 import mysql.connector
 import pandas as pd
 #Import Imagens
@@ -28,7 +28,7 @@ class Ui_frm_Cliente(object):
         if not frm_Cliente.objectName():
             frm_Cliente.setObjectName(u"frm_Cliente")
         frm_Cliente.setFixedSize(581, 592)
-        frm_Cliente.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsi.png"))
+        frm_Cliente.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
         frm_Cliente.setStyleSheet(u"QWidget {\n"
 "    background-color: #e8f5e9;\n"
 "}")
@@ -367,13 +367,12 @@ class Ui_frm_Cliente(object):
 "")
 
         self.retranslateUi(frm_Cliente)
-
         QMetaObject.connectSlotsByName(frm_Cliente)
     # setupUi
 
 
 
-
+    
     ##Função dos botões##
     def consultarGeral(self):
         self.host = Controle.host
@@ -476,18 +475,142 @@ class Ui_frm_Cliente(object):
         self.frm_DadosCliente.show()
 
     def consultarCliente(self):
-        #Tipo tela dados Cliente
+        # Tipo tela dados Cliente
         Controle.tiposTelaDadosCliente = "consultar"
         print('frmCliente: ', Controle.tiposTelaDadosCliente)
-        #Id cliente para consulta#
+        
+        # Verificar se há uma linha selecionada na tabela
         line = self.tableWidget.currentRow()
-        item = self.tableWidget.item(line, 0)
-        Controle.idConsulta = item.text()
-        #Abertura da tela ConsultarCliente#
-        self.frm_DadosCliente = QWidget()
-        self.ui = Ui_frm_DadosCliente()
-        self.ui.setupUi(self.frm_DadosCliente)
-        self.frm_DadosCliente.show()
+        
+        if line == -1:  # Se não houver linha selecionada
+                msg = QMessageBox()
+                msg.setWindowTitle("ERRO!")
+                msg.setText("Por favor, selecione um cliente para consultar.")
+                msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+                msg.setIcon(QMessageBox.Warning)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+                return  # Não prosseguir com a consulta
+        
+        item = self.tableWidget.item(line, 0)  # Obtém o item da primeira coluna (ID do cliente)
+        
+        if item:  # Verifica se o item não é None
+                Controle.idConsulta = item.text()
+                # Abertura da tela ConsultarCliente
+                self.frm_DadosCliente = QWidget()
+                self.ui = Ui_frm_DadosCliente()
+                self.ui.setupUi(self.frm_DadosCliente)
+                self.frm_DadosCliente.show()
+        else:
+                msg = QMessageBox()
+                msg.setWindowTitle("Erro de Seleção")
+                msg.setText("Não foi possível obter o ID do cliente selecionado.")
+                msg.setIcon(QMessageBox.Warning)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+
+    def alterarCliente(self):
+        # Tipo tela dados Cliente
+        Controle.tiposTelaDadosCliente = "alterar"
+        print('frmCliente: ', Controle.tiposTelaDadosCliente)
+        
+        # Verificar se há uma linha selecionada na tabela
+        line = self.tableWidget.currentRow()
+        
+        if line == -1:  # Se não houver linha selecionada
+                msg = QMessageBox()
+                msg.setWindowTitle("Erro de Seleção")
+                msg.setText("Por favor, selecione um cliente para alterar.")
+                msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+                msg.setIcon(QMessageBox.Warning)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+                return  # Não prosseguir com a alteração
+        
+        item = self.tableWidget.item(line, 0)  # Obtém o item da primeira coluna (ID do cliente)
+        
+        if item:  # Verifica se o item não é None
+                Controle.idConsulta = item.text()
+                # Abertura da tela AlterarCliente
+                self.frm_DadosCliente = QWidget()
+                self.ui = Ui_frm_DadosCliente()
+                self.ui.setupUi(self.frm_DadosCliente)
+                self.frm_DadosCliente.show()
+        else:
+                msg = QMessageBox()
+                msg.setWindowTitle("Erro de Seleção")
+                msg.setText("Não foi possível obter o ID do cliente selecionado.")
+                msg.setIcon(QMessageBox.Warning)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+
+    def excluirCliente(self):
+        # Verificar se há uma linha selecionada na tabela
+        line = self.tableWidget.currentRow()
+        
+        if line == -1:  # Se não houver linha selecionada
+                msg = QMessageBox()
+                msg.setWindowTitle("ERRO!")
+                msg.setText("Por favor, selecione um cliente para excluir.")
+                msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+                msg.setIcon(QMessageBox.Warning)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+                return  # Não prosseguir com a exclusão
+        
+        item = self.tableWidget.item(line, 0)  # Obtém o item da primeira coluna (ID do cliente)
+        
+        if item:  # Verifica se o item não é None
+                idCliente = item.text()
+                
+                # Conexão com o banco de dados
+                mydb = mysql.connector.connect(
+                host='localhost',
+                user='Ariel',
+                password='IRani18@#',
+                database='sistema'
+                )
+
+                mycursor = mydb.cursor()
+                sql = "DELETE FROM cliente WHERE idCliente = %s"
+                mycursor.execute(sql, (idCliente,))
+                mydb.commit()
+
+                msg = QMessageBox()
+                msg.setWindowTitle("Cliente excluído")
+                msg.setText("Cliente excluído com sucesso.")
+                msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+                msg.setIcon(QMessageBox.Information)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+
+                # Atualiza a tabela após a exclusão
+                mycursor.execute("SELECT * FROM cliente")
+                myresult = mycursor.fetchall()
+                df = pd.DataFrame(myresult, columns=['idCliente', 'Nome', 'Celular', 'Cpf', 'Cidade', 'Rua', 'Bairro', 'Número', 'Cep', 'E-mail'])
+                self.all_data = df
+                numRows = len(self.all_data.index)
+                self.tableWidget.setColumnCount(len(self.all_data.columns))
+                self.tableWidget.setRowCount(numRows)
+                self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
+
+                for i in range(numRows):
+                        for j in range(self.all_data.columns):
+                                self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
+
+                self.tableWidget.resizeColumnsToContents()
+                self.tableWidget.resizeRowsToContents()
+
+                mycursor.close()
+        
+        else:  # Se o item não for encontrado
+                msg = QMessageBox()
+                msg.setWindowTitle("Erro de Seleção")
+                msg.setText("Não foi possível obter o ID do cliente selecionado.")
+                msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+                msg.setIcon(QMessageBox.Warning)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
 
     def retranslateUi(self, frm_Cliente):
         frm_Cliente.setWindowTitle(QCoreApplication.translate("frm_Cliente", u"Cliente", None))
@@ -521,12 +644,14 @@ class Ui_frm_Cliente(object):
         ___qtablewidgetitem9.setText(QCoreApplication.translate("frm_Cliente", u"E-mail", None));
     # retranslateUi
 
-        ##Botão##
+        ##Botões##
         self.btn_filtro.clicked.connect(self.consultarGeral)
         self.btn_voltar.clicked.connect(lambda: self.sairTela(frm_Cliente))
         self.btn_pesquisar.clicked.connect(self.pesquisarCliente)
         self.btn_Add.clicked.connect(self.cadastrarCliente)
         self.btn_consul.clicked.connect(self.consultarCliente)
+        self.btn_alterar.clicked.connect(self.alterarCliente)
+        self.btn_excluir.clicked.connect(self.excluirCliente)
 
 if __name__ == "__main__":
     app = QApplication([])

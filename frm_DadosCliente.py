@@ -4,9 +4,9 @@ from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
+    QPalette, QPixmap, QRadialGradient, QTransform, QPixmap, QIntValidator)
 from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
-    QSizePolicy, QWidget)
+    QSizePolicy, QWidget, QMessageBox)
 import mysql.connector
 import pandas as pd
 
@@ -21,7 +21,7 @@ class Ui_frm_DadosCliente(object):
         if not frm_DadosCliente.objectName():
             frm_DadosCliente.setObjectName(u"frm_DadosCliente")
         frm_DadosCliente.setFixedSize(526, 609)
-        frm_DadosCliente.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsi.png"))
+        frm_DadosCliente.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
         frm_DadosCliente.setStyleSheet(u"QWidget {\n"
 "    background-color: #eaf2f8;\n"
 "    border-radius: 8px;\n"
@@ -341,7 +341,62 @@ class Ui_frm_DadosCliente(object):
 
         QMetaObject.connectSlotsByName(frm_DadosCliente)
     # setupUi
+
+
     def adicionarCliente(self):
+        
+        
+
+        campos_comuns = {
+              "Nome": self.txt_nome.text().strip(),
+              "Cidade": self.txt_cidade.text().strip(),
+              "Rua": self.txt_Rua.text().strip(),
+              "Bairro": self.txt_bairro.text().strip(),
+              "Número": self.txt_Numero.text().strip(),
+              "E-mail": self.txt_cidade_6.text().strip(),
+        }
+        campos_mask = {
+              "Celular": self.txt_celular.text().strip(),
+              "Cpf": self.txt_cpf.text().strip(),
+               "Cep": self.txt_cep.text().strip(),
+        }
+
+        for campos_comuns, valor in campos_comuns.items():
+              if not valor.strip():
+                    msg = QMessageBox()
+                    msg.setWindowTitle("ERRO!")
+                    msg.setText(f"O campo '{campos_comuns} é obrigatório, e não pode ficar vazio!' ")
+                    icon_path = r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"
+                    msg.setWindowIcon(QIcon(icon_path)) 
+                    msg.setIcon(QMessageBox.Information)
+                    msg.setStandardButtons(QMessageBox.Ok)
+                    msg.exec()
+                    return
+              
+        for campos_mask, valor in campos_mask.items():
+                if len(valor.replace("_", "").replace(".", "").strip()) < 6:  # Remove "_" (máscaras) e verifica o comprimento
+                        msg = QMessageBox()
+                        msg.setWindowTitle("ERRO!")
+                        msg.setText(f"O campo '{campos_mask}' deve ser preenchido!")
+                        icon_path = r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"
+                        msg.setWindowIcon(QIcon(icon_path))
+                        msg.setIcon(QMessageBox.Information)
+                        msg.setStandardButtons(QMessageBox.Ok)
+                        msg.exec()
+                        return
+        
+        numeroCliente = self.txt_Numero.text().strip()
+
+        if not numeroCliente.isdigit():
+                msg = QMessageBox()
+                msg.setWindowTitle("Erro de Validação")
+                msg.setText("O campo 'Número' deve conter apenas números!")
+                msg.setIcon(QMessageBox.Warning)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+                return  # Não prosseguir com a adição do cliente
+
+
         nomeCliente = self.txt_nome.text()
         celularCliente = self.txt_celular.text()
         cpfCliente = self.txt_cpf.text()
@@ -352,21 +407,23 @@ class Ui_frm_DadosCliente(object):
         cepCliente = self.txt_cep.text()
         emailCliente = self.txt_cidade_6.text()
 
+                # Conexão com o banco de dados
         mydb = mysql.connector.connect(
-            host = 'localhost',
-            user = 'Ariel',
-            password = 'IRani18@#',
-            database = 'sistema'
+                host='localhost',
+                user='Ariel',
+                password='IRani18@#',
+                database='sistema'
         )
 
         mycursor = mydb.cursor()
-        sql = "INSERT INTO cliente(Nome, Celular, Cpf, Cidade, Rua, Bairro, Número, Cep, `E-mail` ) values (%s, %s, %s, %s, %s, %s, %s, %s, %s )"
+        sql = "INSERT INTO cliente(`Nome`, `Celular`, `Cpf`, `Cidade`, `Rua`, `Bairro`, `Número`, `Cep`, `E-mail`) values (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
         val = (nomeCliente, celularCliente, cpfCliente, cidadeCliente, ruaCliente, bairroCliente, numeroCliente, cepCliente, emailCliente)
         mycursor.execute(sql, val)
         mydb.commit()
         print(mycursor.rowcount, 'Record(s) inserted')
         mycursor.close()
 
+        # Limpa os campos após a inserção
         self.txt_nome.setText("")
         self.txt_celular.setText("")
         self.txt_cpf.setText("")
@@ -377,11 +434,60 @@ class Ui_frm_DadosCliente(object):
         self.txt_cep.setText("")
         self.txt_cidade_6.setText("")
 
+                        
     def sairTela(self, frm_DadosCliente):
         frm_DadosCliente.close()
 
+
+    def alterarCliente(self):
+        nomeCliente = self.txt_nome.text()
+        celularCliente = self.txt_celular.text()
+        cpfCliente = self.txt_cpf.text()
+        cidadeCliente = self.txt_cidade.text()
+        ruaCliente = self.txt_Rua.text()
+        bairroCliente = self.txt_bairro.text()
+        numeroCliente = self.txt_Numero.text()
+        cepCliente = self.txt_cep.text()
+        emailCliente = self.txt_cidade_6.text()
+
+        try:
+                mydb = mysql.connector.connect(
+                host='localhost',
+                user='Ariel',
+                password='IRani18@#',
+                database='sistema'
+                )
+
+                mycursor = mydb.cursor()
+
+                # Query SQL corrigida
+                sql = """
+                UPDATE cliente
+                SET Nome = %s, Celular = %s, Cpf = %s, Cidade = %s, Rua = %s,
+                Bairro = %s, Número = %s, Cep = %s, `E-mail` = %s
+                WHERE IdCliente = %s
+                """
+                
+                # Lista de valores corrigida
+                val = (
+                nomeCliente, celularCliente, cpfCliente, cidadeCliente,
+                ruaCliente, bairroCliente, numeroCliente, cepCliente,
+                emailCliente, Controle.idConsulta
+                )
+
+                # Executando a query
+                mycursor.execute(sql, val)
+                mydb.commit()
+
+                print(f"{mycursor.rowcount} registro(s) alterado(s).")
+        except mysql.connector.Error as err:
+                print(f"Erro ao alterar cliente: {err}")
+        finally:
+                mycursor.close()
+                mydb.close()
+
     def retranslateUi(self, frm_DadosCliente):
-        frm_DadosCliente.setWindowTitle(QCoreApplication.translate("frm_DadosCliente", u"Form", None))
+        frm_DadosCliente.setWindowTitle(QCoreApplication.translate("frm_DadosCliente", u"Dados do Cliente", None))
         self.lbl_nome.setText(QCoreApplication.translate("frm_DadosCliente", u"Nome:", None))
         self.lbl_celular.setText(QCoreApplication.translate("frm_DadosCliente", u"Celular: ", None))
         self.lbl_cpf.setText(QCoreApplication.translate("frm_DadosCliente", u"CPF:", None))
@@ -402,6 +508,9 @@ class Ui_frm_DadosCliente(object):
     ##Botões sistema
         if Controle.tiposTelaDadosCliente == 'incluir':
                 self.btn_cadastrar_3.clicked.connect(self.adicionarCliente)
+        if Controle.tiposTelaDadosCliente == 'alterar':
+                self.btn_cadastrar_3.clicked.connect(self.alterarCliente)
+                print('Dados Cliente: ', Controle.tiposTelaDadosCliente)
         self.btn_cancelar.clicked.connect(lambda: self.sairTela(frm_DadosCliente))
    ##Condições da tela
         if Controle.tiposTelaDadosCliente == 'incluir':
@@ -416,7 +525,7 @@ class Ui_frm_DadosCliente(object):
                 self.txt_cep.setEnabled(True)
                 self.txt_cidade_6.setEnabled(True)
                 self.btn_cadastrar_3.setEnabled(True)
-        elif Controle.tiposTelaDadosCliente == 'consultar':
+        elif Controle.tiposTelaDadosCliente == 'consultar':            
                 print('DadosCliente: ', Controle.tiposTelaDadosCliente)
                 self.txt_nome.setEnabled(False)
                 self.txt_celular.setEnabled(False)
@@ -428,6 +537,56 @@ class Ui_frm_DadosCliente(object):
                 self.txt_cep.setEnabled(False)
                 self.txt_cidade_6.setEnabled(False)
                 self.btn_cadastrar_3.setEnabled(False)
+                #Conexão com bd
+                self.host = Controle.host
+                self.user = Controle.user
+                self.password = Controle.password
+                self.database = Controle.database 
+                print('Conectando...')
+                mydb = mysql.connector.connect(
+                        host = self.host,
+                        user = self.user,
+                        password = self.password,
+                        database = self.database
+                )
+                mycursor = mydb.cursor()
+                consultaSQL = "SELECT * FROM cliente WHERE idCliente = '" + Controle.idConsulta + "'"
+                mycursor.execute(consultaSQL)
+                myresult = mycursor.fetchall()
+                mycursor.close()
+                #Converte resultados bd para dataframe#
+                df = pd.DataFrame(myresult, columns=["idCliente", "Nome", "Celular", "Cpf", "Cidade", "Rua", "Bairro", "Número", "Cep", "E-mail"])
+                nomeCliente = df['Nome'][0]
+                celularCliente = df['Celular'][0]
+                cpfCliente = df['Cpf'][0]
+                cidadeCliente = df['Cidade'][0]
+                ruaCliente = df['Rua'][0]
+                bairroCliente = df['Bairro'][0]
+                NumeroCliente = df['Número'][0]
+                cepCliente = df['Cep'][0]
+                emailCliente = df['E-mail'][0]
+                #Setar na tela do sitema
+                self.txt_nome.setText(nomeCliente)
+                self.txt_celular.setText(celularCliente)
+                self.txt_cpf.setText(cpfCliente)
+                self.txt_Rua.setText(ruaCliente)
+                self.txt_cidade.setText(cidadeCliente)
+                self.txt_bairro.setText(bairroCliente)
+                self.txt_Numero.setText(str(NumeroCliente))
+                self.txt_cep.setText(cepCliente)
+                self.txt_cidade_6.setText(emailCliente)
+        elif Controle.tiposTelaDadosCliente == 'alterar':
+                print('DadosCliente: ', Controle.tiposTelaDadosCliente)
+                self.txt_nome.setEnabled(True)
+                self.txt_celular.setEnabled(True)
+                self.txt_cpf.setEnabled(True)
+                self.txt_cidade.setEnabled(True)
+                self.txt_Rua.setEnabled(True)
+                self.txt_bairro.setEnabled(True)
+                self.txt_Numero.setEnabled(True)
+                self.txt_cep.setEnabled(True)
+                self.txt_cidade_6.setEnabled(True)
+                self.btn_cadastrar_3.setEnabled(True)
                 #Conexão com bd
                 self.host = Controle.host
                 self.user = Controle.user

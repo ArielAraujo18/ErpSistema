@@ -31,7 +31,7 @@ class Ui_frm_Main(object):
         if not frm_Main.objectName():
             frm_Main.setObjectName(u"frm_Main")
         frm_Main.setFixedSize(719, 294)
-        frm_Main.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsi.png"))
+        frm_Main.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
         frm_Main.setStyleSheet(u"")
         self.actionCliente = QAction(frm_Main)
         self.actionCliente.setObjectName(u"actionCliente")
@@ -385,10 +385,25 @@ class Ui_frm_Main(object):
         self.retranslateUi(frm_Main)
 
     def telaCliente(self):
-        self.frm_Cliente = QWidget()
-        self.ui = Ui_frm_Cliente()
-        self.ui.setupUi(self.frm_Cliente)
-        self.frm_Cliente.show()
+        #Verifica se a tela está aberta
+        if not hasattr(self, 'frm_Cliente') or not self.frm_Cliente.isVisible():
+                #Cria a tela somente se não estiver aberta
+                self.frm_Cliente = QWidget()
+                self.ui = Ui_frm_Cliente()
+                self.ui.setupUi(self.frm_Cliente)
+
+                # Configurações para garantir a remoção da referência ao fechar a janela
+                self.frm_Cliente.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_Cliente.destroyed.connect(lambda: setattr(self, 'frm_Cliente', None))
+
+                #Mostra a tela
+                self.frm_Cliente.show()
+        else:
+                #Traz a janela existente para frente
+                self.frm_Cliente.raise_()
+                self.frm_Cliente.activateWindow()
+
+
 
     def sairSistema(self):
         sys.exit()   
