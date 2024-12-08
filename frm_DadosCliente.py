@@ -12,16 +12,17 @@ import pandas as pd
 
 import Controle
 
-##Imagens da tela
-import icon_excluirD
 import icon_cadastrar
+import icon_cancelar
 
 class Ui_frm_DadosCliente(object):
     def setupUi(self, frm_DadosCliente):
         if not frm_DadosCliente.objectName():
             frm_DadosCliente.setObjectName(u"frm_DadosCliente")
+        
         frm_DadosCliente.setFixedSize(526, 609)
         frm_DadosCliente.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+        frm_DadosCliente.resize(526, 609)
         frm_DadosCliente.setStyleSheet(u"QWidget {\n"
 "    background-color: #eaf2f8;\n"
 "    border-radius: 8px;\n"
@@ -77,6 +78,7 @@ class Ui_frm_DadosCliente(object):
         self.btn_cancelar = QPushButton(frm_DadosCliente)
         self.btn_cancelar.setObjectName(u"btn_cancelar")
         self.btn_cancelar.setGeometry(QRect(150, 500, 101, 91))
+        self.btn_cancelar.setAutoFillBackground(False)
         self.btn_cancelar.setStyleSheet(u"QPushButton {\n"
 "    background-color: #ffebee; \n"
 "    border: 2px solid #ffcdd2;\n"
@@ -85,7 +87,7 @@ class Ui_frm_DadosCliente(object):
 "    font-size: 14px;\n"
 "    font-weight: bold;\n"
 "    padding: 10px 16px;\n"
-"    background-image:url(:/icon_excluirD/excluir.png);\n"
+"    background-image:url(:/icon_cancelar/cancelar.png);\n"
 "    background-repeat: no-repeat;\n"
 "    background-position: center;\n"
 "    padding-left: 40px;\n"
@@ -341,8 +343,7 @@ class Ui_frm_DadosCliente(object):
 
         QMetaObject.connectSlotsByName(frm_DadosCliente)
     # setupUi
-
-
+    
     def adicionarCliente(self):
         
         
@@ -487,7 +488,7 @@ class Ui_frm_DadosCliente(object):
                 mydb.close()
 
     def retranslateUi(self, frm_DadosCliente):
-        frm_DadosCliente.setWindowTitle(QCoreApplication.translate("frm_DadosCliente", u"Dados do Cliente", None))
+        frm_DadosCliente.setWindowTitle(QCoreApplication.translate("frm_DadosCliente", u"Form", None))
         self.lbl_nome.setText(QCoreApplication.translate("frm_DadosCliente", u"Nome:", None))
         self.lbl_celular.setText(QCoreApplication.translate("frm_DadosCliente", u"Celular: ", None))
         self.lbl_cpf.setText(QCoreApplication.translate("frm_DadosCliente", u"CPF:", None))
@@ -505,7 +506,6 @@ class Ui_frm_DadosCliente(object):
         self.lbl_email.setText(QCoreApplication.translate("frm_DadosCliente", u"E-mail:", None))
     # retranslateUi
 
-    ##Botões sistema
         if Controle.tiposTelaDadosCliente == 'incluir':
                 self.btn_cadastrar_3.clicked.connect(self.adicionarCliente)
         if Controle.tiposTelaDadosCliente == 'alterar':
@@ -625,7 +625,6 @@ class Ui_frm_DadosCliente(object):
                 self.txt_Numero.setText(str(NumeroCliente))
                 self.txt_cep.setText(cepCliente)
                 self.txt_cidade_6.setText(emailCliente)
-
 
 if __name__ == "__main__":
     app = QApplication([])

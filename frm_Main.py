@@ -385,23 +385,24 @@ class Ui_frm_Main(object):
         self.retranslateUi(frm_Main)
 
     def telaCliente(self):
-        #Verifica se a tela está aberta
-        if not hasattr(self, 'frm_Cliente') or not self.frm_Cliente.isVisible():
+        #Verifica se o atributo existe e não é None
+        if not hasattr(self, 'frm_Cliente') or self.frm_Cliente is None or not self.frm_Cliente.isVisible():
                 #Cria a tela somente se não estiver aberta
                 self.frm_Cliente = QWidget()
                 self.ui = Ui_frm_Cliente()
                 self.ui.setupUi(self.frm_Cliente)
 
-                # Configurações para garantir a remoção da referência ao fechar a janela
+                #Configurações para garantir a remoção da referência ao fechar a janela
                 self.frm_Cliente.setAttribute(Qt.WA_DeleteOnClose)
                 self.frm_Cliente.destroyed.connect(lambda: setattr(self, 'frm_Cliente', None))
 
                 #Mostra a tela
                 self.frm_Cliente.show()
         else:
-                #Traz a janela existente para frente
+                #Traz a janela existente
                 self.frm_Cliente.raise_()
                 self.frm_Cliente.activateWindow()
+
 
 
 

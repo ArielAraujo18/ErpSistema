@@ -419,6 +419,7 @@ class Ui_frm_Cliente(object):
     def sairTela(self, frm_Cliente):
          Controle.tiposTelaDadosCliente == ''
          frm_Cliente.close()
+         self.frm_Cliente = None
 
 
     def pesquisarCliente(self):
@@ -595,7 +596,7 @@ class Ui_frm_Cliente(object):
                 self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
 
                 for i in range(numRows):
-                        for j in range(self.all_data.columns):
+                        for j in range(len(self.all_data.columns)):
                                 self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
 
                 self.tableWidget.resizeColumnsToContents()

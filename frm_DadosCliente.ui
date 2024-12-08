@@ -120,6 +120,9 @@ QLineEdit:hover {
      <height>91</height>
     </rect>
    </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
    <property name="styleSheet">
     <string notr="true">QPushButton {
     background-color: #ffebee; 
@@ -129,7 +132,7 @@ QLineEdit:hover {
     font-size: 14px;
     font-weight: bold;
     padding: 10px 16px;
-    background-image:url(:/icon_excluirD/excluir.png);
+    background-image:url(:/icon_cancelar/cancelar.png);
     background-repeat: no-repeat;
     background-position: center;
     padding-left: 40px;
@@ -547,8 +550,8 @@ QLineEdit:hover {
   </widget>
  </widget>
  <resources>
-  <include location="icon_excluirD.qrc"/>
   <include location="icon_cadastrar.qrc"/>
+  <include location="icon_cancelar.qrc"/>
  </resources>
  <connections/>
 </ui>
