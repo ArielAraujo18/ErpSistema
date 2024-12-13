@@ -13,7 +13,6 @@ from PySide6.QtWidgets import *
 
 
 
-
 from frm_cliente_ui import Ui_frm_Cliente
 
 import icon_cliente

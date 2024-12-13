@@ -469,13 +469,25 @@ class Ui_frm_Cliente(object):
 
     def cadastrarCliente(self):
         Controle.tiposTelaDadosCliente = "incluir"
-        print('frmCliente: ', Controle.tiposTelaDadosCliente)
-        self.frm_DadosCliente = QWidget()
-        self.ui = Ui_frm_DadosCliente()
-        self.ui.setupUi(self.frm_DadosCliente)
-        self.frm_DadosCliente.show()
+        if not hasattr(self, 'frm_DadosCliente') or self.frm_DadosCliente is None or not self.frm_DadosCliente.isVisible():
+              #Cria a tela se não tiver aberta
+              self.frm_DadosCliente = QWidget()
+              self.ui = Ui_frm_DadosCliente()
+              self.ui.setupUi(self.frm_DadosCliente)
+
+              #Config para garantir a remoção da referência ao fechar a janela
+              self.frm_DadosCliente.setAttribute(Qt.WA_DeleteOnClose)
+              self.frm_DadosCliente.destroyed.connect(lambda: setattr(self, 'frm_DadosCliente', None))
+
+              self.frm_DadosCliente.show()
+        
+        else:
+             #Traz a janela existente
+             self.frm_DadosCliente.raise_()
+             self.frm_DadosCliente.activateWindow() 
 
     def consultarCliente(self):
+
         # Tipo tela dados Cliente
         Controle.tiposTelaDadosCliente = "consultar"
         print('frmCliente: ', Controle.tiposTelaDadosCliente)
@@ -497,11 +509,23 @@ class Ui_frm_Cliente(object):
         
         if item:  # Verifica se o item não é None
                 Controle.idConsulta = item.text()
-                # Abertura da tela ConsultarCliente
-                self.frm_DadosCliente = QWidget()
-                self.ui = Ui_frm_DadosCliente()
-                self.ui.setupUi(self.frm_DadosCliente)
-                self.frm_DadosCliente.show()
+                if not hasattr(self, 'frm_DadosCliente') or self.frm_DadosCliente is None or not self.frm_DadosCliente.isVisible():
+                        #Cria a tela se não tiver aberta
+                        self.frm_DadosCliente = QWidget()
+                        self.ui = Ui_frm_DadosCliente()
+                        self.ui.setupUi(self.frm_DadosCliente)
+
+                        #Config para garantir a remoção da referência ao fechar a janela
+                        self.frm_DadosCliente.setAttribute(Qt.WA_DeleteOnClose)
+                        self.frm_DadosCliente.destroyed.connect(lambda: setattr(self, 'frm_DadosCliente', None))
+
+                        self.frm_DadosCliente.show()
+                        
+                else:
+                        #Traz a janela existente
+                        self.frm_DadosCliente.raise_()
+                        self.frm_DadosCliente.activateWindow() 
+
         else:
                 msg = QMessageBox()
                 msg.setWindowTitle("Erro de Seleção")
@@ -532,11 +556,22 @@ class Ui_frm_Cliente(object):
         
         if item:  # Verifica se o item não é None
                 Controle.idConsulta = item.text()
-                # Abertura da tela AlterarCliente
-                self.frm_DadosCliente = QWidget()
-                self.ui = Ui_frm_DadosCliente()
-                self.ui.setupUi(self.frm_DadosCliente)
-                self.frm_DadosCliente.show()
+                if not hasattr(self, 'frm_DadosCliente') or self.frm_DadosCliente is None or not self.frm_DadosCliente.isVisible():
+                        #Cria a tela se não tiver aberta
+                        self.frm_DadosCliente = QWidget()
+                        self.ui = Ui_frm_DadosCliente()
+                        self.ui.setupUi(self.frm_DadosCliente)
+
+                        #Config para garantir a remoção da referência ao fechar a janela
+                        self.frm_DadosCliente.setAttribute(Qt.WA_DeleteOnClose)
+                        self.frm_DadosCliente.destroyed.connect(lambda: setattr(self, 'frm_DadosCliente', None))
+
+                        self.frm_DadosCliente.show()
+                
+                else:
+                        #Traz a janela existente
+                        self.frm_DadosCliente.raise_()
+                        self.frm_DadosCliente.activateWindow() 
         else:
                 msg = QMessageBox()
                 msg.setWindowTitle("Erro de Seleção")

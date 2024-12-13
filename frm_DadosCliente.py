@@ -346,8 +346,6 @@ class Ui_frm_DadosCliente(object):
     
     def adicionarCliente(self):
         
-        
-
         campos_comuns = {
               "Nome": self.txt_nome.text().strip(),
               "Cidade": self.txt_cidade.text().strip(),
@@ -488,7 +486,7 @@ class Ui_frm_DadosCliente(object):
                 mydb.close()
 
     def retranslateUi(self, frm_DadosCliente):
-        frm_DadosCliente.setWindowTitle(QCoreApplication.translate("frm_DadosCliente", u"Form", None))
+        frm_DadosCliente.setWindowTitle(QCoreApplication.translate("frm_DadosCliente", u"Dados Cliente", None))
         self.lbl_nome.setText(QCoreApplication.translate("frm_DadosCliente", u"Nome:", None))
         self.lbl_celular.setText(QCoreApplication.translate("frm_DadosCliente", u"Celular: ", None))
         self.lbl_cpf.setText(QCoreApplication.translate("frm_DadosCliente", u"CPF:", None))
