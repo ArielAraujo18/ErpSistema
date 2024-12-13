@@ -8,6 +8,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QTableWidget, QTableWidgetItem,
     QWidget)
+import mysql.connector
+import Controle
+import pandas as pd
 
 import icon_adicionar
 import icon_consultar
@@ -377,6 +380,54 @@ class Ui_frm_Fornecedor(object):
 
         QMetaObject.connectSlotsByName(frm_Fornecedor)
     # setupUi
+    ##Funções##
+    def sairTela(self, frm_Fornecedor):
+        frm_Fornecedor.close()
+        self.frm_Fornecedor = None
+
+    def consultarGeral(self):
+        self.host = Controle.host
+        self.user = Controle.user
+        self.password = Controle.user
+        self.database = Controle.database
+        print('Conectando...')
+        mydb = mysql.connector.connect(
+                host = 'localhost',
+                user = 'Ariel',
+                password = 'IRani18@#',
+                database = 'sistema' 
+        )
+        print('Conexão bem sucedida!')
+        mycursor = mydb.cursor()
+        nomeConsulta = self.txt_nomeFornecedor.text()
+        consultaSQL = "SELECT * FROM fornecedor WHERE `Razão Social` LIKE'" + nomeConsulta + "%'"
+        mycursor.execute(consultaSQL)
+        myresult = mycursor.fetchall()
+
+        #Crianda DataFrame
+        df = pd.DataFrame(myresult, columns=["idFornecedor", "Razão Social", "Contato", "Cnpj", "Cidade", "Rua", "Bairro", "Cep", "E-mail"])
+        self.all_data = df
+
+        #Configurando a tabela 
+        numRows = len(self.all_data.index)
+        numCols = len(self.all_data.columns)
+        self.tableWidget.setColumnCount(numCols)
+        self.tableWidget.setRowCount(numRows)
+        self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
+
+        #Preenchendo a tabela
+        for i in range(numRows):
+                for j in range(numCols):
+                        self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
+        
+        #Layout das colunas e linhas                
+        self.tableWidget.resizeColumnsToContents()
+
+        #Ajusta todas as linhas
+        for row in range(self.tableWidget.rowCount()):
+                self.tableWidget.resizeRowToContents(row)
+                mydb.close()
+
 
     def retranslateUi(self, frm_Fornecedor):
         frm_Fornecedor.setWindowTitle(QCoreApplication.translate("frm_Fornecedor", u"Fornecedor", None))
@@ -410,15 +461,12 @@ class Ui_frm_Fornecedor(object):
 
     #Botões
         self.btn_voltar.clicked.connect(lambda: self.sairTela(frm_Fornecedor))
-
-    def sairTela(self, frm_Fornecedor):
-        frm_Fornecedor.close()
-        self.frm_Fornecedor = None
-
+        self.btn_filtro.clicked.connect(self.consultarGeral)
+    
 if __name__ == "__main__":
     app = QApplication([])
-    frm_DadosFornecedor = QWidget()
+    frm_Fornecedor= QWidget()
     ui = Ui_frm_Fornecedor()
-    ui.setupUi(frm_DadosFornecedor)
-    frm_DadosFornecedor.show()
+    ui.setupUi(frm_Fornecedor)
+    frm_Fornecedor.show()
     app.exec()

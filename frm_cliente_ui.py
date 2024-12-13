@@ -397,7 +397,7 @@ class Ui_frm_Cliente(object):
         df = pd.DataFrame(myresult, columns=["idCliente", "Nome", "Celular", "Cpf", "Cidade", "Rua", "Bairro", "Número", "Cep", "E-mail"])
         self.all_data = df
 
-        # Configurando a tabela no PyQt
+        # Configurando a tabela no Pyside
         numRows = len(self.all_data.index)
         numCols = len(self.all_data.columns)
         self.tableWidget.setColumnCount(numCols)
