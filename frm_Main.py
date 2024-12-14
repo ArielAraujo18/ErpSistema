@@ -14,6 +14,7 @@ from PySide6.QtWidgets import *
 
 
 from frm_cliente_ui import Ui_frm_Cliente
+from frm_Fornecedor import Ui_frm_Fornecedor
 
 import icon_cliente
 import icon_sair
@@ -404,6 +405,22 @@ class Ui_frm_Main(object):
 
 
 
+    def telaFornecedor(self):
+         if not hasattr(self, 'frm_Fornecedor') or self.frm_Fornecedor is None or not self.frm_Fornecedor.isVisible():
+                self.frm_Fornecedor = QWidget()
+                self.ui = Ui_frm_Fornecedor()
+                self.ui.setupUi(self.frm_Fornecedor)
+                
+                #Configurações para garantir a remoção da referência ao fechar a janela
+                self.frm_Fornecedor.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_Fornecedor.destroyed.connect(lambda: setattr(self, 'frm_Fornecedor', None))
+
+                #Mostra a tela
+                self.frm_Fornecedor.show()
+
+         else:
+                self.frm_Fornecedor.raise_()
+                self.frm_Fornecedor.activateWindow()
 
     def sairSistema(self):
         sys.exit()   
@@ -455,8 +472,11 @@ class Ui_frm_Main(object):
         ##Botão##
         self.btn_sair.clicked.connect(self.sairSistema)
         self.btn_cliente.clicked.connect(self.telaCliente)
+        self.btn_fornecedor.clicked.connect(self.telaFornecedor)
+
+        #action
         self.actionCliente.triggered.connect(self.telaCliente)
-        
+        self.actionFornecedor.triggered.connect(self.telaFornecedor)
 if __name__ == "__main__":
     app = QApplication([])
     frm_Main = QMainWindow()

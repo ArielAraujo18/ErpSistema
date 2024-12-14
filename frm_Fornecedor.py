@@ -8,6 +8,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QTableWidget, QTableWidgetItem,
     QWidget)
+from frm_DadosFornecedor import Ui_frm_DadosFornecedor
+
 import mysql.connector
 import Controle
 import pandas as pd
@@ -428,7 +430,62 @@ class Ui_frm_Fornecedor(object):
                 self.tableWidget.resizeRowToContents(row)
                 mydb.close()
 
+    def pesquisarFornecedor(self):
+         
+        mydb = mysql.connector.connect(
+                host = 'localhost',
+                user = 'Ariel',
+                password = 'IRani18@#',
+                database = 'sistema'
+        )
+        
+        mycursor = mydb.cursor()
 
+        nomeConsulta = self.txt_nomeFornecedor.text().strip() #texto da caixa de pesquisa
+        consultaSQL = 'SELECT * FROM fornecedor WHERE `Razão Social` LIKE %s'
+        mycursor.execute(consultaSQL, ('%' + nomeConsulta + '%',)) #Parametro da consulta sql
+
+        myresult = mycursor.fetchall() #resultados
+
+        #Criando df
+        df = pd.DataFrame(myresult, columns=['idFornecedor', 'Razão Social', 'Contato', 'Cnpj', 'Cidade', 'Rua', 'Bairro', 'Cep', 'E-mail'])
+        self.all_data = df
+
+        #Configurando a tbl no pyside
+        numRows = len(self.all_data.index)
+        numCols = len(self.all_data.columns)
+        self.tableWidget.setColumnCount(numCols)
+        self.tableWidget.setRowCount(numRows)
+        self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
+
+        #tabela
+        for i in range(numRows):
+             for j in range(numCols):
+                  self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
+        
+        #Layout das colunas e lines
+        self.tableWidget.resizeColumnsToContents()
+        self.tableWidget.resizeRowsToContents()
+
+        mycursor.close()
+    
+    def cadastrarCliente(self):
+        Controle.tiposTelaDadosCliente = 'incluir'
+        if not hasattr(self, 'frm_DadosFornecedor') or self.frm_DadosFornecedor is None or not self.frm_DadosFornecedor.isVisible():
+                #Criando a tela
+                self.frm_DadosFornecedor= QWidget()
+                self.ui = Ui_frm_DadosFornecedor()
+                self.ui.setupUi(self.frm_DadosFornecedor)
+
+                #remoção da ref para fechar janela
+                self.frm_DadosFornecedor.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_DadosFornecedor.destroyed.connect(lambda: setattr(self, 'frm_DadosFornecedor', None))
+
+                self.frm_DadosFornecedor.show()
+        else:
+             #Traz a janela aberta
+             self.frm_DadosFornecedor.raise__()
+             self.frm_DadosFornecedor.activateWindow()
     def retranslateUi(self, frm_Fornecedor):
         frm_Fornecedor.setWindowTitle(QCoreApplication.translate("frm_Fornecedor", u"Fornecedor", None))
         self.btn_Add.setText("")
@@ -462,7 +519,9 @@ class Ui_frm_Fornecedor(object):
     #Botões
         self.btn_voltar.clicked.connect(lambda: self.sairTela(frm_Fornecedor))
         self.btn_filtro.clicked.connect(self.consultarGeral)
-    
+        self.btn_pesquisar.clicked.connect(self.pesquisarFornecedor)
+        self.btn_Add.clicked.connect(self.cadastrarCliente)
+
 if __name__ == "__main__":
     app = QApplication([])
     frm_Fornecedor= QWidget()
