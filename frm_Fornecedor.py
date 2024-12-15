@@ -7,7 +7,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QTableWidget, QTableWidgetItem,
-    QWidget)
+    QWidget, QMessageBox)
 from frm_DadosFornecedor import Ui_frm_DadosFornecedor
 
 import mysql.connector
@@ -486,6 +486,159 @@ class Ui_frm_Fornecedor(object):
              #Traz a janela aberta
              self.frm_DadosFornecedor.raise__()
              self.frm_DadosFornecedor.activateWindow()
+
+
+
+    def consultarFornecedor(self):
+         
+        Controle.tiposTelaDadosCliente = 'Consultar'
+        print('frmFornecedor', Controle.tiposTelaDadosCliente)
+
+        #Verifica se há linha selecionada na tabela
+        line = self.tableWidget.currentRow()
+
+        #Se não houver linha selecionada na tabela
+        if line == -1:
+             msg = QMessageBox()
+             msg.setWindowTitle('ERRO!')
+             msg.setText('Por favor, selecione um Fornecedor para consultar.')
+             msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+             msg.setIcon(QMessageBox.Warning)
+             msg.setStandardButtons(QMessageBox.Ok)
+             msg.exec()
+             return
+        
+        item = self.tableWidget.item(line, 0) #primeiro item 
+        
+        if item: #Verifica se não é none
+             Controle.idConsulta = item.text()
+             if not hasattr(self, 'frm_DadosFornecedor') or self.frm_DadosFornecedor is None or not self.frm_DadosFornecedor.isVisible():
+                #Cria a tela se não tiver aberta
+                self.frm_DadosFornecedor = QWidget()
+                self.ui = Ui_frm_DadosFornecedor()
+                self.ui.setupUi(self.frm_DadosFornecedor)
+
+                #Configuração para garantir a remoção da referência ao fechar a janela
+                self.frm_DadosFornecedor.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_DadosFornecedor.destroyed.connect(lambda: setattr(self, 'frm_DadosFornecedor', 'None'))
+
+                self.frm_DadosFornecedor.show()
+             else:
+                self.frm_DadosFornecedor.raise_()
+                self.frm_DadosFornecedor.activateWindow()
+
+        else:
+             msg = QMessageBox()
+             msg.setWindowTitle("Erro de Seleção")
+             msg.setText("Não foi possível obter o ID do cliente selecionado.")
+             msg.setIcon(QMessageBox.Warning)
+             msg.setStandardButtons(QMessageBox.Ok)
+             msg.exec()
+
+    def alterarFornecedor(self):
+        #Tipo da tela
+        Controle.tiposTelaDadosCliente = 'alterar'
+        print('frm_Fornecedor', Controle.tiposTelaDadosCliente)
+        
+        line = self.tableWidget.currentRow() 
+
+        if line == -1: #Se não houver linha selecionada
+             msg = QMessageBox()
+             msg.setWindowTitle('Erro de Seleção')
+             msg.setText('Por favor, selecione algum fornecedor para alterar')
+             msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+             msg.setIcon(QMessageBox.Warning)
+             msg.setStandardButtons(QMessageBox.Ok)
+             msg.exec()
+             return #Retorna e não prossegue
+        
+        item = self.tableWidget.item(line, 0) #primeiro cliente
+
+        if item:
+                if not hasattr(self, 'frm_DadosFornecedor') or self.frm_DadosFornecedor is None or not self.frm_DadosFornecedor.isVisible():
+                        #Cria a tela se não tiver aberta
+                        self.frm_DadosFornecedor = QWidget()
+                        self.ui = Ui_frm_DadosFornecedor()
+                        self.ui.setupUi(self.frm_DadosFornecedor)
+
+                        #Configuração para garantir a remoção da referência ao fechar a janela
+                        self.frm_DadosFornecedor.setAttribute(Qt.WA_DeleteOnClose)
+                        self.frm_DadosFornecedor.destroyed.connect(lambda: setattr(self, 'frm_DadosFornecedor', 'None'))
+
+                        #Abre a tela
+                        self.frm_DadosFornecedor.show()
+                else:
+                        self.frm_DadosFornecedor.raise_()
+                        self.frm_DadosFornecedor.activateWindow()
+        
+    def excluirFornecedor(self):
+        
+        line = self.tableWidget.currentRow()
+
+        if line == -1: #Sem linha selecionada
+             msg = QMessageBox()
+             msg.setWindowTitle('Erro!')
+             msg.setText('Por favor, selecione um forncedor para excluir.')
+             msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+             msg.setIcon(QMessageBox.Warning)
+             msg.setStandardButtons(QMessageBox.Ok)
+             msg.exec()
+             return #Retorna se a codição for falsa
+        
+        item = self.tableWidget.item(line, 0) #Obtém o item da primeira coluna
+
+        if item:
+             idFornecedor = item.text()
+
+             #Conexão com bd
+             mydb = mysql.connector.connect(
+                        host = 'localhost',
+                        user = 'Ariel',
+                        password = 'IRani18@#',
+                        database = 'sistema' 
+                )
+             
+             mycursor = mydb.cursor()
+             sql = 'DELETE FROM fornecedor WHERE idFornecedor = %s'
+             mycursor.execute(sql, (idFornecedor,))
+             mydb.commit()
+
+             msg = QMessageBox()
+             msg.setWindowTitle('Fornecedor excluído')
+             msg.setText('Fornecedor excluído com sucesso!')
+             msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+             msg.setIcon(QMessageBox.Information)
+             msg.setStandardButtons(QMessageBox.Ok)
+             msg.exec()
+
+             mycursor.execute('SELECT * FROM fornecedor')
+             myresult = mycursor.fetchall()
+             df = pd.DataFrame(myresult, columns=['idFornecedor', 'Razão Social', 'Contato', 'Cnpj', 'Cidade', 'Rua', 'Bairro', 'Cep', 'E-mail'])
+             self.all_data = df
+
+             numRows = len(self.all_data.index)
+             self.tableWidget.setColumnCount(len(self.all_data.columns))
+             self.tableWidget.setRowCount(numRows)
+             self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
+
+             for i in range(numRows):
+                  for j in range(len(self.all_data.columns)):
+                       self.tableWidget.setItem(i, j, QTableWidget(str(self.all_data.iat[i, j])))
+        
+             self.tableWidget.resizeColumnsToContents()
+             self.tableWidget.resizeRowsToContents()
+
+             mydb.close()
+        
+        else: 
+             msg = QMessageBox()
+             msg.setWindowTitle('Erro seleção')
+             msg.setText('Fornecedor não selecionado!')
+             msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+             msg.setIcon(QMessageBox.Warning)
+             msg.setStandardButtons(QMessageBox.Ok)
+             msg.exec()
+
     def retranslateUi(self, frm_Fornecedor):
         frm_Fornecedor.setWindowTitle(QCoreApplication.translate("frm_Fornecedor", u"Fornecedor", None))
         self.btn_Add.setText("")
@@ -521,6 +674,9 @@ class Ui_frm_Fornecedor(object):
         self.btn_filtro.clicked.connect(self.consultarGeral)
         self.btn_pesquisar.clicked.connect(self.pesquisarFornecedor)
         self.btn_Add.clicked.connect(self.cadastrarCliente)
+        self.btn_consul.clicked.connect(self.consultarFornecedor)
+        self.btn_alterar.clicked.connect(self.alterarFornecedor)
+        self.btn_excluir.clicked.connect(self.excluirFornecedor)
 
 if __name__ == "__main__":
     app = QApplication([])
