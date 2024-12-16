@@ -453,7 +453,7 @@ QLineEdit:hover {
 </string>
    </property>
    <property name="inputMask">
-    <string>00000-000</string>
+    <string/>
    </property>
   </widget>
   <widget class="QLineEdit" name="txt_cep">

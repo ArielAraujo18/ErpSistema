@@ -6,16 +6,22 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
-    QSizePolicy, QWidget)
+    QSizePolicy, QWidget, QMessageBox)
+
+#SQL
+import mysql.connector
+
 import icon_cadastrar
 import icon_cancelar
+import Controle
 
 class Ui_frm_DadosFornecedor(object):
     def setupUi(self, frm_DadosFornecedor):
         if not frm_DadosFornecedor.objectName():
             frm_DadosFornecedor.setObjectName(u"frm_DadosFornecedor")
-        frm_DadosFornecedor.setFixedSize(526, 566)
+        #frm_DadosFornecedor.resize(526, 566)
         frm_DadosFornecedor.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+        frm_DadosFornecedor.setFixedSize(526, 566)
         frm_DadosFornecedor.setStyleSheet(u"QWidget {\n"
 "    background-color: #A7D3D9;\n"
 "    border-radius: 8px;\n"
@@ -309,8 +315,90 @@ class Ui_frm_DadosFornecedor(object):
         QMetaObject.connectSlotsByName(frm_DadosFornecedor)
     # setupUi
 
+    def adicionarFornecedor(self):
+
+        campos_comuns = {
+            "Razão Social": self.txt_razao.text().strip(),
+            "Cidade": self.txt_cidade.text().strip(),
+            "Rua": self.txt_Rua.text().strip(),  
+            "Bairro": self.txt_Rua.text().strip(),   
+        }
+
+        campos_mask = {
+            "Contato": self.txt_contato.text().strip(),
+            "Cep": self.txt_cep.text().strip(),
+            "Cnpj": self.txt_cnpj.text().strip(),
+        }
+
+        for campos_comuns, valor in campos_comuns.items():
+            if not valor:
+                msg = QMessageBox()
+                msg.setWindowTitle("Erro!")
+                msg.setText(f"O campo {campos_comuns} não pode ficar em branco")
+                msg.setWindowIcon(QIcon((r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png")))
+                msg.setIcon(QMessageBox.Information)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+                return
+
+        for campos_mask, valor in campos_mask.items():
+            if len(valor.replace("-", "").replace(".","").strip()) < 9:
+                msg = QMessageBox()
+                msg.setWindowTitle("Erro!")
+                msg.setText(f"O campo {campos_mask} não pode ficar em branco")
+                msg.setWindowIcon(QIcon((r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png")))
+                msg.setIcon(QMessageBox.Information)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+                return
+
+        ContatoFornecedor = self.txt_contato.text().strip()
+
+        if not ContatoFornecedor.isdigit():
+                msg = QMessageBox()
+                msg.setWindowTitle("Erro!")
+                msg.setText(f"Preencha o contato do fornecedor!")
+                msg.setWindowIcon(QIcon((r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png")))
+                msg.setIcon(QMessageBox.Warning)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+                return
+
+        razaoSocial = self.txt_razao.text()
+        contato = self.txt_contato.text()
+        cnpj = self.txt_cnpj.text()
+        cidade = self.txt_cidade.text()
+        rua = self.txt_Rua.text()
+        bairro = self.txt_bairro.text()
+        cep = self.txt_cep.text()
+        email = self.txt_email.text()
+
+        mydb = mysql.connector(
+            host = 'localhost',
+            user = 'Ariel',
+            password = 'IRani18@#',
+            database = 'sistema'
+        )
+
+        mycursor = mydb.cursor()
+        sql = "INSERT INTO fornecedor (`Razão Social`, `Contato`, `Cnpj`, `Cidade`, `Rua`, `Bairro`, `Cep`, `E-mail`) values (%s, %s, %s, %s, %s, %s, %s, %s,)"
+        val = (razaoSocial, contato, cnpj, cidade, rua, bairro, cep, email)
+        mycursor.execute(sql, val)
+        mydb.commit()
+        print(mycursor.rowcount, ' Chegou ')
+        mycursor.close()
+
+        self.txt_razao.setText("")
+        self.txt_contato.setText("")
+        self.txt_cnpj.setText("")
+        self.txt_cidade.setText("")
+        self.txt_Rua.setText("")
+        self.txt_bairro.setText("")
+        self.txt_cep.setText("")
+        self.txt_email.setText("")
+
     def retranslateUi(self, frm_DadosFornecedor):
-        frm_DadosFornecedor.setWindowTitle(QCoreApplication.translate("frm_DadosFornecedor", u"DadosFornecedor", None))
+        frm_DadosFornecedor.setWindowTitle(QCoreApplication.translate("frm_DadosFornecedor", u"Dados Fornecedor", None))
         self.lbl_razao.setText(QCoreApplication.translate("frm_DadosFornecedor", u"Raz\u00e3o Social:", None))
         self.lbl_contato.setText(QCoreApplication.translate("frm_DadosFornecedor", u"Contato:", None))
         self.lbl_Cnpj.setText(QCoreApplication.translate("frm_DadosFornecedor", u"Cnpj:", None))
@@ -322,10 +410,25 @@ class Ui_frm_DadosFornecedor(object):
         self.btn_cadastrar.setText("")
         self.lbl_bairro.setText(QCoreApplication.translate("frm_DadosFornecedor", u"Bairro:", None))
         self.lbl_email.setText(QCoreApplication.translate("frm_DadosFornecedor", u"E-mail:", None))
-        self.txt_email.setInputMask(QCoreApplication.translate("frm_DadosFornecedor", u"00000-000", None))
+        self.txt_email.setInputMask("")
         self.txt_cep.setInputMask(QCoreApplication.translate("frm_DadosFornecedor", u"00000-000", None))
         self.lbl_cep.setText(QCoreApplication.translate("frm_DadosFornecedor", u"Cep:", None))
     # retranslateUi
+        ##Condições do botão
+        if Controle.tiposTelaDadosCliente == 'incluir':
+            self.btn_cadastrar.clicked.connect(self.adicionarFornecedor)
+
+
+        ##Condições da tela    
+        if Controle.tiposTelaDadosCliente == 'incluir':
+            self.txt_razao.setEnabled(True)
+            self.txt_contato.setEnabled(True)
+            self.txt_cnpj.setEnabled(True)
+            self.txt_cidade.setEnabled(True)
+            self.txt_Rua.setEnabled(True)
+            self.txt_bairro.setEnabled(True)
+            self.txt_cep.setEnabled(True)
+            self.txt_email.setEnabled(True)
 
 if __name__ == "__main__":
     app = QApplication([])

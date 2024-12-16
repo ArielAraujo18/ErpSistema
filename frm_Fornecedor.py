@@ -8,6 +8,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QTableWidget, QTableWidgetItem,
     QWidget, QMessageBox)
+
 from frm_DadosFornecedor import Ui_frm_DadosFornecedor
 
 import mysql.connector
@@ -520,7 +521,7 @@ class Ui_frm_Fornecedor(object):
 
                 #Configuração para garantir a remoção da referência ao fechar a janela
                 self.frm_DadosFornecedor.setAttribute(Qt.WA_DeleteOnClose)
-                self.frm_DadosFornecedor.destroyed.connect(lambda: setattr(self, 'frm_DadosFornecedor', 'None'))
+                self.frm_DadosFornecedor.destroyed.connect(lambda: setattr(self, 'frm_DadosFornecedor', None))
 
                 self.frm_DadosFornecedor.show()
              else:
@@ -563,7 +564,7 @@ class Ui_frm_Fornecedor(object):
 
                         #Configuração para garantir a remoção da referência ao fechar a janela
                         self.frm_DadosFornecedor.setAttribute(Qt.WA_DeleteOnClose)
-                        self.frm_DadosFornecedor.destroyed.connect(lambda: setattr(self, 'frm_DadosFornecedor', 'None'))
+                        self.frm_DadosFornecedor.destroyed.connect(lambda: setattr(self, 'frm_DadosFornecedor', None))
 
                         #Abre a tela
                         self.frm_DadosFornecedor.show()
