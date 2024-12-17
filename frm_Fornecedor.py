@@ -492,7 +492,7 @@ class Ui_frm_Fornecedor(object):
 
     def consultarFornecedor(self):
          
-        Controle.tiposTelaDadosCliente = 'Consultar'
+        Controle.tiposTelaDadosCliente = 'consultar'
         print('frmFornecedor', Controle.tiposTelaDadosCliente)
 
         #Verifica se há linha selecionada na tabela

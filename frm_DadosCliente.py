@@ -17,6 +17,7 @@ import icon_cancelar
 
 class Ui_frm_DadosCliente(object):
     def setupUi(self, frm_DadosCliente):
+        self.frm_DadosCliente = frm_DadosCliente
         if not frm_DadosCliente.objectName():
             frm_DadosCliente.setObjectName(u"frm_DadosCliente")
         
@@ -371,7 +372,18 @@ class Ui_frm_DadosCliente(object):
                     msg.setStandardButtons(QMessageBox.Ok)
                     msg.exec()
                     return
-              
+
+        email = self.txt_cidade_6.text().strip()
+        if "@" not in email or "." not in email.split("@")[-1]:
+                msg = QMessageBox()
+                msg.setWindowTitle("Erro!")
+                msg.setText("O campo E-mail deve conter um endereço válido (ex: exemplo@email.com)")
+                msg.setWindowIcon(QIcon((r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png")))
+                msg.setIcon(QMessageBox.Icon.Warning)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+                return
+
         for campos_mask, valor in campos_mask.items():
                 if len(valor.replace("_", "").replace(".", "").strip()) < 6:  # Remove "_" (máscaras) e verifica o comprimento
                         msg = QMessageBox()
@@ -385,7 +397,6 @@ class Ui_frm_DadosCliente(object):
                         return
         
         numeroCliente = self.txt_Numero.text().strip()
-
         if not numeroCliente.isdigit():
                 msg = QMessageBox()
                 msg.setWindowTitle("Erro de Validação")
@@ -459,7 +470,7 @@ class Ui_frm_DadosCliente(object):
 
                 mycursor = mydb.cursor()
 
-                # Query SQL corrigida
+                # Query 
                 sql = """
                 UPDATE cliente
                 SET Nome = %s, Celular = %s, Cpf = %s, Cidade = %s, Rua = %s,
@@ -479,6 +490,17 @@ class Ui_frm_DadosCliente(object):
                 mydb.commit()
 
                 print(f"{mycursor.rowcount} registro(s) alterado(s).")
+
+                msg = QMessageBox()
+                msg.setWindowTitle("Sucesso!")
+                msg.setText("Alterado com Sucesso!")
+                msg.setWindowIcon(QIcon((r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png")))
+                msg.setIcon(QMessageBox.Icon.Information)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+
+                self.frm_DadosCliente.close()
+
         except mysql.connector.Error as err:
                 print(f"Erro ao alterar cliente: {err}")
         finally:

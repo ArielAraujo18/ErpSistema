@@ -396,7 +396,7 @@ class Ui_frm_Main(object):
                 self.frm_Cliente.setAttribute(Qt.WA_DeleteOnClose)
                 self.frm_Cliente.destroyed.connect(lambda: setattr(self, 'frm_Cliente', None))
 
-                #Mostra a tela
+                #Mostra a tela  
                 self.frm_Cliente.show()
         else:
                 #Traz a janela existente

@@ -8,6 +8,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
     QSizePolicy, QWidget, QMessageBox)
 
+import pandas as pd
+
 #SQL
 import mysql.connector
 
@@ -17,6 +19,7 @@ import Controle
 
 class Ui_frm_DadosFornecedor(object):
     def setupUi(self, frm_DadosFornecedor):
+        self.frm_DadosFornecedor = frm_DadosFornecedor
         if not frm_DadosFornecedor.objectName():
             frm_DadosFornecedor.setObjectName(u"frm_DadosFornecedor")
         #frm_DadosFornecedor.resize(526, 566)
@@ -316,53 +319,109 @@ class Ui_frm_DadosFornecedor(object):
     # setupUi
 
     def adicionarFornecedor(self):
-
+        # Campos comuns com "E-mail" incluído
         campos_comuns = {
-            "Razão Social": self.txt_razao.text().strip(),
-            "Cidade": self.txt_cidade.text().strip(),
-            "Rua": self.txt_Rua.text().strip(),  
-            "Bairro": self.txt_Rua.text().strip(),   
+                "Razão Social": self.txt_razao.text().strip(),
+                "Cidade": self.txt_cidade.text().strip(),
+                "Rua": self.txt_Rua.text().strip(),
+                "Bairro": self.txt_bairro.text().strip(),
+                "E-mail": self.txt_email.text().strip(),  # .strip() para limpar espaços
         }
 
         campos_mask = {
-            "Contato": self.txt_contato.text().strip(),
-            "Cep": self.txt_cep.text().strip(),
-            "Cnpj": self.txt_cnpj.text().strip(),
+                "Contato": self.txt_contato.text().strip(),
+                "Cep": self.txt_cep.text().strip(),
+                "Cnpj": self.txt_cnpj.text().strip(),
         }
 
-        for campos_comuns, valor in campos_comuns.items():
-            if not valor:
+        # Validação de campos comuns
+        for campo, valor in campos_comuns.items():
+                if not valor:
+                        msg = QMessageBox()
+                        msg.setWindowTitle("Erro!")
+                        msg.setText(f"O campo {campo} não pode ficar em branco")
+                        msg.setWindowIcon(QIcon((r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png")))
+                        msg.setIcon(QMessageBox.Icon.Information)
+                        msg.setStandardButtons(QMessageBox.Ok)
+                        msg.exec()
+                        return
+
+        # Validação de formato do e-mail
+        email = self.txt_email.text().strip()
+        if "@" not in email or "." not in email.split("@")[-1]:
                 msg = QMessageBox()
                 msg.setWindowTitle("Erro!")
-                msg.setText(f"O campo {campos_comuns} não pode ficar em branco")
+                msg.setText("O campo E-mail deve conter um endereço válido (ex: exemplo@email.com)")
                 msg.setWindowIcon(QIcon((r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png")))
-                msg.setIcon(QMessageBox.Information)
+                msg.setIcon(QMessageBox.Icon.Warning)
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
                 return
 
-        for campos_mask, valor in campos_mask.items():
-            if len(valor.replace("-", "").replace(".","").strip()) < 9:
+        # Validação de campos mascarados
+        for campo, valor in campos_mask.items():
+                if len(valor.replace("-", "").replace(".", "").strip()) < 8:
+                        msg = QMessageBox()
+                        msg.setWindowTitle("Erro!")
+                        msg.setText(f"O campo {campo} deve conter pelo menos 8 caracteres válidos")
+                        msg.setWindowIcon(QIcon((r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png")))
+                        msg.setIcon(QMessageBox.Icon.Information)
+                        msg.setStandardButtons(QMessageBox.Ok)
+                        msg.exec()
+                        return
+
+        # Validação de contato numérico
+        contatoFornecedor = self.txt_contato.text().strip().replace("(", "").replace(")", "").replace("-", "").replace(" ", "")
+        if not contatoFornecedor.isdigit():
                 msg = QMessageBox()
                 msg.setWindowTitle("Erro!")
-                msg.setText(f"O campo {campos_mask} não pode ficar em branco")
+                msg.setText("O campo Contato deve conter apenas números (após remover a máscara)!")
                 msg.setWindowIcon(QIcon((r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png")))
-                msg.setIcon(QMessageBox.Information)
+                msg.setIcon(QMessageBox.Icon.Warning)
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
                 return
 
-        ContatoFornecedor = self.txt_contato.text().strip()
+        # Dados do fornecedor
+        razaoSocial = self.txt_razao.text()
+        contato = self.txt_contato.text()
+        cnpj = self.txt_cnpj.text()
+        cidade = self.txt_cidade.text()
+        rua = self.txt_Rua.text()
+        bairro = self.txt_bairro.text()
+        cep = self.txt_cep.text()
 
-        if not ContatoFornecedor.isdigit():
-                msg = QMessageBox()
-                msg.setWindowTitle("Erro!")
-                msg.setText(f"Preencha o contato do fornecedor!")
-                msg.setWindowIcon(QIcon((r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png")))
-                msg.setIcon(QMessageBox.Warning)
-                msg.setStandardButtons(QMessageBox.Ok)
-                msg.exec()
-                return
+        # Conexão ao banco de dados
+        mydb = mysql.connector.connect(
+                host='localhost',
+                user='Ariel',
+                password='IRani18@#',
+                database='sistema'
+        )
+
+        mycursor = mydb.cursor()
+        sql = "INSERT INTO fornecedor (`Razão Social`, `Contato`, `Cnpj`, `Cidade`, `Rua`, `Bairro`, `Cep`, `E-mail`) values (%s, %s, %s, %s, %s, %s, %s, %s)"
+        val = (razaoSocial, contato, cnpj, cidade, rua, bairro, cep, email)
+        mycursor.execute(sql, val)
+        mydb.commit()
+
+        print(mycursor.rowcount, 'registro(s) inserido(s)')
+        mycursor.close()
+
+        # Limpar os campos
+        self.txt_razao.setText("")
+        self.txt_contato.setText("")
+        self.txt_cnpj.setText("")
+        self.txt_cidade.setText("")
+        self.txt_Rua.setText("")
+        self.txt_bairro.setText("")
+        self.txt_cep.setText("")
+        self.txt_email.setText("")
+
+    def sairTela(self, frm_DadosFornecedor):
+        frm_DadosFornecedor.close()
+
+    def alterarFornecedor(self):
 
         razaoSocial = self.txt_razao.text()
         contato = self.txt_contato.text()
@@ -372,30 +431,47 @@ class Ui_frm_DadosFornecedor(object):
         bairro = self.txt_bairro.text()
         cep = self.txt_cep.text()
         email = self.txt_email.text()
+        
+        try:
+                mydb = mysql.connector.connect(
+                      host = 'localhost',
+                      user = 'Ariel',
+                      password = 'IRani18@#',
+                      database = 'sistema'
+                )
 
-        mydb = mysql.connector(
-            host = 'localhost',
-            user = 'Ariel',
-            password = 'IRani18@#',
-            database = 'sistema'
-        )
+                mycursor = mydb.cursor()
 
-        mycursor = mydb.cursor()
-        sql = "INSERT INTO fornecedor (`Razão Social`, `Contato`, `Cnpj`, `Cidade`, `Rua`, `Bairro`, `Cep`, `E-mail`) values (%s, %s, %s, %s, %s, %s, %s, %s,)"
-        val = (razaoSocial, contato, cnpj, cidade, rua, bairro, cep, email)
-        mycursor.execute(sql, val)
-        mydb.commit()
-        print(mycursor.rowcount, ' Chegou ')
-        mycursor.close()
+                #Query
+                sql = """
+                UPDATE Fornecedor
+                SET Razão Social = %s, Contato = %s, cnpj = %s, Cidade = %s, Rua = %s,
+                Bairro = %s, Cep = %s, `E-mail` = %s
+                WHERE IdFornecedor = %s
+                """
 
-        self.txt_razao.setText("")
-        self.txt_contato.setText("")
-        self.txt_cnpj.setText("")
-        self.txt_cidade.setText("")
-        self.txt_Rua.setText("")
-        self.txt_bairro.setText("")
-        self.txt_cep.setText("")
-        self.txt_email.setText("")
+                val = (razaoSocial, contato, cnpj, cidade, rua, bairro, cep, email, Controle.idConsulta)
+
+                mycursor.execute(sql, val)
+                mydb.commit()
+
+                print(f"{mycursor.rowcount} registros alterados")
+
+                msg = QMessageBox()
+                msg.setWindowTitle("Sucesso!")
+                msg.setText("Alterado com Sucesso!")
+                msg.setWindowIcon(QIcon((r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png")))
+                msg.setIcon(QMessageBox.Icon.Information)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+
+                self.frm_DadosFornecedor.close()
+
+        except mysql.connector.Error as err:
+                print(f"Erro ao alterar cliente: {err}")
+        finally:
+                mycursor.close()
+                mydb.close()
 
     def retranslateUi(self, frm_DadosFornecedor):
         frm_DadosFornecedor.setWindowTitle(QCoreApplication.translate("frm_DadosFornecedor", u"Dados Fornecedor", None))
@@ -416,11 +492,19 @@ class Ui_frm_DadosFornecedor(object):
     # retranslateUi
         ##Condições do botão
         if Controle.tiposTelaDadosCliente == 'incluir':
+            print('incluindo')
             self.btn_cadastrar.clicked.connect(self.adicionarFornecedor)
+        if Controle.tiposTelaDadosCliente == 'alterar':
+            print('Alterando')
+            self.btn_cadastrar.clicked.connect(self.alterarFornecedor)
+
+        self.btn_cancelar.clicked.connect(lambda: self.sairTela(frm_DadosFornecedor))
+
 
 
         ##Condições da tela    
         if Controle.tiposTelaDadosCliente == 'incluir':
+            print('Frm_DadosFornecedor: ', Controle.tiposTelaDadosCliente)
             self.txt_razao.setEnabled(True)
             self.txt_contato.setEnabled(True)
             self.txt_cnpj.setEnabled(True)
@@ -429,6 +513,137 @@ class Ui_frm_DadosFornecedor(object):
             self.txt_bairro.setEnabled(True)
             self.txt_cep.setEnabled(True)
             self.txt_email.setEnabled(True)
+
+        elif Controle.tiposTelaDadosCliente == 'consultar':            
+                print('DadosCliente: ', Controle.tiposTelaDadosCliente)
+                self.txt_razao.setEnabled(False)
+                self.txt_contato.setEnabled(False)
+                self.txt_cnpj.setEnabled(False)
+                self.txt_cidade.setEnabled(False)
+                self.txt_Rua.setEnabled(False)
+                self.txt_bairro.setEnabled(False)
+                self.txt_cep.setEnabled(False)
+                self.txt_email.setEnabled(False)
+                self.btn_cadastrar.setEnabled(False)
+                #Conexão com bd
+                self.host = Controle.host
+                self.user = Controle.user
+                self.password = Controle.password
+                self.database = Controle.database 
+                print('Conectando...')
+                mydb = mysql.connector.connect(
+                        host = 'localhost',
+                        user = 'Ariel',
+                        password = 'IRani18@#',
+                        database = 'sistema'
+                )
+                mycursor = mydb.cursor()
+                consultaSQL = "SELECT * FROM Fornecedor WHERE idFornecedor = '" + Controle.idConsulta + "'"
+                mycursor.execute(consultaSQL)
+                myresult = mycursor.fetchall()
+                print (myresult)
+                mycursor.close()
+                #Converte resultados bd para dataframe#
+                df = pd.DataFrame(myresult, columns=["idFornecedor", "Razão Social", "Contato", "Cnpj", "Cidade", "Rua", "Bairro", "Cep", "E-mail"])
+                razaoSocial = df['Razão Social'][0]
+                contatoF = df['Contato'][0]
+                cnpjF = df['Cnpj'][0]
+                cidadeF = df['Cidade'][0]
+                ruaF = df['Rua'][0]
+                bairroF = df['Bairro'][0]
+                CepF = df['Cep'][0]
+                emailF = df['E-mail'][0]
+                #Setar na tela do sitema
+                self.txt_razao.setText(razaoSocial)
+                self.txt_contato.setText(contatoF)
+                self.txt_cnpj.setText(cnpjF)
+                self.txt_cidade.setText(cidadeF)
+                self.txt_Rua.setText(ruaF)
+                self.txt_bairro.setText(bairroF)
+                self.txt_cep.setText(CepF)
+                self.txt_email.setText(emailF)
+
+        def alterarFornecedor(self):
+                # Verificar se o ID do fornecedor foi corretamente definido
+                print(f"ID do fornecedor: {Controle.idConsulta}")
+                if not Controle.idConsulta:
+                        print("ID do fornecedor não encontrado!")
+                        return
+                razaoSocial = self.txt_razao.text()
+                contato = self.txt_contato.text()
+                cnpj = self.txt_cnpj.text()
+                cidade = self.txt_cidade.text()
+                rua = self.txt_Rua.text()  # Corrigido para corresponder ao nome correto do campo
+                bairro = self.txt_bairro.text()
+                cep = self.txt_cep.text()
+                email = self.txt_email.text()
+                
+                # Verifique se o ID do fornecedor está correto
+                print(f"ID do fornecedor: {Controle.idConsulta}")
+                if not Controle.idConsulta:
+                        print("ID do fornecedor não encontrado!")
+                        return
+
+                try:
+                        # Conectar ao banco de dados
+                        mydb = mysql.connector.connect(
+                        host = 'localhost',
+                        user = 'Ariel',
+                        password = 'IRani18@#',
+                        database = 'sistema'
+                        )
+                        
+                        mycursor = mydb.cursor()
+
+                        # Consulta para buscar os dados do fornecedor
+                        consultaSQL = "SELECT * FROM fornecedor WHERE idFornecedor = %s"
+                        mycursor.execute(consultaSQL, (Controle.idConsulta,))
+                        myresult = mycursor.fetchall()
+
+                        if not myresult:
+                                print("Fornecedor não encontrado!")
+                                return  # Se não encontrar, não prossegue
+                        
+                        # Converte os resultados do banco de dados para dataframe
+                        df = pd.DataFrame(myresult, columns=["idFornecedor", "Razão Social", "Contato", "Cnpj", "Cidade", "Rua", "Bairro", "Cep", "E-mail"])
+                        
+                        # Setar os valores nos campos da tela
+                        razaoSocial = df['Razão Social'].iloc[0]
+                        contatoF = df['Contato'].iloc[0]
+                        cnpjF = df['Cnpj'].iloc[0]
+                        cidadeF = df['Cidade'].iloc[0]
+                        ruaF = df['Rua'].iloc[0]
+                        bairroF = df['Bairro'].iloc[0]
+                        cepF = df['Cep'].iloc[0]
+                        emailF = df['E-mail'].iloc[0]
+
+                        # Habilitar os campos para edição
+                        self.txt_razao.setEnabled(True)
+                        self.txt_contato.setEnabled(True)
+                        self.txt_cnpj.setEnabled(True)
+                        self.txt_cidade.setEnabled(True)
+                        self.txt_Rua.setEnabled(True)
+                        self.txt_bairro.setEnabled(True)
+                        self.txt_cep.setEnabled(True)
+                        self.txt_email.setEnabled(True)
+
+                        # Setar os valores nos campos
+                        self.txt_razao.setText(razaoSocial)
+                        self.txt_contato.setText(contatoF)
+                        self.txt_cnpj.setText(cnpjF)
+                        self.txt_cidade.setText(cidadeF)
+                        self.txt_Rua.setText(ruaF)
+                        self.txt_bairro.setText(bairroF)
+                        self.txt_cep.setText(cepF)
+                        self.txt_email.setText(emailF)
+
+                except mysql.connector.Error as err:
+                        print(f"Erro ao alterar fornecedor: {err}")
+                
+                finally:
+                        mycursor.close()
+                        mydb.close()
+
 
 if __name__ == "__main__":
     app = QApplication([])
