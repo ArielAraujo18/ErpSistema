@@ -443,7 +443,16 @@ class Ui_frm_DadosCliente(object):
         self.txt_Numero.setText("")
         self.txt_cep.setText("")
         self.txt_cidade_6.setText("")
+        
+        msg = QMessageBox()
+        msg.setWindowTitle("Sucesso!")
+        msg.setText("Adicionado com Sucesso!")
+        msg.setWindowIcon(QIcon((r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png")))
+        msg.setIcon(QMessageBox.Icon.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec()
 
+        self.frm_DadosCliente.close()
                         
     def sairTela(self, frm_DadosCliente):
         frm_DadosCliente.close()

@@ -625,7 +625,7 @@ class Ui_frm_Fornecedor(object):
 
              for i in range(numRows):
                   for j in range(len(self.all_data.columns)):
-                       self.tableWidget.setItem(i, j, QTableWidget(str(self.all_data.iat[i, j])))
+                       self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
         
              self.tableWidget.resizeColumnsToContents()
              self.tableWidget.resizeRowsToContents()

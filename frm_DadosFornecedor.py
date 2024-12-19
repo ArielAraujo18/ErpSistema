@@ -19,7 +19,7 @@ import Controle
 
 class Ui_frm_DadosFornecedor(object):
     def setupUi(self, frm_DadosFornecedor):
-        #self.frm_DadosFornecedor = frm_DadosFornecedor
+        self.frm_DadosFornecedor = frm_DadosFornecedor
         if not frm_DadosFornecedor.objectName():
             frm_DadosFornecedor.setObjectName(u"frm_DadosFornecedor")
         #frm_DadosFornecedor.resize(526, 566)
@@ -418,6 +418,16 @@ class Ui_frm_DadosFornecedor(object):
         self.txt_cep.setText("")
         self.txt_email.setText("")
 
+        msg = QMessageBox()
+        msg.setWindowTitle('Sucesso!')
+        msg.setText('Fornecedor adicionado com sucesso!')
+        msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec()
+
+        self.frm_DadosFornecedor.close()
+
     def sairTela(self, frm_DadosFornecedor):
         frm_DadosFornecedor.close()
 
@@ -431,40 +441,36 @@ class Ui_frm_DadosFornecedor(object):
         cep = self.txt_cep.text()
         email = self.txt_email.text()
 
-        try:
-                mydb = mysql.connector.connect(
-                host='localhost',
-                user='Ariel',
-                password='IRani18@#',
-                database='sistema'
-                )
-                mycursor = mydb.cursor()
+        
+        mydb = mysql.connector.connect(
+        host='localhost',
+        user='Ariel',
+        password='IRani18@#',
+        database='sistema'
+        )
+        mycursor = mydb.cursor()
 
-                # Query
-                sql = """
-                UPDATE fornecedor
-                SET `Razão Social` = %s, Contato = %s, cnpj = %s, Cidade = %s, Rua = %s,
-                Bairro = %s, Cep = %s, `E-mail` = %s
-                WHERE IdFornecedor = %s
+        # Query
+        sql = """
+        UPDATE fornecedor
+        SET `Razão Social` = %s, Contato = %s, cnpj = %s, Cidade = %s, Rua = %s,
+        Bairro = %s, Cep = %s, `E-mail` = %s
+        WHERE IdFornecedor = %s
                 """
-                val = (razaoSocial, contato, cnpj, cidade, rua, bairro, cep, email, Controle.idConsulta)
+        val = (razaoSocial, contato, cnpj, cidade, rua, bairro, cep, email, Controle.idConsulta)
 
-                mycursor.execute(sql, val)
-                mydb.commit()
+        mycursor.execute(sql, val)
+        mydb.commit()
 
-                msg = QMessageBox()
-                msg.setWindowTitle('Sucesso!')
-                msg.setText('Fornecedor alterado com sucesso!')
-                msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
-                msg.setIcon(QMessageBox.Information)
-                msg.setStandardButtons(QMessageBox.Ok)
-                msg.exec()
+        msg = QMessageBox()
+        msg.setWindowTitle('Sucesso!')
+        msg.setText('Fornecedor alterado com sucesso!')
+        msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec()
 
-        except mysql.connector.Error as err:
-                print(f"Erro ao alterar fornecedor: {err}")
-        finally:
-                mycursor.close()
-                mydb.close()
+        self.frm_DadosFornecedor.close()
 
     def retranslateUi(self, frm_DadosFornecedor):
         frm_DadosFornecedor.setWindowTitle(QCoreApplication.translate("frm_DadosFornecedor", u"Dados Fornecedor", None))
