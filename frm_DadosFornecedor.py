@@ -19,7 +19,7 @@ import Controle
 
 class Ui_frm_DadosFornecedor(object):
     def setupUi(self, frm_DadosFornecedor):
-        self.frm_DadosFornecedor = frm_DadosFornecedor
+        #self.frm_DadosFornecedor = frm_DadosFornecedor
         if not frm_DadosFornecedor.objectName():
             frm_DadosFornecedor.setObjectName(u"frm_DadosFornecedor")
         #frm_DadosFornecedor.resize(526, 566)
@@ -422,7 +422,6 @@ class Ui_frm_DadosFornecedor(object):
         frm_DadosFornecedor.close()
 
     def alterarFornecedor(self):
-
         razaoSocial = self.txt_razao.text()
         contato = self.txt_contato.text()
         cnpj = self.txt_cnpj.text()
@@ -431,44 +430,38 @@ class Ui_frm_DadosFornecedor(object):
         bairro = self.txt_bairro.text()
         cep = self.txt_cep.text()
         email = self.txt_email.text()
-        
+
         try:
                 mydb = mysql.connector.connect(
-                      host = 'localhost',
-                      user = 'Ariel',
-                      password = 'IRani18@#',
-                      database = 'sistema'
+                host='localhost',
+                user='Ariel',
+                password='IRani18@#',
+                database='sistema'
                 )
-
                 mycursor = mydb.cursor()
 
-                #Query
+                # Query
                 sql = """
-                UPDATE Fornecedor
-                SET Razão Social = %s, Contato = %s, cnpj = %s, Cidade = %s, Rua = %s,
+                UPDATE fornecedor
+                SET `Razão Social` = %s, Contato = %s, cnpj = %s, Cidade = %s, Rua = %s,
                 Bairro = %s, Cep = %s, `E-mail` = %s
                 WHERE IdFornecedor = %s
                 """
-
                 val = (razaoSocial, contato, cnpj, cidade, rua, bairro, cep, email, Controle.idConsulta)
 
                 mycursor.execute(sql, val)
                 mydb.commit()
 
-                print(f"{mycursor.rowcount} registros alterados")
-
                 msg = QMessageBox()
-                msg.setWindowTitle("Sucesso!")
-                msg.setText("Alterado com Sucesso!")
-                msg.setWindowIcon(QIcon((r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png")))
-                msg.setIcon(QMessageBox.Icon.Information)
+                msg.setWindowTitle('Sucesso!')
+                msg.setText('Fornecedor alterado com sucesso!')
+                msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+                msg.setIcon(QMessageBox.Information)
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
 
-                self.frm_DadosFornecedor.close()
-
         except mysql.connector.Error as err:
-                print(f"Erro ao alterar cliente: {err}")
+                print(f"Erro ao alterar fornecedor: {err}")
         finally:
                 mycursor.close()
                 mydb.close()
@@ -563,86 +556,50 @@ class Ui_frm_DadosFornecedor(object):
                 self.txt_cep.setText(CepF)
                 self.txt_email.setText(emailF)
 
-        def alterarFornecedor(self):
-                # Verificar se o ID do fornecedor foi corretamente definido
-                print(f"ID do fornecedor: {Controle.idConsulta}")
-                if not Controle.idConsulta:
-                        print("ID do fornecedor não encontrado!")
-                        return
-                razaoSocial = self.txt_razao.text()
-                contato = self.txt_contato.text()
-                cnpj = self.txt_cnpj.text()
-                cidade = self.txt_cidade.text()
-                rua = self.txt_Rua.text()  # Corrigido para corresponder ao nome correto do campo
-                bairro = self.txt_bairro.text()
-                cep = self.txt_cep.text()
-                email = self.txt_email.text()
-                
-                # Verifique se o ID do fornecedor está correto
-                print(f"ID do fornecedor: {Controle.idConsulta}")
-                if not Controle.idConsulta:
-                        print("ID do fornecedor não encontrado!")
-                        return
-
-                try:
-                        # Conectar ao banco de dados
-                        mydb = mysql.connector.connect(
+        elif Controle.tiposTelaDadosCliente == 'alterar':
+                print('DadosFornecedor: ', Controle.tiposTelaDadosCliente)
+                self.txt_razao.setEnabled(True)
+                self.txt_contato.setEnabled(True)
+                self.txt_cnpj.setEnabled(True)
+                self.txt_cidade.setEnabled(True)
+                self.txt_Rua.setEnabled(True)
+                self.txt_bairro.setEnabled(True)
+                self.txt_cep.setEnabled(True)
+                self.txt_email.setEnabled(True)
+                self.btn_cadastrar.setEnabled(True)
+                #Conexão com bd
+                print('Conectando...')
+                mydb = mysql.connector.connect(
                         host = 'localhost',
                         user = 'Ariel',
                         password = 'IRani18@#',
                         database = 'sistema'
-                        )
-                        
-                        mycursor = mydb.cursor()
+                )
+                mycursor = mydb.cursor()
+                consultaSQL = "SELECT * FROM fornecedor WHERE idFornecedor = '" + Controle.idConsulta + "'"
+                mycursor.execute(consultaSQL)
+                myresult = mycursor.fetchall()
+                mycursor.close()
+                #Converte resultados bd para dataframe#
+                df = pd.DataFrame(myresult, columns=["idFornecedor", "Razão Social", "Contato", "Cnpj", "Cidade", "Rua", "Bairro", "Cep", "E-mail"])
+                razaoSocial = df['Razão Social'][0]
+                contato = df['Contato'][0]
+                cnpj = df['Cnpj'][0]
+                cidade = df['Cidade'][0]
+                rua = df['Rua'][0]
+                bairro = df['Bairro'][0]
+                cep = df['Cep'][0]
+                email = df['E-mail'][0]
+                #Setar na tela do sitema
+                self.txt_razao.setText(razaoSocial)
+                self.txt_contato.setText(contato)
+                self.txt_cnpj.setText(cnpj)
+                self.txt_cidade.setText(cidade)
+                self.txt_Rua.setText(rua)
+                self.txt_bairro.setText(bairro)
+                self.txt_cep.setText(cep)
+                self.txt_email.setText(email)
 
-                        # Consulta para buscar os dados do fornecedor
-                        consultaSQL = "SELECT * FROM fornecedor WHERE idFornecedor = %s"
-                        mycursor.execute(consultaSQL, (Controle.idConsulta,))
-                        myresult = mycursor.fetchall()
-
-                        if not myresult:
-                                print("Fornecedor não encontrado!")
-                                return  # Se não encontrar, não prossegue
-                        
-                        # Converte os resultados do banco de dados para dataframe
-                        df = pd.DataFrame(myresult, columns=["idFornecedor", "Razão Social", "Contato", "Cnpj", "Cidade", "Rua", "Bairro", "Cep", "E-mail"])
-                        
-                        # Setar os valores nos campos da tela
-                        razaoSocial = df['Razão Social'].iloc[0]
-                        contatoF = df['Contato'].iloc[0]
-                        cnpjF = df['Cnpj'].iloc[0]
-                        cidadeF = df['Cidade'].iloc[0]
-                        ruaF = df['Rua'].iloc[0]
-                        bairroF = df['Bairro'].iloc[0]
-                        cepF = df['Cep'].iloc[0]
-                        emailF = df['E-mail'].iloc[0]
-
-                        # Habilitar os campos para edição
-                        self.txt_razao.setEnabled(True)
-                        self.txt_contato.setEnabled(True)
-                        self.txt_cnpj.setEnabled(True)
-                        self.txt_cidade.setEnabled(True)
-                        self.txt_Rua.setEnabled(True)
-                        self.txt_bairro.setEnabled(True)
-                        self.txt_cep.setEnabled(True)
-                        self.txt_email.setEnabled(True)
-
-                        # Setar os valores nos campos
-                        self.txt_razao.setText(razaoSocial)
-                        self.txt_contato.setText(contatoF)
-                        self.txt_cnpj.setText(cnpjF)
-                        self.txt_cidade.setText(cidadeF)
-                        self.txt_Rua.setText(ruaF)
-                        self.txt_bairro.setText(bairroF)
-                        self.txt_cep.setText(cepF)
-                        self.txt_email.setText(emailF)
-
-                except mysql.connector.Error as err:
-                        print(f"Erro ao alterar fornecedor: {err}")
-                
-                finally:
-                        mycursor.close()
-                        mydb.close()
 
 
 if __name__ == "__main__":

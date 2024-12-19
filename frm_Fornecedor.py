@@ -556,6 +556,7 @@ class Ui_frm_Fornecedor(object):
         item = self.tableWidget.item(line, 0) #primeiro cliente
 
         if item:
+                Controle.idConsulta = item.text()
                 if not hasattr(self, 'frm_DadosFornecedor') or self.frm_DadosFornecedor is None or not self.frm_DadosFornecedor.isVisible():
                         #Cria a tela se não tiver aberta
                         self.frm_DadosFornecedor = QWidget()
