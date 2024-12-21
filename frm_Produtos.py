@@ -20,7 +20,9 @@ class Ui_frm_Produtos(object):
     def setupUi(self, frm_Produtos):
         if not frm_Produtos.objectName():
             frm_Produtos.setObjectName(u"frm_Produtos")
-        frm_Produtos.resize(581, 592)
+        frm_Produtos.setFixedSize(581, 592)
+        self.frm_Produtos = frm_Produtos
+        frm_Produtos.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
         frm_Produtos.setStyleSheet(u"QWidget{\n"
 "	background-color: #FAF3E0;\n"
 "\n"
@@ -367,8 +369,12 @@ class Ui_frm_Produtos(object):
         QMetaObject.connectSlotsByName(frm_Produtos)
     # setupUi
 
+    def sairTela(self, frm_Produtos):
+        self.frm_Produtos.close()
+        self.frm_Produtos = None
+
     def retranslateUi(self, frm_Produtos):
-        frm_Produtos.setWindowTitle(QCoreApplication.translate("frm_Produtos", u"Form", None))
+        frm_Produtos.setWindowTitle(QCoreApplication.translate("frm_Produtos", u"Produtos", None))
         self.btn_Add.setText("")
         self.btn_voltar.setText("")
         self.btn_consul.setText("")
@@ -388,6 +394,9 @@ class Ui_frm_Produtos(object):
         ___qtablewidgetitem4 = self.tableWidget.horizontalHeaderItem(4)
         ___qtablewidgetitem4.setText(QCoreApplication.translate("frm_Produtos", u"Forncedor", None));
     # retranslateUi
+
+        #Botões
+        self.btn_voltar.clicked.connect(self.sairTela)
 
 if __name__ == "__main__":
     app = QApplication([])

@@ -12,9 +12,11 @@ from PySide6.QtWidgets import (QApplication, QMainWindow, QMenu, QMenuBar,
 from PySide6.QtWidgets import *
 
 
-
+#Telas
 from frm_cliente_ui import Ui_frm_Cliente
 from frm_Fornecedor import Ui_frm_Fornecedor
+from frm_Produtos import Ui_frm_Produtos
+
 
 import icon_cliente
 import icon_sair
@@ -421,6 +423,20 @@ class Ui_frm_Main(object):
          else:
                 self.frm_Fornecedor.raise_()
                 self.frm_Fornecedor.activateWindow()
+    def telaProdutos(self):
+         if not hasattr(self, 'frm_Produtos') or self.frm_Produtos is None or not self.frm_Produtos.isVisible():
+                self.frm_Produtos = QWidget()
+                self.ui = Ui_frm_Produtos()
+                self.ui.setupUi(self.frm_Produtos)
+
+                #Config para garantir a remoção total da tela ao ser fechada
+                self.frm_Produtos.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_Produtos.destroyed.connect(lambda: setattr(self, 'frm_Produtos', None))
+
+                self.frm_Produtos.show()
+         else:
+                self.frm_Produtos.raise_()
+                self.frm_Produtos.activateWindow()
 
     def sairSistema(self):
         sys.exit()   
@@ -472,7 +488,8 @@ class Ui_frm_Main(object):
         ##Botão##
         self.btn_sair.clicked.connect(self.sairSistema)
         self.btn_cliente.clicked.connect(self.telaCliente)
-        self.btn_fornecedor.clicked.connect(self.telaFornecedor)
+        self.btn_fornecedor.clicked.connect(self.telaFornecedor)        
+        self.btn_produtos.clicked.connect(self.telaProdutos)
 
         #action
         self.actionCliente.triggered.connect(self.telaCliente)

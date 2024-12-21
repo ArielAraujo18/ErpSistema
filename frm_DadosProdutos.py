@@ -14,7 +14,8 @@ class Ui_frm_DadosProdutos(object):
     def setupUi(self, frm_DadosProdutos):
         if not frm_DadosProdutos.objectName():
             frm_DadosProdutos.setObjectName(u"frm_DadosProdutos")
-        frm_DadosProdutos.resize(526, 540)
+        frm_DadosProdutos.setFixedSize(526, 540)
+        frm_DadosProdutos.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
         frm_DadosProdutos.setStyleSheet(u"QWidget {\n"
 "    background-color: #FFCCCB;\n"
 "    border-radius: 8px;\n"
@@ -333,7 +334,7 @@ class Ui_frm_DadosProdutos(object):
     # setupUi
 
     def retranslateUi(self, frm_DadosProdutos):
-        frm_DadosProdutos.setWindowTitle(QCoreApplication.translate("frm_DadosProdutos", u"Form", None))
+        frm_DadosProdutos.setWindowTitle(QCoreApplication.translate("frm_DadosProdutos", u"Dados Produtos", None))
         self.lbl_nome.setText(QCoreApplication.translate("frm_DadosProdutos", u"Nome:", None))
         self.lbl_qtd.setText(QCoreApplication.translate("frm_DadosProdutos", u"Quantidade:", None))
         self.lbl_Valor.setText(QCoreApplication.translate("frm_DadosProdutos", u"Valor:", None))
