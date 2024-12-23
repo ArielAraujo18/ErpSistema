@@ -10,6 +10,10 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QLabel, QLineEdit,
 import icon_cadastrar
 import icon_cancelar
 
+import mysql.connector
+import Controle
+import pandas as pd
+
 class Ui_frm_DadosProdutos(object):
     def setupUi(self, frm_DadosProdutos):
         if not frm_DadosProdutos.objectName():
@@ -348,6 +352,45 @@ class Ui_frm_DadosProdutos(object):
         self.lbl_maxCarac.setText(QCoreApplication.translate("frm_DadosProdutos", u"max: 500 caracteres", None))
         self.lbl_contador.setText(QCoreApplication.translate("frm_DadosProdutos", u"000", None))
     # retranslateUi
+    ##Condições do botão
+
+
+
+        ##Condições da tela
+        if Controle.tiposTelaDadosCliente == 'consultar':
+                print('DadosProdutos: ', Controle.tiposTelaDadosCliente)
+                self.txt_nome.setEnabled(True)
+                self.txt_qtd.setEnabled(True)
+                self.txt_valor.setEnabled(True)
+                self.comboBox.setEnabled(True)
+                self.textEdit.setEnabled(True)
+                self.btn_cadastrar.setEnabled(True)
+                print('Conectando')
+                mydb = mysql.connector.connect(
+                     host = 'localhost',
+                     user = 'Ariel',
+                     password = 'IRani18@#',
+                     database = 'sistema'
+                )
+                mycursor = mydb.cursor()
+                consultaSQL = "SELECT * FROM produtos WHERE idProdutos = '"  + Controle.idConsulta + "'" 
+                mycursor.execute(consultaSQL)
+                myresult = mycursor.fetchall()
+                
+                #Convertendo de bd para df
+                df = pd.DataFrame(myresult, columns=["Nome", "Quantidade", "Valor", "Fornecedor", "Observação"])
+                nome = df['Nome'][0]
+                quantidade = df['Quantidade'][0]
+                valor = df['Valor'][0]
+                forncedor = df['Fornecedor'][0]
+                observacao = df['Observação'][0]
+                #Setando na tabela do sys
+                self.txt_nome.setText(nome)
+                self.txt_qtd.setText(quantidade)
+                self.txt_valor.setText(valor)
+                self.comboBox.setEditText(forncedor)
+                self.textEdit.setText(observacao)
+                
 
 if __name__ == "__main__":
     app = QApplication([])

@@ -8,6 +8,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QTableWidget, QTableWidgetItem,
     QWidget)
+
+import mysql.connector
+import pandas as pd
+
 import icon_adicionar
 import icon_consultar
 import icon_excluir
@@ -368,10 +372,49 @@ class Ui_frm_Produtos(object):
 
         QMetaObject.connectSlotsByName(frm_Produtos)
     # setupUi
-
+##Funções##
     def sairTela(self, frm_Produtos):
         self.frm_Produtos.close()
         self.frm_Produtos = None
+ 
+    def consultarGeral(self):
+        print('conectando')
+        mydb = mysql.connector.connect(
+            host = 'localhost',
+            user = 'Ariel',
+            password = 'IRani18@#',
+            database = 'sistema'
+        )
+        print('Conexão bem sucedida')
+        mycursor = mydb.cursor()
+        #Esqueci de mudar o nome do txt fornecedor para txtProdutos
+        nomeConsulta = self.txt_nomeFornecedor.text()
+        consultaSQL = "SELECT * FROM produtos WHERE Nome LIKE '" +  nomeConsulta + "%'"
+        mycursor.execute(consultaSQL)
+        myresult = mycursor.fetchall()
+
+        #Criando Dataframe
+        df = pd.DataFrame(myresult, columns=["idProdutos", "Nome", "Quantidade", "Valor", "Fornecedor", "Observação"])
+        self.all_data = df
+
+        #Criando a tabela
+        numRows = len(self.all_data.index)
+        numCols = len(self.all_data.columns)
+        self.tableWidget.setColumnCount(numCols)
+        self.tableWidget.setRowCount(numRows)
+        self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
+
+        #Preenchendo a tabela
+        for i in range(numRows):
+            for j in range(numCols):
+                self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i,j])))
+
+        #Layout das colunas e linhas
+        self.tableWidget.resizeColumnsToContents()
+
+        self.tableWidget.resizeRowsToContents()
+
+        mydb.close()
 
     def retranslateUi(self, frm_Produtos):
         frm_Produtos.setWindowTitle(QCoreApplication.translate("frm_Produtos", u"Produtos", None))
@@ -397,7 +440,7 @@ class Ui_frm_Produtos(object):
 
         #Botões
         self.btn_voltar.clicked.connect(self.sairTela)
-
+        self.btn_filtro.clicked.connect(self.consultarGeral)
 if __name__ == "__main__":
     app = QApplication([])
     frm_Produtos = QWidget()

@@ -389,6 +389,7 @@ class Ui_frm_Fornecedor(object):
         self.frm_Fornecedor = None
 
     def consultarGeral(self):
+        Controle.tiposTelaDadosCliente = 'consultar'
         self.host = Controle.host
         self.user = Controle.user
         self.password = Controle.user
