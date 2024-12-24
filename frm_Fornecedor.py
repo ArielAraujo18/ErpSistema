@@ -471,7 +471,7 @@ class Ui_frm_Fornecedor(object):
 
         mycursor.close()
     
-    def cadastrarCliente(self):
+    def cadastrarFornecedor(self):
         Controle.tiposTelaDadosCliente = 'incluir'
         if not hasattr(self, 'frm_DadosFornecedor') or self.frm_DadosFornecedor is None or not self.frm_DadosFornecedor.isVisible():
                 #Criando a tela
@@ -676,7 +676,7 @@ class Ui_frm_Fornecedor(object):
         self.btn_voltar.clicked.connect(lambda: self.sairTela(frm_Fornecedor))
         self.btn_filtro.clicked.connect(self.consultarGeral)
         self.btn_pesquisar.clicked.connect(self.pesquisarFornecedor)
-        self.btn_Add.clicked.connect(self.cadastrarCliente)
+        self.btn_Add.clicked.connect(self.cadastrarFornecedor)
         self.btn_consul.clicked.connect(self.consultarFornecedor)
         self.btn_alterar.clicked.connect(self.alterarFornecedor)
         self.btn_excluir.clicked.connect(self.excluirFornecedor)

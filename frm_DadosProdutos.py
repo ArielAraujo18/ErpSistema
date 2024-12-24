@@ -337,6 +337,11 @@ class Ui_frm_DadosProdutos(object):
         QMetaObject.connectSlotsByName(frm_DadosProdutos)
     # setupUi
 
+    def adicionarProdutos(self):
+        campos_comuns = {
+             "Nome": self.txt_nome.text().strip(),
+        }
+
     def retranslateUi(self, frm_DadosProdutos):
         frm_DadosProdutos.setWindowTitle(QCoreApplication.translate("frm_DadosProdutos", u"Dados Produtos", None))
         self.lbl_nome.setText(QCoreApplication.translate("frm_DadosProdutos", u"Nome:", None))
@@ -345,7 +350,7 @@ class Ui_frm_DadosProdutos(object):
         self.btn_cancelar.setText("")
         self.txt_qtd.setInputMask(QCoreApplication.translate("frm_DadosProdutos", u"00000000000000000000000000000000000000000000000000", None))
         self.txt_qtd.setText("")
-        self.txt_valor.setInputMask(QCoreApplication.translate("frm_DadosProdutos", u"R$", None))
+        self.txt_valor.setInputMask(QCoreApplication.translate("frm_DadosProdutos", u"R$0000000000", None))
         self.lbl_Fornecedor.setText(QCoreApplication.translate("frm_DadosProdutos", u"Fornecedor:", None))
         self.lbl_obs.setText(QCoreApplication.translate("frm_DadosProdutos", u"Observa\u00e7\u00e3o:", None))
         self.btn_cadastrar.setText("")
