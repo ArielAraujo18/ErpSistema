@@ -6,7 +6,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QLabel, QLineEdit,
-    QPushButton, QSizePolicy, QTextEdit, QWidget)
+    QPushButton, QSizePolicy, QTextEdit, QWidget, QMessageBox)
 import icon_cadastrar
 import icon_cancelar
 
@@ -340,7 +340,38 @@ class Ui_frm_DadosProdutos(object):
     def adicionarProdutos(self):
         campos_comuns = {
              "Nome": self.txt_nome.text().strip(),
+             "Observação": self.textEdit.toPlainText().strip(),
         }
+        campos_mask = {
+             "Quantidade": self.txt_qtd.text().strip(),
+             "Valor": self.txt_valor.text().strip(),
+        }
+
+        for campos_comuns, valor in campos_comuns.items():
+                if not valor.strip():
+                    msg = QMessageBox()
+                    msg.setWindowTitle("ERRO!")
+                    msg.setText(f"O campo '{campos_comuns} é obrigatório, e não pode ficar vazio!' ")
+                    icon_path = r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"
+                    msg.setWindowIcon(QIcon(icon_path)) 
+                    msg.setIcon(QMessageBox.Information)
+                    msg.setStandardButtons(QMessageBox.Ok)
+                    msg.exec()
+                    return
+
+        for campos_mask, valor in campos_mask.items():
+                if len(valor.replace("_", "").replace(".", "").strip()) < 6:  # Remove "_" (máscaras) e verifica o comprimento
+                        msg = QMessageBox()
+                        msg.setWindowTitle("ERRO!")
+                        msg.setText(f"O campo '{campos_mask}' deve ser preenchido!")
+                        icon_path = r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"
+                        msg.setWindowIcon(QIcon(icon_path))
+                        msg.setIcon(QMessageBox.Information)
+                        msg.setStandardButtons(QMessageBox.Ok)
+                        msg.exec()
+                        return
+
+        
 
     def retranslateUi(self, frm_DadosProdutos):
         frm_DadosProdutos.setWindowTitle(QCoreApplication.translate("frm_DadosProdutos", u"Dados Produtos", None))
