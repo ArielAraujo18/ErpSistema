@@ -470,7 +470,7 @@ class Ui_frm_Produtos(object):
             self.frm_DadosProdutos.raise_()
             self.frm_DadosProdutos.activateWindow()
 
-
+    
     def retranslateUi(self, frm_Produtos):
         frm_Produtos.setWindowTitle(QCoreApplication.translate("frm_Produtos", u"Produtos", None))
         self.btn_Add.setText("")

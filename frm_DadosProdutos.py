@@ -338,32 +338,23 @@ class Ui_frm_DadosProdutos(object):
     # setupUi
 
     def adicionarProdutos(self):
+
+        # Definição de campos
         campos_comuns = {
-             "Nome": self.txt_nome.text().strip(),
-             "Observação": self.textEdit.toPlainText().strip(),
+                "Nome": self.txt_nome.text().strip(),
+                "Observação": self.textEdit.toPlainText().strip(),
         }
         campos_mask = {
-             "Quantidade": self.txt_qtd.text().strip(),
-             "Valor": self.txt_valor.text().strip(),
+                "Quantidade": self.txt_qtd.text().strip(),
+                "Valor": self.txt_valor.text().strip(),
         }
 
-        for campos_comuns, valor in campos_comuns.items():
-                if not valor.strip():
-                    msg = QMessageBox()
-                    msg.setWindowTitle("ERRO!")
-                    msg.setText(f"O campo '{campos_comuns} é obrigatório, e não pode ficar vazio!' ")
-                    icon_path = r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"
-                    msg.setWindowIcon(QIcon(icon_path)) 
-                    msg.setIcon(QMessageBox.Information)
-                    msg.setStandardButtons(QMessageBox.Ok)
-                    msg.exec()
-                    return
-
-        for campos_mask, valor in campos_mask.items():
-                if len(valor.replace("_", "").replace(".", "").strip()) < 6:  # Remove "_" (máscaras) e verifica o comprimento
+        # Validação dos campos comuns
+        for campo, valor in campos_comuns.items():
+                if not valor:  # Verifica se o campo está vazio
                         msg = QMessageBox()
                         msg.setWindowTitle("ERRO!")
-                        msg.setText(f"O campo '{campos_mask}' deve ser preenchido!")
+                        msg.setText(f"O campo '{campo}' é obrigatório e não pode ficar vazio!")
                         icon_path = r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"
                         msg.setWindowIcon(QIcon(icon_path))
                         msg.setIcon(QMessageBox.Information)
@@ -371,7 +362,107 @@ class Ui_frm_DadosProdutos(object):
                         msg.exec()
                         return
 
-        
+        # Validação dos campos com máscara (exemplo: validação de número e valores)
+        for campo, valor in campos_mask.items():
+                if not valor.isdigit():  # Verifica se é um número válido
+                        msg = QMessageBox()
+                        msg.setWindowTitle("ERRO!")
+                        msg.setText(f"O campo '{campo}' deve conter apenas números!")
+                        icon_path = r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"
+                        msg.setWindowIcon(QIcon(icon_path))
+                        msg.setIcon(QMessageBox.Information)
+                        msg.setStandardButtons(QMessageBox.Ok)
+                        msg.exec()
+                        return
+                
+        # Obtenção dos valores
+        nome = self.txt_nome.text()
+        quantidade = self.txt_qtd.text()
+        valor = self.txt_valor.text()
+        fornecedor = self.comboBox.currentText()  # Pega o texto selecionado na ComboBox
+        obs = self.textEdit.toPlainText()
+
+        # Conexão com o banco de dados
+        mydb = mysql.connector.connect(
+        host='localhost',
+        user='Ariel',
+        password='IRani18@#',
+        database='sistema'
+        )
+
+        mycursor = mydb.cursor()
+        # Query SQL corrigida (removida a vírgula extra)
+        sql = "INSERT INTO produtos(`Nome`, `Quantidade`, `Valor`, `Fornecedor`, `Observação`) values (%s, %s, %s, %s, %s)"
+        val = (nome, quantidade, valor, fornecedor, obs)
+        mycursor.execute(sql, val)
+        mydb.commit()
+
+        self.carregarFornecedores()
+
+        print(mycursor.rowcount, 'Registro(s) inserido(s)')
+
+        # Fechar conexão
+        mycursor.close()
+        mydb.close()
+
+        # Limpar os campos após a inserção
+        self.txt_nome.setText("")
+        self.txt_qtd.setText("")
+        self.txt_valor.setText("")
+        self.textEdit.setPlainText("")
+        self.comboBox.setCurrentIndex(0)
+
+        # Mensagem de sucesso
+        msg = QMessageBox()
+        msg.setWindowTitle("Sucesso!")
+        msg.setText("Produto adicionado com sucesso!")
+        icon_path = r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"
+        msg.setWindowIcon(QIcon(icon_path))
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec()
+
+    def carregarFornecedores(self):
+        try:
+                # Conexão com o banco de dados
+                mydb = mysql.connector.connect(
+                host='localhost',
+                user='Ariel',
+                password='IRani18@#',
+                database='sistema'
+                )
+                mycursor = mydb.cursor()
+
+                # Query para obter os nomes dos fornecedores
+                mycursor.execute("SELECT `Razão Social` FROM fornecedor")
+                resultados = mycursor.fetchall()
+
+                # Verifica se a consulta trouxe dados
+                if not resultados:
+                        print("Nenhum fornecedor encontrado.")
+                else:
+                        print(f"Fornecedores encontrados: {len(resultados)}")
+                
+                # Limpa a ComboBox antes de adicionar novos itens
+                self.comboBox.clear()
+
+                # Adiciona os fornecedores na ComboBox
+                for fornecedor in resultados:
+                        print(f"Adicionando fornecedor: {fornecedor[0]}")  # Imprime para depuração
+                        self.comboBox.addItem(fornecedor[0])
+
+                # Fechar conexão
+                mycursor.close()
+                mydb.close()
+
+        except mysql.connector.Error as e:
+                msg = QMessageBox()
+                msg.setWindowTitle("Erro!")
+                msg.setText(f"Erro ao carregar fornecedores: {e}")
+                msg.setIcon(QMessageBox.Critical)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+
 
     def retranslateUi(self, frm_DadosProdutos):
         frm_DadosProdutos.setWindowTitle(QCoreApplication.translate("frm_DadosProdutos", u"Dados Produtos", None))
@@ -426,7 +517,15 @@ class Ui_frm_DadosProdutos(object):
                 self.txt_valor.setText(valor)
                 self.comboBox.setEditText(forncedor)
                 self.textEdit.setText(observacao)
-                
+        elif Controle.tiposTelaDadosCliente == 'incluir':
+                self.carregarFornecedores()
+                print('incluindo')
+                self.txt_nome.setEnabled(True)
+                self.txt_qtd.setEnabled(True)
+                self.txt_valor.setEnabled(True)
+                self.comboBox.setEnabled(True)
+                self.textEdit.setEnabled(True)
+                self.btn_cadastrar.setEnabled(True)                                               
 
 if __name__ == "__main__":
     app = QApplication([])

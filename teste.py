@@ -1,56 +1,70 @@
+import sys
+from PyQt5.QtWidgets import QApplication, QMainWindow, QComboBox, QPushButton, QVBoxLayout, QWidget, QMessageBox
 import mysql.connector
-import pandas as pd
 
-class Controle:
-    tiposTelaDadosCliente = 'alterar'
-    idFornecedor = 1  # Defina o ID para teste
+class TesteComboBox(QMainWindow):
+    def __init__(self):
+        super().__init__()
 
-# Simulando uma função para testar o DataFrame
-def testar_dataframe():
-    if Controle.tiposTelaDadosCliente == 'alterar':
-        print('DadosFornecedor: ', Controle.tiposTelaDadosCliente)
+        self.setWindowTitle("Teste ComboBox com Banco de Dados")
+        self.setGeometry(100, 100, 400, 200)
 
+        # ComboBox
+        self.comboBox = QComboBox(self)
+        self.comboBox.setEnabled(False)  # Inicialmente desabilitada
+
+        # Botão para carregar dados
+        self.btnCarregar = QPushButton("Carregar Fornecedores", self)
+        self.btnCarregar.clicked.connect(self.carregarFornecedores)
+
+        # Botão para habilitar a ComboBox
+        self.btnEnable = QPushButton("Habilitar ComboBox", self)
+        self.btnEnable.clicked.connect(self.enableComboBox)
+
+        # Layout
+        layout = QVBoxLayout()
+        layout.addWidget(self.comboBox)
+        layout.addWidget(self.btnCarregar)
+        layout.addWidget(self.btnEnable)
+
+        container = QWidget()
+        container.setLayout(layout)
+        self.setCentralWidget(container)
+
+    def carregarFornecedores(self):
         try:
             # Conexão com o banco de dados
             mydb = mysql.connector.connect(
-                host='localhost',
-                user='Ariel',
-                password='IRani18@#',
-                database='sistema'
+                host="localhost",
+                user="Ariel",
+                password="IRani18@#",
+                database="sistema"
             )
+
+            # Consulta SQL
             mycursor = mydb.cursor()
+            mycursor.execute("SELECT `Razão Social` FROM fornecedor")
 
-            # Consulta parametrizada
-            sql = "SELECT * FROM fornecedor WHERE idFornecedor = %s"
-            val = (Controle.idFornecedor,)
-            mycursor.execute(sql, val)
+            # Limpa a ComboBox antes de carregar
+            self.comboBox.clear()
 
-            # Obter todos os resultados
-            results = mycursor.fetchall()
+            # Adiciona os fornecedores na ComboBox
+            for (nome,) in mycursor.fetchall():
+                self.comboBox.addItem(nome)
 
-            if results:
-                # Criar um DataFrame a partir dos resultados
-                columns = ["idFornecedor", "Razão Social", "Contato", "Cnpj", 
-                           "Cidade", "Rua", "Bairro", "Cep", "E-mail"]
-                df = pd.DataFrame(results, columns=columns)
+            mycursor.close()
+            mydb.close()
 
-                print("DataFrame criado com sucesso:")
-                print(df)
+            # Mensagem de sucesso
+            QMessageBox.information(self, "Sucesso", "Fornecedores carregados com sucesso!")
+        except mysql.connector.Error as e:
+            QMessageBox.critical(self, "Erro ao Conectar", f"Erro ao carregar fornecedores: {e}")
 
-                # Acessar os dados do DataFrame
-                razaoSocial = df['Razão Social'].iloc[0]
-                print("Razão Social:", razaoSocial)
+    def enableComboBox(self):
+        self.comboBox.setEnabled(True)
 
-            else:
-                print("Fornecedor não encontrado.")
-
-        except mysql.connector.Error as err:
-            print(f"Erro ao conectar ao banco de dados: {err}")
-
-        finally:
-            # Fechar a conexão com o banco de dados
-            if mydb.is_connected():
-                mydb.close()
-
-# Executar o teste
-testar_dataframe()
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = TesteComboBox()
+    window.show()
+    sys.exit(app.exec())
