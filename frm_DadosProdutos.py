@@ -364,7 +364,10 @@ class Ui_frm_DadosProdutos(object):
 
         # Validação dos campos com máscara (exemplo: validação de número e valores)
         for campo, valor in campos_mask.items():
-                if not valor.isdigit():  # Verifica se é um número válido
+                # Remove a máscara (exemplo: "R$", espaços, etc.)
+                valor_limpo = valor.replace("R$", "").replace(" ", "").replace(",", "").replace(".", "").strip()
+                
+                if not valor_limpo.isdigit():  # Verifica se é um número válido após a limpeza
                         msg = QMessageBox()
                         msg.setWindowTitle("ERRO!")
                         msg.setText(f"O campo '{campo}' deve conter apenas números!")
@@ -374,7 +377,17 @@ class Ui_frm_DadosProdutos(object):
                         msg.setStandardButtons(QMessageBox.Ok)
                         msg.exec()
                         return
-                
+        valor = self.txt_valor.text().strip()
+        if "R$" not in valor:
+                msg = QMessageBox()
+                msg.setWindowTitle("Erro!")
+                msg.setText("É importante formatar o valor corretamente com R$, virgulas e pontos!")
+                msg.setWindowIcon(QIcon((r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png")))
+                msg.setIcon(QMessageBox.Icon.Warning)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+                return
+
         # Obtenção dos valores
         nome = self.txt_nome.text()
         quantidade = self.txt_qtd.text()
@@ -472,7 +485,6 @@ class Ui_frm_DadosProdutos(object):
         self.btn_cancelar.setText("")
         self.txt_qtd.setInputMask(QCoreApplication.translate("frm_DadosProdutos", u"00000000000000000000000000000000000000000000000000", None))
         self.txt_qtd.setText("")
-        self.txt_valor.setInputMask(QCoreApplication.translate("frm_DadosProdutos", u"R$0000000000", None))
         self.lbl_Fornecedor.setText(QCoreApplication.translate("frm_DadosProdutos", u"Fornecedor:", None))
         self.lbl_obs.setText(QCoreApplication.translate("frm_DadosProdutos", u"Observa\u00e7\u00e3o:", None))
         self.btn_cadastrar.setText("")
@@ -480,7 +492,8 @@ class Ui_frm_DadosProdutos(object):
         self.lbl_contador.setText(QCoreApplication.translate("frm_DadosProdutos", u"000", None))
     # retranslateUi
     ##Condições do botão
-
+        if Controle.tiposTelaDadosCliente == 'incluir':
+              self.btn_cadastrar.clicked.connect(self.adicionarProdutos)
 
 
         ##Condições da tela
