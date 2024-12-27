@@ -681,6 +681,7 @@ class Ui_frm_Fornecedor(object):
         self.btn_alterar.clicked.connect(self.alterarFornecedor)
         self.btn_excluir.clicked.connect(self.excluirFornecedor)
 
+        
 if __name__ == "__main__":
     app = QApplication([])
     frm_Fornecedor= QWidget()

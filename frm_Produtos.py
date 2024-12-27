@@ -7,7 +7,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QTableWidget, QTableWidgetItem,
-    QWidget)
+    QWidget, QMessageBox)
  
 import Controle
 from frm_DadosProdutos import Ui_frm_DadosProdutos
@@ -470,7 +470,46 @@ class Ui_frm_Produtos(object):
             self.frm_DadosProdutos.raise_()
             self.frm_DadosProdutos.activateWindow()
 
-    
+    def consultarProdutos(self):
+
+        Controle.tiposTelaDadosCliente = 'consultar'
+        print('frmFornecedor: ', Controle.tiposTelaDadosCliente)
+
+        line = self.tableWidget.currentRow()
+        if line == -1:
+            msg = QMessageBox()
+            msg.setWindowTitle('ERRO!')
+            msg.setText('Por favor, selecione um Fornecedor para consultar.')
+            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            msg.setIcon(QMessageBox.Warning)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+            return
+
+        item = self.tableWidget.item(line, 0)
+        if item:
+            Controle.idConsulta = item.text()
+            if not hasattr(self, 'frm_DadosProdutos') or self.frm_DadosProdutos is None or not self.frm_DadosProdutos.isVisible():
+                #Cria a tabela se não tiver aberta
+                self.frm_DadosProdutos = QWidget()
+                self.ui = Ui_frm_DadosProdutos()
+                self.ui.setupUi(self.frm_DadosProdutos)
+
+                self.frm_DadosProdutos.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_DadosProdutos.destroyed.connect(lambda: setattr(self, 'frm_DadosProdutos', None))
+
+                self.frm_DadosProdutos.show()
+            else:
+                self.frm_DadosProdutos.raise_()
+                self.frm_DadosProdutos.activateWindow()
+        else:
+            msg = QMessageBox()
+            msg.setWindowTitle("Erro de Seleção")
+            msg.setText("Não foi possível obter o ID do produto selecionado.")
+            msg.setIcon(QMessageBox.Warning)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+
     def retranslateUi(self, frm_Produtos):
         frm_Produtos.setWindowTitle(QCoreApplication.translate("frm_Produtos", u"Produtos", None))
         self.btn_Add.setText("")
@@ -498,7 +537,7 @@ class Ui_frm_Produtos(object):
         self.btn_filtro.clicked.connect(self.consultarGeral)
         self.btn_pesquisar.clicked.connect(self.pesquisarProdutos)
         self.btn_Add.clicked.connect(self.cadastrarProdutos)
-
+        self.btn_consul.clicked.connect(self.consultarProdutos)
 if __name__ == "__main__":
     app = QApplication([])
     frm_Produtos = QWidget()

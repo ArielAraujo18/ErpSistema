@@ -499,37 +499,45 @@ class Ui_frm_DadosProdutos(object):
         ##Condições da tela
         if Controle.tiposTelaDadosCliente == 'consultar':
                 print('DadosProdutos: ', Controle.tiposTelaDadosCliente)
-                self.txt_nome.setEnabled(True)
-                self.txt_qtd.setEnabled(True)
-                self.txt_valor.setEnabled(True)
-                self.comboBox.setEnabled(True)
-                self.textEdit.setEnabled(True)
-                self.btn_cadastrar.setEnabled(True)
+                self.txt_nome.setEnabled(False)
+                self.txt_qtd.setEnabled(False)
+                self.txt_valor.setEnabled(False)
+                self.comboBox.setEnabled(False)
+                self.textEdit.setEnabled(False)
+                self.btn_cadastrar.setEnabled(False)
                 print('Conectando')
+
                 mydb = mysql.connector.connect(
-                     host = 'localhost',
-                     user = 'Ariel',
-                     password = 'IRani18@#',
-                     database = 'sistema'
+                        host='localhost',
+                        user='Ariel',
+                        password='IRani18@#',
+                        database='sistema'
                 )
                 mycursor = mydb.cursor()
-                consultaSQL = "SELECT * FROM produtos WHERE idProdutos = '"  + Controle.idConsulta + "'" 
-                mycursor.execute(consultaSQL)
+                consultaSQL = """
+                SELECT Nome, Quantidade, Valor, Fornecedor, Observação
+                FROM produtos
+                WHERE idProdutos = %s
+                """
+                mycursor.execute(consultaSQL, (Controle.idConsulta,))
                 myresult = mycursor.fetchall()
                 
-                #Convertendo de bd para df
+                # Convertendo de BD para DataFrame
                 df = pd.DataFrame(myresult, columns=["Nome", "Quantidade", "Valor", "Fornecedor", "Observação"])
-                nome = df['Nome'][0]
-                quantidade = df['Quantidade'][0]
-                valor = df['Valor'][0]
-                forncedor = df['Fornecedor'][0]
-                observacao = df['Observação'][0]
-                #Setando na tabela do sys
-                self.txt_nome.setText(nome)
-                self.txt_qtd.setText(quantidade)
-                self.txt_valor.setText(valor)
-                self.comboBox.setEditText(forncedor)
-                self.textEdit.setText(observacao)
+                
+                # Extraindo os dados
+                self.txt_nome.setText(str(df['Nome'][0]))
+                self.txt_qtd.setText(str(df['Quantidade'][0]))
+                self.txt_valor.setText(str(df['Valor'][0]))
+                #Adicionando forncedor na comboBox
+                fornecedor = str(df['Fornecedor'][0])
+                print("Fornecedor:", fornecedor)
+                #Verificando se o fornecedor já existe na lista de itens da comboBox
+                if fornecedor not in [self.comboBox.itemText(i) for i in range(self.comboBox.count())]:
+                        self.comboBox.addItem(fornecedor)
+                #Definindo o texto atual da comboBox
+                self.comboBox.setCurrentText(fornecedor)
+                self.textEdit.setText(str(df['Observação'][0]))
         elif Controle.tiposTelaDadosCliente == 'incluir':
                 self.carregarFornecedores()
                 print('incluindo')
