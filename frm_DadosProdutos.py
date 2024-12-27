@@ -476,6 +476,8 @@ class Ui_frm_DadosProdutos(object):
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
 
+    def sairTela(self, frm_DadosProdutos):
+           frm_DadosProdutos.close()
 
     def retranslateUi(self, frm_DadosProdutos):
         frm_DadosProdutos.setWindowTitle(QCoreApplication.translate("frm_DadosProdutos", u"Dados Produtos", None))
@@ -495,6 +497,8 @@ class Ui_frm_DadosProdutos(object):
         if Controle.tiposTelaDadosCliente == 'incluir':
               self.btn_cadastrar.clicked.connect(self.adicionarProdutos)
 
+
+        self.btn_cancelar.clicked.connect(lambda: self.sairTela(frm_DadosProdutos))
 
         ##Condições da tela
         if Controle.tiposTelaDadosCliente == 'consultar':
