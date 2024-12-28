@@ -389,12 +389,24 @@ class Ui_frm_DadosProdutos(object):
                 msg.exec()
                 return
 
+        obs = self.textEdit.toPlainText()
+        if len(obs) > 500:
+                msg = QMessageBox()
+                msg.setWindowTitle("Erro!")
+                msg.setText("Preencha o campo de observação com 500 caracteres ou menos!")
+                msg.setWindowIcon(QIcon((r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png")))
+                msg.setIcon(QMessageBox.Icon.Warning)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+                return
+
         # Obtenção dos valores
         nome = self.txt_nome.text()
         quantidade = self.txt_qtd.text()
         valor = self.txt_valor.text()
         fornecedor = self.comboBox.currentText()  # Pega o texto selecionado na ComboBox
         obs = self.textEdit.toPlainText()
+
 
         # Conexão com o banco de dados
         mydb = mysql.connector.connect(
@@ -437,8 +449,7 @@ class Ui_frm_DadosProdutos(object):
         msg.exec()
 
     def carregarFornecedores(self):
-        try:
-                # Conexão com o banco de dados
+        # Conexão com o banco de dados
                 mydb = mysql.connector.connect(
                 host='localhost',
                 user='Ariel',
@@ -450,12 +461,6 @@ class Ui_frm_DadosProdutos(object):
                 # Query para obter os nomes dos fornecedores
                 mycursor.execute("SELECT `Razão Social` FROM fornecedor")
                 resultados = mycursor.fetchall()
-
-                # Verifica se a consulta trouxe dados
-                if not resultados:
-                        print("Nenhum fornecedor encontrado.")
-                else:
-                        print(f"Fornecedores encontrados: {len(resultados)}")
                 
                 # Limpa a ComboBox antes de adicionar novos itens
                 self.comboBox.clear()
@@ -468,14 +473,6 @@ class Ui_frm_DadosProdutos(object):
                 # Fechar conexão
                 mycursor.close()
                 mydb.close()
-
-        except mysql.connector.Error as e:
-                msg = QMessageBox()
-                msg.setWindowTitle("Erro!")
-                msg.setText(f"Erro ao carregar fornecedores: {e}")
-                msg.setIcon(QMessageBox.Critical)
-                msg.setStandardButtons(QMessageBox.Ok)
-                msg.exec()
 
     def sairTela(self, frm_DadosProdutos):
            frm_DadosProdutos.close()
@@ -592,7 +589,7 @@ class Ui_frm_DadosProdutos(object):
         elif Controle.tiposTelaDadosCliente == 'alterar':
                 print('DadosProdutos: ', Controle.tiposTelaDadosCliente)
                 
-                # Habilitar campos
+                
                 self.txt_nome.setEnabled(True)
                 self.txt_qtd.setEnabled(True)
                 self.txt_valor.setEnabled(True)
@@ -601,7 +598,7 @@ class Ui_frm_DadosProdutos(object):
                 
                 print('Conectando...')
                 
-                # Conectar ao banco de dados
+                
                 mydb = mysql.connector.connect(
                         host='localhost',
                         user='Ariel',
@@ -610,7 +607,6 @@ class Ui_frm_DadosProdutos(object):
                 )
                 mycursor = mydb.cursor()
                 
-                # Consultar o produto atual
                 consultarSQL = "SELECT * FROM produtos WHERE idProdutos = '" + Controle.idConsulta + "'"
                 mycursor.execute(consultarSQL)
                 myresult = mycursor.fetchone()  # Obtém o resultado como uma tupla
@@ -621,16 +617,16 @@ class Ui_frm_DadosProdutos(object):
                 fornecedor_atual = myresult[4]  # O fornecedor do produto atual
                 obs = myresult[5]
 
-                # Preencher os campos na interface
+               
                 self.txt_nome.setText(nome)
                 self.txt_qtd.setText(str(quantidade))
-                self.txt_valor.setText(str(valor))  # Certifique-se de que `valor` seja uma string
+                self.txt_valor.setText(str(valor))
                 self.textEdit.setText(obs)
                 
-                # Limpar a ComboBox antes de adicionar novos itens
+                #limpar a ComboBox
                 self.comboBox.clear()
 
-                # Consultar todos os fornecedores disponíveis
+                #consultar todos os fornecedores
                 mycursor.execute("SELECT `Razão Social` FROM fornecedor")
                 fornecedores = mycursor.fetchall()
                 
