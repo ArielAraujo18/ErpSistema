@@ -16,6 +16,7 @@ import pandas as pd
 
 class Ui_frm_DadosProdutos(object):
     def setupUi(self, frm_DadosProdutos):
+        self.frm_DadosProdutos = frm_DadosProdutos
         if not frm_DadosProdutos.objectName():
             frm_DadosProdutos.setObjectName(u"frm_DadosProdutos")
         frm_DadosProdutos.setFixedSize(526, 540)
@@ -479,6 +480,40 @@ class Ui_frm_DadosProdutos(object):
     def sairTela(self, frm_DadosProdutos):
            frm_DadosProdutos.close()
 
+    def alterarProdutos(self):
+           nome = self.txt_nome.text()
+           quantidade = self.txt_qtd.text()
+           valor = self.txt_valor.text()
+           fornecedor = self.comboBox.currentText()
+           obs = self.textEdit.toPlainText()
+
+           mydb = mysql.connector.connect(
+                host='localhost',
+                user='Ariel',
+                password='IRani18@#',
+                database='sistema'
+                )
+           mycursor = mydb.cursor()
+           sql = """ UPDATE Produtos
+                        SET Nome = %s, Quantidade = %s, Valor = %s, Fornecedor = %s, `Observação` = %s
+                        WHERE IdProdutos = %s
+                                """
+           val = (nome, quantidade, valor, fornecedor, obs, Controle.idConsulta)
+           mycursor.execute(sql, val)
+           mydb.commit()
+
+           msg = QMessageBox()
+           msg.setWindowTitle('Sucesso!')
+           msg.setText('Fornecedor alterado com sucesso!')
+           msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+           msg.setIcon(QMessageBox.Information)
+           msg.setStandardButtons(QMessageBox.Ok)
+           msg.exec()
+
+           self.frm_DadosProdutos.close()
+
+
+
     def retranslateUi(self, frm_DadosProdutos):
         frm_DadosProdutos.setWindowTitle(QCoreApplication.translate("frm_DadosProdutos", u"Dados Produtos", None))
         self.lbl_nome.setText(QCoreApplication.translate("frm_DadosProdutos", u"Nome:", None))
@@ -495,8 +530,11 @@ class Ui_frm_DadosProdutos(object):
     # retranslateUi
     ##Condições do botão
         if Controle.tiposTelaDadosCliente == 'incluir':
+              print('alterar')
               self.btn_cadastrar.clicked.connect(self.adicionarProdutos)
-
+        if Controle.tiposTelaDadosCliente == 'alterar':
+               print('alterar')
+               self.btn_cadastrar.clicked.connect(self.alterarProdutos)
 
         self.btn_cancelar.clicked.connect(lambda: self.sairTela(frm_DadosProdutos))
 
@@ -551,6 +589,61 @@ class Ui_frm_DadosProdutos(object):
                 self.comboBox.setEnabled(True)
                 self.textEdit.setEnabled(True)
                 self.btn_cadastrar.setEnabled(True)                                               
+        elif Controle.tiposTelaDadosCliente == 'alterar':
+                print('DadosProdutos: ', Controle.tiposTelaDadosCliente)
+                
+                # Habilitar campos
+                self.txt_nome.setEnabled(True)
+                self.txt_qtd.setEnabled(True)
+                self.txt_valor.setEnabled(True)
+                self.comboBox.setEnabled(True)
+                self.textEdit.setEnabled(True)
+                
+                print('Conectando...')
+                
+                # Conectar ao banco de dados
+                mydb = mysql.connector.connect(
+                        host='localhost',
+                        user='Ariel',
+                        password='IRani18@#',
+                        database='sistema'
+                )
+                mycursor = mydb.cursor()
+                
+                # Consultar o produto atual
+                consultarSQL = "SELECT * FROM produtos WHERE idProdutos = '" + Controle.idConsulta + "'"
+                mycursor.execute(consultarSQL)
+                myresult = mycursor.fetchone()  # Obtém o resultado como uma tupla
+                
+                nome = myresult[1]
+                quantidade = myresult[2]
+                valor = myresult[3]
+                fornecedor_atual = myresult[4]  # O fornecedor do produto atual
+                obs = myresult[5]
+
+                # Preencher os campos na interface
+                self.txt_nome.setText(nome)
+                self.txt_qtd.setText(str(quantidade))
+                self.txt_valor.setText(str(valor))  # Certifique-se de que `valor` seja uma string
+                self.textEdit.setText(obs)
+                
+                # Limpar a ComboBox antes de adicionar novos itens
+                self.comboBox.clear()
+
+                # Consultar todos os fornecedores disponíveis
+                mycursor.execute("SELECT `Razão Social` FROM fornecedor")
+                fornecedores = mycursor.fetchall()
+                
+                # Adicionar todos os fornecedores à ComboBox
+                for fornecedor_item in fornecedores:
+                        self.comboBox.addItem(fornecedor_item[0])
+                
+                # Definir o fornecedor atual na ComboBox
+                self.comboBox.setCurrentText(fornecedor_atual)
+                
+                # Fechar o cursor e a conexão
+                mycursor.close()
+                mydb.close()
 
 if __name__ == "__main__":
     app = QApplication([])
