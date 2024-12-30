@@ -545,6 +545,75 @@ class Ui_frm_Produtos(object):
             else: 
                 self.frm_DadosProdutos.raise_()
                 self.frm_DadosProdutos.activateWindow()
+    def excluirProdutos(self):
+
+        line = self.tableWidget.currentRow()
+
+        if line == -1:
+            msg = QMessageBox()
+            msg.setWindowTitle('Erro!')
+            msg.setText('Por favor, selecione um produto para excluir.')
+            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            msg.setIcon(QMessageBox.Warning)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+            return #Retorna se a codição for falsa
+
+        item = self.tableWidget.item(line, 0)
+
+        if item:
+            idProduto = item.text()
+            mydb = mysql.connector.connect(
+                        host = 'localhost',
+                        user = 'Ariel',
+                        password = 'IRani18@#',
+                        database = 'sistema' 
+                )
+            
+            mycursor = mydb.cursor()
+            sql = "DELETE FROM produtos WHERE idProdutos = %s"
+            mycursor.execute(sql, (idProduto,))
+            mydb.commit()
+
+            msg = QMessageBox()
+            msg.setWindowTitle('Produto excluído')
+            msg.setText('Produto excluído com sucesso!')
+            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            msg.setIcon(QMessageBox.Information)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+
+            mycursor.execute("SELECT * FROM produtos")
+            myresult = mycursor.fetchall()
+            df = pd.DataFrame(myresult, columns=['idProdutos', 'Nome', 'Quantidade', 'Valor', 'Fornecedor', '`Observação`'])
+            self.all_data = df
+
+            numRows = len(self.all_data.index)
+            self.tableWidget.setColumnCount(len(self.all_data.columns))
+            self.tableWidget.setRowCount(numRows)
+            self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
+
+            for i in range(numRows):
+                for j in range(len(self.all_data.columns)):
+                    self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
+
+            self.tableWidget.resizeColumnsToContents()
+
+            # Redimensiona todas as linhas
+            for row in range(self.tableWidget.rowCount()):
+                self.tableWidget.resizeRowToContents(row)
+
+            mydb.close()
+        
+        else:
+            msg = QMessageBox()
+            msg.setWindowTitle('Erro seleção')
+            msg.setText('Produto não selecionado!')
+            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            msg.setIcon(QMessageBox.Warning)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+
 
     def retranslateUi(self, frm_Produtos):
         frm_Produtos.setWindowTitle(QCoreApplication.translate("frm_Produtos", u"Produtos", None))
@@ -575,6 +644,8 @@ class Ui_frm_Produtos(object):
         self.btn_Add.clicked.connect(self.cadastrarProdutos)
         self.btn_consul.clicked.connect(self.consultarProdutos)
         self.btn_alterar.clicked.connect(self.alterarProdutos)
+        self.btn_excluir.clicked.connect(self.excluirProdutos)
+
 if __name__ == "__main__":
     app = QApplication([])
     frm_Produtos = QWidget()
