@@ -1,5 +1,5 @@
 <RCC>
-  <qresource prefix="carrinhoIcon">
+  <qresource prefix="icon_addCart">
     <file>adicionar-ao-carrinho (1).png</file>
   </qresource>
 </RCC>
