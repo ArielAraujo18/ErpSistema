@@ -1,0 +1,531 @@
+from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
+    QMetaObject, QObject, QPoint, QRect,
+    QSize, QTime, QUrl, Qt)
+from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
+    QFont, QFontDatabase, QGradient, QIcon,
+    QImage, QKeySequence, QLinearGradient, QPainter,
+    QPalette, QPixmap, QRadialGradient, QTransform)
+from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHeaderView,
+    QLabel, QLineEdit, QPushButton, QSizePolicy,
+    QTableWidget, QTableWidgetItem, QWidget)
+
+import icon_addCarrinho
+import icon_pagamento
+import icon_excluirCart
+
+class Ui_Frm_Vendas(object):
+    def setupUi(self, Frm_Vendas):
+        if not Frm_Vendas.objectName():
+            Frm_Vendas.setObjectName(u"Frm_Vendas")
+        Frm_Vendas.resize(1422, 739)
+        Frm_Vendas.setStyleSheet(u"QWidget{\n"
+"	background-color: #2E8B57;\n"
+"}")
+        self.label = QLabel(Frm_Vendas)
+        self.label.setObjectName(u"label")
+        self.label.setGeometry(QRect(0, 80, 191, 21))
+        font = QFont()
+        font.setBold(True)
+        self.label.setFont(font)
+        self.label.setStyleSheet(u"QLabel {\n"
+"    font-size: 18px;\n"
+"    color: #FFFFFF;\n"
+"    font-weight: bold;\n"
+"    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
+"}")
+        self.label_2 = QLabel(Frm_Vendas)
+        self.label_2.setObjectName(u"label_2")
+        self.label_2.setGeometry(QRect(560, 10, 271, 81))
+        self.label_2.setFont(font)
+        self.label_2.setStyleSheet(u"QLabel {\n"
+"    font-size: 65px;\n"
+"    color: #000000;\n"
+"    font-weight: bold;\n"
+"    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
+"}")
+        self.comboProd = QComboBox(Frm_Vendas)
+        self.comboProd.addItem("")
+        self.comboProd.addItem("")
+        self.comboProd.addItem("")
+        self.comboProd.addItem("")
+        self.comboProd.addItem("")
+        self.comboProd.setObjectName(u"comboProd")
+        self.comboProd.setGeometry(QRect(0, 110, 701, 31))
+        self.comboProd.setStyleSheet(u"QComboBox {\n"
+"    background-color: #FFFFFF; \n"
+"    border: 1px solid #2E8B57; \n"
+"    border-radius: 5px;\n"
+"    padding: 5px;\n"
+"    color: #2E8B57; \n"
+"	font-size: 16px; \n"
+"}\n"
+"\n"
+"QComboBox QAbstractItemView {\n"
+"    background-color: #FFFFFF; \n"
+"    border: 1px solid #2E8B57;\n"
+"    selection-background-color: #2E8B57;\n"
+"    selection-color: #FFFFFF; \n"
+"}\n"
+"\n"
+"QComboBox::drop-down {\n"
+"    border: none;\n"
+"    background: #2E8B57;\n"
+"    width: 20px;\n"
+"    subcontrol-origin: padding;\n"
+"    subcontrol-position: right;\n"
+"}\n"
+"\n"
+"QComboBox::down-arrow {\n"
+"    width: 10px;\n"
+"    height: 10px;\n"
+"}\n"
+"")
+        self.label_3 = QLabel(Frm_Vendas)
+        self.label_3.setObjectName(u"label_3")
+        self.label_3.setGeometry(QRect(0, 170, 121, 21))
+        self.label_3.setFont(font)
+        self.label_3.setStyleSheet(u"QLabel {\n"
+"    font-size: 16px;\n"
+"    color: #FFFFFF;\n"
+"    font-weight: bold;\n"
+"    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
+"}")
+        self.txtQtd = QLineEdit(Frm_Vendas)
+        self.txtQtd.setObjectName(u"txtQtd")
+        self.txtQtd.setGeometry(QRect(0, 200, 241, 41))
+        self.txtQtd.setStyleSheet(u"QLineEdit {\n"
+"    border: 2px solid #cccccc; \n"
+"    border-radius: 5px; \n"
+"    padding: 6px; \n"
+"    font-size: 14px; \n"
+"    background-color: #ffffff;\n"
+"    transition: all 0.3s ease;\n"
+"	color: #000000;\n"
+"}\n"
+"\n"
+"QLineEdit:hover {\n"
+"    border: 2px solid #3f51b5; \n"
+"    background-color: #f5f5f5; \n"
+"}\n"
+"")
+        self.label_4 = QLabel(Frm_Vendas)
+        self.label_4.setObjectName(u"label_4")
+        self.label_4.setGeometry(QRect(290, 170, 71, 21))
+        self.label_4.setFont(font)
+        self.label_4.setStyleSheet(u"QLabel {\n"
+"    font-size: 16px;\n"
+"    color: #FFFFFF;\n"
+"    font-weight: bold;\n"
+"    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
+"}")
+        self.txtValor = QLineEdit(Frm_Vendas)
+        self.txtValor.setObjectName(u"txtValor")
+        self.txtValor.setGeometry(QRect(290, 200, 241, 41))
+        self.txtValor.setStyleSheet(u"QLineEdit {\n"
+"    border: 2px solid #cccccc; \n"
+"    border-radius: 5px; \n"
+"    padding: 6px; \n"
+"    font-size: 14px; \n"
+"    background-color: #ffffff;\n"
+"    transition: all 0.3s ease;\n"
+"	color: #000000;\n"
+"}\n"
+"\n"
+"QLineEdit:hover {\n"
+"    border: 2px solid #3f51b5; \n"
+"    background-color: #f5f5f5; \n"
+"}\n"
+"")
+        self.label_5 = QLabel(Frm_Vendas)
+        self.label_5.setObjectName(u"label_5")
+        self.label_5.setGeometry(QRect(0, 410, 141, 21))
+        self.label_5.setFont(font)
+        self.label_5.setStyleSheet(u"QLabel {\n"
+"    font-size: 16px;\n"
+"    color: #FFFFFF;\n"
+"    font-weight: bold;\n"
+"    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
+"}")
+        self.txtIdProduto = QLineEdit(Frm_Vendas)
+        self.txtIdProduto.setObjectName(u"txtIdProduto")
+        self.txtIdProduto.setEnabled(False)
+        self.txtIdProduto.setGeometry(QRect(0, 440, 241, 41))
+        self.txtIdProduto.setStyleSheet(u"QLineEdit {\n"
+"    border: 2px solid #cccccc; \n"
+"    border-radius: 5px; \n"
+"    padding: 6px; \n"
+"    font-size: 14px; \n"
+"    background-color: #ffffff;\n"
+"    transition: all 0.3s ease;\n"
+"	color: #000000;\n"
+"}\n"
+"\n"
+"QLineEdit:hover {\n"
+"    border: 2px solid #3f51b5; \n"
+"    background-color: #f5f5f5; \n"
+"}\n"
+"")
+        self.label_6 = QLabel(Frm_Vendas)
+        self.label_6.setObjectName(u"label_6")
+        self.label_6.setGeometry(QRect(290, 410, 121, 21))
+        self.label_6.setFont(font)
+        self.label_6.setStyleSheet(u"QLabel {\n"
+"    font-size: 16px;\n"
+"    color: #FFFFFF;\n"
+"    font-weight: bold;\n"
+"    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
+"}")
+        self.txt_Qtd = QLineEdit(Frm_Vendas)
+        self.txt_Qtd.setObjectName(u"txt_Qtd")
+        self.txt_Qtd.setEnabled(True)
+        self.txt_Qtd.setGeometry(QRect(290, 440, 241, 41))
+        self.txt_Qtd.setStyleSheet(u"QLineEdit {\n"
+"    border: 2px solid #cccccc; \n"
+"    border-radius: 5px; \n"
+"    padding: 6px; \n"
+"    font-size: 14px; \n"
+"    background-color: #ffffff;\n"
+"    transition: all 0.3s ease;\n"
+"	color: #000000;\n"
+"}\n"
+"\n"
+"QLineEdit:hover {\n"
+"    border: 2px solid #3f51b5; \n"
+"    background-color: #f5f5f5; \n"
+"}\n"
+"")
+        self.label_7 = QLabel(Frm_Vendas)
+        self.label_7.setObjectName(u"label_7")
+        self.label_7.setGeometry(QRect(0, 500, 81, 21))
+        self.label_7.setFont(font)
+        self.label_7.setStyleSheet(u"QLabel {\n"
+"    font-size: 16px;\n"
+"    color: #FFFFFF;\n"
+"    font-weight: bold;\n"
+"    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
+"}")
+        self.txt_idCliente = QLineEdit(Frm_Vendas)
+        self.txt_idCliente.setObjectName(u"txt_idCliente")
+        self.txt_idCliente.setEnabled(False)
+        self.txt_idCliente.setGeometry(QRect(0, 530, 91, 41))
+        self.txt_idCliente.setStyleSheet(u"QLineEdit {\n"
+"    border: 2px solid #cccccc; \n"
+"    border-radius: 5px; \n"
+"    padding: 6px; \n"
+"    font-size: 14px; \n"
+"    background-color: #ffffff;\n"
+"    transition: all 0.3s ease;\n"
+"	color: #000000;\n"
+"}\n"
+"\n"
+"QLineEdit:hover {\n"
+"    border: 2px solid #3f51b5; \n"
+"    background-color: #f5f5f5; \n"
+"}\n"
+"")
+        self.label_8 = QLabel(Frm_Vendas)
+        self.label_8.setObjectName(u"label_8")
+        self.label_8.setGeometry(QRect(980, 100, 191, 31))
+        self.label_8.setFont(font)
+        self.label_8.setStyleSheet(u"QLabel {\n"
+"    font-size: 32px;\n"
+"    color: #000000;\n"
+"    font-weight: bold;\n"
+"    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
+"}")
+        self.btn_excluirCarrinho = QPushButton(Frm_Vendas)
+        self.btn_excluirCarrinho.setObjectName(u"btn_excluirCarrinho")
+        self.btn_excluirCarrinho.setGeometry(QRect(280, 300, 101, 71))
+        self.btn_excluirCarrinho.setStyleSheet(u"QPushButton{\n"
+"    background-color: #f5f5f5; \n"
+"    border: 2px solid #cccccc;\n"
+"    border-radius: 10px; \n"
+"    padding: 10px; \n"
+"    color: #333333; \n"
+"    font-size: 14px; \n"
+"	background-image:url(:/exitCart/excluir carrinho.png);\n"
+"    background-repeat: no-repeat; \n"
+"    background-position: center;\n"
+"	transition: all 0.3s ease;\n"
+"}\n"
+"QPushButton:hover{\n"
+"    background-color: #e0e0e0; \n"
+"    border-color: #aaaaaa;\n"
+"	transform: scale(1.05); \n"
+"}\n"
+"QPushButton:pressed{\n"
+"	background-color: #d6d6d6;\n"
+"	border-color: #888888;\n"
+"	transform: scale(0.95);\n"
+"}")
+        self.btn_addCarrinho = QPushButton(Frm_Vendas)
+        self.btn_addCarrinho.setObjectName(u"btn_addCarrinho")
+        self.btn_addCarrinho.setGeometry(QRect(100, 300, 101, 71))
+        self.btn_addCarrinho.setStyleSheet(u"QPushButton{\n"
+"    background-color: #f5f5f5; \n"
+"    border: 2px solid #cccccc;\n"
+"    border-radius: 10px; \n"
+"    padding: 10px; \n"
+"    color: #333333; \n"
+"    font-size: 14px; \n"
+"	background-image:url(:/icon_addCart/adicionar-ao-carrinho (1).png);\n"
+"    background-repeat: no-repeat; \n"
+"    background-position: center;\n"
+"	transition: all 0.3s ease;\n"
+"}\n"
+"QPushButton:hover{\n"
+"    background-color: #e0e0e0; \n"
+"    border-color: #aaaaaa;\n"
+"	transform: scale(1.05); \n"
+"}\n"
+"QPushButton:pressed{\n"
+"	background-color: #d6d6d6;\n"
+"	border-color: #888888;\n"
+"	transform: scale(0.95);\n"
+"}")
+        self.carrinho = QTableWidget(Frm_Vendas)
+        if (self.carrinho.columnCount() < 7):
+            self.carrinho.setColumnCount(7)
+        __qtablewidgetitem = QTableWidgetItem()
+        self.carrinho.setHorizontalHeaderItem(0, __qtablewidgetitem)
+        __qtablewidgetitem1 = QTableWidgetItem()
+        self.carrinho.setHorizontalHeaderItem(1, __qtablewidgetitem1)
+        __qtablewidgetitem2 = QTableWidgetItem()
+        self.carrinho.setHorizontalHeaderItem(2, __qtablewidgetitem2)
+        __qtablewidgetitem3 = QTableWidgetItem()
+        self.carrinho.setHorizontalHeaderItem(3, __qtablewidgetitem3)
+        __qtablewidgetitem4 = QTableWidgetItem()
+        self.carrinho.setHorizontalHeaderItem(4, __qtablewidgetitem4)
+        __qtablewidgetitem5 = QTableWidgetItem()
+        self.carrinho.setHorizontalHeaderItem(5, __qtablewidgetitem5)
+        __qtablewidgetitem6 = QTableWidgetItem()
+        self.carrinho.setHorizontalHeaderItem(6, __qtablewidgetitem6)
+        self.carrinho.setObjectName(u"carrinho")
+        self.carrinho.setGeometry(QRect(720, 160, 701, 361))
+        self.carrinho.setStyleSheet(u"QTableWidget, QTableView {\n"
+"    border: 2px solid #C0C0C0;  \n"
+"    border-radius: 8px;  \n"
+"    gridline-color: #C0C0C0;  \n"
+"    background-color: #FAFAFA;  \n"
+"    font-size: 14px;  \n"
+"    color: #333333;  \n"
+"    selection-background-color: #FFD700;  \n"
+"    selection-color: #000000;  \n"
+"    alternate-background-color: #F5F5F5;\n"
+"}\n"
+"\n"
+"QHeaderView::section {\n"
+"    background-color: #EAEAEA;  \n"
+"    color: #333333;  \n"
+"    font-weight: bold;  \n"
+"    border: 1px solid #C0C0C0;  \n"
+"    padding: 6px;  \n"
+"    border-radius: 4px;  \n"
+"}\n"
+"\n"
+"QTableWidget::item:selected, QTableView::item:selected {\n"
+"    background-color: #FFD700;  \n"
+"    color: #000000;  \n"
+"    border: 1px solid #C0C0C0;\n"
+"}\n"
+"\n"
+"QTableCornerButton::section {\n"
+"    background-color: #EAEAEA;  \n"
+"    border: 1px solid #C0C0C0;  \n"
+"    border-radius: 8px 0 0 0;\n"
+"}\n"
+"\n"
+"QScrollBar:vertical, QScrollBar:horizontal {\n"
+"    background: #F0F0F0;  \n"
+"    border: none;  \n"
+"    border-radi"
+                        "us: 6px;  \n"
+"    margin: 2px;  \n"
+"}\n"
+"\n"
+"QScrollBar::handle:vertical, QScrollBar::handle:horizontal {\n"
+"    background: #B0BEC5;  \n"
+"    border-radius: 6px;  \n"
+"    min-height: 20px;  \n"
+"    min-width: 20px;  \n"
+"}\n"
+"\n"
+"QScrollBar::handle:vertical:hover, QScrollBar::handle:horizontal:hover {\n"
+"    background: #90A4AE;  \n"
+"}\n"
+"\n"
+"QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical, \n"
+"QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {\n"
+"    background: none;  \n"
+"    height: 0px;  \n"
+"    width: 0px;\n"
+"}\n"
+"\n"
+"QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical,\n"
+"QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {\n"
+"    background: none;\n"
+"}")
+        self.frame = QFrame(Frm_Vendas)
+        self.frame.setObjectName(u"frame")
+        self.frame.setGeometry(QRect(900, 570, 371, 111))
+        self.frame.setStyleSheet(u"QFrame{\n"
+"	background-color:  #FFFFFF;\n"
+"}")
+        self.frame.setFrameShape(QFrame.StyledPanel)
+        self.frame.setFrameShadow(QFrame.Raised)
+        self.label_9 = QLabel(self.frame)
+        self.label_9.setObjectName(u"label_9")
+        self.label_9.setGeometry(QRect(20, 20, 201, 21))
+        self.label_9.setFont(font)
+        self.label_9.setStyleSheet(u"QLabel {\n"
+"    font-size: 16px;\n"
+"    color: #000000;\n"
+"    font-weight: bold;\n"
+"    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
+"}")
+        self.lblQtd = QLabel(self.frame)
+        self.lblQtd.setObjectName(u"lblQtd")
+        self.lblQtd.setGeometry(QRect(250, 20, 111, 21))
+        self.lblQtd.setFont(font)
+        self.lblQtd.setStyleSheet(u"QLabel {\n"
+"    font-size: 16px;\n"
+"    color:  #000000;\n"
+"    font-weight: bold;\n"
+"    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
+"}")
+        self.label_11 = QLabel(self.frame)
+        self.label_11.setObjectName(u"label_11")
+        self.label_11.setGeometry(QRect(20, 60, 131, 21))
+        self.label_11.setFont(font)
+        self.label_11.setStyleSheet(u"QLabel {\n"
+"    font-size: 16px;\n"
+"    color: #000000;\n"
+"    font-weight: bold;\n"
+"    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
+"}")
+        self.lblValor = QLabel(self.frame)
+        self.lblValor.setObjectName(u"lblValor")
+        self.lblValor.setGeometry(QRect(250, 60, 111, 21))
+        self.lblValor.setFont(font)
+        self.lblValor.setStyleSheet(u"QLabel {\n"
+"    font-size: 16px;\n"
+"    color:  #000000;\n"
+"    font-weight: bold;\n"
+"    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
+"}")
+        self.comboCliente = QComboBox(Frm_Vendas)
+        self.comboCliente.addItem("")
+        self.comboCliente.addItem("")
+        self.comboCliente.addItem("")
+        self.comboCliente.addItem("")
+        self.comboCliente.addItem("")
+        self.comboCliente.setObjectName(u"comboCliente")
+        self.comboCliente.setGeometry(QRect(100, 530, 511, 41))
+        self.comboCliente.setStyleSheet(u"QComboBox {\n"
+"    background-color: #FFFFFF; \n"
+"    border: 1px solid #2E8B57; \n"
+"    border-radius: 5px;\n"
+"    padding: 5px;\n"
+"    color: #2E8B57; \n"
+"	font-size: 16px; \n"
+"}\n"
+"\n"
+"QComboBox QAbstractItemView {\n"
+"    background-color: #FFFFFF; \n"
+"    border: 1px solid #2E8B57;\n"
+"    selection-background-color: #2E8B57;\n"
+"    selection-color: #FFFFFF; \n"
+"}\n"
+"\n"
+"QComboBox::drop-down {\n"
+"    border: none;\n"
+"    background: #2E8B57;\n"
+"    width: 20px;\n"
+"    subcontrol-origin: padding;\n"
+"    subcontrol-position: right;\n"
+"}\n"
+"\n"
+"QComboBox::down-arrow {\n"
+"    width: 10px;\n"
+"    height: 10px;\n"
+"}\n"
+"")
+        self.btn_pagamento = QPushButton(Frm_Vendas)
+        self.btn_pagamento.setObjectName(u"btn_pagamento")
+        self.btn_pagamento.setGeometry(QRect(120, 600, 381, 121))
+        self.btn_pagamento.setStyleSheet(u"QPushButton {\n"
+"    background-color: #ffffff; \n"
+"    border: 2px solid #d1c4b2; \n"
+"    border-radius: 12px; \n"
+"    color: #5a5a5a;\n"
+"    font-size: 14px;\n"
+"    font-weight: bold;\n"
+"    padding: 10px 16px; \n"
+"    background-image:url(:/iconPagar/forma-de-pagamento AA (2).png);\n"
+"    background-repeat: no-repeat;\n"
+"    background-position: center;\n"
+"    transition: all 0.3s ease;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: #f2ebe0;\n"
+"    border-color: #c4b49e;\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: #e8dfcf;\n"
+"    border-color: #b39b8d;\n"
+"    padding-left: 12px;\n"
+"    padding-top: 4px;\n"
+"}")
+
+        self.retranslateUi(Frm_Vendas)
+
+        QMetaObject.connectSlotsByName(Frm_Vendas)
+    # setupUi
+
+    def retranslateUi(self, Frm_Vendas):
+        Frm_Vendas.setWindowTitle(QCoreApplication.translate("Frm_Vendas", u"Form", None))
+        self.label.setText(QCoreApplication.translate("Frm_Vendas", u"NOME DO PRODUTO: ", None))
+        self.label_2.setText(QCoreApplication.translate("Frm_Vendas", u"VENDAS", None))
+        self.comboProd.setItemText(0, QCoreApplication.translate("Frm_Vendas", u"aaa", None))
+        self.comboProd.setItemText(1, QCoreApplication.translate("Frm_Vendas", u"New Item", None))
+        self.comboProd.setItemText(2, QCoreApplication.translate("Frm_Vendas", u"a", None))
+        self.comboProd.setItemText(3, QCoreApplication.translate("Frm_Vendas", u"a", None))
+        self.comboProd.setItemText(4, QCoreApplication.translate("Frm_Vendas", u"a", None))
+
+        self.label_3.setText(QCoreApplication.translate("Frm_Vendas", u"QUANTIDADE:", None))
+        self.label_4.setText(QCoreApplication.translate("Frm_Vendas", u"VALOR:", None))
+        self.label_5.setText(QCoreApplication.translate("Frm_Vendas", u"ID DO PRODUTO:", None))
+        self.label_6.setText(QCoreApplication.translate("Frm_Vendas", u"QUANTIDADE:", None))
+        self.label_7.setText(QCoreApplication.translate("Frm_Vendas", u"CLIENTE:", None))
+        self.label_8.setText(QCoreApplication.translate("Frm_Vendas", u"CARRINHO:", None))
+        self.btn_excluirCarrinho.setText("")
+        self.btn_addCarrinho.setText("")
+        ___qtablewidgetitem = self.carrinho.horizontalHeaderItem(0)
+        ___qtablewidgetitem.setText(QCoreApplication.translate("Frm_Vendas", u"Produto", None));
+        ___qtablewidgetitem1 = self.carrinho.horizontalHeaderItem(1)
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("Frm_Vendas", u"Quantidade", None));
+        ___qtablewidgetitem2 = self.carrinho.horizontalHeaderItem(2)
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("Frm_Vendas", u"Valor", None));
+        ___qtablewidgetitem3 = self.carrinho.horizontalHeaderItem(3)
+        ___qtablewidgetitem3.setText(QCoreApplication.translate("Frm_Vendas", u"IdProduto", None));
+        ___qtablewidgetitem4 = self.carrinho.horizontalHeaderItem(4)
+        ___qtablewidgetitem4.setText(QCoreApplication.translate("Frm_Vendas", u"IdCliente", None));
+        ___qtablewidgetitem5 = self.carrinho.horizontalHeaderItem(5)
+        ___qtablewidgetitem5.setText(QCoreApplication.translate("Frm_Vendas", u"Cliente", None));
+        ___qtablewidgetitem6 = self.carrinho.horizontalHeaderItem(6)
+        ___qtablewidgetitem6.setText(QCoreApplication.translate("Frm_Vendas", u"Total", None));
+        self.label_9.setText(QCoreApplication.translate("Frm_Vendas", u"QUANTIDADE DE ITENS:", None))
+        self.lblQtd.setText(QCoreApplication.translate("Frm_Vendas", u"0000000", None))
+        self.label_11.setText(QCoreApplication.translate("Frm_Vendas", u"VALOR TOTAL:", None))
+        self.lblValor.setText(QCoreApplication.translate("Frm_Vendas", u"0000000", None))
+        self.comboCliente.setItemText(0, QCoreApplication.translate("Frm_Vendas", u"aaa", None))
+        self.comboCliente.setItemText(1, QCoreApplication.translate("Frm_Vendas", u"New Item", None))
+        self.comboCliente.setItemText(2, QCoreApplication.translate("Frm_Vendas", u"a", None))
+        self.comboCliente.setItemText(3, QCoreApplication.translate("Frm_Vendas", u"a", None))
+        self.comboCliente.setItemText(4, QCoreApplication.translate("Frm_Vendas", u"a", None))
+
+        self.btn_pagamento.setText("")
+    # retranslateUi
+
