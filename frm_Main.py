@@ -423,6 +423,8 @@ class Ui_frm_Main(object):
          else:
                 self.frm_Fornecedor.raise_()
                 self.frm_Fornecedor.activateWindow()
+
+
     def telaProdutos(self):
          if not hasattr(self, 'frm_Produtos') or self.frm_Produtos is None or not self.frm_Produtos.isVisible():
                 self.frm_Produtos = QWidget()
@@ -438,20 +440,20 @@ class Ui_frm_Main(object):
                 self.frm_Produtos.raise_()
                 self.frm_Produtos.activateWindow()
 
+
     def sairSistema(self):
         sys.exit()   
 
         QMetaObject.connectSlotsByName(frm_Main)
-    # setupUi
 
     def telaVendas(self):
-         if not hasattr(self, 'Frm_Vendas') or self.Frm_Vendas is None or not self.frm_Vendas.isVisible():
+         if not hasattr(self, 'frm_Vendas') or self.frm_Vendas is None or not self.frm_Vendas.isVisible():
                 self.frm_Vendas = QWidget()
                 self.ui = Ui_Frm_Vendas()
                 self.ui.setupUi(self.frm_Vendas)
 
                 self.frm_Vendas.setAttribute(Qt.WA_DeleteOnClose)
-                self.frm_Vendas.destroyed.connect(lambda: setattr(self, 'Frm_Vendas', None))
+                self.frm_Vendas.destroyed.connect(lambda: setattr(self, 'frm_Vendas', None))
 
                 self.frm_Vendas.show()
 

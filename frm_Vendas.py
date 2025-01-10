@@ -20,7 +20,8 @@ class Ui_Frm_Vendas(object):
         if not Frm_Vendas.objectName():
             Frm_Vendas.setObjectName(u"Frm_Vendas")
         Frm_Vendas.setFixedSize(1422, 739)
-        frm_Vendas.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+        self.Frm_Vendas = frm_Vendas
+        Frm_Vendas.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
         Frm_Vendas.setStyleSheet(u"QWidget{\n"
 "	background-color: #2E8B57;\n"
 "}")
@@ -696,6 +697,12 @@ class Ui_Frm_Vendas(object):
         QMetaObject.connectSlotsByName(Frm_Vendas)
     # setupUi
 
+    ##Funções
+
+    def sairTela(self, Frm_Vendas):
+        self.Frm_Vendas.close()
+        self.Frm_Vendas = None
+
     def retranslateUi(self, Frm_Vendas):
         Frm_Vendas.setWindowTitle(QCoreApplication.translate("Frm_Vendas", u"Vendas", None))
         self.label.setText(QCoreApplication.translate("Frm_Vendas", u"NOME DO PRODUTO: ", None))
@@ -730,6 +737,8 @@ class Ui_Frm_Vendas(object):
         self.btn_atualizar.setText("")
         self.btn_voltar.setText("")
     # retranslateUi
+
+        self.btn_voltar.clicked.connect(self.sairTela)
 
 if __name__ == "__main__":
     app = QApplication([])
