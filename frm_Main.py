@@ -16,7 +16,7 @@ from PySide6.QtWidgets import *
 from frm_cliente_ui import Ui_frm_Cliente
 from frm_Fornecedor import Ui_frm_Fornecedor
 from frm_Produtos import Ui_frm_Produtos
-
+from frm_Vendas import Ui_Frm_Vendas
 
 import icon_cliente
 import icon_sair
@@ -444,6 +444,21 @@ class Ui_frm_Main(object):
         QMetaObject.connectSlotsByName(frm_Main)
     # setupUi
 
+    def telaVendas(self):
+         if not hasattr(self, 'Frm_Vendas') or self.Frm_Vendas is None or not self.frm_Vendas.isVisible():
+                self.frm_Vendas = QWidget()
+                self.ui = Ui_Frm_Vendas()
+                self.ui.setupUi(self.frm_Vendas)
+
+                self.frm_Vendas.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_Vendas.destroyed.connect(lambda: setattr(self, 'Frm_Vendas', None))
+
+                self.frm_Vendas.show()
+
+         else:
+               self.frm_Vendas.raise_()
+               self.frm_Vendas.activateWindow()
+
     def retranslateUi(self, frm_Main):
         frm_Main.setWindowTitle(QCoreApplication.translate("frm_Main", u"Tela Principal", None))
         self.actionCliente.setText(QCoreApplication.translate("frm_Main", u"Cliente", None))
@@ -490,6 +505,7 @@ class Ui_frm_Main(object):
         self.btn_cliente.clicked.connect(self.telaCliente)
         self.btn_fornecedor.clicked.connect(self.telaFornecedor)        
         self.btn_produtos.clicked.connect(self.telaProdutos)
+        self.btn_vendas.clicked.connect(self.telaVendas)
 
         #action
         self.actionCliente.triggered.connect(self.telaCliente)

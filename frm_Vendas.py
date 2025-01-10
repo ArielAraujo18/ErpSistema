@@ -688,7 +688,6 @@ class Ui_Frm_Vendas(object):
         self.comboCliente.setItemText(3, QCoreApplication.translate("Frm_Vendas", u"a", None))
         self.comboCliente.setItemText(4, QCoreApplication.translate("Frm_Vendas", u"a", None))
 
-        self.btn_pagamento.setText("")
 
 if __name__ == "__main__":
     app = QApplication([])
