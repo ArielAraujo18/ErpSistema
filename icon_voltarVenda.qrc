@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="icon_voltarVendas">
+    <file>retornar.png</file>
+  </qresource>
+</RCC>

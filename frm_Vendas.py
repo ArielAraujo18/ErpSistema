@@ -8,7 +8,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHeaderView,
     QLabel, QLineEdit, QPushButton, QSizePolicy,
     QTableWidget, QTableWidgetItem, QWidget)
+
 import icon_addCarrinho
+import icon_voltarVenda
+import icon_att
 import icon_pagamento
 import icon_excluirCart
 
@@ -16,9 +19,8 @@ class Ui_Frm_Vendas(object):
     def setupUi(self, Frm_Vendas):
         if not Frm_Vendas.objectName():
             Frm_Vendas.setObjectName(u"Frm_Vendas")
-        Frm_Vendas.resize(1422, 739)
-        Frm_Vendas.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
         Frm_Vendas.setFixedSize(1422, 739)
+        frm_Vendas.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
         Frm_Vendas.setStyleSheet(u"QWidget{\n"
 "	background-color: #2E8B57;\n"
 "}")
@@ -45,11 +47,6 @@ class Ui_Frm_Vendas(object):
 "    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
 "}")
         self.comboProd = QComboBox(Frm_Vendas)
-        self.comboProd.addItem("")
-        self.comboProd.addItem("")
-        self.comboProd.addItem("")
-        self.comboProd.addItem("")
-        self.comboProd.addItem("")
         self.comboProd.setObjectName(u"comboProd")
         self.comboProd.setGeometry(QRect(0, 110, 701, 31))
         self.comboProd.setStyleSheet(u"QComboBox {\n"
@@ -449,7 +446,7 @@ class Ui_Frm_Vendas(object):
 "}")
         self.frame = QFrame(Frm_Vendas)
         self.frame.setObjectName(u"frame")
-        self.frame.setGeometry(QRect(900, 570, 371, 111))
+        self.frame.setGeometry(QRect(900, 550, 371, 111))
         self.frame.setStyleSheet(u"QFrame{\n"
 "	background-color:  #FFFFFF;\n"
 "}")
@@ -496,11 +493,6 @@ class Ui_Frm_Vendas(object):
 "    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
 "}")
         self.comboCliente = QComboBox(Frm_Vendas)
-        self.comboCliente.addItem("")
-        self.comboCliente.addItem("")
-        self.comboCliente.addItem("")
-        self.comboCliente.addItem("")
-        self.comboCliente.addItem("")
         self.comboCliente.setObjectName(u"comboCliente")
         self.comboCliente.setGeometry(QRect(100, 530, 511, 41))
         self.comboCliente.setStyleSheet(u"QComboBox {\n"
@@ -640,6 +632,64 @@ class Ui_Frm_Vendas(object):
 "    padding-left: 12px;\n"
 "    padding-top: 4px;\n"
 "}")
+        self.btn_atualizar = QPushButton(Frm_Vendas)
+        self.btn_atualizar.setObjectName(u"btn_atualizar")
+        self.btn_atualizar.setGeometry(QRect(560, 200, 31, 31))
+        self.btn_atualizar.setStyleSheet(u"QPushButton {\n"
+"    background-color: #EDE7F6;\n"
+"    border: 2px solid #83C5BE; \n"
+"    border-radius: 10px;\n"
+"    color: #FFFFFF; \n"
+"    background-image: url(:/icon_atualizar/atualizar (1).png); \n"
+"    background-repeat: no-repeat; \n"
+"    background-position: center; \n"
+"    font-size: 14px; \n"
+"    font-weight: bold; \n"
+"    padding: 10px 16px;\n"
+"    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); \n"
+"    transition: all 0.3s ease; \n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: #FFFFFF;\n"
+"    box-shadow: none; \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: #7C3AED; \n"
+"    color: #FFFFFF; \n"
+"    padding-top: 2px; \n"
+"    padding-left: 2px;\n"
+"}\n"
+"")
+        self.btn_voltar = QPushButton(Frm_Vendas)
+        self.btn_voltar.setObjectName(u"btn_voltar")
+        self.btn_voltar.setGeometry(QRect(1330, 660, 91, 81))
+        self.btn_voltar.setStyleSheet(u"QPushButton {\n"
+"    background-color: #EDE7F6;\n"
+"    border: 2px solid #83C5BE; \n"
+"    border-radius: 10px;\n"
+"    color: #FFFFFF; \n"
+"    background-image: url(:/icon_voltarVendas/retornar.png); \n"
+"    background-repeat: no-repeat; \n"
+"    background-position: center; \n"
+"    font-size: 14px; \n"
+"    font-weight: bold; \n"
+"    padding: 10px 16px;\n"
+"    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); \n"
+"    transition: all 0.3s ease; \n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: #83C5BE;\n"
+"    box-shadow: none; \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: #7C3AED; \n"
+"    color: #FFFFFF; \n"
+"    padding-top: 2px; \n"
+"    padding-left: 2px;\n"
+"}")
 
         self.retranslateUi(Frm_Vendas)
 
@@ -647,15 +697,9 @@ class Ui_Frm_Vendas(object):
     # setupUi
 
     def retranslateUi(self, Frm_Vendas):
-        Frm_Vendas.setWindowTitle(QCoreApplication.translate("Frm_Vendas", u"Form", None))
+        Frm_Vendas.setWindowTitle(QCoreApplication.translate("Frm_Vendas", u"Vendas", None))
         self.label.setText(QCoreApplication.translate("Frm_Vendas", u"NOME DO PRODUTO: ", None))
         self.label_2.setText(QCoreApplication.translate("Frm_Vendas", u"VENDAS", None))
-        self.comboProd.setItemText(0, QCoreApplication.translate("Frm_Vendas", u"aaa", None))
-        self.comboProd.setItemText(1, QCoreApplication.translate("Frm_Vendas", u"New Item", None))
-        self.comboProd.setItemText(2, QCoreApplication.translate("Frm_Vendas", u"a", None))
-        self.comboProd.setItemText(3, QCoreApplication.translate("Frm_Vendas", u"a", None))
-        self.comboProd.setItemText(4, QCoreApplication.translate("Frm_Vendas", u"a", None))
-
         self.label_3.setText(QCoreApplication.translate("Frm_Vendas", u"QUANTIDADE:", None))
         self.label_4.setText(QCoreApplication.translate("Frm_Vendas", u"VALOR:", None))
         self.label_5.setText(QCoreApplication.translate("Frm_Vendas", u"ID DO PRODUTO:", None))
@@ -682,12 +726,10 @@ class Ui_Frm_Vendas(object):
         self.lblQtd.setText(QCoreApplication.translate("Frm_Vendas", u"0000000", None))
         self.label_11.setText(QCoreApplication.translate("Frm_Vendas", u"VALOR TOTAL:", None))
         self.lblValor.setText(QCoreApplication.translate("Frm_Vendas", u"0000000", None))
-        self.comboCliente.setItemText(0, QCoreApplication.translate("Frm_Vendas", u"aaa", None))
-        self.comboCliente.setItemText(1, QCoreApplication.translate("Frm_Vendas", u"New Item", None))
-        self.comboCliente.setItemText(2, QCoreApplication.translate("Frm_Vendas", u"a", None))
-        self.comboCliente.setItemText(3, QCoreApplication.translate("Frm_Vendas", u"a", None))
-        self.comboCliente.setItemText(4, QCoreApplication.translate("Frm_Vendas", u"a", None))
-
+        self.btn_pagamento.setText("")
+        self.btn_atualizar.setText("")
+        self.btn_voltar.setText("")
+    # retranslateUi
 
 if __name__ == "__main__":
     app = QApplication([])
