@@ -9,6 +9,11 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHeaderView,
     QLabel, QLineEdit, QPushButton, QSizePolicy,
     QTableWidget, QTableWidgetItem, QWidget)
 
+
+import mysql.connector
+import pandas as pd
+
+
 import icon_addCarrinho
 import icon_voltarVenda
 import icon_att
@@ -703,6 +708,49 @@ class Ui_Frm_Vendas(object):
         self.Frm_Vendas.close()
         self.Frm_Vendas = None
 
+    def carregarComboBoxProduto(self):
+        mydb = mysql.connector.connect(
+                host='localhost',
+                user='Ariel',
+                password='IRani18@#',
+                database='sistema'
+                )
+        mycursor = mydb.cursor()
+
+        mycursor.execute("SELECT Nome FROM produtos")
+        resultados = mycursor.fetchall()
+
+        self.comboProd.clear()
+
+        #Adicionando os produtos na combobox
+        for produtos in resultados:
+            print('Adicionando na combobox')
+            self.comboProd.addItem(produtos[0])
+
+        mycursor.close()
+        mydb.close()
+
+    def carregarComboBoxCliente(self):
+        mydb = mysql.connector.connect(
+                host='localhost',
+                user='Ariel',
+                password='IRani18@#',
+                database='sistema'
+        )
+        mycursor = mydb.cursor()
+        
+        mycursor.execute("SELECT Nome FROM cliente")
+        resultados = mycursor.fetchall()
+
+        self.comboCliente.clear()
+
+        for clientes in resultados:
+            print('Adicionando na comboBox')
+            self.comboCliente.addItem(clientes[0])
+
+        mycursor.close()
+        mydb.close()
+
     def retranslateUi(self, Frm_Vendas):
         Frm_Vendas.setWindowTitle(QCoreApplication.translate("Frm_Vendas", u"Vendas", None))
         self.label.setText(QCoreApplication.translate("Frm_Vendas", u"NOME DO PRODUTO: ", None))
@@ -739,6 +787,9 @@ class Ui_Frm_Vendas(object):
     # retranslateUi
 
         self.btn_voltar.clicked.connect(self.sairTela)
+        self.btn_atualizar.clicked.connect(self.carregarComboBoxProduto)
+        self.btn_atualizar.clicked.connect(self.carregarComboBoxCliente)
+
 
 if __name__ == "__main__":
     app = QApplication([])

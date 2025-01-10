@@ -449,7 +449,7 @@ class Ui_frm_DadosProdutos(object):
         msg.exec()
 
     def carregarFornecedores(self):
-        # Conexão com o banco de dados
+        #Conexão com o banco de dados
                 mydb = mysql.connector.connect(
                 host='localhost',
                 user='Ariel',
@@ -458,11 +458,10 @@ class Ui_frm_DadosProdutos(object):
                 )
                 mycursor = mydb.cursor()
 
-                # Query para obter os nomes dos fornecedores
+                #Query para nomes dos fornecedores
                 mycursor.execute("SELECT `Razão Social` FROM fornecedor")
                 resultados = mycursor.fetchall()
                 
-                # Limpa a ComboBox antes de adicionar novos itens
                 self.comboBox.clear()
 
                 # Adiciona os fornecedores na ComboBox
@@ -470,7 +469,6 @@ class Ui_frm_DadosProdutos(object):
                         print(f"Adicionando fornecedor: {fornecedor[0]}")  # Imprime para depuração
                         self.comboBox.addItem(fornecedor[0])
 
-                # Fechar conexão
                 mycursor.close()
                 mydb.close()
 
