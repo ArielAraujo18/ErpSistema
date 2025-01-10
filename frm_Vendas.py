@@ -717,7 +717,7 @@ class Ui_Frm_Vendas(object):
                 )
         mycursor = mydb.cursor()
 
-        mycursor.execute("SELECT Nome FROM produtos")
+        mycursor.execute("SELECT idProdutos, Nome FROM produtos")
         resultados = mycursor.fetchall()
 
         self.comboProd.clear()
@@ -725,7 +725,11 @@ class Ui_Frm_Vendas(object):
         #Adicionando os produtos na combobox
         for produtos in resultados:
             print('Adicionando na combobox')
-            self.comboProd.addItem(produtos[0])
+            produtos_id, produtos_nome = produtos
+            self.comboProd.addItem(produtos_nome, produtos_id)
+
+        #Atualiza o line Edit do produto para mudar de acordo com o produto selecionado
+        self.comboProd.currentIndexChanged.connect(self.atualizarCampoProdutos)
 
         mycursor.close()
         mydb.close()
@@ -739,17 +743,38 @@ class Ui_Frm_Vendas(object):
         )
         mycursor = mydb.cursor()
         
-        mycursor.execute("SELECT Nome FROM cliente")
+        mycursor.execute("SELECT idCliente, Nome FROM cliente")
         resultados = mycursor.fetchall()
 
         self.comboCliente.clear()
 
         for clientes in resultados:
             print('Adicionando na comboBox')
-            self.comboCliente.addItem(clientes[0])
+            cliente_id, cliente_nome = clientes
+            self.comboCliente.addItem(cliente_nome, cliente_id)
+
+        #Atualizar o LineEdit do cliente para mudar de acordo com o cliente selecionado
+        self.comboCliente.currentIndexChanged.connect(self.atualizarCampoCliente)
 
         mycursor.close()
         mydb.close()
+
+    def atualizarCampoCliente(self):
+        
+        #Retorna o dado Oculto 
+        cliente_id = self.comboCliente.currentData()
+        if cliente_id:
+            self.txt_idCliente.setText(str(cliente_id))
+        else: 
+            self.txt_idCliente.clear
+
+    def atualizarCampoProdutos(self):
+        produtos_id = self.comboProd.currentData()
+        if produtos_id:
+            self.txtIdProduto.setText(str(produtos_id))
+        else:
+            self.txtIdProduto.clear
+
 
     def retranslateUi(self, Frm_Vendas):
         Frm_Vendas.setWindowTitle(QCoreApplication.translate("Frm_Vendas", u"Vendas", None))
