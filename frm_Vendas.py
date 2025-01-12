@@ -25,7 +25,7 @@ class Ui_Frm_Vendas(object):
         if not Frm_Vendas.objectName():
             Frm_Vendas.setObjectName(u"Frm_Vendas")
         Frm_Vendas.setFixedSize(1422, 739)
-        self.Frm_Vendas = frm_Vendas
+        self.Frm_Vendas = Frm_Vendas
         Frm_Vendas.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
         Frm_Vendas.setStyleSheet(u"QWidget{\n"
 "	background-color: #2E8B57;\n"
