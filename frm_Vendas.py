@@ -15,6 +15,7 @@ import icon_pagamento
 import icon_excluirCart
 
 import mysql.connector
+import pandas as pd
 
 class Ui_Frm_Vendas(object):
     def setupUi(self, Frm_Vendas):
@@ -877,6 +878,73 @@ class Ui_Frm_Vendas(object):
          self.lblQtd.setText(str(totalqtd))
          print(f"Total calculado: R$ {total:.2f}")
 
+    def excluirDaTabela(self):
+         line = self.carrinho.currentRow()
+
+         if line == -1:
+            msg = QMessageBox()
+            msg.setWindowTitle('Erro!')
+            msg.setText('Por favor, selecione um item para excluir.')
+            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            msg.setIcon(QMessageBox.Warning)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+            return #Retorna se a codição for falsa
+
+         item = self.carrinho.item(line, 0)
+
+         if item:
+              produto = item.text()
+              mydb = mysql.connector.connect(
+                   host = 'localhost',
+                   user = 'Ariel',
+                   password = 'IRani18@#',
+                   database = 'sistema'
+              )
+              mycursor = mydb.cursor()
+              sql = "DELETE FROM vendas WHERE Produto = %s"
+              mycursor.execute(sql, (produto,))
+              mydb.commit()
+
+              msg = QMessageBox()
+              msg.setWindowTitle('Produto excluído')
+              msg.setText('Produto excluído com sucesso!')
+              msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+              msg.setIcon(QMessageBox.Information)
+              msg.setStandardButtons(QMessageBox.Ok)
+              msg.exec()
+
+              mycursor.execute("SELECT * FROM vendas")
+              myresult = mycursor.fetchall()
+              df = pd.DataFrame(myresult, columns=['Produto', 'Quantidade', 'Valor', 'IdProduto', 'IdCliente', 'Cliente', 'Total'])
+              self.all_data = df
+
+              numRows = len(self.all_data.index)
+              self.carrinho.setColumnCount(len(self.all_data.columns))
+              self.carrinho.setRowCount(numRows)
+              self.carrinho.setHorizontalHeaderLabels(self.all_data.columns)
+
+              for i in range(numRows):
+                   for j in range(len(self.all_data.columns)):
+                        self.carrinho.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
+
+              self.carrinho.resizeColumnsToContents()
+
+              for row in range(self.carrinho.rowCount()):
+                   self.carrinho.resizeRowsToContents()
+
+              mydb.close()
+
+         else:
+    
+              msg = QMessageBox()
+              msg.setWindowTitle('Erro seleção')
+              msg.setText('Produto não selecionado!')
+              msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+              msg.setIcon(QMessageBox.Warning)
+              msg.setStandardButtons(QMessageBox.Ok)
+              msg.exec()
+
     def retranslateUi(self, Frm_Vendas):
         Frm_Vendas.setWindowTitle(QCoreApplication.translate("Frm_Vendas", u"Vendas", None))
         self.label.setText(QCoreApplication.translate("Frm_Vendas", u"NOME DO PRODUTO: ", None))
@@ -916,6 +984,7 @@ class Ui_Frm_Vendas(object):
         self.btn_atualizar.clicked.connect(self.carregarComboBoxProduto)
         self.btn_atualizar.clicked.connect(self.carregarComboBoxCliente)
         self.btn_addCarrinho.clicked.connect(self.adicionarAoCarrinho)
+        self.btn_excluirCarrinho.clicked.connect(self.excluirDaTabela)
 
         self.configurarSincronizaçãoQtd()
 
