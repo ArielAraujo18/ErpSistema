@@ -787,6 +787,7 @@ class Ui_Frm_Vendas(object):
 
     def adicionarAoCarrinho(self):
         
+
         produto = self.comboProd.currentText()
         quantidade = self.txtQtd.text()
         valor = self.txtValor.text()
@@ -873,6 +874,7 @@ class Ui_Frm_Vendas(object):
                    qtd = int(quantidade.text().strip())
                    totalqtd += qtd
                    total += precouni * qtd
+                  
 
          self.lblValor.setText(f"R$ {total:.2f}")
          self.lblQtd.setText(str(totalqtd))
