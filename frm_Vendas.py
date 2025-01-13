@@ -758,6 +758,7 @@ class Ui_Frm_Vendas(object):
     def atualizarCampoCliente(self):
         
         #Retorna o dado Oculto 
+        self.atualizarTabela()
         cliente_id = self.comboCliente.currentData()
         if cliente_id:
             self.txt_idCliente.setText(str(cliente_id))
@@ -766,7 +767,7 @@ class Ui_Frm_Vendas(object):
 
     def atualizarCampoProdutos(self):
         produtos_id = self.comboProd.currentData()
-        
+        self.atualizarTabela()
         if produtos_id is not None:
                 # Recuperando o valor usando o dicionário
                 produtos_valor = self.produtos_info.get(produtos_id, "Valor não encontrado")
@@ -801,13 +802,14 @@ class Ui_Frm_Vendas(object):
         )
 
         mycursor = mydb.cursor()
-        sql = "INSERT INTO produtos (`Produto`, `Quantidade`, `Valor`, `IdProduto`, `IdCliente`, `Cliente`, `Total`) values (%s, %s, %s, %s, %s, %s, %s)"
+        sql = "INSERT INTO vendas (`Produto`, `Quantidade`, `Valor`, `IdProduto`, `IdCliente`, `Cliente`, `Total`) values (%s, %s, %s, %s, %s, %s, %s)"
         val = (produto, quantidade, valor, idProduto, idCliente, cliente, total)
         mycursor.execute(sql, val)
         mydb.commit()
 
         self.carregarComboBoxCliente()
         self.carregarComboBoxProduto()
+        self.atualizarTabela()
         
         print(mycursor.rowcount, 'Inserindo(s) resgistros')
 
@@ -819,6 +821,8 @@ class Ui_Frm_Vendas(object):
         self.txtIdProduto.setText("")
         self.txtQtd.setText("")
         self.txt_idCliente.setText("")
+
+        self.atualizarTot()
 
         msg = QMessageBox()
         msg.setWindowTitle("Sucesso!")
@@ -835,6 +839,40 @@ class Ui_Frm_Vendas(object):
     def sincronizarQtd(self):
          quantidade = self.txtQtd.text()
          self.txt_Qtd.setText(quantidade)
+
+    def atualizarTabela(self):
+         mydb = mysql.connector.connect(
+                host='localhost',
+                user='Ariel',
+                password='IRani18@#',
+                database='sistema'
+        )
+         mycursor = mydb.cursor()
+         mycursor.execute("SELECT * FROM vendas")
+         resultados = mycursor.fetchall()
+
+         self.carrinho.setRowCount(0)
+
+         for linha1, linhaD in enumerate(resultados):
+              self.carrinho.insertRow(linha1)
+              for coluna, dado in enumerate (linhaD):
+                   self.carrinho.setItem(linha1, coluna, QTableWidgetItem(str(dado)))
+
+    def atualizarTot(self):
+
+         total = 0.0
+         
+         for linha in range(self.carrinho.rowCount()):
+              item = self.carrinho.item(linha, 6)
+              quantidade = self.carrinho.item(linha, 1)
+              print(f"Linha {linha}: Preço = {item.text() if item else 'None'}, Quantidade = {quantidade.text() if quantidade else 'None'}")
+              if item and quantidade:
+                   precouni = float(item.text().replace(',', '.').replace('R$', '').strip())
+                   qtd = int(quantidade.text().strip())
+                   total += precouni * qtd
+
+         self.lblValor.setText(f"R$ {total:.2f}")
+         print(f"Total calculado: R$ {total:.2f}")
 
     def retranslateUi(self, Frm_Vendas):
         Frm_Vendas.setWindowTitle(QCoreApplication.translate("Frm_Vendas", u"Vendas", None))
@@ -875,6 +913,7 @@ class Ui_Frm_Vendas(object):
         self.btn_atualizar.clicked.connect(self.carregarComboBoxProduto)
         self.btn_atualizar.clicked.connect(self.carregarComboBoxCliente)
         self.btn_addCarrinho.clicked.connect(self.adicionarAoCarrinho)
+
         self.configurarSincronizaçãoQtd()
 
 
