@@ -7,25 +7,21 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHeaderView,
     QLabel, QLineEdit, QPushButton, QSizePolicy,
-    QTableWidget, QTableWidgetItem, QWidget)
-
-
-import mysql.connector
-import pandas as pd
-
-
+    QTableWidget, QTableWidgetItem, QWidget, QMessageBox)
 import icon_addCarrinho
 import icon_voltarVenda
 import icon_att
 import icon_pagamento
 import icon_excluirCart
 
+import mysql.connector
+
 class Ui_Frm_Vendas(object):
     def setupUi(self, Frm_Vendas):
+        self.Frm_Vendas = Frm_Vendas
         if not Frm_Vendas.objectName():
             Frm_Vendas.setObjectName(u"Frm_Vendas")
         Frm_Vendas.setFixedSize(1422, 739)
-        self.Frm_Vendas = Frm_Vendas
         Frm_Vendas.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
         Frm_Vendas.setStyleSheet(u"QWidget{\n"
 "	background-color: #2E8B57;\n"
@@ -205,6 +201,7 @@ class Ui_Frm_Vendas(object):
 "}")
         self.txtValor = QLineEdit(Frm_Vendas)
         self.txtValor.setObjectName(u"txtValor")
+        self.txtValor.setEnabled(False)
         self.txtValor.setGeometry(QRect(290, 200, 241, 41))
         self.txtValor.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
@@ -262,7 +259,7 @@ class Ui_Frm_Vendas(object):
 "}")
         self.txt_Qtd = QLineEdit(Frm_Vendas)
         self.txt_Qtd.setObjectName(u"txt_Qtd")
-        self.txt_Qtd.setEnabled(True)
+        self.txt_Qtd.setEnabled(False)
         self.txt_Qtd.setGeometry(QRect(290, 440, 241, 41))
         self.txt_Qtd.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
@@ -702,8 +699,6 @@ class Ui_Frm_Vendas(object):
         QMetaObject.connectSlotsByName(Frm_Vendas)
     # setupUi
 
-    ##Funções
-
     def sairTela(self, Frm_Vendas):
         self.Frm_Vendas.close()
         self.Frm_Vendas = None
@@ -714,21 +709,22 @@ class Ui_Frm_Vendas(object):
                 user='Ariel',
                 password='IRani18@#',
                 database='sistema'
-                )
+        )
         mycursor = mydb.cursor()
 
-        mycursor.execute("SELECT idProdutos, Nome FROM produtos")
+        mycursor.execute("SELECT idProdutos, Nome, Valor FROM produtos")
         resultados = mycursor.fetchall()
 
         self.comboProd.clear()
 
-        #Adicionando os produtos na combobox
+        # Adicionando os produtos na combobox (armazenando o ID como dado e o valor em um dicionário interno)
+        self.produtos_info = {}  # Dicionário para armazenar valores
         for produtos in resultados:
-            print('Adicionando na combobox')
-            produtos_id, produtos_nome = produtos
-            self.comboProd.addItem(produtos_nome, produtos_id)
+                produtos_id, produtos_nome, produtos_valor = produtos
+                self.comboProd.addItem(produtos_nome, produtos_id)
+                self.produtos_info[produtos_id] = produtos_valor  # Armazenando o valor pelo ID
 
-        #Atualiza o line Edit do produto para mudar de acordo com o produto selecionado
+        # Atualiza o lineEdit ao mudar o item selecionado
         self.comboProd.currentIndexChanged.connect(self.atualizarCampoProdutos)
 
         mycursor.close()
@@ -770,11 +766,75 @@ class Ui_Frm_Vendas(object):
 
     def atualizarCampoProdutos(self):
         produtos_id = self.comboProd.currentData()
-        if produtos_id:
-            self.txtIdProduto.setText(str(produtos_id))
+        
+        if produtos_id is not None:
+                # Recuperando o valor usando o dicionário
+                produtos_valor = self.produtos_info.get(produtos_id, "Valor não encontrado")
+                
+                # Removendo "R$" se já estiver formatado
+                if isinstance(produtos_valor, str) and produtos_valor.startswith("R$"):
+                        produtos_valor = produtos_valor.replace("R$", "").strip()
+                
+                # Formatando novamente com "R$"
+                self.txtIdProduto.setText(str(produtos_id))
+                self.txtValor.setText(f"R$ {produtos_valor}")
         else:
-            self.txtIdProduto.clear
+                self.txtValor.clear()
+                self.txtIdProduto.clear()
 
+
+    def adicionarAoCarrinho(self):
+        
+        produto = self.comboProd.currentText()
+        quantidade = self.txtQtd.text()
+        valor = self.txtValor.text()
+        idProduto = self.txtIdProduto.text()
+        idCliente = self.txt_idCliente.text()
+        cliente = self.comboCliente.currentText()
+        total = valor
+
+        mydb = mysql.connector.connect(
+                host='localhost',
+                user='Ariel',
+                password='IRani18@#',
+                database='sistema'
+        )
+
+        mycursor = mydb.cursor()
+        sql = "INSERT INTO produtos (`Produto`, `Quantidade`, `Valor`, `IdProduto`, `IdCliente`, `Cliente`, `Total`) values (%s, %s, %s, %s, %s, %s, %s)"
+        val = (produto, quantidade, valor, idProduto, idCliente, cliente, total)
+        mycursor.execute(sql, val)
+        mydb.commit()
+
+        self.carregarComboBoxCliente()
+        self.carregarComboBoxProduto()
+        
+        print(mycursor.rowcount, 'Inserindo(s) resgistros')
+
+        mycursor.close()
+        mydb.close()
+
+        self.txtQtd.setText("")
+        self.txtValor.setText("")
+        self.txtIdProduto.setText("")
+        self.txtQtd.setText("")
+        self.txt_idCliente.setText("")
+
+        msg = QMessageBox()
+        msg.setWindowTitle("Sucesso!")
+        msg.setText("Produto adicionado com sucesso!")
+        icon_path = r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"
+        msg.setWindowIcon(QIcon(icon_path))
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec()
+
+    def configurarSincronizaçãoQtd(self):
+         self.txtQtd.textChanged.connect(self.sincronizarQtd)
+
+    def sincronizarQtd(self):
+         quantidade = self.txtQtd.text()
+         self.txt_Qtd.setText(quantidade)
 
     def retranslateUi(self, Frm_Vendas):
         Frm_Vendas.setWindowTitle(QCoreApplication.translate("Frm_Vendas", u"Vendas", None))
@@ -814,6 +874,8 @@ class Ui_Frm_Vendas(object):
         self.btn_voltar.clicked.connect(self.sairTela)
         self.btn_atualizar.clicked.connect(self.carregarComboBoxProduto)
         self.btn_atualizar.clicked.connect(self.carregarComboBoxCliente)
+        self.btn_addCarrinho.clicked.connect(self.adicionarAoCarrinho)
+        self.configurarSincronizaçãoQtd()
 
 
 if __name__ == "__main__":

@@ -278,6 +278,9 @@ QLineEdit:hover {
    </property>
   </widget>
   <widget class="QLineEdit" name="txtValor">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>290</x>
@@ -392,7 +395,7 @@ QLineEdit:hover {
   </widget>
   <widget class="QLineEdit" name="txt_Qtd">
    <property name="enabled">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="geometry">
     <rect>
