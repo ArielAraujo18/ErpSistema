@@ -861,7 +861,8 @@ class Ui_Frm_Vendas(object):
     def atualizarTot(self):
 
          total = 0.0
-         
+         totalqtd = 0
+
          for linha in range(self.carrinho.rowCount()):
               item = self.carrinho.item(linha, 6)
               quantidade = self.carrinho.item(linha, 1)
@@ -869,9 +870,11 @@ class Ui_Frm_Vendas(object):
               if item and quantidade:
                    precouni = float(item.text().replace(',', '.').replace('R$', '').strip())
                    qtd = int(quantidade.text().strip())
+                   totalqtd += qtd
                    total += precouni * qtd
 
          self.lblValor.setText(f"R$ {total:.2f}")
+         self.lblQtd.setText(str(totalqtd))
          print(f"Total calculado: R$ {total:.2f}")
 
     def retranslateUi(self, Frm_Vendas):
