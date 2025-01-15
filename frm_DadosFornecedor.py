@@ -393,10 +393,10 @@ class Ui_frm_DadosFornecedor(object):
 
         # Conexão ao banco de dados
         mydb = mysql.connector.connect(
-                host='localhost',
-                user='Ariel',
-                password='IRani18@#',
-                database='sistema'
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
         )
 
         mycursor = mydb.cursor()
@@ -443,10 +443,10 @@ class Ui_frm_DadosFornecedor(object):
 
         
         mydb = mysql.connector.connect(
-        host='localhost',
-        user='Ariel',
-        password='IRani18@#',
-        database='sistema'
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
         )
         mycursor = mydb.cursor()
 
@@ -531,10 +531,10 @@ class Ui_frm_DadosFornecedor(object):
                 self.database = Controle.database 
                 print('Conectando...')
                 mydb = mysql.connector.connect(
-                        host = 'localhost',
-                        user = 'Ariel',
-                        password = 'IRani18@#',
-                        database = 'sistema'
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
                 )
                 mycursor = mydb.cursor()
                 consultaSQL = "SELECT * FROM Fornecedor WHERE idFornecedor = '" + Controle.idConsulta + "'"
@@ -576,10 +576,10 @@ class Ui_frm_DadosFornecedor(object):
                 #Conexão com bd
                 print('Conectando...')
                 mydb = mysql.connector.connect(
-                        host = 'localhost',
-                        user = 'Ariel',
-                        password = 'IRani18@#',
-                        database = 'sistema'
+                        host = Controle.host,
+                        user = Controle.user,
+                        password = Controle.password,
+                        database = Controle.database
                 )
                 mycursor = mydb.cursor()
                 consultaSQL = "SELECT * FROM fornecedor WHERE idFornecedor = '" + Controle.idConsulta + "'"

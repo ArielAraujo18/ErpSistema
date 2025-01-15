@@ -396,10 +396,10 @@ class Ui_frm_Fornecedor(object):
         self.database = Controle.database
         print('Conectando...')
         mydb = mysql.connector.connect(
-                host = 'localhost',
-                user = 'Ariel',
-                password = 'IRani18@#',
-                database = 'sistema' 
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
         )
         print('Conexão bem sucedida!')
         mycursor = mydb.cursor()
@@ -435,10 +435,10 @@ class Ui_frm_Fornecedor(object):
     def pesquisarFornecedor(self):
          
         mydb = mysql.connector.connect(
-                host = 'localhost',
-                user = 'Ariel',
-                password = 'IRani18@#',
-                database = 'sistema'
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
         )
         
         mycursor = mydb.cursor()
@@ -595,10 +595,10 @@ class Ui_frm_Fornecedor(object):
 
              #Conexão com bd
              mydb = mysql.connector.connect(
-                        host = 'localhost',
-                        user = 'Ariel',
-                        password = 'IRani18@#',
-                        database = 'sistema' 
+                        host = Controle.host,
+                        user = Controle.user,
+                        password = Controle.password,
+                        database = Controle.database
                 )
              
              mycursor = mydb.cursor()

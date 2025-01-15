@@ -384,10 +384,10 @@ class Ui_frm_Produtos(object):
     def consultarGeral(self):
         print('conectando')
         mydb = mysql.connector.connect(
-            host = 'localhost',
-            user = 'Ariel',
-            password = 'IRani18@#',
-            database = 'sistema'
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
         )
         print('Conexão bem sucedida')
         mycursor = mydb.cursor()
@@ -423,10 +423,10 @@ class Ui_frm_Produtos(object):
     def pesquisarProdutos(self):
         print('Conectando')
         mydb = mysql.connector.connect(
-            host = 'localhost',
-            user = 'Ariel',
-            password = 'IRani18@#',
-            database = 'sistema'
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
         )
 
         mycursor = mydb.cursor()
@@ -564,11 +564,11 @@ class Ui_frm_Produtos(object):
         if item:
             idProduto = item.text()
             mydb = mysql.connector.connect(
-                        host = 'localhost',
-                        user = 'Ariel',
-                        password = 'IRani18@#',
-                        database = 'sistema' 
-                )
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
+            )
             
             mycursor = mydb.cursor()
             sql = "DELETE FROM produtos WHERE idProdutos = %s"

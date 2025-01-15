@@ -14,6 +14,7 @@ import icon_att
 import icon_pagamento
 import icon_excluirCart
 
+import Controle
 import mysql.connector
 import pandas as pd
 
@@ -706,10 +707,10 @@ class Ui_Frm_Vendas(object):
 
     def carregarComboBoxProduto(self):
         mydb = mysql.connector.connect(
-                host='localhost',
-                user='Ariel',
-                password='IRani18@#',
-                database='sistema'
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
         )
         mycursor = mydb.cursor()
 
@@ -733,10 +734,10 @@ class Ui_Frm_Vendas(object):
 
     def carregarComboBoxCliente(self):
         mydb = mysql.connector.connect(
-                host='localhost',
-                user='Ariel',
-                password='IRani18@#',
-                database='sistema'
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
         )
         mycursor = mydb.cursor()
         
@@ -797,10 +798,10 @@ class Ui_Frm_Vendas(object):
         total = valor
 
         mydb = mysql.connector.connect(
-                host='localhost',
-                user='Ariel',
-                password='IRani18@#',
-                database='sistema'
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
         )
 
         mycursor = mydb.cursor()
@@ -834,6 +835,12 @@ class Ui_Frm_Vendas(object):
         msg.setIcon(QMessageBox.Information)
         msg.setStandardButtons(QMessageBox.Ok)
         msg.exec()
+        
+        #campos_comuns = {
+        #     "Quantidade": self.txtQtd.text().strip(),
+        #     "Valor": self.txtValor.text().strip()
+        #     "IdProduto":
+        #}
 
     def configurarSincronizaçãoQtd(self):
          self.txtQtd.textChanged.connect(self.sincronizarQtd)
@@ -844,10 +851,10 @@ class Ui_Frm_Vendas(object):
 
     def atualizarTabela(self):
          mydb = mysql.connector.connect(
-                host='localhost',
-                user='Ariel',
-                password='IRani18@#',
-                database='sistema'
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
         )
          mycursor = mydb.cursor()
          mycursor.execute("SELECT * FROM vendas")
@@ -898,11 +905,11 @@ class Ui_Frm_Vendas(object):
          if item:
               produto = item.text()
               mydb = mysql.connector.connect(
-                   host = 'localhost',
-                   user = 'Ariel',
-                   password = 'IRani18@#',
-                   database = 'sistema'
-              )
+                        host = Controle.host,
+                        user = Controle.user,
+                        password = Controle.password,
+                        database = Controle.database
+                )
               mycursor = mydb.cursor()
               sql = "DELETE FROM vendas WHERE Produto = %s"
               mycursor.execute(sql, (produto,))

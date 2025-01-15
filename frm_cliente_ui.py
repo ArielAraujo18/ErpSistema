@@ -381,10 +381,10 @@ class Ui_frm_Cliente(object):
         self.database = Controle.database
         print('Conectando...')
         mydb = mysql.connector.connect(
-                host = self.host,
-                user = self.user,
-                password = self.password,
-                database = self.database
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
         )
         print('Conexão bem-sucedida!')
         mycursor = mydb.cursor()
@@ -430,10 +430,10 @@ class Ui_frm_Cliente(object):
         self.database = Controle.database 
         print('Conectando...')
         mydb = mysql.connector.connect(
-                host = self.host,
-                user = self.user,
-                password = self.password,
-                database = self.database
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
         )
         print('Conexão bem-sucedida!')
 
@@ -601,10 +601,10 @@ class Ui_frm_Cliente(object):
                 
                 # Conexão com o banco de dados
                 mydb = mysql.connector.connect(
-                host='localhost',
-                user='Ariel',
-                password='IRani18@#',
-                database='sistema'
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
                 )
 
                 mycursor = mydb.cursor()

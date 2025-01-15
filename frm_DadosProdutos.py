@@ -410,10 +410,10 @@ class Ui_frm_DadosProdutos(object):
 
         # Conexão com o banco de dados
         mydb = mysql.connector.connect(
-        host='localhost',
-        user='Ariel',
-        password='IRani18@#',
-        database='sistema'
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
         )
 
         mycursor = mydb.cursor()
@@ -451,10 +451,10 @@ class Ui_frm_DadosProdutos(object):
     def carregarFornecedores(self):
         #Conexão com o banco de dados
                 mydb = mysql.connector.connect(
-                host='localhost',
-                user='Ariel',
-                password='IRani18@#',
-                database='sistema'
+                        host = Controle.host,
+                        user = Controle.user,
+                        password = Controle.password,
+                        database = Controle.database
                 )
                 mycursor = mydb.cursor()
 
@@ -483,11 +483,11 @@ class Ui_frm_DadosProdutos(object):
            obs = self.textEdit.toPlainText()
 
            mydb = mysql.connector.connect(
-                host='localhost',
-                user='Ariel',
-                password='IRani18@#',
-                database='sistema'
-                )
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
+           )
            mycursor = mydb.cursor()
            sql = """ UPDATE Produtos
                         SET Nome = %s, Quantidade = %s, Valor = %s, Fornecedor = %s, `Observação` = %s
@@ -545,10 +545,10 @@ class Ui_frm_DadosProdutos(object):
                 print('Conectando')
 
                 mydb = mysql.connector.connect(
-                        host='localhost',
-                        user='Ariel',
-                        password='IRani18@#',
-                        database='sistema'
+                        host = Controle.host,
+                        user = Controle.user,
+                        password = Controle.password,
+                        database = Controle.database
                 )
                 mycursor = mydb.cursor()
                 consultaSQL = """
@@ -598,10 +598,10 @@ class Ui_frm_DadosProdutos(object):
                 
                 
                 mydb = mysql.connector.connect(
-                        host='localhost',
-                        user='Ariel',
-                        password='IRani18@#',
-                        database='sistema'
+                        host = Controle.host,
+                        user = Controle.user,
+                        password = Controle.password,
+                        database = Controle.database
                 )
                 mycursor = mydb.cursor()
                 

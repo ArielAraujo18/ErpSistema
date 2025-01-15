@@ -418,11 +418,12 @@ class Ui_frm_DadosCliente(object):
         emailCliente = self.txt_cidade_6.text()
 
                 # Conexão com o banco de dados
-        mydb = mysql.connector.connect(
-                host='localhost',
-                user='Ariel',
-                password='IRani18@#',
-                database='sistema'
+        mydb = mysql.connector.connect( 
+              
+                host= Controle.host,
+                user= Controle.user,
+                password= Controle.password,
+                database= Controle.database
         )
 
         mycursor = mydb.cursor()
@@ -471,10 +472,10 @@ class Ui_frm_DadosCliente(object):
 
         try:
                 mydb = mysql.connector.connect(
-                host='localhost',
-                user='Ariel',
-                password='IRani18@#',
-                database='sistema'
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
                 )
 
                 mycursor = mydb.cursor()
@@ -573,10 +574,10 @@ class Ui_frm_DadosCliente(object):
                 self.database = Controle.database 
                 print('Conectando...')
                 mydb = mysql.connector.connect(
-                        host = self.host,
-                        user = self.user,
-                        password = self.password,
-                        database = self.database
+                        host = Controle.host,
+                        user = Controle.user,
+                        password = Controle.password,
+                        database = Controle.database
                 )
                 mycursor = mydb.cursor()
                 consultaSQL = "SELECT * FROM cliente WHERE idCliente = '" + Controle.idConsulta + "'"
@@ -623,10 +624,10 @@ class Ui_frm_DadosCliente(object):
                 self.database = Controle.database 
                 print('Conectando...')
                 mydb = mysql.connector.connect(
-                        host = self.host,
-                        user = self.user,
-                        password = self.password,
-                        database = self.database
+                        host = Controle.host,
+                        user = Controle.user,
+                        password = Controle.password,
+                        database = Controle.database
                 )
                 mycursor = mydb.cursor()
                 consultaSQL = "SELECT * FROM cliente WHERE idCliente = '" + Controle.idConsulta + "'"
