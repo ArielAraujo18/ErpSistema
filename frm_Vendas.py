@@ -791,12 +791,49 @@ class Ui_Frm_Vendas(object):
 
         produto = self.comboProd.currentText()
         quantidade = self.txtQtd.text()
+        quantidadee = self.txt_Qtd.text()
         valor = self.txtValor.text()
         idProduto = self.txtIdProduto.text()
         idCliente = self.txt_idCliente.text()
         cliente = self.comboCliente.currentText()
         total = valor
 
+        campos_comuns = {
+             "Valor": valor,
+             "IdProduto": idProduto,
+             "Quantidade": quantidade,
+             "Quantidade": quantidadee,
+             "idCliente": idCliente
+        }
+
+        campos_combo = {
+             "NomeCliente": cliente,
+             "NomeProduto": produto
+        }
+
+        for campo, valor in campos_comuns.items():
+             if not valor: #Verificando se o campo está vazio
+                        msg = QMessageBox()
+                        msg.setWindowTitle("ERRO!")
+                        msg.setText(f"O campo '{campo}' é obrigatório e não pode ficar vazio!")
+                        icon_path = r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"
+                        msg.setWindowIcon(QIcon(icon_path))
+                        msg.setIcon(QMessageBox.Information)
+                        msg.setStandardButtons(QMessageBox.Ok)
+                        msg.exec()
+                        return
+        for campo, valor in campos_combo.items():
+             if not valor:
+                        msg = QMessageBox()
+                        msg.setWindowTitle("ERRO!")
+                        msg.setText(f"O campo '{campo}' deve está preenchido!")
+                        icon_path = r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"
+                        msg.setWindowIcon(QIcon(icon_path))
+                        msg.setIcon(QMessageBox.Information)
+                        msg.setStandardButtons(QMessageBox.Ok)
+                        msg.exec()
+                        return
+             
         mydb = mysql.connector.connect(
                 host = Controle.host,
                 user = Controle.user,
@@ -836,11 +873,7 @@ class Ui_Frm_Vendas(object):
         msg.setStandardButtons(QMessageBox.Ok)
         msg.exec()
         
-        #campos_comuns = {
-        #     "Quantidade": self.txtQtd.text().strip(),
-        #     "Valor": self.txtValor.text().strip()
-        #     "IdProduto":
-        #}
+        
 
     def configurarSincronizaçãoQtd(self):
          self.txtQtd.textChanged.connect(self.sincronizarQtd)
@@ -953,7 +986,37 @@ class Ui_Frm_Vendas(object):
               msg.setIcon(QMessageBox.Warning)
               msg.setStandardButtons(QMessageBox.Ok)
               msg.exec()
+        
+    def FecharTela(self, event):
+        resposta = QMessageBox.question(
+                self, 
+                "Fechar PDV",
+                "Deseja realmente fechar o PDV e limpar o carrinho?", 
+                QMessageBox.Yes | QMessageBox.No, 
+                QMessageBox.No
+        )
+        
+        if resposta == QMessageBox.Yes:
+                mydb = mysql.connector.connect(
+                        host=Controle.host,
+                        user=Controle.user,
+                        password=Controle.password,
+                        database=Controle.database
+                )
+                mycursor = mydb.cursor()
+                
+                # Apagando todos os registros da tabela `vendas`
+                mycursor.execute("DELETE FROM vendas")
+                mydb.commit()
+                mycursor.close()
+                mydb.close()
+                
+                print('Banco de dados e carrinho limpos com sucesso!')
+                event.accept()
+        else:
+                event.ignore()  # Cancela o fechamento
 
+ 
     def retranslateUi(self, Frm_Vendas):
         Frm_Vendas.setWindowTitle(QCoreApplication.translate("Frm_Vendas", u"Vendas", None))
         self.label.setText(QCoreApplication.translate("Frm_Vendas", u"NOME DO PRODUTO: ", None))
