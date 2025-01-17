@@ -28,6 +28,7 @@ class Ui_Frm_Vendas(object):
         Frm_Vendas.setStyleSheet(u"QWidget{\n"
 "	background-color: #2E8B57;\n"
 "}")
+        Frm_Vendas.closeEvent = self.FecharTela
         self.label = QLabel(Frm_Vendas)
         self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(10, 80, 191, 21))
@@ -988,34 +989,37 @@ class Ui_Frm_Vendas(object):
               msg.exec()
         
     def FecharTela(self, event):
-        resposta = QMessageBox.question(
-                self, 
-                "Fechar PDV",
-                "Deseja realmente fechar o PDV e limpar o carrinho?", 
-                QMessageBox.Yes | QMessageBox.No, 
-                QMessageBox.No
-        )
-        
-        if resposta == QMessageBox.Yes:
-                mydb = mysql.connector.connect(
-                        host=Controle.host,
-                        user=Controle.user,
-                        password=Controle.password,
-                        database=Controle.database
-                )
-                mycursor = mydb.cursor()
-                
-                # Apagando todos os registros da tabela `vendas`
-                mycursor.execute("DELETE FROM vendas")
-                mydb.commit()
-                mycursor.close()
-                mydb.close()
-                
-                print('Banco de dados e carrinho limpos com sucesso!')
-                event.accept()
-        else:
-                event.ignore()  # Cancela o fechamento
+        # Criar a mensagem de confirmação
+        resposta = QMessageBox(self.Frm_Vendas)
+        resposta.setWindowTitle('Fechar o PDV')
+        resposta.setText('Deseja fechar o PDV e limpar o carrinho?')
+        resposta.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+        resposta.setIcon(QMessageBox.Warning)
+        resposta.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
+
+        # Exibir a mensagem de erro
+        resposta.exec()
+
+        if resposta.clickedButton() == resposta.button(QMessageBox.Yes):
+                try:
+                        with mysql.connector.connect(
+                                host=Controle.host,
+                                user=Controle.user,
+                                password=Controle.password,
+                                database=Controle.database
+                        ) as mydb:
+                                with mydb.cursor() as mycursor:
+                                        mycursor.execute("DELETE FROM vendas")
+                                        mydb.commit()
+                                
+                        print('Banco de dados e carrinho limpos com sucesso!')
+                        event.accept()
+                except mysql.connector.Error as err:
+                        QMessageBox.critical(self.Frm_Vendas, "Erro", f"Erro ao limpar o banco de dados: {err}")
+                        event.ignore()
+        else:
+                event.ignore()
  
     def retranslateUi(self, Frm_Vendas):
         Frm_Vendas.setWindowTitle(QCoreApplication.translate("Frm_Vendas", u"Vendas", None))
