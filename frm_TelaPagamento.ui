@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>frm_TelaPagamento</class>
+ <widget class="QWidget" name="frm_TelaPagamento">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>515</width>
+    <height>840</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget{
+	background-color: #2E8B57;
+}</string>
+  </property>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>30</y>
+     <width>211</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+    font-size: 32px;
+    color: #000000;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}</string>
+   </property>
+   <property name="text">
+    <string>PAGAMENTO</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="txt_Dinheiro">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>150</y>
+     <width>281</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 2px solid #cccccc; 
+    border-radius: 5px; 
+    padding: 6px; 
+    font-size: 14px; 
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+	color: #000000;
+}
+
+QLineEdit:hover {
+    border: 2px solid #3f51b5; 
+    background-color: #f5f5f5; 
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>150</y>
+     <width>191</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+    font-size: 32px;
+    color: #000000;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}</string>
+   </property>
+   <property name="text">
+    <string>DINHEIRO:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="txt_Cheque">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>390</y>
+     <width>281</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 2px solid #cccccc; 
+    border-radius: 5px; 
+    padding: 6px; 
+    font-size: 14px; 
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+	color: #000000;
+}
+
+QLineEdit:hover {
+    border: 2px solid #3f51b5; 
+    background-color: #f5f5f5; 
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>390</y>
+     <width>151</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+    font-size: 32px;
+    color: #000000;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}</string>
+   </property>
+   <property name="text">
+    <string>CHEQUE:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>230</y>
+     <width>151</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+    font-size: 32px;
+    color: #000000;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}</string>
+   </property>
+   <property name="text">
+    <string>CARTÃO:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="txt_Cartao">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>230</y>
+     <width>281</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 2px solid #cccccc; 
+    border-radius: 5px; 
+    padding: 6px; 
+    font-size: 14px; 
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+	color: #000000;
+}
+
+QLineEdit:hover {
+    border: 2px solid #3f51b5; 
+    background-color: #f5f5f5; 
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>320</y>
+     <width>71</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+    font-size: 32px;
+    color: #000000;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}</string>
+   </property>
+   <property name="text">
+    <string>PIX:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="txt_Pix">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>310</y>
+     <width>281</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 2px solid #cccccc; 
+    border-radius: 5px; 
+    padding: 6px; 
+    font-size: 14px; 
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+	color: #000000;
+}
+
+QLineEdit:hover {
+    border: 2px solid #3f51b5; 
+    background-color: #f5f5f5; 
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="txt_Total">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>530</y>
+     <width>271</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 2px solid #cccccc; 
+    border-radius: 5px; 
+    padding: 6px; 
+    font-size: 14px; 
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+	color: #000000;
+}
+
+QLineEdit:hover {
+    border: 2px solid #3f51b5; 
+    background-color: #f5f5f5; 
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>530</y>
+     <width>241</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+    font-size: 32px;
+    color: #000000;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}</string>
+   </property>
+   <property name="text">
+    <string>VALOR TOTAL:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="txt_Troco">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>600</y>
+     <width>271</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 2px solid #cccccc; 
+    border-radius: 5px; 
+    padding: 6px; 
+    font-size: 14px; 
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+	color: #000000;
+}
+
+QLineEdit:hover {
+    border: 2px solid #3f51b5; 
+    background-color: #f5f5f5; 
+}
+</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_7">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>600</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+    font-size: 32px;
+    color: #000000;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}</string>
+   </property>
+   <property name="text">
+    <string>TROCO:</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_pagamento">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>690</y>
+     <width>381</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: #ffffff; 
+    border: 2px solid #d1c4b2; 
+    border-radius: 12px; 
+    color: #5a5a5a;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 16px; 
+    background-image:url(:/icon_pagamento/forma-de-pagamento AA (2).png);
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: all 0.3s ease;
+}
+
+QPushButton:hover {
+    background-color: #f2ebe0;
+    border-color: #c4b49e;
+}
+
+QPushButton:pressed {
+    background-color: #e8dfcf;
+    border-color: #b39b8d;
+    padding-left: 12px;
+    padding-top: 4px;
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="icon_pagamentoTe.qrc"/>
+ </resources>
+ <connections/>
+</ui>
