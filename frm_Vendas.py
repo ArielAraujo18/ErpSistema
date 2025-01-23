@@ -14,6 +14,8 @@ import icon_att
 import icon_pagamento
 import icon_excluirCart
 
+from frm_TelaPagamento import Ui_frm_TelaPagamento
+
 import Controle
 import mysql.connector
 import pandas as pd
@@ -1020,7 +1022,22 @@ class Ui_Frm_Vendas(object):
                         event.ignore()
         else:
                 event.ignore()
- 
+
+    def pagamentoTela(self):
+         if not hasattr(self, 'frm_TelaPagamento') or self.frm_TelaPagamento is None or not self.frm_TelaPagamento.isVisible():
+                self.frm_TelaPagamento = QWidget()
+                self.ui = Ui_frm_TelaPagamento()
+                self.ui.setupUi(self.frm_TelaPagamento)
+
+                self.frm_TelaPagamento.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_TelaPagamento.destroyed.connect(lambda: setattr(self, 'frm_TelaPagamento', None))
+
+                self.frm_TelaPagamento.show()
+
+         else: 
+               self.frm_TelaPagamento.raise_()
+               self.frm_TelaPagamento.activateWindow()
+
     def retranslateUi(self, Frm_Vendas):
         Frm_Vendas.setWindowTitle(QCoreApplication.translate("Frm_Vendas", u"Vendas", None))
         self.label.setText(QCoreApplication.translate("Frm_Vendas", u"NOME DO PRODUTO: ", None))
@@ -1061,6 +1078,7 @@ class Ui_Frm_Vendas(object):
         self.btn_atualizar.clicked.connect(self.carregarComboBoxCliente)
         self.btn_addCarrinho.clicked.connect(self.adicionarAoCarrinho)
         self.btn_excluirCarrinho.clicked.connect(self.excluirDaTabela)
+        self.btn_pagamento.clicked.connect(self.pagamentoTela)
 
         self.configurarSincronizaçãoQtd()
 
