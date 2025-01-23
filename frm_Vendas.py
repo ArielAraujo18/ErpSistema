@@ -8,8 +8,6 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHeaderView,
     QLabel, QLineEdit, QPushButton, QSizePolicy,
     QTableWidget, QTableWidgetItem, QWidget, QMessageBox)
-    
-    
 import icon_addCarrinho
 import icon_voltarVenda
 import icon_att
