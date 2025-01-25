@@ -735,6 +735,7 @@ class Ui_Frm_Vendas(object):
         mycursor.close()
         mydb.close()
 
+
     def carregarComboBoxCliente(self):
         mydb = mysql.connector.connect(
                 host = Controle.host,
