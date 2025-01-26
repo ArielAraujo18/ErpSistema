@@ -9,6 +9,7 @@ from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
     QSizePolicy, QWidget)
 import icon_pagamentoTe
 
+
 class Ui_frm_TelaPagamento(object):
     def setupUi(self, frm_TelaPagamento):
         if not frm_TelaPagamento.objectName():
