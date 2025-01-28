@@ -246,3 +246,4 @@ if __name__ == "__main__":
     ui.setupUi(frm_TelaPagamento)
     frm_TelaPagamento.show()
     app.exec()
+    
