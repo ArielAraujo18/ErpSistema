@@ -9,6 +9,7 @@ from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
     QSizePolicy, QWidget)
 import icon_pagamentoTe
 
+import Controle
 
 class Ui_frm_TelaPagamento(object):
     def setupUi(self, frm_TelaPagamento):
@@ -225,6 +226,26 @@ class Ui_frm_TelaPagamento(object):
 
         QMetaObject.connectSlotsByName(frm_TelaPagamento)
     # setupUi
+    #Funções do botão
+    def adicionarValores(self):
+        totalVenda = self.txt_Total.setText("R$" + str(Controle.totalDaVenda))
+
+    def calculandoTroco(self):
+        totalvd = Controle.totalDaVenda
+
+        self.txt_Dinheiro.setText(str(0))
+        self.txt_Cartao.setText(str(0))
+        self.txt_Pix.setText(str(0))
+        self.txt_Cheque.setText(str(0))
+        self.txt_Troco.setText("R$" + str(0))
+
+        dinheiro = self.txt_Dinheiro.text()
+        cartao = self.txt_Cartao.text()
+        pix = self.txt_Pix.text()
+        cheque = self.txt_Cheque.text()
+        troco = (dinheiro + cartao + pix + cheque) - totalvd
+        trocotela = self.txt_Troco.setTex("R$" + str(troco))
+
 
     def retranslateUi(self, frm_TelaPagamento):
         frm_TelaPagamento.setWindowTitle(QCoreApplication.translate("frm_TelaPagamento", u"Pagamento", None))
@@ -238,7 +259,9 @@ class Ui_frm_TelaPagamento(object):
         self.label_7.setText(QCoreApplication.translate("frm_TelaPagamento", u"TROCO:", None))
         self.btn_pagamento.setText("")
     # retranslateUi
-
+        #Botões 
+        self.calculandoTroco()
+        self.adicionarValores()
 if __name__ == "__main__":
     app = QApplication([])
     frm_TelaPagamento = QWidget()

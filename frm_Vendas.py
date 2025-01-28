@@ -8,6 +8,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHeaderView,
     QLabel, QLineEdit, QPushButton, QSizePolicy,
     QTableWidget, QTableWidgetItem, QWidget, QMessageBox)
+
+import Controle
 import icon_addCarrinho
 import icon_voltarVenda
 import icon_att
@@ -908,7 +910,6 @@ class Ui_Frm_Vendas(object):
 
          total = 0.0
          totalqtd = 0
-
          for linha in range(self.carrinho.rowCount()):
               item = self.carrinho.item(linha, 6)
               quantidade = self.carrinho.item(linha, 1)
@@ -918,6 +919,8 @@ class Ui_Frm_Vendas(object):
                    qtd = int(quantidade.text().strip())
                    totalqtd += qtd
                    total += precouni * qtd
+                   Controle.totalDaVenda = total
+                   print(Controle.totalDaVenda)
                   
 
          self.lblValor.setText(f"R$ {total:.2f}")

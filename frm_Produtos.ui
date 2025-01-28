@@ -14,10 +14,10 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QWidget{
+   <ing notr="true">QWidget{
 	background-color: #FAF3E0;
 
-}</string>
+}</ing>
   </property>
   <widget class="QPushButton" name="btn_Add">
    <property name="geometry">
