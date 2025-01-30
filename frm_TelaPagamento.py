@@ -253,8 +253,10 @@ class Ui_frm_TelaPagamento(object):
             msg.setIcon(QMessageBox.Information)
             msg.setStandardButtons(QMessageBox.Ok)
             msg.exec()
-            
-        self.txt_Troco.setText("R$" + str(troco))
+            self.txt_Troco.setText(str("Insira valores validos!"))
+        
+        else:
+            self.txt_Troco.setText("R$" + str(troco))
 
 
     def retranslateUi(self, frm_TelaPagamento):
