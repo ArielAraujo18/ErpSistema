@@ -6,7 +6,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
-    QSizePolicy, QWidget)
+    QSizePolicy, QWidget, QMessageBox)
 import icon_pagamentoTe
 
 import Controle
@@ -228,23 +228,33 @@ class Ui_frm_TelaPagamento(object):
     # setupUi
     #Funções do botão
     def adicionarValores(self):
-        totalVenda = self.txt_Total.setText("R$" + str(Controle.totalDaVenda))
-
-    def calculandoTroco(self):
-        totalvd = Controle.totalDaVenda
-
         self.txt_Dinheiro.setText(str(0))
         self.txt_Cartao.setText(str(0))
         self.txt_Pix.setText(str(0))
         self.txt_Cheque.setText(str(0))
         self.txt_Troco.setText("R$" + str(0))
 
-        dinheiro = self.txt_Dinheiro.text()
-        cartao = self.txt_Cartao.text()
-        pix = self.txt_Pix.text()
-        cheque = self.txt_Cheque.text()
+        totalVenda = self.txt_Total.setText("R$" + str(Controle.totalDaVenda))
+
+    def calculandoTroco(self):
+        totalvd = Controle.totalDaVenda
+
+        dinheiro = float(self.txt_Dinheiro.text().replace(",", ".") or 0)
+        cartao = float(self.txt_Cartao.text().replace(",", ".") or 0)
+        pix = float(self.txt_Pix.text().replace(",", ".") or 0)
+        cheque = float(self.txt_Cheque.text().replace(",", ".") or 0)
+
         troco = (dinheiro + cartao + pix + cheque) - totalvd
-        trocotela = self.txt_Troco.setTex("R$" + str(troco))
+        if troco < 0:
+            msg = QMessageBox()
+            msg.setWindowTitle("ERRO!")
+            msg.setText('Valores insuficientes!')
+            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            msg.setIcon(QMessageBox.Information)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+            
+        self.txt_Troco.setText("R$" + str(troco))
 
 
     def retranslateUi(self, frm_TelaPagamento):
@@ -260,7 +270,7 @@ class Ui_frm_TelaPagamento(object):
         self.btn_pagamento.setText("")
     # retranslateUi
         #Botões 
-        self.calculandoTroco()
+        self.btn_pagamento.clicked.connect(self.calculandoTroco)
         self.adicionarValores()
 if __name__ == "__main__":
     app = QApplication([])
