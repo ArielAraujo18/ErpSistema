@@ -7,6 +7,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
     QSizePolicy, QWidget, QMessageBox)
+
+import time
 import icon_pagamentoTe
 
 import Controle
@@ -245,6 +247,9 @@ class Ui_frm_TelaPagamento(object):
         cheque = float(self.txt_Cheque.text().replace(",", ".") or 0)
 
         troco = (dinheiro + cartao + pix + cheque) - totalvd
+
+        if self.txt_Dinheiro.text().replace(",", ".").replace("", "R$")
+
         if troco < 0:
             msg = QMessageBox()
             msg.setWindowTitle("ERRO!")
@@ -257,6 +262,8 @@ class Ui_frm_TelaPagamento(object):
         
         else:
             self.txt_Troco.setText("R$" + str(troco))
+            time.sleep(5)
+            print("teste")
 
 
     def retranslateUi(self, frm_TelaPagamento):
