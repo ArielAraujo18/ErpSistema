@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>719</width>
+    <width>642</width>
     <height>294</height>
    </rect>
   </property>
@@ -242,43 +242,6 @@ QPushButton:pressed{
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_caixa">
-    <property name="geometry">
-     <rect>
-      <x>560</x>
-      <y>0</y>
-      <width>81</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton{
-    background-color: #f5f5f5;
-    border: 2px solid #cccccc; 
-    border-radius: 10px; 
-    padding: 10px; 
-    color: #333333; 
-    font-size: 14px;
-	background-image:url(:/icon_caix/caixa.png); 
-    background-repeat: no-repeat; 
-    background-position: center; 
-	transition: all 0.3s ease;
-}
-QPushButton:hover{
-    background-color: #e0e0e0;
-    border-color: #aaaaaa;
-	transform: scale(1.05); 
-}
-QPushButton:pressed{
-	background-color: #d6d6d6;
-	border-color: #888888;
-	transform: scale(0.95);
-}</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QPushButton" name="btn_fornecedor">
     <property name="geometry">
      <rect>
@@ -319,7 +282,7 @@ QPushButton:pressed{
    <widget class="QPushButton" name="btn_sair">
     <property name="geometry">
      <rect>
-      <x>640</x>
+      <x>560</x>
       <y>0</y>
       <width>81</width>
       <height>71</height>
@@ -353,13 +316,41 @@ QPushButton:pressed{
      <string/>
     </property>
    </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>140</y>
+      <width>301</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>-1</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel {
+    font-size: 32px;
+    color: #FFFFFF;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}</string>
+    </property>
+    <property name="text">
+     <string>AVS-SOFTWARES</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>719</width>
+     <width>642</width>
      <height>34</height>
     </rect>
    </property>
@@ -398,7 +389,6 @@ QMenu::item:selected {
     </property>
     <addaction name="actionCliente"/>
     <addaction name="actionFornecedor"/>
-    <addaction name="actionUsu_rio_do_sistema"/>
    </widget>
    <widget class="QMenu" name="menuOpera_es">
     <property name="title">
@@ -415,19 +405,9 @@ QMenu::item:selected {
      <property name="title">
       <string>Estoque</string>
      </property>
-     <addaction name="actionSaldo"/>
-    </widget>
-    <widget class="QMenu" name="menuCompras">
-     <property name="title">
-      <string>Compras</string>
-     </property>
-     <addaction name="actionCompras_2"/>
-     <addaction name="actionPedido"/>
-     <addaction name="actionCancelar_compra"/>
     </widget>
     <addaction name="menuSa_da_de_produtos"/>
     <addaction name="menuEstoque"/>
-    <addaction name="menuCompras"/>
    </widget>
    <widget class="QMenu" name="menuFinanceiro">
     <property name="title">

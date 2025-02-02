@@ -1,4 +1,3 @@
-import sys
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
@@ -7,17 +6,16 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QMainWindow, QMenu, QMenuBar,
-    QPushButton, QSizePolicy, QStatusBar, QWidget)
-from PySide6.QtWidgets import *
+from PySide6.QtWidgets import (QApplication, QLabel, QMainWindow, QMenu,
+    QMenuBar, QPushButton, QSizePolicy, QStatusBar,
+    QWidget, QMessageBox)
 
-
-#Telas
 from frm_cliente_ui import Ui_frm_Cliente
 from frm_Fornecedor import Ui_frm_Fornecedor
 from frm_Produtos import Ui_frm_Produtos
 from frm_Vendas import Ui_Frm_Vendas
 
+import sys
 import icon_cliente
 import icon_sair
 import icon_caixa
@@ -28,11 +26,12 @@ import icon_vendas
 import icon_produtos
 import icon_fornecedor
 
+
 class Ui_frm_Main(object):
     def setupUi(self, frm_Main):
         if not frm_Main.objectName():
             frm_Main.setObjectName(u"frm_Main")
-        frm_Main.setFixedSize(719, 294)
+        frm_Main.setFixedSize(642, 294)
         frm_Main.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
         frm_Main.setStyleSheet(u"")
         self.actionCliente = QAction(frm_Main)
@@ -226,31 +225,6 @@ class Ui_frm_Main(object):
 "	border-color: #888888;\n"
 "	transform: scale(0.95);\n"
 "}")
-        self.btn_caixa = QPushButton(self.centralwidget)
-        self.btn_caixa.setObjectName(u"btn_caixa")
-        self.btn_caixa.setGeometry(QRect(560, 0, 81, 71))
-        self.btn_caixa.setStyleSheet(u"QPushButton{\n"
-"    background-color: #f5f5f5;\n"
-"    border: 2px solid #cccccc; \n"
-"    border-radius: 10px; \n"
-"    padding: 10px; \n"
-"    color: #333333; \n"
-"    font-size: 14px;\n"
-"	background-image:url(:/icon_caix/caixa.png); \n"
-"    background-repeat: no-repeat; \n"
-"    background-position: center; \n"
-"	transition: all 0.3s ease;\n"
-"}\n"
-"QPushButton:hover{\n"
-"    background-color: #e0e0e0;\n"
-"    border-color: #aaaaaa;\n"
-"	transform: scale(1.05); \n"
-"}\n"
-"QPushButton:pressed{\n"
-"	background-color: #d6d6d6;\n"
-"	border-color: #888888;\n"
-"	transform: scale(0.95);\n"
-"}")
         self.btn_fornecedor = QPushButton(self.centralwidget)
         self.btn_fornecedor.setObjectName(u"btn_fornecedor")
         self.btn_fornecedor.setGeometry(QRect(80, 0, 81, 71))
@@ -278,7 +252,7 @@ class Ui_frm_Main(object):
 "}")
         self.btn_sair = QPushButton(self.centralwidget)
         self.btn_sair.setObjectName(u"btn_sair")
-        self.btn_sair.setGeometry(QRect(640, 0, 81, 71))
+        self.btn_sair.setGeometry(QRect(560, 0, 81, 71))
         self.btn_sair.setStyleSheet(u"QPushButton{\n"
 "    background-color: #f5f5f5; \n"
 "    border: 2px solid #cccccc; \n"
@@ -301,10 +275,22 @@ class Ui_frm_Main(object):
 "	border-color: #888888;\n"
 "	transform: scale(0.95);\n"
 "}")
+        self.label = QLabel(self.centralwidget)
+        self.label.setObjectName(u"label")
+        self.label.setGeometry(QRect(180, 140, 301, 31))
+        font = QFont()
+        font.setBold(True)
+        self.label.setFont(font)
+        self.label.setStyleSheet(u"QLabel {\n"
+"    font-size: 32px;\n"
+"    color: #FFFFFF;\n"
+"    font-weight: bold;\n"
+"    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
+"}")
         frm_Main.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(frm_Main)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 719, 34))
+        self.menubar.setGeometry(QRect(0, 0, 642, 34))
         self.menubar.setStyleSheet(u"QMenuBar {\n"
 "    background-color: #2E3440;\n"
 "    color: white;\n"
@@ -340,8 +326,6 @@ class Ui_frm_Main(object):
         self.menuSa_da_de_produtos.setObjectName(u"menuSa_da_de_produtos")
         self.menuEstoque = QMenu(self.menuOpera_es)
         self.menuEstoque.setObjectName(u"menuEstoque")
-        self.menuCompras = QMenu(self.menuOpera_es)
-        self.menuCompras.setObjectName(u"menuCompras")
         self.menuFinanceiro = QMenu(self.menubar)
         self.menuFinanceiro.setObjectName(u"menuFinanceiro")
         self.menuConsultas = QMenu(self.menubar)
@@ -361,16 +345,10 @@ class Ui_frm_Main(object):
         self.menubar.addAction(self.menuFinanceiro.menuAction())
         self.menuCadastros.addAction(self.actionCliente)
         self.menuCadastros.addAction(self.actionFornecedor)
-        self.menuCadastros.addAction(self.actionUsu_rio_do_sistema)
         self.menuOpera_es.addAction(self.menuSa_da_de_produtos.menuAction())
         self.menuOpera_es.addAction(self.menuEstoque.menuAction())
-        self.menuOpera_es.addAction(self.menuCompras.menuAction())
         self.menuSa_da_de_produtos.addAction(self.actionVenda)
         self.menuSa_da_de_produtos.addAction(self.actionConsumo_de_produtos)
-        self.menuEstoque.addAction(self.actionSaldo)
-        self.menuCompras.addAction(self.actionCompras_2)
-        self.menuCompras.addAction(self.actionPedido)
-        self.menuCompras.addAction(self.actionCancelar_compra)
         self.menuFinanceiro.addAction(self.actionCaixa)
         self.menuFinanceiro.addAction(self.actionBanco)
         self.menuFinanceiro.addAction(self.actionContas_para_pagar)
@@ -385,6 +363,9 @@ class Ui_frm_Main(object):
         self.menuConsumos.addAction(self.actionResumido_2)
 
         self.retranslateUi(frm_Main)
+
+        QMetaObject.connectSlotsByName(frm_Main)
+    # setupUi
 
     def telaCliente(self):
         #Verifica se o atributo existe e não é None
@@ -488,21 +469,19 @@ class Ui_frm_Main(object):
         self.btn_vendas.setText("")
         self.btn_pagar.setText("")
         self.btn_bancos.setText("")
-        self.btn_caixa.setText("")
         self.btn_fornecedor.setText("")
         self.btn_sair.setText("")
+        self.label.setText(QCoreApplication.translate("frm_Main", u"AVS-SOFTWARES", None))
         self.menuCadastros.setTitle(QCoreApplication.translate("frm_Main", u"Cadastros", None))
         self.menuOpera_es.setTitle(QCoreApplication.translate("frm_Main", u"Opera\u00e7\u00f5es", None))
         self.menuSa_da_de_produtos.setTitle(QCoreApplication.translate("frm_Main", u"Sa\u00edda de produtos", None))
         self.menuEstoque.setTitle(QCoreApplication.translate("frm_Main", u"Estoque", None))
-        self.menuCompras.setTitle(QCoreApplication.translate("frm_Main", u"Compras", None))
         self.menuFinanceiro.setTitle(QCoreApplication.translate("frm_Main", u"Financeiro", None))
         self.menuConsultas.setTitle(QCoreApplication.translate("frm_Main", u"Consultas", None))
         self.menuVendas.setTitle(QCoreApplication.translate("frm_Main", u"Vendas", None))
         self.menuConsumos.setTitle(QCoreApplication.translate("frm_Main", u"Consumos", None))
     # retranslateUi
-
-        ##Botão##
+         ##Botão##
         self.btn_sair.clicked.connect(self.sairSistema)
         self.btn_cliente.clicked.connect(self.telaCliente)
         self.btn_fornecedor.clicked.connect(self.telaFornecedor)        
@@ -512,6 +491,7 @@ class Ui_frm_Main(object):
         #action
         self.actionCliente.triggered.connect(self.telaCliente)
         self.actionFornecedor.triggered.connect(self.telaFornecedor)
+
 if __name__ == "__main__":
     app = QApplication([])
     frm_Main = QMainWindow()

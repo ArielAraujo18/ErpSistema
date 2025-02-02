@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="icon_Troco">
+    <file>converter_resized.png</file>
+  </qresource>
+</RCC>

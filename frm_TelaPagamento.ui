@@ -336,12 +336,52 @@ QLineEdit:hover {
     <string>TROCO:</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="btn_pagamento">
+  <widget class="QPushButton" name="btn_CalcularTroco">
    <property name="geometry">
     <rect>
      <x>80</x>
      <y>620</y>
-     <width>381</width>
+     <width>171</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: #ffffff; 
+    border: 2px solid #d1c4b2; 
+    border-radius: 12px; 
+    color: #5a5a5a;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 16px; 
+    background-image:url(:/icon_Troco/converter_resized.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: all 0.3s ease;
+}
+
+QPushButton:hover {
+    background-color: #f2ebe0;
+    border-color: #c4b49e;
+}
+
+QPushButton:pressed {
+    background-color: #e8dfcf;
+    border-color: #b39b8d;
+    padding-left: 12px;
+    padding-top: 4px;
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_pagamento">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>620</y>
+     <width>171</width>
      <height>121</height>
     </rect>
    </property>
@@ -379,6 +419,7 @@ QPushButton:pressed {
  </widget>
  <resources>
   <include location="icon_pagamentoTe.qrc"/>
+  <include location="icon_calcularTroco.qrc"/>
  </resources>
  <connections/>
 </ui>

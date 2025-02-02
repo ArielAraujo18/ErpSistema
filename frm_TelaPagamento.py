@@ -8,10 +8,13 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
     QSizePolicy, QWidget, QMessageBox)
 
+import icon_pagamentoTe
+import icon_calcularTroco
+
 import time
 import icon_pagamentoTe
-
 import Controle
+
 
 class Ui_frm_TelaPagamento(object):
     def setupUi(self, frm_TelaPagamento):
@@ -195,9 +198,37 @@ class Ui_frm_TelaPagamento(object):
 "    font-weight: bold;\n"
 "    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
 "}")
+        self.btn_CalcularTroco = QPushButton(frm_TelaPagamento)
+        self.btn_CalcularTroco.setObjectName(u"btn_CalcularTroco")
+        self.btn_CalcularTroco.setGeometry(QRect(80, 620, 171, 121))
+        self.btn_CalcularTroco.setStyleSheet(u"QPushButton {\n"
+"    background-color: #ffffff; \n"
+"    border: 2px solid #d1c4b2; \n"
+"    border-radius: 12px; \n"
+"    color: #5a5a5a;\n"
+"    font-size: 14px;\n"
+"    font-weight: bold;\n"
+"    padding: 10px 16px; \n"
+"    background-image:url(:/icon_Troco/converter_resized.png);\n"
+"    background-repeat: no-repeat;\n"
+"    background-position: center;\n"
+"    transition: all 0.3s ease;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: #f2ebe0;\n"
+"    border-color: #c4b49e;\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: #e8dfcf;\n"
+"    border-color: #b39b8d;\n"
+"    padding-left: 12px;\n"
+"    padding-top: 4px;\n"
+"}")
         self.btn_pagamento = QPushButton(frm_TelaPagamento)
         self.btn_pagamento.setObjectName(u"btn_pagamento")
-        self.btn_pagamento.setGeometry(QRect(80, 620, 381, 121))
+        self.btn_pagamento.setGeometry(QRect(300, 620, 171, 121))
         self.btn_pagamento.setStyleSheet(u"QPushButton {\n"
 "    background-color: #ffffff; \n"
 "    border: 2px solid #d1c4b2; \n"
@@ -228,7 +259,7 @@ class Ui_frm_TelaPagamento(object):
 
         QMetaObject.connectSlotsByName(frm_TelaPagamento)
     # setupUi
-    #Funções do botão
+
     def adicionarValores(self):
         self.txt_Dinheiro.setText(str(0))
         self.txt_Cartao.setText(str(0))
@@ -264,9 +295,24 @@ class Ui_frm_TelaPagamento(object):
             time.sleep(5)
             print("teste")
 
+    def finalizarCompra(self):
+        msg = QMessageBox()
+        msg.setWindowTitle("Finalizar venda")
+        msg.setText("Deseja finalizar a venda e cadastrar ao banco de dados?")
+        msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        msg.exec()
+
+        resposta = msg.exec()
+
+        #if resposta == QMessageBox.Yes:
+            
+
+
 
     def retranslateUi(self, frm_TelaPagamento):
-        frm_TelaPagamento.setWindowTitle(QCoreApplication.translate("frm_TelaPagamento", u"Pagamento", None))
+        frm_TelaPagamento.setWindowTitle(QCoreApplication.translate("frm_TelaPagamento", u"Tela Pagamento", None))
         self.label.setText(QCoreApplication.translate("frm_TelaPagamento", u"PAGAMENTO", None))
         self.label_2.setText(QCoreApplication.translate("frm_TelaPagamento", u"DINHEIRO:", None))
         self.label_3.setText(QCoreApplication.translate("frm_TelaPagamento", u"CHEQUE:", None))
@@ -275,11 +321,14 @@ class Ui_frm_TelaPagamento(object):
         self.label_6.setText(QCoreApplication.translate("frm_TelaPagamento", u"VALOR TOTAL:", None))
         self.txt_Troco.setText("")
         self.label_7.setText(QCoreApplication.translate("frm_TelaPagamento", u"TROCO:", None))
+        self.btn_CalcularTroco.setText("")
         self.btn_pagamento.setText("")
-    # retranslateUi
-        #Botões 
-        self.btn_pagamento.clicked.connect(self.calculandoTroco)
+
+        self.btn_CalcularTroco.clicked.connect(self.calculandoTroco)
         self.adicionarValores()
+
+    # retranslateUi
+
 if __name__ == "__main__":
     app = QApplication([])
     frm_TelaPagamento = QWidget()
@@ -287,4 +336,3 @@ if __name__ == "__main__":
     ui.setupUi(frm_TelaPagamento)
     frm_TelaPagamento.show()
     app.exec()
-    
