@@ -248,7 +248,6 @@ class Ui_frm_TelaPagamento(object):
 
         troco = (dinheiro + cartao + pix + cheque) - totalvd
 
-        if self.txt_Dinheiro.text().replace(",", ".").replace("", "R$")
 
         if troco < 0:
             msg = QMessageBox()

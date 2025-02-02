@@ -625,7 +625,7 @@ class Ui_Frm_Vendas(object):
 "    font-size: 14px;\n"
 "    font-weight: bold;\n"
 "    padding: 10px 16px; \n"
-"    background-image:url(:/iconPagar/forma-de-pagamento AA (2).png);\n"
+"    background-image:url(:/icon_pagamento/forma-de-pagamento AA (2).png);\n"
 "    background-repeat: no-repeat;\n"
 "    background-position: center;\n"
 "    transition: all 0.3s ease;\n"
