@@ -920,6 +920,7 @@ class Ui_Frm_Vendas(object):
                    totalqtd += qtd
                    total += precouni * qtd
                    Controle.totalDaVenda = total
+                   Controle.totalItens = totalqtd
                    print(Controle.totalDaVenda)
                   
 
@@ -1008,24 +1009,21 @@ class Ui_Frm_Vendas(object):
         resposta.exec()
 
         if resposta.clickedButton() == resposta.button(QMessageBox.Yes):
-                try:
-                        with mysql.connector.connect(
-                                host=Controle.host,
-                                user=Controle.user,
-                                password=Controle.password,
-                                database=Controle.database
-                        ) as mydb:
-                                with mydb.cursor() as mycursor:
-                                        mycursor.execute("DELETE FROM vendas")
-                                        mydb.commit()
-                                
-                        print('Banco de dados e carrinho limpos com sucesso!')
-                        event.accept()
-                except mysql.connector.Error as err:
-                        QMessageBox.critical(self.Frm_Vendas, "Erro", f"Erro ao limpar o banco de dados: {err}")
-                        event.ignore()
+                mydb = mysql.connector.connect(
+                        host=Controle.host,
+                        user=Controle.user,
+                        password=Controle.password,
+                        database=Controle.database
+                )
+                mycursor = mydb.cursor()
+                mycursor.execute("DELETE FROM vendas")
+                mydb.commit()
+                
+                print('Banco de dados e carrinho limpos com sucesso!')
+                event.accept()
         else:
                 event.ignore()
+
 
     def pagamentoTela(self):
          if not hasattr(self, 'frm_TelaPagamento') or self.frm_TelaPagamento is None or not self.frm_TelaPagamento.isVisible():

@@ -306,7 +306,12 @@ class Ui_frm_TelaPagamento(object):
 
         resposta = msg.exec()
 
-        #if resposta == QMessageBox.Yes:
+        if resposta == QMessageBox.Yes:
+                from frm_Vendas import Ui_Frm_Vendas
+                valorTotal = Controle.totalDaVenda
+                totalDeItens = Controle.totalItens
+                
+                
             
 
 
