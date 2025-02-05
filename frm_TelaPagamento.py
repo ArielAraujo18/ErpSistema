@@ -11,6 +11,7 @@ from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
 import icon_pagamentoTe
 import icon_calcularTroco
 
+import mysql.connector
 import time
 import icon_pagamentoTe
 import Controle
@@ -292,8 +293,6 @@ class Ui_frm_TelaPagamento(object):
         
         else:
             self.txt_Troco.setText("R$" + str(troco))
-            time.sleep(5)
-            print("teste")
 
     def finalizarCompra(self):
         msg = QMessageBox()
@@ -302,7 +301,6 @@ class Ui_frm_TelaPagamento(object):
         msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
         msg.setIcon(QMessageBox.Information)
         msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-        msg.exec()
 
         resposta = msg.exec()
 
@@ -310,6 +308,42 @@ class Ui_frm_TelaPagamento(object):
                 from frm_Vendas import Ui_Frm_Vendas
                 valorTotal = Controle.totalDaVenda
                 totalDeItens = Controle.totalItens
+                print(valorTotal)
+                print(totalDeItens)
+
+                dinheiro = valorTotal
+                itens = totalDeItens
+
+                mydb = mysql.connector.connect(
+                        host=Controle.host,
+                        user=Controle.user,
+                        password=Controle.password,
+                        database=Controle.database
+                )
+                mycursor = mydb.cursor()
+                mycursor.execute("SELECT `Quantidade de Itens`, `Valor total` FROM total")
+                resultado = mycursor.fetchone() 
+
+                if resultado:
+                        itens_existentes = int(float(resultado[0])) 
+                        valor_existente = float(resultado[1])  
+                else:
+                        itens_existentes, valor_existente = 0, 0
+
+                # Somando os valores
+                novos_itens = itens_existentes + int(totalDeItens)
+                novo_valor = valor_existente + float(valorTotal)
+
+                # Atualizando os valores na tabela
+                sql = "UPDATE total SET `Quantidade de Itens` = %s, `Valor total` = %s"
+                val = (novos_itens, novo_valor)
+                mycursor.execute(sql, val)
+                mydb.commit()
+                print("VENDA ATUALIZADA")
+
+
+        else:
+                print("Teste")
                 
                 
                 
@@ -331,6 +365,7 @@ class Ui_frm_TelaPagamento(object):
         self.btn_pagamento.setText("")
 
         self.btn_CalcularTroco.clicked.connect(self.calculandoTroco)
+        self.btn_pagamento.clicked.connect(self.finalizarCompra)
         self.adicionarValores()
 
     # retranslateUi
