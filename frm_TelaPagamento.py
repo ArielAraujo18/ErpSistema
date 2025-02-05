@@ -19,6 +19,7 @@ import Controle
 
 class Ui_frm_TelaPagamento(object):
     def setupUi(self, frm_TelaPagamento):
+        self.frm_TelaPagamento = frm_TelaPagamento
         if not frm_TelaPagamento.objectName():
             frm_TelaPagamento.setObjectName(u"frm_TelaPagamento")
         frm_TelaPagamento.setFixedSize(524, 761)
@@ -341,15 +342,24 @@ class Ui_frm_TelaPagamento(object):
                 mydb.commit()
                 print("VENDA ATUALIZADA")
 
+                msgF = QMessageBox()
+                msgF.setWindowTitle("Venda Finalizada")
+                msgF.setText("Sua venda foi finalizada com sucesso!")
+                msgF.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+                msgF.setIcon(QMessageBox.Information)
+                msgF.setStandardButtons(QMessageBox.Ok)
+                
+                vendaFinalizada = msgF.exec()
+
+                if vendaFinalizada == QMessageBox.Ok:
+                     self.sairTela()
 
         else:
                 print("Teste")
                 
-                
-                
-            
-
-
+    def sairTela(self):
+         self.frm_TelaPagamento.close()
+         self.frm_TelaPagamento = None
 
     def retranslateUi(self, frm_TelaPagamento):
         frm_TelaPagamento.setWindowTitle(QCoreApplication.translate("frm_TelaPagamento", u"Tela Pagamento", None))
