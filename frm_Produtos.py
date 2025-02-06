@@ -454,7 +454,6 @@ class Ui_frm_Produtos(object):
         self.tableWidget.resizeRowsToContents()
     
         mydb.close()
-        
     def cadastrarProdutos(self):
         Controle.tiposTelaDadosCliente = "incluir"
         if not hasattr(self, 'frmDadosProdutos') or self.frm_DadosProdutos is None or not self.frm_DadosProdutos.isVisible():

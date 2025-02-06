@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>frm_Produtos</class>
- <widget class="QWidget" name="frm_Produtos">
+ <class>frm_Contas</class>
+ <widget class="QWidget" name="frm_Contas">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -15,7 +15,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget{
-	background-color: #FAF3E0;
+	background-color: #4E342E;
 
 }</string>
   </property>
@@ -270,12 +270,12 @@ QPushButton:pressed {
     <string/>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_Produtos">
+  <widget class="QLabel" name="lbl_Contas">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>110</y>
-     <width>151</width>
+     <width>161</width>
      <height>21</height>
     </rect>
    </property>
@@ -289,17 +289,17 @@ QPushButton:pressed {
    <property name="styleSheet">
     <string notr="true">QLabel {
     font-size: 16px;
-    color: #000000;
+    color: #FFFFFF;
     font-weight: bold;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
 }
 </string>
    </property>
    <property name="text">
-    <string>Nome do Produto:</string>
+    <string>Contas para pagar:</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="txt_nomeFornecedor">
+  <widget class="QLineEdit" name="txt_nomeContas">
    <property name="geometry">
     <rect>
      <x>160</x>
