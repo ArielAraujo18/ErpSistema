@@ -19,6 +19,7 @@ import icon_alterar
 
 class Ui_frm_Contas(object):
     def setupUi(self, frm_Contas):
+        self.frm_Contas = frm_Contas
         if not frm_Contas.objectName():
             frm_Contas.setObjectName(u"frm_Contas")
         frm_Contas.setFixedSize(581, 592)
@@ -368,6 +369,9 @@ class Ui_frm_Contas(object):
 
         QMetaObject.connectSlotsByName(frm_Contas)
     # setupUi
+    def sairTela(self, frm_Contas):
+        self.frm_Contas.close()
+        self.frm_Contas = None
 
     def retranslateUi(self, frm_Contas):
         frm_Contas.setWindowTitle(QCoreApplication.translate("frm_Contas", u"Contas a pagar", None))
@@ -390,6 +394,7 @@ class Ui_frm_Contas(object):
         ___qtablewidgetitem4 = self.tableWidget.horizontalHeaderItem(4)
         ___qtablewidgetitem4.setText(QCoreApplication.translate("frm_Contas", u"Forncedor", None));
     # retranslateUi
+        self.btn_voltar.clicked.connect(self.sairTela)
 
 if __name__ == "__main__":
     app = QApplication([])
