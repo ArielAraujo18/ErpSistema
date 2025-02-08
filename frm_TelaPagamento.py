@@ -8,13 +8,16 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
     QSizePolicy, QWidget, QMessageBox)
 
+
 import icon_pagamentoTe
 import icon_calcularTroco
 
 import mysql.connector
 import time
-import icon_pagamentoTe
 import Controle
+
+import icon_pagamentoTe
+
 
 
 class Ui_frm_TelaPagamento(object):
