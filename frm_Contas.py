@@ -21,7 +21,8 @@ class Ui_frm_Contas(object):
     def setupUi(self, frm_Contas):
         if not frm_Contas.objectName():
             frm_Contas.setObjectName(u"frm_Contas")
-        frm_Contas.resize(581, 592)
+        frm_Contas.setFixedSize(581, 592)
+        frm_Contas.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
         frm_Contas.setStyleSheet(u"QWidget{\n"
 "	background-color: #4E342E;\n"
 "\n"
@@ -369,7 +370,7 @@ class Ui_frm_Contas(object):
     # setupUi
 
     def retranslateUi(self, frm_Contas):
-        frm_Contas.setWindowTitle(QCoreApplication.translate("frm_Contas", u"Form", None))
+        frm_Contas.setWindowTitle(QCoreApplication.translate("frm_Contas", u"Contas a pagar", None))
         self.btn_Add.setText("")
         self.btn_voltar.setText("")
         self.btn_consul.setText("")
