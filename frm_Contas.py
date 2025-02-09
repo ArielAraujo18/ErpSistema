@@ -230,6 +230,7 @@ class Ui_frm_Contas(object):
         font1 = QFont()
         self.txt_nomeContas.setFont(font1)
         self.txt_nomeContas.setStyleSheet(u"QLineEdit {\n"
+"    color: #000000; \n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
 "    padding: 6px; \n"
@@ -419,6 +420,40 @@ class Ui_frm_Contas(object):
 
         mydb.close()
 
+    def pesquisarContas(self):
+        print("Conectando")
+        mydb = mysql.connector.connect(
+            host = Controle.host,
+            user = Controle.user,
+            password = Controle.password,
+            database = Controle.database
+        )
+
+        mycursor = mydb.cursor()
+
+        nomeConsulta = self.txt_nomeContas.text()
+        consultaSQL = "SELECT * FROM contas WHERE nome LIKE %s"
+        mycursor.execute(consultaSQL, ('%' + nomeConsulta + '%',))
+
+        myresult = mycursor.fetchall()
+
+        df = pd.DataFrame(myresult, columns=["Nome", "Emissão", "Vencimento", "Fornecedor", "Observação", "Valor", "Parcelas", "Forma de pagamento", "Situação"])
+        self.all_data = df
+
+        numRows = len(self.all_data.index)
+        numCols = len(self.all_data.columns)
+        self.tableWidget.setColumnCount(numCols)
+        self.tableWidget.setRowCount(numRows)
+        self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
+
+        for i in range(numRows):
+            for j in range(numCols):
+                self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
+
+        self.tableWidget.resizeColumnsToContents()
+        self.tableWidget.resizeRowsToContents()
+        
+        mydb.close()
 
     def retranslateUi(self, frm_Contas):
         frm_Contas.setWindowTitle(QCoreApplication.translate("frm_Contas", u"Contas a pagar", None))
@@ -451,6 +486,7 @@ class Ui_frm_Contas(object):
     # retranslateUi
         self.btn_voltar.clicked.connect(self.sairTela)
         self.btn_filtro.clicked.connect(self.consultarGeral)
+        self.btn_pesquisar.clicked.connect(self.pesquisarContas)
 
 if __name__ == "__main__":
     app = QApplication([])
