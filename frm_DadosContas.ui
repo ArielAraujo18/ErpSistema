@@ -540,7 +540,7 @@ QLineEdit:hover {
 </string>
    </property>
    <property name="inputMask">
-    <string>R$</string>
+    <string/>
    </property>
   </widget>
   <widget class="QLabel" name="lbl_parcelas">

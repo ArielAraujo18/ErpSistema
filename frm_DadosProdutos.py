@@ -525,7 +525,7 @@ class Ui_frm_DadosProdutos(object):
     # retranslateUi
     ##Condições do botão
         if Controle.tiposTelaDadosCliente == 'incluir':
-              print('alterar')
+              print('incluir')
               self.btn_cadastrar.clicked.connect(self.adicionarProdutos)
         if Controle.tiposTelaDadosCliente == 'alterar':
                print('alterar')

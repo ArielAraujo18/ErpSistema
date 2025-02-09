@@ -6,7 +6,12 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QLabel, QLineEdit,
-    QPushButton, QSizePolicy, QTextEdit, QWidget)
+    QPushButton, QSizePolicy, QTextEdit, QWidget, QMessageBox)
+
+import Controle
+import pandas as pd
+import mysql.connector
+
 import icon_cadastrar
 import icon_cancelar
 
@@ -642,6 +647,126 @@ class Ui_frm_DadosContas(object):
         QMetaObject.connectSlotsByName(frm_DadosContas)
     # setupUi
 
+    def adiconarContas(self):
+        #Definição dos campos
+        campos_comuns = {
+            "Nome": self.txt_nome.text().strip(),
+            "Observação": self.textEdit.toPlainText().strip(),
+            "Parcelas": self.txt_parcelas.text().strip(),
+            "Valor": self.txt_valor.text().strip(),
+        }
+        campos_mask = {
+            "Emissão": self.txt_emissao.text().strip(),
+            "Vencimento": self.txt_vencimento.text().strip(),
+        }
+
+        for campo, valor in campos_comuns.items():
+            if not valor: #Verifica se o campo está vazio
+                msg = QMessageBox()
+                msg.setWindowTitle("ERRO!")
+                msg.setText(f"O campo {campo} é obrigatório e não pode ficar vazio!")
+                msg.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+                msg.setIcon(QMessageBox.Warning)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+                return
+            
+        for campo, valor in campos_mask.items():
+            valor_limpo = valor.replace("R$", "").replace("/","").replace(".", "").strip()
+
+            if not valor_limpo.isdigit():
+                msg = QMessageBox()
+                msg.setWindowTitle("Erro!")
+                msg.setText(f"O campo '{campo}' deve conter apenas números!")
+                msg.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+                msg.setIcon(QMessageBox.Warning)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+                return
+        
+        valor = self.txt_valor.text().strip()
+        if "R$" not in valor:
+                msg = QMessageBox()
+                msg.setWindowTitle("Erro!")
+                msg.setText("É importante formatar o valor corretamente com R$, virgulas e pontos!")
+                msg.setWindowIcon(QIcon((r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png")))
+                msg.setIcon(QMessageBox.Icon.Warning)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+                return
+
+        nome = self.txt_nome.text()
+        emissao = self.txt_emissao.text()
+        vencimento = self.txt_vencimento.text()
+        fornecedor = self.comboFornecedor.currentText()
+        obs = self.textEdit.toPlainText()
+        valor = self.txt_valor.text()
+        parcelas = self.txt_parcelas.text()
+        formaDePagamento = self.comboFormaDePagamento.currentText()
+        situacao = self.comboSituacao.currentText()
+
+        mydb = mysql.connector.connect(
+            host = Controle.host,
+            user = Controle.user,
+            password = Controle.password,
+            database = Controle.database,
+        )
+
+        mycursor = mydb.cursor()
+
+        sql = "INSERT INTO contas(`Nome`, `Emissão`, `Vencimento`, `Fornecedor`, `Observação`, `Valor`, `Parcelas`, `Forma de pagamento`, `Situação`) values (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        val = (nome, emissao, vencimento, fornecedor, obs, valor, parcelas, formaDePagamento, situacao)
+        mycursor.execute(sql, val)
+        mydb.commit()
+
+        self.carregarFornecedores()
+        
+        print(mycursor.rowcount, 'Registros inseridos')
+
+        mycursor.close()
+        mydb.close()
+
+        self.txt_nome.setText("")
+        self.txt_emissao.setText("")
+        self.txt_vencimento.setText("")
+        self.textEdit.setText("")
+        self.txt_valor.setText("")
+        self.txt_parcelas.setText("")
+        self.comboFornecedor.setCurrentIndex(0)
+        self.comboFormaDePagamento.setCurrentIndex(0)
+        self.comboSituacao.setCurrentIndex(0)
+
+        # Mensagem de sucesso
+        msg = QMessageBox()
+        msg.setWindowTitle("Sucesso!")
+        msg.setText("Dívida adicionada com sucesso!")
+        icon_path = r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"
+        msg.setWindowIcon(QIcon(icon_path))
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec()
+
+    def carregarFornecedores(self):
+        mydb = mysql.connector.connect(
+                        host = Controle.host,
+                        user = Controle.user,
+                        password = Controle.password,
+                        database = Controle.database
+                )
+        mycursor = mydb.cursor()
+
+        #Query para nomes dos fornecedores
+        mycursor.execute("SELECT `Razão Social` FROM fornecedor")
+        resultados = mycursor.fetchall()
+
+        for fornecedor in resultados:
+            print(f"Adicionado fornecedor: {fornecedor[0]}")
+            self.comboFornecedor.addItem(fornecedor[0])
+
+        mycursor.close()
+        mydb.close()
+
+
     def retranslateUi(self, frm_DadosContas):
         frm_DadosContas.setWindowTitle(QCoreApplication.translate("frm_DadosContas", u"Dados Contas", None))
         self.lbl_nome.setText(QCoreApplication.translate("frm_DadosContas", u"Nome:", None))
@@ -659,7 +784,7 @@ class Ui_frm_DadosContas(object):
         self.comboFornecedor.setItemText(0, QCoreApplication.translate("frm_DadosContas", u"Nenhum", None))
 
         self.lbl_valor.setText(QCoreApplication.translate("frm_DadosContas", u"Valor:", None))
-        self.txt_valor.setInputMask(QCoreApplication.translate("frm_DadosContas", u"R$", None))
+        self.txt_valor.setInputMask("")
         self.lbl_parcelas.setText(QCoreApplication.translate("frm_DadosContas", u"Parcelas:", None))
         self.lbl_formaDePagamento.setText(QCoreApplication.translate("frm_DadosContas", u"Forma de Pagamento:", None))
         self.comboFormaDePagamento.setItemText(0, QCoreApplication.translate("frm_DadosContas", u"Dinheiro", None))
@@ -672,6 +797,26 @@ class Ui_frm_DadosContas(object):
         self.lbl_Situacao.setText(QCoreApplication.translate("frm_DadosContas", u"Situa\u00e7\u00e3o:", None))
         self.comboSituacao.setItemText(0, QCoreApplication.translate("frm_DadosContas", u"PAGO", None))
         self.comboSituacao.setItemText(1, QCoreApplication.translate("frm_DadosContas", u"PENDENTE", None))
+
+        if Controle.tiposTelaDadosCliente == 'incluir':
+             print("incluir")
+             self.btn_cadastrar.clicked.connect(self.adiconarContas)
+        
+
+        #Condições da tela
+        if Controle.tiposTelaDadosCliente == 'incluir':
+                self.carregarFornecedores()
+                print('incluindo')
+                self.txt_nome.setEnabled(True)
+                self.txt_emissao.setEnabled(True)
+                self.txt_vencimento.setEnabled(True)
+                self.comboFornecedor.setEnabled(True)
+                self.textEdit.setEnabled(True)
+                self.txt_valor.setEnabled(True)
+                self.txt_parcelas.setEnabled(True)
+                self.comboFormaDePagamento.setEnabled(True)
+                self.comboSituacao.setEnabled(True)
+                self.btn_cadastrar.setEnabled(True)          
 
     # retranslateUi
 
