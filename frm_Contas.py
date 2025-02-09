@@ -13,6 +13,8 @@ import mysql.connector
 import pandas as pd
 import Controle
 
+from frm_DadosContas import Ui_frm_DadosContas
+
 import icon_adicionar
 import icon_consultar
 import icon_excluir
@@ -455,6 +457,23 @@ class Ui_frm_Contas(object):
         
         mydb.close()
 
+    def cadastrarContas(self):
+        Controle.tiposTelaDadosCliente = "incluir"
+        if not hasattr(self, 'frm_DadosContas') or self.frm_DadosContas is None or not self.frm_DadosContas.isVisible():
+
+            self.frm_DadosContas = QWidget()
+            self.ui = Ui_frm_DadosContas()
+            self.ui.setupUi(self.frm_DadosContas)
+
+            self.frm_DadosContas.setAttribute(Qt.WA_DeleteOnClose)
+            self.frm_DadosContas.destroyed.connect(lambda: setattr(self, 'frm_DadosContas', None))
+
+            self.frm_DadosContas.show()
+        
+        else:
+            self.frm_DadosContas.raise_()
+            self.frm_DadosContas.activateWindow()
+
     def retranslateUi(self, frm_Contas):
         frm_Contas.setWindowTitle(QCoreApplication.translate("frm_Contas", u"Contas a pagar", None))
         self.btn_Add.setText("")
@@ -487,6 +506,7 @@ class Ui_frm_Contas(object):
         self.btn_voltar.clicked.connect(self.sairTela)
         self.btn_filtro.clicked.connect(self.consultarGeral)
         self.btn_pesquisar.clicked.connect(self.pesquisarContas)
+        self.btn_Add.clicked.connect(self.cadastrarContas)
 
 if __name__ == "__main__":
     app = QApplication([])
