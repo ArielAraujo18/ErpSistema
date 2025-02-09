@@ -770,6 +770,46 @@ class Ui_frm_DadosContas(object):
     def sairTela(self, frm_DadosContas):
         self.frm_DadosContas.close()
 
+    def alterarContas(self):
+        nome = self.txt_nome.text()
+        emissao = self.txt_emissao.text()
+        vencimento = self.txt_vencimento.text()
+        fornecedor = self.comboFornecedor.currentText()
+        obs = self.textEdit.toPlainText()
+        valor = self.txt_valor.text()
+        parcelas = self.txt_parcelas.text()
+        formaDePagamento = self.comboFormaDePagamento.currentText()
+        situacao = self.comboSituacao.currentText()
+
+        mydb = mysql.connector.connect(
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
+        )
+
+        mycursor = mydb.cursor()
+        sql = """
+        UPDATE CONTAS
+        SET Nome = %s, Emissão = %s, Vencimento = %s, Fornecedor = %s, Observação = %s, 
+                Valor = %s, Parcelas = %s, `Forma de pagamento` = %s, Situação = %s
+        WHERE Nome = %s
+        """
+        val = (nome, emissao, vencimento, fornecedor, obs, valor, parcelas, formaDePagamento, situacao, nome)
+        mycursor.execute(sql, val)
+        mydb.commit()
+
+        msg = QMessageBox()
+        msg.setWindowTitle('Sucesso!')
+        msg.setText('Dívida alterada com sucesso!')
+        msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec()
+
+        self.frm_DadosProdutos.close()
+
+
     def retranslateUi(self, frm_DadosContas):
         frm_DadosContas.setWindowTitle(QCoreApplication.translate("frm_DadosContas", u"Dados Contas", None))
         self.lbl_nome.setText(QCoreApplication.translate("frm_DadosContas", u"Nome:", None))
@@ -804,6 +844,9 @@ class Ui_frm_DadosContas(object):
         if Controle.tiposTelaDadosCliente == 'incluir':
              print("incluir")
              self.btn_cadastrar.clicked.connect(self.adiconarContas)
+        if Controle.tiposTelaDadosCliente == 'alterar':
+             print('alterando')
+             self.btn_cadastrar.clicked.connect(self.alterarContas)
         
         self.btn_cancelar.clicked.connect(self.sairTela)
 
@@ -820,7 +863,68 @@ class Ui_frm_DadosContas(object):
                 self.txt_parcelas.setEnabled(True)
                 self.comboFormaDePagamento.setEnabled(True)
                 self.comboSituacao.setEnabled(True)
-                self.btn_cadastrar.setEnabled(True)          
+                self.btn_cadastrar.setEnabled(True)
+        elif Controle.tiposTelaDadosCliente == 'alterar':
+                print('alterando')
+                self.txt_nome.setEnabled(True)
+                self.txt_emissao.setEnabled(True)
+                self.txt_vencimento.setEnabled(True)
+                self.comboFornecedor.setEnabled(True)
+                self.textEdit.setEnabled(True)
+                self.txt_valor.setEnabled(True)
+                self.txt_parcelas.setEnabled(True)
+                self.comboFormaDePagamento.setEnabled(True)
+                self.comboSituacao.setEnabled(True)
+                self.btn_cadastrar.setEnabled(True)
+
+                print('conectando')
+
+                mydb = mysql.connector.connect(
+                        host = Controle.host,
+                        user = Controle.user,
+                        password = Controle.password,
+                        database = Controle.database
+                )
+
+                mycursor = mydb.cursor()
+                consultaSQL = "SELECT * FROM contas WHERE Nome = %s"
+                mycursor.execute(consultaSQL, (self.txt_nome.text(),))
+                myresult = mycursor.fetchone()  # Obtém o resultado como uma tupla
+
+                nome = myresult[1]
+                emissao = myresult[2]
+                vencimento = myresult[3]
+                fornecedor = myresult[4]
+                observacao = myresult[5]
+                valor = myresult[6]
+                parcelas = myresult[7]
+                formaDePagamento = myresult[8]
+                situacao = myresult[9]
+
+                self.txt_nome.setText(nome)
+                self.txt_emissao.setText(emissao)
+                self.txt_vencimento.setText(vencimento)
+                self.textEdit.setText(observacao)
+                self.txt_nome.setText(nome)
+                self.txt_valor.setText(valor)
+                self.txt_parcelas.setText(parcelas)
+                self.comboFormaDePagamento.setCurrentText(formaDePagamento)
+                self.comboSituacao.setCurrentText(situacao)
+
+                mycursor.execute("SELECT `Razão Social` FROM fornecedor")
+                fornecedores = mycursor.fetchall()
+                
+                # Adicionar todos os fornecedores à ComboBox
+                for fornecedor_item in fornecedores:
+                        self.comboBox.addItem(fornecedor_item[0])
+                
+                # Definir o fornecedor atual na ComboBox
+                self.comboBox.setCurrentText(fornecedor)
+                
+                # Fechar o cursor e a conexão
+                mycursor.close()
+                mydb.close()
+
 
     # retranslateUi
 

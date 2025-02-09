@@ -7,7 +7,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QTableWidget, QTableWidgetItem,
-    QWidget)
+    QWidget, QMessageBox)
 
 import mysql.connector
 import pandas as pd
@@ -474,6 +474,40 @@ class Ui_frm_Contas(object):
             self.frm_DadosContas.raise_()
             self.frm_DadosContas.activateWindow()
 
+    def alterarContas(self):
+        Controle.tiposTelaDadosCliente = 'alterar'
+        print('frm_DadosContas', Controle.tiposTelaDadosCliente)
+
+        line = self.tableWidget.currentRow()
+    
+        if line == -1:
+            msg = QMessageBox()
+            msg.setWindowTitle('Erro de Seleção')
+            msg.setText('Por favor, selecione algum produto para alterar')
+            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            msg.setIcon(QMessageBox.Warning)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+            return #Retorna e não prossegue
+        
+        item = self.tableWidget.item(line, 0)
+        
+        if item:
+            Controle.idConsulta = item.text
+            if not hasattr(self, 'frm_DadosContas') or self.frm_DadosContas is None or not self.frm_DadosContas.isVisible():
+                self.frm_DadosContas = QWidget()
+                self.ui = Ui_frm_DadosContas()
+                self.ui.setupUi(self.frm_DadosContas)
+
+                self.frm_DadosContas.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_DadosContas.destroyed.connect(lambda: setattr(self, 'frm_DadosProdutos', None))
+
+                self.frm_DadosContas.show()
+            
+            else:
+                self.frm_DadosContas.raise_()
+                self.frm_DadosContas.activateWindow()
+
     def retranslateUi(self, frm_Contas):
         frm_Contas.setWindowTitle(QCoreApplication.translate("frm_Contas", u"Contas a pagar", None))
         self.btn_Add.setText("")
@@ -507,6 +541,7 @@ class Ui_frm_Contas(object):
         self.btn_filtro.clicked.connect(self.consultarGeral)
         self.btn_pesquisar.clicked.connect(self.pesquisarContas)
         self.btn_Add.clicked.connect(self.cadastrarContas)
+        self.btn_alterar.clicked.connect(self.alterarContas)
 
 if __name__ == "__main__":
     app = QApplication([])
