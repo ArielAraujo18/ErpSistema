@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>581</width>
-    <height>592</height>
+    <height>593</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -464,17 +464,27 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
    </property>
    <column>
     <property name="text">
-     <string>idProduto</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
      <string>Nome</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>Quantidade</string>
+     <string>Emissão</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Vencimento</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Fornecedor</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Observação</string>
     </property>
    </column>
    <column>
@@ -484,7 +494,17 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
    </column>
    <column>
     <property name="text">
-     <string>Forncedor</string>
+     <string>Parcelas</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Forma de pagamento</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Situação</string>
     </property>
    </column>
   </widget>

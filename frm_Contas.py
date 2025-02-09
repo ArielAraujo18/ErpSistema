@@ -9,6 +9,10 @@ from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QTableWidget, QTableWidgetItem,
     QWidget)
 
+import mysql.connector
+import pandas as pd
+import Controle
+
 import icon_adicionar
 import icon_consultar
 import icon_excluir
@@ -19,10 +23,10 @@ import icon_alterar
 
 class Ui_frm_Contas(object):
     def setupUi(self, frm_Contas):
-        self.frm_Contas = frm_Contas
         if not frm_Contas.objectName():
             frm_Contas.setObjectName(u"frm_Contas")
-        frm_Contas.setFixedSize(581, 592)
+        frm_Contas.setFixedSize(581, 593)
+        self.frm_Contas = frm_Contas
         frm_Contas.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
         frm_Contas.setStyleSheet(u"QWidget{\n"
 "	background-color: #4E342E;\n"
@@ -270,8 +274,8 @@ class Ui_frm_Contas(object):
 "}\n"
 "")
         self.tableWidget = QTableWidget(frm_Contas)
-        if (self.tableWidget.columnCount() < 5):
-            self.tableWidget.setColumnCount(5)
+        if (self.tableWidget.columnCount() < 9):
+            self.tableWidget.setColumnCount(9)
         __qtablewidgetitem = QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem)
         __qtablewidgetitem1 = QTableWidgetItem()
@@ -282,6 +286,14 @@ class Ui_frm_Contas(object):
         self.tableWidget.setHorizontalHeaderItem(3, __qtablewidgetitem3)
         __qtablewidgetitem4 = QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(4, __qtablewidgetitem4)
+        __qtablewidgetitem5 = QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(5, __qtablewidgetitem5)
+        __qtablewidgetitem6 = QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(6, __qtablewidgetitem6)
+        __qtablewidgetitem7 = QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(7, __qtablewidgetitem7)
+        __qtablewidgetitem8 = QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(8, __qtablewidgetitem8)
         self.tableWidget.setObjectName(u"tableWidget")
         self.tableWidget.setGeometry(QRect(0, 170, 581, 321))
         self.tableWidget.setStyleSheet(u"QTableWidget, QTableView {\n"
@@ -373,6 +385,41 @@ class Ui_frm_Contas(object):
         self.frm_Contas.close()
         self.frm_Contas = None
 
+    def consultarGeral(self):
+        print("Conectando")
+        mydb = mysql.connector.connect(
+            host = Controle.host,
+            user = Controle.user,
+            password = Controle.password,
+            database = Controle.database
+        )
+        print("Conexão bem sucedida")
+        mycursor = mydb.cursor()
+        nomeConsulta = self.txt_nomeContas.text()
+        consultaSQL = "SELECT * FROM contas WHERE Nome LIKE '" + nomeConsulta + "%'"
+        mycursor.execute(consultaSQL)
+        myresult = mycursor.fetchall()
+
+        df = pd.DataFrame(myresult, columns=["Nome", "Emissão", "Vencimento", "Fornecedor", "Observação", "Valor", "Parcelas", "Forma de pagamento", "Situação"])
+        self.all_data = df
+
+        #Criando a tabela
+        numRows = len(self.all_data.index)
+        numCols = len(self.all_data.columns)
+        self.tableWidget.setColumnCount(numCols)
+        self.tableWidget.setRowCount(numRows)
+        self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
+
+        for i in range(numRows):
+            for j in range(numCols):
+                self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
+
+        self.tableWidget.resizeColumnsToContents()
+        self.tableWidget.resizeRowsToContents()
+
+        mydb.close()
+
+
     def retranslateUi(self, frm_Contas):
         frm_Contas.setWindowTitle(QCoreApplication.translate("frm_Contas", u"Contas a pagar", None))
         self.btn_Add.setText("")
@@ -384,17 +431,26 @@ class Ui_frm_Contas(object):
         self.lbl_Contas.setText(QCoreApplication.translate("frm_Contas", u"Contas para pagar:", None))
         self.btn_filtro.setText("")
         ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
-        ___qtablewidgetitem.setText(QCoreApplication.translate("frm_Contas", u"idProduto", None));
+        ___qtablewidgetitem.setText(QCoreApplication.translate("frm_Contas", u"Nome", None));
         ___qtablewidgetitem1 = self.tableWidget.horizontalHeaderItem(1)
-        ___qtablewidgetitem1.setText(QCoreApplication.translate("frm_Contas", u"Nome", None));
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("frm_Contas", u"Emiss\u00e3o", None));
         ___qtablewidgetitem2 = self.tableWidget.horizontalHeaderItem(2)
-        ___qtablewidgetitem2.setText(QCoreApplication.translate("frm_Contas", u"Quantidade", None));
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("frm_Contas", u"Vencimento", None));
         ___qtablewidgetitem3 = self.tableWidget.horizontalHeaderItem(3)
-        ___qtablewidgetitem3.setText(QCoreApplication.translate("frm_Contas", u"Valor", None));
+        ___qtablewidgetitem3.setText(QCoreApplication.translate("frm_Contas", u"Fornecedor", None));
         ___qtablewidgetitem4 = self.tableWidget.horizontalHeaderItem(4)
-        ___qtablewidgetitem4.setText(QCoreApplication.translate("frm_Contas", u"Forncedor", None));
+        ___qtablewidgetitem4.setText(QCoreApplication.translate("frm_Contas", u"Observa\u00e7\u00e3o", None));
+        ___qtablewidgetitem5 = self.tableWidget.horizontalHeaderItem(5)
+        ___qtablewidgetitem5.setText(QCoreApplication.translate("frm_Contas", u"Valor", None));
+        ___qtablewidgetitem6 = self.tableWidget.horizontalHeaderItem(6)
+        ___qtablewidgetitem6.setText(QCoreApplication.translate("frm_Contas", u"Parcelas", None));
+        ___qtablewidgetitem7 = self.tableWidget.horizontalHeaderItem(7)
+        ___qtablewidgetitem7.setText(QCoreApplication.translate("frm_Contas", u"Forma de pagamento", None));
+        ___qtablewidgetitem8 = self.tableWidget.horizontalHeaderItem(8)
+        ___qtablewidgetitem8.setText(QCoreApplication.translate("frm_Contas", u"Situa\u00e7\u00e3o", None));
     # retranslateUi
         self.btn_voltar.clicked.connect(self.sairTela)
+        self.btn_filtro.clicked.connect(self.consultarGeral)
 
 if __name__ == "__main__":
     app = QApplication([])
@@ -403,4 +459,3 @@ if __name__ == "__main__":
     ui.setupUi(frm_Contas)
     frm_Contas.show()
     app.exec()
-
