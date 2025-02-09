@@ -20,6 +20,7 @@ class Ui_frm_DadosContas(object):
         if not frm_DadosContas.objectName():
             frm_DadosContas.setObjectName(u"frm_DadosContas")
         frm_DadosContas.setFixedSize(638, 795)
+        self.frm_DadosContas = frm_DadosContas
         frm_DadosContas.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
         frm_DadosContas.setStyleSheet(u"QWidget {\n"
 "    background-color: #4E342E;\n"
@@ -766,6 +767,8 @@ class Ui_frm_DadosContas(object):
         mycursor.close()
         mydb.close()
 
+    def sairTela(self, frm_DadosContas):
+        self.frm_DadosContas.close()
 
     def retranslateUi(self, frm_DadosContas):
         frm_DadosContas.setWindowTitle(QCoreApplication.translate("frm_DadosContas", u"Dados Contas", None))
@@ -802,6 +805,7 @@ class Ui_frm_DadosContas(object):
              print("incluir")
              self.btn_cadastrar.clicked.connect(self.adiconarContas)
         
+        self.btn_cancelar.clicked.connect(self.sairTela)
 
         #Condições da tela
         if Controle.tiposTelaDadosCliente == 'incluir':
