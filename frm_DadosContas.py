@@ -790,12 +790,12 @@ class Ui_frm_DadosContas(object):
 
         mycursor = mydb.cursor()
         sql = """
-        UPDATE CONTAS
+        UPDATE contas
         SET Nome = %s, Emissão = %s, Vencimento = %s, Fornecedor = %s, Observação = %s, 
                 Valor = %s, Parcelas = %s, `Forma de pagamento` = %s, Situação = %s
-        WHERE Nome = %s
+        WHERE idContas = %s
         """
-        val = (nome, emissao, vencimento, fornecedor, obs, valor, parcelas, formaDePagamento, situacao, nome)
+        val = (nome, emissao, vencimento, fornecedor, obs, valor, parcelas, formaDePagamento, situacao, Controle.idConsulta)
         mycursor.execute(sql, val)
         mydb.commit()
 
@@ -807,7 +807,7 @@ class Ui_frm_DadosContas(object):
         msg.setStandardButtons(QMessageBox.Ok)
         msg.exec()
 
-        self.frm_DadosProdutos.close()
+        self.frm_DadosContas.close()
 
 
     def retranslateUi(self, frm_DadosContas):
@@ -887,8 +887,9 @@ class Ui_frm_DadosContas(object):
                 )
 
                 mycursor = mydb.cursor()
-                consultaSQL = "SELECT * FROM contas WHERE Nome = %s"
-                mycursor.execute(consultaSQL, (self.txt_nome.text(),))
+                consultarSQL = "SELECT * FROM contas WHERE idContas = %s"
+                
+                mycursor.execute(consultarSQL, (Controle.idConsulta,))
                 myresult = mycursor.fetchone()  # Obtém o resultado como uma tupla
 
                 nome = myresult[1]
@@ -907,7 +908,7 @@ class Ui_frm_DadosContas(object):
                 self.textEdit.setText(observacao)
                 self.txt_nome.setText(nome)
                 self.txt_valor.setText(valor)
-                self.txt_parcelas.setText(parcelas)
+                self.txt_parcelas.setText(str(parcelas))
                 self.comboFormaDePagamento.setCurrentText(formaDePagamento)
                 self.comboSituacao.setCurrentText(situacao)
 
@@ -916,17 +917,15 @@ class Ui_frm_DadosContas(object):
                 
                 # Adicionar todos os fornecedores à ComboBox
                 for fornecedor_item in fornecedores:
-                        self.comboBox.addItem(fornecedor_item[0])
+                        self.comboFornecedor.addItem(fornecedor_item[0])
                 
                 # Definir o fornecedor atual na ComboBox
-                self.comboBox.setCurrentText(fornecedor)
+                self.comboFornecedor.setCurrentText(fornecedor)
                 
                 # Fechar o cursor e a conexão
                 mycursor.close()
                 mydb.close()
 
-
-    # retranslateUi
 
 if __name__ == "__main__":
     app = QApplication([])
