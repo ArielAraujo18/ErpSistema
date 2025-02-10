@@ -9,6 +9,9 @@ from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QTableWidget, QTableWidgetItem,
     QWidget, QMessageBox)
 
+import mysql.connector
+import Controle
+import pandas as pd
 
 import icon_adicionar
 import icon_consultar
@@ -383,6 +386,41 @@ class Ui_frm_ValoresAReceber(object):
         self.frm_ValoresAReceber.close()
         self.frm_ValoresAReceber = None
 
+    def consultarGeral(self):
+        print("Conectando")
+        mydb = mysql.connector.connect(
+            host = Controle.host,
+            user = Controle.user,
+            password = Controle.password,
+            database = Controle.database
+        )
+        print("Conexão bem sucedida")
+        
+        mycursor = mydb.cursor()
+        nomeConsulta = self.txt_nomeContas.text() #Esqueci de trocar o nome da variavel
+        consultaSQL = "SELECT * FROM valores WHERE Nome LIKE '" + nomeConsulta + "%'"
+        mycursor.execute(consultaSQL)
+        myresult = mycursor.fetchall()
+
+        df = pd.DataFrame(myresult, columns=["idValores", "Nome", "Emissão", "Vencimento", "Observação", "Valor", "Parcelas", "Forma de pagamento", "Situação"])
+        self.all_data = df
+
+        numRows = len(self.all_data.index)
+        numCols = len(self.all_data.columns)
+        
+        self.tableWidget.setColumnCount(numCols)
+        self.tableWidget.setRowCount(numRows)
+        self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
+
+        for i in range(numRows):
+            for j in range(numCols):
+                self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
+
+        self.tableWidget.resizeColumnsToContents()
+        self.tableWidget.resizeRowsToContents()
+
+        mydb.close()
+
     def retranslateUi(self, frm_ValoresAReceber):
         frm_ValoresAReceber.setWindowTitle(QCoreApplication.translate("frm_ValoresAReceber", u"Valores A Receber", None))
         self.btn_Add.setText("")
@@ -413,6 +451,7 @@ class Ui_frm_ValoresAReceber(object):
         ___qtablewidgetitem8.setText(QCoreApplication.translate("frm_ValoresAReceber", u"Situa\u00e7\u00e3o", None));
     # retranslateUi
         self.btn_voltar.clicked.connect(self.sairTela)
+        self.btn_filtro.clicked.connect(self.consultarGeral)
 
 
 if __name__ == "__main__":
