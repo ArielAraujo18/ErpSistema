@@ -26,7 +26,7 @@ class Ui_frm_DadosFornecedor(object):
         frm_DadosFornecedor.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
         frm_DadosFornecedor.setFixedSize(526, 566)
         frm_DadosFornecedor.setStyleSheet(u"QWidget {\n"
-"    background-color: #A7D3D9;\n"
+"    background-color: #264653;\n"
 "    border-radius: 8px;\n"
 "}")
         self.lbl_razao = QLabel(frm_DadosFornecedor)
@@ -34,7 +34,7 @@ class Ui_frm_DadosFornecedor(object):
         self.lbl_razao.setGeometry(QRect(20, 50, 111, 21))
         self.lbl_razao.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
-"    color: #333333;\n"
+"    color: #FFFFFF;\n"
 "    font-weight: bold;\n"
 "    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
 "}\n"
@@ -62,7 +62,7 @@ class Ui_frm_DadosFornecedor(object):
         self.lbl_contato.setGeometry(QRect(30, 100, 71, 20))
         self.lbl_contato.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
-"    color: #333333;\n"
+"    color: #FFFFFF;\n"
 "    font-weight: bold;\n"
 "    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
 "}\n"
@@ -72,7 +72,7 @@ class Ui_frm_DadosFornecedor(object):
         self.lbl_Cnpj.setGeometry(QRect(60, 150, 51, 20))
         self.lbl_Cnpj.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
-"    color: #333333;\n"
+"    color: #FFFFFF;\n"
 "    font-weight: bold;\n"
 "    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
 "}\n"
@@ -149,7 +149,7 @@ class Ui_frm_DadosFornecedor(object):
         self.lbl_Rua.setGeometry(QRect(60, 250, 41, 20))
         self.lbl_Rua.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
-"    color: #333333;\n"
+"    color: #FFFFFF;\n"
 "    font-weight: bold;\n"
 "    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
 "}\n"
@@ -177,7 +177,7 @@ class Ui_frm_DadosFornecedor(object):
         self.lbl_cidade.setGeometry(QRect(40, 200, 61, 20))
         self.lbl_cidade.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
-"    color: #333333;\n"
+"    color: #FFFFFF;\n"
 "    font-weight: bold;\n"
 "    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
 "}\n"
@@ -233,7 +233,7 @@ class Ui_frm_DadosFornecedor(object):
         self.lbl_bairro.setGeometry(QRect(40, 300, 61, 21))
         self.lbl_bairro.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
-"    color: #333333;\n"
+"    color: #FFFFFF;\n"
 "    font-weight: bold;\n"
 "    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
 "}\n"
@@ -261,7 +261,7 @@ class Ui_frm_DadosFornecedor(object):
         self.lbl_email.setGeometry(QRect(40, 400, 61, 21))
         self.lbl_email.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
-"    color: #333333;\n"
+"    color: #FFFFFF;\n"
 "    font-weight: bold;\n"
 "    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
 "}\n"
@@ -307,7 +307,7 @@ class Ui_frm_DadosFornecedor(object):
         self.lbl_cep.setGeometry(QRect(60, 350, 41, 21))
         self.lbl_cep.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
-"    color: #333333;\n"
+"    color: #FFFFFF;\n"
 "    font-weight: bold;\n"
 "    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
 "}\n"

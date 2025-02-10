@@ -25,7 +25,7 @@ class Ui_frm_DadosCliente(object):
         frm_DadosCliente.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
         frm_DadosCliente.resize(526, 609)
         frm_DadosCliente.setStyleSheet(u"QWidget {\n"
-"    background-color: #eaf2f8;\n"
+"    background-color: #e8f5e9;\n"
 "    border-radius: 8px;\n"
 "}")
         self.lbl_nome = QLabel(frm_DadosCliente)

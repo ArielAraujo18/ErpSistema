@@ -22,7 +22,7 @@ class Ui_frm_DadosProdutos(object):
         frm_DadosProdutos.setFixedSize(526, 540)
         frm_DadosProdutos.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
         frm_DadosProdutos.setStyleSheet(u"QWidget {\n"
-"    background-color: #FFCCCB;\n"
+"    background-color: #FAF3E0;\n"
 "    border-radius: 8px;\n"
 "}")
         self.lbl_nome = QLabel(frm_DadosProdutos)
