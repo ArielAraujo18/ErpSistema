@@ -925,6 +925,62 @@ class Ui_frm_DadosContas(object):
                 # Fechar o cursor e a conexão
                 mycursor.close()
                 mydb.close()
+        
+        elif Controle.tiposTelaDadosCliente == 'consultar':
+                print('DadosContas:', Controle.tiposTelaDadosCliente)
+
+                self.txt_nome.setEnabled(False)
+                self.txt_emissao.setEnabled(False)
+                self.txt_vencimento.setEnabled(False)
+                self.comboFornecedor.setEnabled(False)
+                self.textEdit.setEnabled(False)
+                self.txt_valor.setEnabled(False)
+                self.txt_parcelas.setEnabled(False)
+                self.comboFormaDePagamento.setEnabled(False)
+                self.comboSituacao.setEnabled(False)
+                self.btn_cadastrar.setEnabled(False)
+
+                mydb = mysql.connector.connect(
+                        host = Controle.host,
+                        user = Controle.user,
+                        password = Controle.password,
+                        database = Controle.database
+                )
+                mycursor = mydb.cursor()
+                consultaSql = """
+                SELECT Nome, Emissão, Vencimento, Fornecedor, Observação, Valor, Parcelas, `Forma de pagamento`, Situação
+                FROM contas
+                WHERE idContas = %s
+                """
+
+                mycursor.execute(consultaSql, (Controle.idConsulta,))
+                myresult = mycursor.fetchall()
+
+                df = pd.DataFrame(myresult, columns=["Nome", "Emissão", "Vencimento", "Fornecedor", "Observação", "Valor", "Parcelas", "Forma de pagamento", "Situação"])
+
+                self.txt_nome.setText(str(df['Nome'][0]))
+                self.txt_emissao.setText(str(df['Emissão'][0]))
+                self.txt_vencimento.setText(str(df['Vencimento'][0]))
+                fornecedor = str(df['Fornecedor'][0])
+                observacao = str(df['Observação'][0])
+                valor = str(df['Valor'][0])
+                parcelas = str(df['Parcelas'][0])
+                formaDePagamento = str(df['Forma de pagamento'][0])  # Agora definida
+                situacao = str(df['Situação'][0])
+
+                # Adicionando fornecedor, forma de pagamento e situação se não existirem
+                def add_if_not_exists(combo, item):
+                        if item not in [combo.itemText(i) for i in range(combo.count())]:
+                                combo.addItem(item)
+
+                self.textEdit.setText(observacao)
+                self.txt_valor.setText(valor)
+                self.txt_parcelas.setText(parcelas)
+
+                # Adicionando itens nas combo boxes se necessário
+                add_if_not_exists(self.comboFornecedor, fornecedor)
+                add_if_not_exists(self.comboFormaDePagamento, formaDePagamento)
+                add_if_not_exists(self.comboSituacao, situacao)
 
 
 if __name__ == "__main__":

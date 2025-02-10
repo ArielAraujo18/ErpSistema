@@ -579,8 +579,49 @@ class Ui_frm_Contas(object):
             msg.setStandardButtons(QMessageBox.Ok)
             msg.exec()
 
+    def consultarContas(self):
+        Controle.tiposTelaDadosCliente = 'consultar'
+        print('frm_Contas', Controle.tiposTelaDadosCliente)
+
+        line = self.tableWidget.currentRow()
+        if line == -1:
+            msg = QMessageBox()
+            msg.setWindowTitle('ERRO!')
+            msg.setText('Por favor, selecione uma Conta para consultar.')
+            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            msg.setIcon(QMessageBox.Warning)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+            return
+        
+        item = self.tableWidget.item(line, 0)
+        if item:
+            Controle.idConsulta = item.text()
+            if not hasattr(self, 'frm_DadosContas') or self.frm_DadosContas is None or not self.frm_DadosContas.isVisible():
+                self.frm_DadosContas = QWidget()
+                self.ui = Ui_frm_DadosContas()
+                self.ui.setupUi(self.frm_DadosContas)
+
+                self.frm_DadosContas.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_DadosContas.destroyed.connect(lambda: setattr(self, 'frm_DadosContas', None))
+
+                self.frm_DadosContas.show()
+            
+            else:
+                self.frm_DadosContas.raise_()
+                self.frm_DadosContas.activateWindow()
+
+        else:
+            msg = QMessageBox()
+            msg.setWindowTitle("Erro de Seleção")
+            msg.setText("Não foi possível obter o ID da conta selecionada.")
+            msg.setIcon(QMessageBox.Warning)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+
+
     def retranslateUi(self, frm_Contas):
-        frm_Contas.setWindowTitle(QCoreApplication.translate("frm_Contas", u"Form", None))
+        frm_Contas.setWindowTitle(QCoreApplication.translate("frm_Contas", u"Contas", None))
         self.btn_Add.setText("")
         self.btn_voltar.setText("")
         self.btn_consul.setText("")
@@ -619,6 +660,7 @@ class Ui_frm_Contas(object):
         self.btn_Add.clicked.connect(self.cadastrarContas)
         self.btn_alterar.clicked.connect(self.alterarContas)
         self.btn_excluir.clicked.connect(self.excluirContas)
+        self.btn_consul.clicked.connect(self.consultarContas)
 
 if __name__ == "__main__":
     app = QApplication([])
