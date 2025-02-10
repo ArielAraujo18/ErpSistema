@@ -14,6 +14,7 @@ from frm_cliente_ui import Ui_frm_Cliente
 from frm_Fornecedor import Ui_frm_Fornecedor
 from frm_Produtos import Ui_frm_Produtos
 from frm_Vendas import Ui_Frm_Vendas
+from frm_Contas import Ui_frm_Contas
 
 import sys
 import icon_cliente
@@ -442,6 +443,16 @@ class Ui_frm_Main(object):
                self.frm_Vendas.raise_()
                self.frm_Vendas.activateWindow()
 
+    def telaContas(self):
+         if not hasattr(self, 'frm_Contas') or self.frm_Contas is None or not self.frm_Contas.isVisible():
+                self.frm_Contas = QWidget()
+                self.ui = Ui_frm_Contas()
+                self.ui.setupUi(self.frm_Contas)
+                self.frm_Contas.show()
+         else:
+               self.frm_Contas.raise_()
+               self.frm_Contas.activateWindow()
+
     def retranslateUi(self, frm_Main):
         frm_Main.setWindowTitle(QCoreApplication.translate("frm_Main", u"Tela Principal", None))
         self.actionCliente.setText(QCoreApplication.translate("frm_Main", u"Cliente", None))
@@ -487,6 +498,7 @@ class Ui_frm_Main(object):
         self.btn_fornecedor.clicked.connect(self.telaFornecedor)        
         self.btn_produtos.clicked.connect(self.telaProdutos)
         self.btn_vendas.clicked.connect(self.telaVendas)
+        self.btn_pagar.clicked.connect(self.telaContas)
 
         #action
         self.actionCliente.triggered.connect(self.telaCliente)
