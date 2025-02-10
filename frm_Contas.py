@@ -232,6 +232,7 @@ class Ui_frm_Contas(object):
         self.txt_nomeContas.setFont(font1)
         self.txt_nomeContas.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
+"    color: #000000;\n"
 "    border-radius: 5px; \n"
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
@@ -435,12 +436,12 @@ class Ui_frm_Contas(object):
         mycursor = mydb.cursor()
 
         nomeConsulta = self.txt_nomeContas.text()
-        consultaSQL = "SELECT * FROM contas WHERE nome LIKE %s"
+        consultaSQL = "SELECT * FROM contas WHERE nome LIKE     %s"
         mycursor.execute(consultaSQL, ('%' + nomeConsulta + '%',))
 
         myresult = mycursor.fetchall()
 
-        df = pd.DataFrame(myresult, columns=["Nome", "Emissão", "Vencimento", "Fornecedor", "Observação", "Valor", "Parcelas", "Forma de pagamento", "Situação"])
+        df = pd.DataFrame(myresult, columns=["idContas","Nome", "Emissão", "Vencimento", "Fornecedor", "Observação", "Valor", "Parcelas", "Forma de pagamento", "Situação"])
         self.all_data = df
 
         numRows = len(self.all_data.index)
@@ -509,6 +510,75 @@ class Ui_frm_Contas(object):
                 self.frm_DadosContas.raise_()
                 self.frm_DadosContas.activateWindow()
 
+    def excluirContas(self):
+
+        line = self.tableWidget.currentRow()
+
+        if line == -1:
+            msg = QMessageBox()
+            msg.setWindowTitle('Erro!')
+            msg.setText('Por favor, selecione uma conta para excluir.')
+            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            msg.setIcon(QMessageBox.Warning)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+            return #Retorna se a codição for falsa
+
+        item = self.tableWidget.item(line, 0)
+
+        if item:
+            idConta = item.text()
+            mydb = mysql.connector.connect(
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
+            )
+
+            mycursor = mydb.cursor()
+            sql = "DELETE FROM contas WHERE idContas = %s"
+            mycursor.execute(sql, (idConta,))
+            mydb.commit()
+
+            msg = QMessageBox()
+            msg.setWindowTitle('Conta excluída')
+            msg.setText('Conta excluída com sucesso!')
+            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            msg.setIcon(QMessageBox.Information)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+
+            mycursor.execute("SELECT * FROM contas")
+            myresult = mycursor.fetchall()
+            df = pd.DataFrame(myresult, columns=['idContas', 'Nome', 'Emissão', 'Vencimento', 'Fornecedor', 'Observação', 'Valor', 'Parcelas', 'Forma de pagamento', 'Situação'])
+            self.all_data = df
+
+            numRows = len(self.all_data.index)
+            self.tableWidget.setColumnCount(len(self.all_data.columns))
+            self.tableWidget.setRowCount(numRows)
+            self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
+
+            for i in range(numRows):
+                for j in range(len(self.all_data.columns)):
+                    self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
+            
+            self.tableWidget.resizeRowsToContents()
+
+
+            for row in range(self.tableWidget.rowCount()):
+                self.tableWidget.resizeRowsToContents(row)
+
+            mydb.close()
+
+        else:
+            msg = QMessageBox()
+            msg.setWindowTitle('Erro seleção')
+            msg.setText('Conta não selecionada!')
+            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            msg.setIcon(QMessageBox.Warning)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+
     def retranslateUi(self, frm_Contas):
         frm_Contas.setWindowTitle(QCoreApplication.translate("frm_Contas", u"Form", None))
         self.btn_Add.setText("")
@@ -548,6 +618,7 @@ class Ui_frm_Contas(object):
         self.btn_pesquisar.clicked.connect(self.pesquisarContas)
         self.btn_Add.clicked.connect(self.cadastrarContas)
         self.btn_alterar.clicked.connect(self.alterarContas)
+        self.btn_excluir.clicked.connect(self.excluirContas)
 
 if __name__ == "__main__":
     app = QApplication([])
