@@ -1,13 +1,3 @@
-# -*- coding: utf-8 -*-
-
-################################################################################
-## Form generated from reading UI file 'frm_ValoresAReceber.ui'
-##
-## Created by: Qt User Interface Compiler version 6.8.0
-##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
-################################################################################
-
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
@@ -17,20 +7,24 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QTableWidget, QTableWidgetItem,
-    QWidget)
-import icon_adicionar_rc
-import icon_consultar_rc
-import icon_excluir_rc
-import icon_filtro_rc
-import icon_pesquisar_rc
-import icon_voltar_rc
-import icon_alterar_rc
+    QWidget, QMessageBox)
+
+
+import icon_adicionar
+import icon_consultar
+import icon_excluir
+import icon_filtro
+import icon_pesquisar
+import icon_voltar
+import icon_alterar
 
 class Ui_frm_ValoresAReceber(object):
     def setupUi(self, frm_ValoresAReceber):
         if not frm_ValoresAReceber.objectName():
             frm_ValoresAReceber.setObjectName(u"frm_ValoresAReceber")
-        frm_ValoresAReceber.resize(581, 593)
+        frm_ValoresAReceber.setFixedSize(581, 593)
+        self.frm_ValoresAReceber = frm_ValoresAReceber
+        frm_ValoresAReceber.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
         frm_ValoresAReceber.setStyleSheet(u"QWidget{\n"
 "	background-color: #40E0D0;\n"
 "\n"
@@ -385,8 +379,12 @@ class Ui_frm_ValoresAReceber(object):
         QMetaObject.connectSlotsByName(frm_ValoresAReceber)
     # setupUi
 
+    def sairTela(self, frm_ValoresAReceber):
+        self.frm_ValoresAReceber.close()
+        self.frm_ValoresAReceber = None
+
     def retranslateUi(self, frm_ValoresAReceber):
-        frm_ValoresAReceber.setWindowTitle(QCoreApplication.translate("frm_ValoresAReceber", u"Form", None))
+        frm_ValoresAReceber.setWindowTitle(QCoreApplication.translate("frm_ValoresAReceber", u"Valores A Receber", None))
         self.btn_Add.setText("")
         self.btn_voltar.setText("")
         self.btn_consul.setText("")
@@ -414,4 +412,13 @@ class Ui_frm_ValoresAReceber(object):
         ___qtablewidgetitem8 = self.tableWidget.horizontalHeaderItem(8)
         ___qtablewidgetitem8.setText(QCoreApplication.translate("frm_ValoresAReceber", u"Situa\u00e7\u00e3o", None));
     # retranslateUi
+        self.btn_voltar.clicked.connect(self.sairTela)
 
+
+if __name__ == "__main__":
+    app = QApplication([])
+    frm_ValoresAReceber = QWidget()
+    ui = Ui_frm_ValoresAReceber()
+    ui.setupUi(frm_ValoresAReceber)
+    frm_ValoresAReceber.show()
+    app.exec()
