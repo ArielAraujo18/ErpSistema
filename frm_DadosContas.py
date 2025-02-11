@@ -961,26 +961,17 @@ class Ui_frm_DadosContas(object):
                 self.txt_nome.setText(str(df['Nome'][0]))
                 self.txt_emissao.setText(str(df['Emissão'][0]))
                 self.txt_vencimento.setText(str(df['Vencimento'][0]))
-                fornecedor = str(df['Fornecedor'][0])
-                observacao = str(df['Observação'][0])
-                valor = str(df['Valor'][0])
-                parcelas = str(df['Parcelas'][0])
-                formaDePagamento = str(df['Forma de pagamento'][0])
-                situacao = str(df['Situação'][0])
+                fornecedor = str(df['Fornecedor'][0]) if not df.empty else ""
+                self.textEdit.setText(str(df['Observação'][0]))
+                self.txt_valor.setText(str(df['Valor'][0]))
+                self.txt_parcelas.setText(str(df['Parcelas'][0]))
 
-                # Adicionando fornecedor, forma de pagamento e situação se não existirem
-                def add_if_not_exists(combo, item):
-                        if item not in [combo.itemText(i) for i in range(combo.count())]:
-                                combo.addItem(item)
+                formaDePagamento = str(df['Forma de pagamento'][0]) if not df.empty else ""
+                situacao = str(df['Situação'][0]) if not df.empty else ""
 
-                self.textEdit.setText(observacao)
-                self.txt_valor.setText(valor)
-                self.txt_parcelas.setText(parcelas)
-
-                # Adicionando itens nas combo boxes se necessário
-                add_if_not_exists(self.comboFornecedor, fornecedor)
-                add_if_not_exists(self.comboFormaDePagamento, formaDePagamento)
-                add_if_not_exists(self.comboSituacao, situacao)
+                self.comboFornecedor.setCurrentText(fornecedor)
+                self.comboFormaDePagamento.setCurrentText(formaDePagamento)
+                self.comboSituacao.setCurrentText(situacao)
 
 
 if __name__ == "__main__":
