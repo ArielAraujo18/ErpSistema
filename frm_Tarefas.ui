@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>frm_Tarefas</class>
+ <widget class="QWidget" name="frm_Tarefas">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>581</width>
+    <height>593</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget{
+	background-color: #001F3F;
+
+}</string>
+  </property>
+  <widget class="QPushButton" name="btn_Add">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>91</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: #EDE7F6;
+    border: 2px solid #83C5BE; 
+    border-radius: 10px;
+    color: #FFFFFF; 
+    background-image: url(:/icon_add/adicionar.png); 
+    background-repeat: no-repeat; 
+    background-position: center; 
+    font-size: 14px; 
+    font-weight: bold; 
+    padding: 10px 16px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); 
+    transition: all 0.3s ease; 
+}
+
+QPushButton:hover {
+    background-color: #E6CBA8; 
+    color: #5D3A00;
+    box-shadow: none;
+}
+
+QPushButton:pressed {
+    background-color: #C19A6B; 
+    color: #FFFFFF; 
+    padding-top: 2px;
+    padding-left: 2px;
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_voltar">
+   <property name="geometry">
+    <rect>
+     <x>490</x>
+     <y>510</y>
+     <width>91</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: #EDE7F6;
+    border: 2px solid #83C5BE; 
+    border-radius: 10px;
+    color: #FFFFFF; 
+    background-image: url(:/icon_volt/retornar.png); 
+    background-repeat: no-repeat; 
+    background-position: center; 
+    font-size: 14px; 
+    font-weight: bold; 
+    padding: 10px 16px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); 
+    transition: all 0.3s ease; 
+}
+QPushButton:hover {
+    background-color: #83C5BE;
+    box-shadow: none; 
+}
+
+QPushButton:pressed {
+    background-color: #7C3AED; 
+    color: #FFFFFF; 
+    padding-top: 2px; 
+    padding-left: 2px;
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_consul">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>0</y>
+     <width>91</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: #EDE7F6;
+    border: 2px solid #83C5BE; 
+    border-radius: 10px;
+    color: #FFFFFF; 
+    background-image: url(:/icon_alt/consultar.png); 
+    background-repeat: no-repeat; 
+    background-position: center; 
+    font-size: 14px; 
+    font-weight: bold; 
+    padding: 10px 16px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); 
+    transition: all 0.3s ease; 
+}
+
+QPushButton:hover {
+    background-color: #E6CBA8; 
+    color: #5D3A00;
+    box-shadow: none;
+}
+
+QPushButton:pressed {
+    background-color: #C19A6B; 
+    color: #FFFFFF; 
+    padding-top: 2px;
+    padding-left: 2px;
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_alterar">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>0</y>
+     <width>91</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: #EDE7F6;
+    border: 2px solid #83C5BE; 
+    border-radius: 10px;
+    color: #FFFFFF; 
+    background-image: url(:/icon_alt/alterar.png); 
+    background-repeat: no-repeat; 
+    background-position: center; 
+    font-size: 14px; 
+    font-weight: bold; 
+    padding: 10px 16px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); 
+    transition: all 0.3s ease; 
+}
+
+QPushButton:hover {
+    background-color: #E6CBA8; 
+    color: #5D3A00;
+    box-shadow: none;
+}
+
+QPushButton:pressed {
+    background-color: #C19A6B; 
+    color: #FFFFFF; 
+    padding-top: 2px;
+    padding-left: 2px;
+}
+</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_excluir">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>510</y>
+     <width>91</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: #ffebee; 
+    border: 2px solid #ffcdd2;
+    border-radius: 10px;
+    color: #b71c1c; 
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 16px;
+    background-image:url(:/icon_exc/excluir.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    padding-left: 40px;
+    transition: all 0.3s ease;
+}
+
+QPushButton:hover {
+    background-color: #ffcdd2;
+    border-color: #e57373;
+    color: #d32f2f; 
+}
+
+QPushButton:pressed {
+    background-color: #e57373;
+    border-color: #b71c1c;
+    padding-left: 44px;
+    padding-top: 2px;
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_pesquisar">
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>110</y>
+     <width>21</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: #EDE7F6;
+    border: 2px solid #83C5BE; 
+    border-radius: 10px;
+    color: #FFFFFF; 
+    background-image: url(:/icon_pesq/pesquisar.png); 
+    background-repeat: no-repeat; 
+    background-position: center; 
+    font-size: 14px; 
+    font-weight: bold; 
+    padding: 10px 16px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); 
+    transition: all 0.3s ease; 
+}
+
+QPushButton:hover {
+    background-color: #FFFFFF;
+    box-shadow: none; 
+}
+
+QPushButton:pressed {
+    background-color: #7C3AED; 
+    color: #FFFFFF; 
+    padding-top: 2px; 
+    padding-left: 2px;
+}
+</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_Tarefas">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>110</y>
+     <width>81</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>-1</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+    font-size: 16px;
+    color: #FFFFFF;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+</string>
+   </property>
+   <property name="text">
+    <string>Tarefas:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="txt_nomeTarefas">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>100</y>
+     <width>431</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>-1</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 2px solid #cccccc; 
+    border-radius: 5px; 
+    padding: 6px; 
+    font-size: 14px; 
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+QLineEdit:hover {
+    border: 2px solid #3f51b5; 
+    background-color: #f5f5f5; 
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_filtro">
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>80</y>
+     <width>21</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: #EDE7F6;
+    border: 2px solid #83C5BE; 
+    border-radius: 10px;
+    color: #FFFFFF; 
+    background-image: url(:/icon_filt/filtro.png); 
+    background-repeat: no-repeat; 
+    background-position: center; 
+    font-size: 14px; 
+    font-weight: bold; 
+    padding: 10px 16px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); 
+    transition: all 0.3s ease; 
+}
+
+QPushButton:hover {
+    background-color: #FFFFFF;
+    box-shadow: none; 
+}
+
+QPushButton:pressed {
+    background-color: #7C3AED; 
+    color: #FFFFFF; 
+    padding-top: 2px; 
+    padding-left: 2px;
+}
+</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>170</y>
+     <width>581</width>
+     <height>321</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QTableWidget, QTableView {
+    border: 1px solid #dcdcdc; 
+    border-radius: 5px; 
+    gridline-color: #dcdcdc; 
+    background-color: #ffffff; 
+    font-size: 14px; 
+    color: #333333; 
+}
+
+QHeaderView::section {
+    background-color: #f0f0f0; 
+    color: #333333;
+    font-weight: bold; 
+    border: 1px solid #dcdcdc; 
+    padding: 4px; 
+}
+
+QTableWidget::item:selected, QTableView::item:selected {
+    background-color: #b3d9ff; 
+    color: #000000;
+}
+
+QTableCornerButton::section {
+    background-color: #f0f0f0; 
+    border: 1px solid #dcdcdc;
+}
+
+QScrollBar:vertical {
+    background: #f0f0f0;
+    width: 12px; 
+    margin: 2px 0 2px 0; 
+    border: none; 
+}
+
+QScrollBar::handle:vertical {
+    background: #b0bec5; 
+    min-height: 20px; 
+    border-radius: 6px; 
+}
+
+QScrollBar::handle:vertical:hover {
+    background: #90a4ae; 
+}
+
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    background: none; 
+    height: 0px; 
+}
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    background: none; 
+}
+
+QScrollBar:horizontal {
+    background: #f0f0f0; 
+    height: 12px; 
+    margin: 0 2px 0 2px; 
+    border: none;
+}
+
+QScrollBar::handle:horizontal {
+    background: #b0bec5;
+    min-width: 20px; 
+    border-radius: 6px;
+}
+
+QScrollBar::handle:horizontal:hover {
+    background: #90a4ae; 
+}
+
+QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+    background: none;
+    width: 0px;
+}
+
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+    background: none;
+}
+</string>
+   </property>
+   <column>
+    <property name="text">
+     <string>idContas</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Nome</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Emissão</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Vencimento</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Fornecedor</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Observação</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Valor</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Parcelas</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Forma de pagamento</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Situação</string>
+    </property>
+   </column>
+  </widget>
+ </widget>
+ <resources>
+  <include location="icon_adicionar.qrc"/>
+  <include location="icon_consultar.qrc"/>
+  <include location="icon_excluir.qrc"/>
+  <include location="icon_filtro.qrc"/>
+  <include location="icon_pesquisar.qrc"/>
+  <include location="icon_voltar.qrc"/>
+  <include location="icon_alterar.qrc"/>
+ </resources>
+ <connections/>
+</ui>

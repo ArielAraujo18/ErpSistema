@@ -468,7 +468,7 @@ class Ui_frm_Main(object):
                 self.ui.setupUi(self.frm_ValoresAReceber)
 
                 self.frm_ValoresAReceber.setAttribute(Qt.WA_DeleteOnClose)
-                self.frm_ValoresAReceber.destroyed.connect(lambda: setattr(self, 'frm_Contas', None))
+                self.frm_ValoresAReceber.destroyed.connect(lambda: setattr(self, 'frm_ValoresAReceber', None))
 
                 self.frm_ValoresAReceber.show()
         else:
