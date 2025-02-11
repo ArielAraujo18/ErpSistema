@@ -15,6 +15,7 @@ from frm_Fornecedor import Ui_frm_Fornecedor
 from frm_Produtos import Ui_frm_Produtos
 from frm_Vendas import Ui_Frm_Vendas
 from frm_Contas import Ui_frm_Contas
+from frm_ValoresAReceber import Ui_frm_ValoresAReceber
 
 import sys
 import icon_cliente
@@ -444,14 +445,35 @@ class Ui_frm_Main(object):
                self.frm_Vendas.activateWindow()
 
     def telaContas(self):
+         
          if not hasattr(self, 'frm_Contas') or self.frm_Contas is None or not self.frm_Contas.isVisible():
+
                 self.frm_Contas = QWidget()
                 self.ui = Ui_frm_Contas()
                 self.ui.setupUi(self.frm_Contas)
+
+                self.frm_Contas.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_Contas.destroyed.connect(lambda: setattr(self, 'frm_Contas', None))
+
                 self.frm_Contas.show()
          else:
                self.frm_Contas.raise_()
                self.frm_Contas.activateWindow()
+
+    def telaValores(self):
+        if not hasattr(self, 'frm_ValoresAReceber') or self.frm_ValoresAReceber is None or not self.frm_ValoresAReceber.isVisible():
+
+                self.frm_ValoresAReceber = QWidget()
+                self.ui = Ui_frm_ValoresAReceber()
+                self.ui.setupUi(self.frm_ValoresAReceber)
+
+                self.frm_ValoresAReceber.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_ValoresAReceber.destroyed.connect(lambda: setattr(self, 'frm_Contas', None))
+
+                self.frm_ValoresAReceber.show()
+        else:
+               self.frm_ValoresAReceber.raise_()
+               self.frm_ValoresAReceber.activateWindow()
 
     def retranslateUi(self, frm_Main):
         frm_Main.setWindowTitle(QCoreApplication.translate("frm_Main", u"Tela Principal", None))
@@ -499,6 +521,7 @@ class Ui_frm_Main(object):
         self.btn_produtos.clicked.connect(self.telaProdutos)
         self.btn_vendas.clicked.connect(self.telaVendas)
         self.btn_pagar.clicked.connect(self.telaContas)
+        self.btn_receber.clicked.connect(self.telaValores)
 
         #action
         self.actionCliente.triggered.connect(self.telaCliente)
