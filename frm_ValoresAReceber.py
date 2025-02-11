@@ -512,7 +512,73 @@ class Ui_frm_ValoresAReceber(object):
                 self.frm_DadosValores.raise_()
                 self.frm_DadosValores.activateWindow()
 
-    
+    def excluirContas(self):
+
+        line = self.tableWidget.currentRow()
+
+        if line == -1:
+            msg = QMessageBox()
+            msg.setWindowTitle('Erro!')
+            msg.setText('Por favor, selecione um valor para excluir.')
+            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            msg.setIcon(QMessageBox.Warning)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+            return #Retorna se a codição for falsa
+        
+        item = self.tableWidget.item(line, 0)
+
+        if item:
+            idValor = item.text()
+            mydb = mysql.connector.connect(
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
+            )
+
+            mycursor = mydb.cursor()
+            sql = "DELETE FROM valores WHERE idValores = %s"
+            mycursor.execute(sql, (idValor,))
+            mydb.commit()
+
+            msg = QMessageBox()
+            msg.setWindowTitle('Conta excluída')
+            msg.setText('Conta excluída com sucesso!')
+            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            msg.setIcon(QMessageBox.Information)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+
+            mycursor.execute("SELECT * FROM valores")
+            myresult = mycursor.fetchall()
+            df = pd.DataFrame(myresult, columns=['idValores', 'Nome', 'Emissão', 'Vencimento', 'Observação', 'Valor', 'Parcelas', 'Forma de pagamento', 'Situação'])
+            self.all_data = df
+
+            numRows = len(self.all_data.index)
+            self.tableWidget.setColumnCount(len(self.all_data.columns))
+            self.tableWidget.setRowCount(numRows)
+            self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
+
+            for i in range(numRows):
+                for j in range(len(self.all_data.columns)):
+                    self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
+            
+            self.tableWidget.resizeRowsToContents()
+
+            for row in range(self.tableWidget.rowCount()):
+                self.tableWidget.resizeRowsToContents()
+
+            mydb.close()
+
+        else:
+            msg = QMessageBox()
+            msg.setWindowTitle('Erro seleção')
+            msg.setText('Valor não selecionado!')
+            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            msg.setIcon(QMessageBox.Warning)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
 
     def retranslateUi(self, frm_ValoresAReceber):
         frm_ValoresAReceber.setWindowTitle(QCoreApplication.translate("frm_ValoresAReceber", u"Valores A Receber", None))
@@ -548,6 +614,7 @@ class Ui_frm_ValoresAReceber(object):
         self.btn_pesquisar.clicked.connect(self.pesquisarValores)
         self.btn_Add.clicked.connect(self.cadastrarValores)
         self.btn_alterar.clicked.connect(self.alterarValores)
+        self.btn_excluir.clicked.connect(self.excluirContas)
 
 
 if __name__ == "__main__":
