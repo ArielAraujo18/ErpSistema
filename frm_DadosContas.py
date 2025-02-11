@@ -965,7 +965,7 @@ class Ui_frm_DadosContas(object):
                 observacao = str(df['Observação'][0])
                 valor = str(df['Valor'][0])
                 parcelas = str(df['Parcelas'][0])
-                formaDePagamento = str(df['Forma de pagamento'][0])  # Agora definida
+                formaDePagamento = str(df['Forma de pagamento'][0])
                 situacao = str(df['Situação'][0])
 
                 # Adicionando fornecedor, forma de pagamento e situação se não existirem
