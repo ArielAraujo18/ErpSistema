@@ -476,6 +476,44 @@ class Ui_frm_ValoresAReceber(object):
             self.frm_DadosValores.raise_()
             self.frm_DadosValores.activateWindow()
 
+    def alterarValores(self):
+        
+        Controle.tiposTelaDadosCliente = 'alterar'
+        print('frm_DadosValores', Controle.tiposTelaDadosCliente)
+
+        line = self.tableWidget.currentRow()
+
+        if line == -1:
+            msg = QMessageBox()
+            msg.setWindowTitle("Erro de seleção")
+            msg.setText('Por favor selecione um valor para alterar')
+            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            msg.setIcon(QMessageBox.Warning)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+            return
+        
+        item = self.tableWidget.item(line, 0)
+
+        if item:
+            Controle.idConsulta = item.text()
+            if not hasattr(self, 'frm_DadosValores') or self.frm_DadosValores is None or not self.frm_ValoresAReceber.isVisible():
+
+                self.frm_DadosValores = QWidget()
+                self.ui = Ui_frm_DadosValores()
+                self.ui.setupUi(self.frm_DadosValores)
+
+                self.frm_DadosValores.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_DadosValores.destroyed.connect(lambda: setattr(self, 'frm_DadosValores', None))
+
+                self.frm_DadosValores.show()
+
+            else:
+                self.frm_DadosValores.raise_()
+                self.frm_DadosValores.activateWindow()
+
+    
+
     def retranslateUi(self, frm_ValoresAReceber):
         frm_ValoresAReceber.setWindowTitle(QCoreApplication.translate("frm_ValoresAReceber", u"Valores A Receber", None))
         self.btn_Add.setText("")
@@ -509,6 +547,7 @@ class Ui_frm_ValoresAReceber(object):
         self.btn_filtro.clicked.connect(self.consultarGeral)
         self.btn_pesquisar.clicked.connect(self.pesquisarValores)
         self.btn_Add.clicked.connect(self.cadastrarValores)
+        self.btn_alterar.clicked.connect(self.alterarValores)
 
 
 if __name__ == "__main__":

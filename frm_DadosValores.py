@@ -610,6 +610,46 @@ class Ui_frm_DadosValores(object):
         msg.setStandardButtons(QMessageBox.Ok)
         msg.exec()
 
+    def alterarValores(self):
+        
+        nome = self.txt_nome.text()
+        emissao = self.txt_emissao.text()
+        vencimento = self.txt_vencimento.text()
+        obs = self.textEdit.toPlainText()
+        valor = self.txt_valor.text()
+        parcelas = self.txt_parcelas.text()
+        formaDePagamento = self.comboFormaDePagamento.currentText()
+        situacao = self.comboSituacao.currentText()
+
+        mydb = mysql.connector.connect(
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
+        )
+
+        mycursor = mydb.cursor()
+        sql = """
+        UPDATE valores
+        SET Nome = %s, Emissão = %s, Vencimento = %s, Observação = %s, 
+                Valor = %s, Parcelas = %s, `Forma de pagamento` = %s, Situação = %s
+        WHERE idValores = %s
+        """
+        val = (nome, emissao, vencimento, obs, valor, parcelas, formaDePagamento, situacao, Controle.idConsulta)
+        mycursor.execute(sql, val)
+        mydb.commit()
+
+        msg = QMessageBox()
+        msg.setWindowTitle('Sucesso!')
+        msg.setText('Dívida alterada com sucesso!')
+        msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec()
+
+        self.frm_DadosValores.close()
+
+
     def retranslateUi(self, frm_DadosValores):
         frm_DadosValores.setWindowTitle(QCoreApplication.translate("frm_DadosValores", u"Dados Valores", None))
         self.lbl_nome.setText(QCoreApplication.translate("frm_DadosValores", u"Nome:", None))
@@ -639,8 +679,11 @@ class Ui_frm_DadosValores(object):
     # retranslateUi
 
         if Controle.tiposTelaDadosCliente == 'incluir':
-            print('incluir')
-            self.btn_cadastrar.clicked.connect(self.adicionarValores)
+                print('incluir')
+                self.btn_cadastrar.clicked.connect(self.adicionarValores)
+        if Controle.tiposTelaDadosCliente == 'alterar':
+                print('alterar')
+                self.btn_cadastrar.clicked.connect(self.alterarValores)
 
         self.btn_cancelar.clicked.connect(self.sairTela)
 
@@ -655,6 +698,56 @@ class Ui_frm_DadosValores(object):
                 self.comboFormaDePagamento.setEnabled(True)
                 self.comboSituacao.setEnabled(True)
                 self.btn_cadastrar.setEnabled(True)
+        elif Controle.tiposTelaDadosCliente == 'alterar':
+                print('alterando')
+                self.txt_nome.setEnabled(True)
+                self.txt_emissao.setEnabled(True)
+                self.txt_vencimento.setEnabled(True)
+                self.textEdit.setEnabled(True)
+                self.txt_valor.setEnabled(True)
+                self.txt_parcelas.setEnabled(True)
+                self.comboFormaDePagamento.setEnabled(True)
+                self.comboSituacao.setEnabled(True)
+                self.btn_cadastrar.setEnabled(True)
+
+                print('conectando')
+
+                mydb = mysql.connector.connect(
+                        host = Controle.host,
+                        user = Controle.user,
+                        password = Controle.password,
+                        database = Controle.database
+                )
+
+                mycursor = mydb.cursor()
+                consultarSQL = "SELECT * FROM valores WHERE idValores = %s"
+
+                mycursor.execute(consultarSQL, (Controle.idConsulta,))
+                myresult = mycursor.fetchone()  # Obtém o resultado como uma tupla
+                
+                nome = myresult[1]
+                emissao = myresult[2]
+                vencimento = myresult[3]
+                observacao = myresult[4]
+                valor = myresult[5]
+                parcelas = myresult[6]
+                formaDePagamento = myresult[7]
+                situacao = myresult[8]
+
+                self.txt_nome.setText(nome)
+                self.txt_emissao.setText(emissao)
+                self.txt_vencimento.setText(vencimento)
+                self.textEdit.setText(observacao)
+                self.txt_nome.setText(nome)
+                self.txt_valor.setText(valor)
+                self.txt_parcelas.setText(str(parcelas))
+                self.comboFormaDePagamento.setCurrentText(formaDePagamento)
+                self.comboSituacao.setCurrentText(situacao)
+
+                # Fechar o cursor e a conexão
+                mycursor.close()
+                mydb.close()
+
 if __name__ == "__main__":
     app = QApplication([])
     frm_DadosValores = QWidget()

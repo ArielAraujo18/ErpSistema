@@ -485,7 +485,7 @@ class Ui_frm_Contas(object):
         if line == -1:
             msg = QMessageBox()
             msg.setWindowTitle('Erro de Seleção')
-            msg.setText('Por favor, selecione algum produto para alterar')
+            msg.setText('Por favor, selecione alguma conta para alterar')
             msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
             msg.setIcon(QMessageBox.Warning)
             msg.setStandardButtons(QMessageBox.Ok)
