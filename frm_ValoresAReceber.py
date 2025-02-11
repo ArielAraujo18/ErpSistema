@@ -8,6 +8,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QTableWidget, QTableWidgetItem,
     QWidget, QMessageBox)
+from frm_DadosValores import Ui_frm_DadosValores
 
 import mysql.connector
 import Controle
@@ -231,6 +232,7 @@ class Ui_frm_ValoresAReceber(object):
         self.txt_nomeContas.setFont(font1)
         self.txt_nomeContas.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
+"    color: #000000;\n"
 "    border-radius: 5px; \n"
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
@@ -421,6 +423,59 @@ class Ui_frm_ValoresAReceber(object):
 
         mydb.close()
 
+    def pesquisarValores(self):
+
+        print("Conectando")
+        mydb = mysql.connector.connect(
+            host = Controle.host,
+            user = Controle.user,
+            password = Controle.password,
+            database = Controle.database
+        )
+
+        mycursor = mydb.cursor()
+
+        nomeConsulta = self.txt_nomeContas.text() #Esqueci de mudar o nome da variavel
+        consultaSQL = "SELECT * FROM valores WHERE nome LIKE     %s"
+        mycursor.execute(consultaSQL, ('%' + nomeConsulta + '%',))
+
+        myresult = mycursor.fetchall()
+
+        df = pd.DataFrame(myresult, columns=["idValores", "Nome", "Emissão", "Vencimento", "Observação", "Valor", "Parcelas", "Forma de pagamento", "Situação"])
+        self.all_data = df
+
+        numRows = len(self.all_data.index)
+        numCols = len(self.all_data.columns)
+        self.tableWidget.setColumnCount(numCols)
+        self.tableWidget.setRowCount(numRows)
+        self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
+
+        for i in range(numRows):
+            for j in range(numCols):
+                self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
+
+        self.tableWidget.resizeColumnsToContents()
+        self.tableWidget.resizeRowsToContents()
+        
+        mydb.close()
+
+    def cadastrarValores(self):
+        Controle.tiposTelaDadosCliente = 'incluir'
+        if not hasattr(self, 'frm_DadosValores') or self.frm_DadosValores is None or not self.frm_ValoresAReceber.isVisible():
+
+            self.frm_DadosValores = QWidget()
+            self.ui = Ui_frm_DadosValores()
+            self.ui.setupUi(self.frm_DadosValores)
+
+            self.frm_DadosValores.setAttribute(Qt.WA_DeleteOnClose)
+            self.frm_DadosValores.destroyed.connect(lambda: setattr(self, 'frm_DadosValores', None))
+
+            self.frm_DadosValores.show()
+
+        else:
+            self.frm_DadosValores.raise_()
+            self.frm_DadosValores.activateWindow()
+
     def retranslateUi(self, frm_ValoresAReceber):
         frm_ValoresAReceber.setWindowTitle(QCoreApplication.translate("frm_ValoresAReceber", u"Valores A Receber", None))
         self.btn_Add.setText("")
@@ -452,6 +507,8 @@ class Ui_frm_ValoresAReceber(object):
     # retranslateUi
         self.btn_voltar.clicked.connect(self.sairTela)
         self.btn_filtro.clicked.connect(self.consultarGeral)
+        self.btn_pesquisar.clicked.connect(self.pesquisarValores)
+        self.btn_Add.clicked.connect(self.cadastrarValores)
 
 
 if __name__ == "__main__":

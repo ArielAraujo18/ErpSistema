@@ -1,13 +1,3 @@
-# -*- coding: utf-8 -*-
-
-################################################################################
-## Form generated from reading UI file 'frm_DadosValores.ui'
-##
-## Created by: Qt User Interface Compiler version 6.8.0
-##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
-################################################################################
-
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
@@ -16,15 +6,22 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QLabel, QLineEdit,
-    QPushButton, QSizePolicy, QTextEdit, QWidget)
-import icon_cadastrar_rc
-import icon_cancelar_rc
+    QPushButton, QSizePolicy, QTextEdit, QWidget, QMessageBox)
+
+import pandas as pd
+import Controle
+import mysql.connector
+
+import icon_cadastrar
+import icon_cancelar
 
 class Ui_frm_DadosValores(object):
     def setupUi(self, frm_DadosValores):
         if not frm_DadosValores.objectName():
             frm_DadosValores.setObjectName(u"frm_DadosValores")
-        frm_DadosValores.resize(638, 654)
+        frm_DadosValores.setFixedSize(638, 654)
+        frm_DadosValores.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+        self.frm_DadosValores = frm_DadosValores
         frm_DadosValores.setStyleSheet(u"QWidget {\n"
 "    background-color: #40E0D0;\n"
 "    border-radius: 8px;\n"
@@ -515,8 +512,102 @@ class Ui_frm_DadosValores(object):
         QMetaObject.connectSlotsByName(frm_DadosValores)
     # setupUi
 
+    def adicionarValores(self):
+        campos_comuns = {
+            "Nome": self.txt_nome.text().strip(),
+            "Observacao": self.textEdit.toPlainText().strip(),
+            "Valor": self.txt_valor.text().strip(),
+            "Parcelas": self.txt_parcelas.text().strip(),
+        }
+
+        campos_mask = {
+            "Emissão": self.txt_emissao.text().strip(),
+            "Vencimento": self.txt_vencimento.text().strip(),
+        }
+
+        for campo, valor, in campos_comuns.items():
+            if not valor:
+                msg = QMessageBox()
+                msg.setWindowTitle("ERRO!")
+                msg.setText(f"O campo {campo} é obrigatório e não pode ficar vazio!")
+                msg.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+                msg.setIcon(QMessageBox.Warning)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+                return
+        
+        for campo, valor in campos_mask.items():
+            valor_limpo = valor.replace("R$", "").replace("/","").replace(".", "").strip()
+
+            if not valor_limpo.isdigit():
+                msg = QMessageBox()
+                msg.setWindowTitle("Erro!")
+                msg.setText(f"O campo '{campo}' deve conter apenas números!")
+                msg.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+                msg.setIcon(QMessageBox.Warning)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+                return
+            
+        valor = self.txt_valor.text().strip()
+        if "R$" not in valor:
+                msg = QMessageBox()
+                msg.setWindowTitle("Erro!")
+                msg.setText("É importante formatar o valor corretamente com R$, virgulas e pontos!")
+                msg.setWindowIcon(QIcon((r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png")))
+                msg.setIcon(QMessageBox.Icon.Warning)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+                return
+        nome = self.txt_nome.text()
+        emissao = self.txt_emissao.text()
+        vencimento = self.txt_vencimento.text()
+        obs = self.textEdit.toPlainText()
+        valor = self.txt_valor.text()
+        parcelas = self.txt_parcelas.text()
+        formaDePagamento = self.comboFormaDePagamento.currentText()
+        situacao = self.comboSituacao.currentText()
+
+        mydb = mysql.connector.connect(
+            host = Controle.host,
+            user = Controle.user,
+            password = Controle.password,
+            database = Controle.database,
+        )
+
+        mycursor = mydb.cursor()
+
+        sql = "INSERT INTO valores(`Nome`, `Emissão`, `Vencimento`, `Observação`, `Valor`, `Parcelas`, `Forma de pagamento`, `Situação`) values (%s, %s, %s, %s, %s, %s, %s, %s)"
+        val = (nome, emissao, vencimento, obs, valor, parcelas, formaDePagamento, situacao)
+        mycursor.execute(sql, val)
+        mydb.commit()
+
+        print(mycursor.rowcount, 'Registros inseridos')
+
+        mycursor.close()
+        mydb.close()
+
+        self.txt_nome.setText("")
+        self.txt_emissao.setText("")
+        self.txt_vencimento.setText("")
+        self.textEdit.setText("")
+        self.txt_valor.setText("")
+        self.txt_parcelas.setText("")
+        self.comboFormaDePagamento.setCurrentIndex(0)
+        self.comboSituacao.setCurrentIndex(0)
+
+        # Mensagem de sucesso
+        msg = QMessageBox()
+        msg.setWindowTitle("Sucesso!")
+        msg.setText("Valor adicionado com sucesso!")
+        icon_path = r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"
+        msg.setWindowIcon(QIcon(icon_path))
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec()
+
     def retranslateUi(self, frm_DadosValores):
-        frm_DadosValores.setWindowTitle(QCoreApplication.translate("frm_DadosValores", u"Form", None))
+        frm_DadosValores.setWindowTitle(QCoreApplication.translate("frm_DadosValores", u"Dados Valores", None))
         self.lbl_nome.setText(QCoreApplication.translate("frm_DadosValores", u"Nome:", None))
         self.lbl_emissao.setText(QCoreApplication.translate("frm_DadosValores", u"Emiss\u00e3o:", None))
         self.lbl_vencimento.setText(QCoreApplication.translate("frm_DadosValores", u"Vencimento:", None))
@@ -543,3 +634,26 @@ class Ui_frm_DadosValores(object):
 
     # retranslateUi
 
+        if Controle.tiposTelaDadosCliente == 'incluir':
+            print('incluir')
+            self.btn_cadastrar.clicked.connect(self.adicionarValores)
+
+
+        if Controle.tiposTelaDadosCliente == 'incluir':
+                print('incluindo')
+                self.txt_nome.setEnabled(True)
+                self.txt_emissao.setEnabled(True)
+                self.txt_vencimento.setEnabled(True)
+                self.textEdit.setEnabled(True)
+                self.txt_valor.setEnabled(True)
+                self.txt_parcelas.setEnabled(True)
+                self.comboFormaDePagamento.setEnabled(True)
+                self.comboSituacao.setEnabled(True)
+                self.btn_cadastrar.setEnabled(True)
+if __name__ == "__main__":
+    app = QApplication([])
+    frm_DadosValores = QWidget()
+    ui = Ui_frm_DadosValores()
+    ui.setupUi(frm_DadosValores)
+    frm_DadosValores.show()
+    app.exec()
