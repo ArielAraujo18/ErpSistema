@@ -512,6 +512,10 @@ class Ui_frm_DadosValores(object):
         QMetaObject.connectSlotsByName(frm_DadosValores)
     # setupUi
 
+    def sairTela(self, frm_DadosValores):
+        self.frm_DadosValores.close()
+        self.frm_DadosValores = None
+
     def adicionarValores(self):
         campos_comuns = {
             "Nome": self.txt_nome.text().strip(),
@@ -638,6 +642,7 @@ class Ui_frm_DadosValores(object):
             print('incluir')
             self.btn_cadastrar.clicked.connect(self.adicionarValores)
 
+        self.btn_cancelar.clicked.connect(self.sairTela)
 
         if Controle.tiposTelaDadosCliente == 'incluir':
                 print('incluindo')
