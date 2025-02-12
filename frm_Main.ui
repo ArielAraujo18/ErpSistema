@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>642</width>
+    <width>722</width>
     <height>294</height>
    </rect>
   </property>
@@ -282,7 +282,7 @@ QPushButton:pressed{
    <widget class="QPushButton" name="btn_sair">
     <property name="geometry">
      <rect>
-      <x>560</x>
+      <x>640</x>
       <y>0</y>
       <width>81</width>
       <height>71</height>
@@ -319,7 +319,7 @@ QPushButton:pressed{
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>180</x>
+      <x>220</x>
       <y>140</y>
       <width>301</width>
       <height>31</height>
@@ -344,13 +344,50 @@ QPushButton:pressed{
      <string>AVS-SOFTWARES</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="btn_produtos_2">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>0</y>
+      <width>81</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{
+    background-color: #f5f5f5;
+    border: 2px solid #cccccc;
+    border-radius: 10px;
+    padding: 10px; 
+    color: #333333; 
+    font-size: 14px; 
+	background-image:url(:/icon_tarefas/Adobe_Express_-_file-removebg-preview.png); 
+    background-repeat: no-repeat; 
+    background-position: center; 
+	transition: all 0.3s ease;
+}
+QPushButton:hover{
+    background-color: #e0e0e0;
+    border-color: #aaaaaa;
+	transform: scale(1.05); 
+}
+QPushButton:pressed{
+	background-color: #d6d6d6;
+	border-color: #888888;
+	transform: scale(0.95);
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>642</width>
+     <width>722</width>
      <height>34</height>
     </rect>
    </property>
@@ -545,6 +582,7 @@ QMenu::item:selected {
  </widget>
  <resources>
   <include location="icon_cliente.qrc"/>
+  <include location="icon_tarefas.qrc"/>
   <include location="icon_sair.qrc"/>
   <include location="icon_caixa.qrc"/>
   <include location="icon_receber.qrc"/>

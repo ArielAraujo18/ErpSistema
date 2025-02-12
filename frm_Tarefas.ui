@@ -464,7 +464,7 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
    </property>
    <column>
     <property name="text">
-     <string>idContas</string>
+     <string>idTarefas</string>
     </property>
    </column>
    <column>
@@ -474,37 +474,17 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
    </column>
    <column>
     <property name="text">
-     <string>Emissão</string>
+     <string>Início</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>Vencimento</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Fornecedor</string>
+     <string>Fim</string>
     </property>
    </column>
    <column>
     <property name="text">
      <string>Observação</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Valor</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Parcelas</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Forma de pagamento</string>
     </property>
    </column>
    <column>
