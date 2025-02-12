@@ -1,13 +1,3 @@
-# -*- coding: utf-8 -*-
-
-################################################################################
-## Form generated from reading UI file 'frm_Tarefas.ui'
-##
-## Created by: Qt User Interface Compiler version 6.8.0
-##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
-################################################################################
-
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
@@ -18,19 +8,21 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QTableWidget, QTableWidgetItem,
     QWidget)
-import icon_adicionar_rc
-import icon_consultar_rc
-import icon_excluir_rc
-import icon_filtro_rc
-import icon_pesquisar_rc
-import icon_voltar_rc
-import icon_alterar_rc
+import icon_adicionar
+import icon_consultar
+import icon_excluir
+import icon_filtro
+import icon_pesquisar
+import icon_voltar
+import icon_alterar
 
 class Ui_frm_Tarefas(object):
     def setupUi(self, frm_Tarefas):
         if not frm_Tarefas.objectName():
             frm_Tarefas.setObjectName(u"frm_Tarefas")
-        frm_Tarefas.resize(581, 593)
+        frm_Tarefas.setFixedSize(581, 593)
+        self.frm_Tarefas = frm_Tarefas
+        frm_Tarefas.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
         frm_Tarefas.setStyleSheet(u"QWidget{\n"
 "	background-color: #001F3F;\n"
 "\n"
@@ -379,8 +371,12 @@ class Ui_frm_Tarefas(object):
         QMetaObject.connectSlotsByName(frm_Tarefas)
     # setupUi
 
+    def sairTela(self):
+        self.frm_Tarefas.close()
+        self.frm_Tarefas = None
+
     def retranslateUi(self, frm_Tarefas):
-        frm_Tarefas.setWindowTitle(QCoreApplication.translate("frm_Tarefas", u"Form", None))
+        frm_Tarefas.setWindowTitle(QCoreApplication.translate("frm_Tarefas", u"Tarefas", None))
         self.btn_Add.setText("")
         self.btn_voltar.setText("")
         self.btn_consul.setText("")
@@ -402,4 +398,13 @@ class Ui_frm_Tarefas(object):
         ___qtablewidgetitem5 = self.tableWidget.horizontalHeaderItem(5)
         ___qtablewidgetitem5.setText(QCoreApplication.translate("frm_Tarefas", u"Situa\u00e7\u00e3o", None));
     # retranslateUi
+    
+        self.btn_voltar.clicked.connect(self.sairTela)
 
+if __name__ == "__main__":
+    app = QApplication([])
+    frm_Tarefas = QWidget()
+    ui = Ui_frm_Tarefas()
+    ui.setupUi(frm_Tarefas)
+    frm_Tarefas.show()
+    app.exec()
