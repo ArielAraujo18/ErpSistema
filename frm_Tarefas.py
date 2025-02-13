@@ -424,6 +424,44 @@ class Ui_frm_Tarefas(object):
         # Fechando a conexão com o banco
         mydb.close()
 
+    def pesquisarGeral(self):
+
+        print("Conectando")
+        mydb = mysql.connector.connect(
+            host = Controle.host,
+            user = Controle.user,
+            password = Controle.password,
+            database = Controle.database
+        )
+
+        mycursor = mydb.cursor()
+
+        nomeConsulta = self.txt_nomeTarefas.text()
+        consultaSQL = "SELECT * FROM tarefas WHERE Nome LIKE    %s"
+        mycursor.execute(consultaSQL, ('%' + nomeConsulta + '%',))
+
+        myresult = mycursor.fetchall()
+
+        df = pd.DataFrame(myresult, columns=["idTarefas","Nome","Início","Fim","Observação","Situação"])
+        self.all_data = df
+
+        numRows = len(self.all_data.index)
+        numCols = len(self.all_data.columns)
+
+        self.tableWidget.setColumnCount(numCols)
+        self.tableWidget.setRowCount(numRows)
+        self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
+
+        for i in range(numRows):
+             for j in range(numCols):
+                  self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
+
+        self.tableWidget.resizeColumnsToContents()
+        self.tableWidget.resizeRowsToContents()
+
+        mydb.close()
+
+
     def retranslateUi(self, frm_Tarefas):
         frm_Tarefas.setWindowTitle(QCoreApplication.translate("frm_Tarefas", u"Tarefas", None))
         self.btn_Add.setText("")
