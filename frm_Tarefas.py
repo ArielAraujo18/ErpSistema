@@ -8,6 +8,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QTableWidget, QTableWidgetItem,
     QWidget)
+from frm_DadosTarefas import Ui_frm_DadosTarefas
 
 import mysql.connector
 import pandas as pd
@@ -461,7 +462,22 @@ class Ui_frm_Tarefas(object):
 
         mydb.close()
 
+    def cadastrarTarefas(self):
+        Controle.tiposTelaDadosCliente = "incluir"
+        if not hasattr(self, 'frm_DadosTarefas') or self.frm_DadosTarefas is None or not self.frm_DadosTarefas.isVisible():
+            self.frm_DadosTarefas = QWidget()
+            self.ui = Ui_frm_DadosTarefas()
+            self.ui.setupUi(self.frm_DadosTarefas)
 
+            self.frm_DadosTarefas.setAttribute(Qt.WA_DeleteOnClose)
+            self.frm_DadosTarefas.destroyed.connect(lambda: setattr(self, 'frm_DadosTarefas', None))
+
+            self.frm_DadosTarefas.show()
+
+        else:
+            self.frm_DadosTarefas.raise_()
+            self.frm_DadosTarefas.activateWindow()
+    
     def retranslateUi(self, frm_Tarefas):
         frm_Tarefas.setWindowTitle(QCoreApplication.translate("frm_Tarefas", u"Tarefas", None))
         self.btn_Add.setText("")
@@ -486,7 +502,9 @@ class Ui_frm_Tarefas(object):
         ___qtablewidgetitem5.setText(QCoreApplication.translate("frm_Tarefas", u"Situa\u00e7\u00e3o", None));
     # retranslateUi
         self.btn_filtro.clicked.connect(self.consultarGeral)
+        self.btn_pesquisar.clicked.connect(self.pesquisarGeral)
         self.btn_voltar.clicked.connect(self.sairTela)
+        self.btn_Add.clicked.connect(self.cadastrarTarefas)
 
 if __name__ == "__main__":
     app = QApplication([])

@@ -6,7 +6,11 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QLabel, QLineEdit,
-    QPushButton, QSizePolicy, QTextEdit, QWidget)
+    QPushButton, QSizePolicy, QTextEdit, QWidget, QMessageBox)
+
+import Controle
+import pandas as pd
+import mysql.connector
 
 import icon_cadastrar
 import icon_cancelar
@@ -325,6 +329,71 @@ class Ui_frm_DadosTarefas(object):
         QMetaObject.connectSlotsByName(frm_DadosTarefas)
     # setupUi
 
+    def sairTela(self):
+        self.frm_DadosTarefas.close()
+        self.frm_DadosTarefas = None
+
+    def adicionarTarefas(self):
+        campos_comuns = {
+            "Nome": self.txt_nome.text().strip(),
+            "Observacao": self.textEdit.toPlainText().strip(),
+        }
+        campos_mask = {
+            "Inicio": self.txt_inicio.text().strip(),
+            "Fim": self.txt_fim.text().strip(),
+        }
+
+        for campo, valor in campos_comuns.items():
+             if not valor:
+                 msg = QMessageBox()
+                 msg.setWindowTitle("Erro!")
+                 msg.setText(f"O campo {campo} é obrigatório e não pode ficar vazio!")
+                 msg.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+                 msg.setIcon(QMessageBox.Warning)
+                 msg.setStandardButtons(QMessageBox.Ok)
+                 msg.exec()
+                 return
+        
+        nome = self.txt_nome.text()
+        inicio = self.txt_inicio.text()
+        fim = self.txt_fim.text()
+        obs = self.textEdit.toPlainText()
+        situacao = self.comboSituacao.currentText()
+
+        mydb = mysql.connector.connect(
+            host = Controle.host,
+            user = Controle.user,
+            password = Controle.password,
+            database = Controle.database,
+        )
+
+        mycursor = mydb.cursor()
+
+        sql = "INSERT INTO tarefas(`Nome`, `Início`, `Fim`, `Observação`, `Situação`) values (%s, %s, %s, %s, %s)"
+        val = (nome, inicio, fim, obs, situacao)
+        mycursor.execute(sql, val)
+        mydb.commit()
+
+        print(mycursor.rowcount, 'Registros inseridos')
+
+        mycursor.close()
+        mydb.close()
+
+        self.txt_nome.setText("")
+        self.txt_inicio.setText("")
+        self.txt_fim.setText("")
+        self.textEdit.setText("")
+        self.comboSituacao.setCurrentIndex(0)
+
+        msg = QMessageBox()
+        msg.setWindowTitle("Sucesso!")
+        msg.setText("Tarefa adicionada com sucesso!")
+        icon_path = r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"
+        msg.setWindowIcon(QIcon(icon_path))
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec()
+
     def retranslateUi(self, frm_DadosTarefas):
         frm_DadosTarefas.setWindowTitle(QCoreApplication.translate("frm_DadosTarefas", u"Dados Tarefas", None))
         self.lbl_nome.setText(QCoreApplication.translate("frm_DadosTarefas", u"Nome:", None))
@@ -339,6 +408,20 @@ class Ui_frm_DadosTarefas(object):
         self.lbl_Situacao.setText(QCoreApplication.translate("frm_DadosTarefas", u"Situa\u00e7\u00e3o:", None))
         self.comboSituacao.setItemText(0, QCoreApplication.translate("frm_DadosTarefas", u"EM ANDAMENTO", None))
         self.comboSituacao.setItemText(1, QCoreApplication.translate("frm_DadosTarefas", u"PRONTO", None))
+        #Condições do botão
+        if Controle.tiposTelaDadosCliente == 'incluir':
+            self.btn_cadastrar.clicked.connect(self.adicionarTarefas)
+        
+        self.btn_cancelar.clicked.connect(self.sairTela)
+        ##Condições da tela
+        if Controle.tiposTelaDadosCliente == 'incluir':
+            print('incluindo')
+            self.txt_nome.setEnabled(True)
+            self.txt_inicio.setEnabled(True)
+            self.txt_fim.setEnabled(True)
+            self.textEdit.setEnabled(True)
+            self.comboSituacao.setEnabled(True)
+            self.btn_cadastrar.setEnabled(True)
 
     # retranslateUi
 
