@@ -8,6 +8,11 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QTableWidget, QTableWidgetItem,
     QWidget)
+
+import mysql.connector
+import pandas as pd
+import Controle
+
 import icon_adicionar
 import icon_consultar
 import icon_excluir
@@ -375,6 +380,50 @@ class Ui_frm_Tarefas(object):
         self.frm_Tarefas.close()
         self.frm_Tarefas = None
 
+    def consultarGeral(self):
+
+        print('Conectando...')
+        mydb = mysql.connector.connect(
+        host=Controle.host,
+        user=Controle.user,
+        password=Controle.password,
+        database=Controle.database
+        )
+        print("Conexão bem-sucedida")
+
+        mycursor = mydb.cursor()
+
+        # Obtendo o valor do campo de texto corretamente
+        nomeConsulta = self.txt_nomeTarefas.text()
+
+        # Corrigindo a query SQL (adicionando o nome da tabela e usando placeholders)
+        consultaSQL = "SELECT * FROM tarefas WHERE Nome LIKE %s"
+
+        # Executando a consulta com um parâmetro seguro
+        mycursor.execute(consultaSQL, (nomeConsulta + '%',))
+        myresult = mycursor.fetchall()
+
+        # Criando DataFrame com os resultados
+        df = pd.DataFrame(myresult, columns=["idTarefas", "Nome", "Início", "Fim", "Observação", "Situação"])
+        self.all_data = df
+
+        numRows = len(self.all_data.index)
+        numCols = len(self.all_data.columns)
+
+        self.tableWidget.setColumnCount(numCols)
+        self.tableWidget.setRowCount(numRows)
+        self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
+
+        for i in range(numRows):
+                for j in range(numCols):
+                        self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
+
+        self.tableWidget.resizeColumnsToContents()
+        self.tableWidget.resizeRowsToContents()
+
+        # Fechando a conexão com o banco
+        mydb.close()
+
     def retranslateUi(self, frm_Tarefas):
         frm_Tarefas.setWindowTitle(QCoreApplication.translate("frm_Tarefas", u"Tarefas", None))
         self.btn_Add.setText("")
@@ -398,7 +447,7 @@ class Ui_frm_Tarefas(object):
         ___qtablewidgetitem5 = self.tableWidget.horizontalHeaderItem(5)
         ___qtablewidgetitem5.setText(QCoreApplication.translate("frm_Tarefas", u"Situa\u00e7\u00e3o", None));
     # retranslateUi
-    
+        self.btn_filtro.clicked.connect(self.consultarGeral)
         self.btn_voltar.clicked.connect(self.sairTela)
 
 if __name__ == "__main__":
