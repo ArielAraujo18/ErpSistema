@@ -1,13 +1,3 @@
-# -*- coding: utf-8 -*-
-
-################################################################################
-## Form generated from reading UI file 'frm_DadosTarefas.ui'
-##
-## Created by: Qt User Interface Compiler version 6.8.0
-##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
-################################################################################
-
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
@@ -17,14 +7,18 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QTextEdit, QWidget)
-import icon_cadastrar_rc
-import icon_cancelar_rc
+
+import icon_cadastrar
+import icon_cancelar
+
 
 class Ui_frm_DadosTarefas(object):
     def setupUi(self, frm_DadosTarefas):
         if not frm_DadosTarefas.objectName():
             frm_DadosTarefas.setObjectName(u"frm_DadosTarefas")
-        frm_DadosTarefas.resize(558, 560)
+        frm_DadosTarefas.setFixedSize(558, 560)
+        self.frm_DadosTarefas = frm_DadosTarefas
+        frm_DadosTarefas.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
         frm_DadosTarefas.setStyleSheet(u"QWidget{\n"
 "	background-color: #001F3F;\n"
 "\n"
@@ -332,7 +326,7 @@ class Ui_frm_DadosTarefas(object):
     # setupUi
 
     def retranslateUi(self, frm_DadosTarefas):
-        frm_DadosTarefas.setWindowTitle(QCoreApplication.translate("frm_DadosTarefas", u"Form", None))
+        frm_DadosTarefas.setWindowTitle(QCoreApplication.translate("frm_DadosTarefas", u"Dados Tarefas", None))
         self.lbl_nome.setText(QCoreApplication.translate("frm_DadosTarefas", u"Nome:", None))
         self.lbl_inicio.setText(QCoreApplication.translate("frm_DadosTarefas", u"In\u00edcio:", None))
         self.lbl_fim.setText(QCoreApplication.translate("frm_DadosTarefas", u"Fim:", None))
@@ -348,3 +342,10 @@ class Ui_frm_DadosTarefas(object):
 
     # retranslateUi
 
+if __name__ == "__main__":
+    app = QApplication([])
+    frm_DadosTarefas = QWidget()
+    ui = Ui_frm_DadosTarefas()
+    ui.setupUi(frm_DadosTarefas)
+    frm_DadosTarefas.show()
+    app.exec()
