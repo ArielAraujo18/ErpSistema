@@ -512,6 +512,39 @@ class Ui_frm_Tarefas(object):
             self.frm_DadosTarefas.raise_()
             self.frm_DadosTarefas.activateWindow() 
     
+    def consultarTarefas(self):
+        Controle.tiposTelaDadosCliente = 'consultar'
+        print('frm_Tarefas', Controle.tiposTelaDadosCliente)
+
+        line = self.tableWidget.currentRow()
+        if line == -1:
+            msg = QMessageBox()
+            msg.setWindowTitle('ERRO!')
+            msg.setText('Por favor, selecione uma Tarefa para consultar.')
+            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            msg.setIcon(QMessageBox.Warning)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+            return
+        
+        item = self.tableWidget.item(line, 0)
+        if item:
+            Controle.idConsulta = item.text()
+            if not hasattr(self, 'frm_DadosTarefas') or self.frm_DadosTarefas is None or not self.frm_DadosTarefas.isVisible():
+                self.frm_DadosTarefas = QWidget()
+                self.ui = Ui_frm_DadosTarefas()
+                self.ui.setupUi(self.frm_DadosTarefas)
+
+                self.frm_DadosTarefas.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_DadosTarefas.destroyed.connect(lambda: setattr(self, 'frm_DadosTarefas', None))
+
+                self.frm_DadosTarefas.show()
+
+        else:
+            self.frm_DadosTarefas.raise_()
+            self.frm_DadosTarefas.activateWindow() 
+
+
     def retranslateUi(self, frm_Tarefas):
         frm_Tarefas.setWindowTitle(QCoreApplication.translate("frm_Tarefas", u"Tarefas", None))
         self.btn_Add.setText("")
@@ -540,6 +573,7 @@ class Ui_frm_Tarefas(object):
         self.btn_voltar.clicked.connect(self.sairTela)
         self.btn_Add.clicked.connect(self.cadastrarTarefas)
         self.btn_alterar.clicked.connect(self.alterarTarefas)
+        self.btn_consul.clicked.connect(self.consultarTarefas)
 
 if __name__ == "__main__":
     app = QApplication([])

@@ -502,6 +502,38 @@ class Ui_frm_DadosTarefas(object):
             # Fechar o cursor e a conexão
             mycursor.close()
             mydb.close()
+        elif Controle.tiposTelaDadosCliente == 'consultar':
+            print('DadosTarefas', Controle.tiposTelaDadosCliente)
+
+            self.txt_nome.setEnabled(False)
+            self.txt_inicio.setEnabled(False)
+            self.txt_fim.setEnabled(False)
+            self.textEdit.setEnabled(False)
+            self.comboSituacao.setEnabled(False)
+            self.btn_cadastrar.setEnabled(False)
+
+            mydb = mysql.connector.connect(
+                        host = Controle.host,
+                        user = Controle.user,
+                        password = Controle.password,
+                        database = Controle.database
+                )
+            mycursor = mydb.cursor()    
+            consultaSQL = """
+            SELECT Nome, Início, Fim, Observação, Situação FROM tarefas WHERE idTarefas = %s
+            """
+            mycursor.execute(consultaSQL, (Controle.idConsulta,))
+            myresult = mycursor.fetchall()
+
+            df = pd.DataFrame(myresult, columns=["Nome", "Início", "Fim", "Observação", "Situação"])
+            
+            self.txt_nome.setText(str(df['Nome'][0]))
+            self.txt_inicio.setText(str(df['Início'][0]))
+            self.txt_fim.setText(str(df['Fim'][0]))
+            self.textEdit.setText(str(df['Observação'][0]))
+            comboSituacao = str(df['Situação'][0]) if not df.empty else ""
+            self.comboSituacao.setCurrentText(comboSituacao)
+
     # retranslateUi
 
 if __name__ == "__main__":
