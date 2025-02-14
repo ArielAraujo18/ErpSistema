@@ -394,6 +394,44 @@ class Ui_frm_DadosTarefas(object):
         msg.setStandardButtons(QMessageBox.Ok)
         msg.exec()
 
+    def alterarTarefas(self): 
+        print(Controle.idConsulta)
+        nome = self.txt_nome.text()
+        inicio = self.txt_inicio.text()
+        fim = self.txt_fim.text()
+        obs = self.textEdit.toPlainText()
+        situacao = self.comboSituacao.currentText()
+
+
+
+        mydb = mysql.connector.connect(
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
+        )
+
+        mycursor = mydb.cursor()
+        sql = """
+        UPDATE tarefas
+        SET Nome = %s, Início = %s, Fim = %s, Observação = %s, Situação = %s WHERE idTarefas = %s
+        """
+
+        val = (nome, inicio, fim, obs, situacao, Controle.idConsulta)
+        mycursor.execute(sql, val)
+        mydb.commit()
+
+        msg = QMessageBox()
+        msg.setWindowTitle('Sucesso!')
+        msg.setText('Dívida alterada com sucesso!')
+        msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec()
+
+        self.frm_DadosTarefas.close()
+
+
     def retranslateUi(self, frm_DadosTarefas):
         frm_DadosTarefas.setWindowTitle(QCoreApplication.translate("frm_DadosTarefas", u"Dados Tarefas", None))
         self.lbl_nome.setText(QCoreApplication.translate("frm_DadosTarefas", u"Nome:", None))
@@ -406,11 +444,13 @@ class Ui_frm_DadosTarefas(object):
         self.lbl_obs.setText(QCoreApplication.translate("frm_DadosTarefas", u"Observa\u00e7\u00e3o:", None))
         self.btn_cadastrar.setText("")
         self.lbl_Situacao.setText(QCoreApplication.translate("frm_DadosTarefas", u"Situa\u00e7\u00e3o:", None))
-        self.comboSituacao.setItemText(0, QCoreApplication.translate("frm_DadosTarefas", u"EM ANDAMENTO", None))
-        self.comboSituacao.setItemText(1, QCoreApplication.translate("frm_DadosTarefas", u"PRONTO", None))
+        self.comboSituacao.setItemText(0, QCoreApplication.translate("frm_DadosTarefas", u"PENDENTE", None))
+        self.comboSituacao.setItemText(1, QCoreApplication.translate("frm_DadosTarefas", u"FINALIZADO", None))
         #Condições do botão
         if Controle.tiposTelaDadosCliente == 'incluir':
             self.btn_cadastrar.clicked.connect(self.adicionarTarefas)
+        if Controle.tiposTelaDadosCliente == 'alterar':
+            self.btn_cadastrar.clicked.connect(self.alterarTarefas)
         
         self.btn_cancelar.clicked.connect(self.sairTela)
         ##Condições da tela
@@ -422,7 +462,46 @@ class Ui_frm_DadosTarefas(object):
             self.textEdit.setEnabled(True)
             self.comboSituacao.setEnabled(True)
             self.btn_cadastrar.setEnabled(True)
+        elif Controle.tiposTelaDadosCliente == 'alterar':
+            print('alterando')
+            self.txt_nome.setEnabled(True)
+            self.txt_inicio.setEnabled(True)
+            self.txt_fim.setEnabled(True)
+            self.textEdit.setEnabled(True)
+            self.comboSituacao.setEnabled(True)
+            self.btn_cadastrar.setEnabled(True)
 
+            print('conectando')
+
+            mydb = mysql.connector.connect(
+                        host = Controle.host,
+                        user = Controle.user,
+                        password = Controle.password,
+                        database = Controle.database
+                )
+
+            mycursor = mydb.cursor()
+
+            consultarSQL = "SELECT * FROM tarefas WHERE idTarefas = %s"
+
+            mycursor.execute(consultarSQL, (Controle.idConsulta,))
+            myresult = mycursor.fetchone()
+
+            nome = myresult[1]
+            inicio = myresult[2]
+            fim = myresult[3]
+            obs = myresult[4]
+            situacao = myresult[5]
+
+            self.txt_nome.setText(nome)
+            self.txt_inicio.setText(inicio)
+            self.txt_fim.setText(fim)
+            self.textEdit.setText(obs)
+            self.comboSituacao.setCurrentText(situacao)
+
+            # Fechar o cursor e a conexão
+            mycursor.close()
+            mydb.close()
     # retranslateUi
 
 if __name__ == "__main__":

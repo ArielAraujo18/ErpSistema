@@ -853,7 +853,6 @@ class Ui_frm_DadosContas(object):
         #Condições da tela
         if Controle.tiposTelaDadosCliente == 'incluir':
                 self.carregarFornecedores()
-                print('incluindo')
                 self.txt_nome.setEnabled(True)
                 self.txt_emissao.setEnabled(True)
                 self.txt_vencimento.setEnabled(True)
