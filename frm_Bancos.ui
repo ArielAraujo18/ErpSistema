@@ -19,7 +19,7 @@
     border-radius: 8px;
 }</string>
   </property>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="label_Bancos">
    <property name="geometry">
     <rect>
      <x>590</x>
@@ -41,7 +41,7 @@
     <string>BANCOS</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2">
+  <widget class="QLabel" name="label_Gastos">
    <property name="geometry">
     <rect>
      <x>200</x>
@@ -63,7 +63,7 @@
     <string>GASTOS:</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_3">
+  <widget class="QLabel" name="labe_Lucros">
    <property name="geometry">
     <rect>
      <x>910</x>
@@ -85,7 +85,7 @@
     <string>LUCROS:</string>
    </property>
   </widget>
-  <widget class="QTableWidget" name="tableWidget_2">
+  <widget class="QTableWidget" name="tableLucros">
    <property name="geometry">
     <rect>
      <x>700</x>
@@ -196,11 +196,11 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
     </property>
    </column>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="btn_Visualizar">
    <property name="geometry">
     <rect>
-     <x>500</x>
-     <y>530</y>
+     <x>490</x>
+     <y>570</y>
      <width>321</width>
      <height>71</height>
     </rect>
@@ -236,7 +236,7 @@ QPushButton:pressed {
     <string>VIZUALIZAR</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QLineEdit" name="txt_gastos">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -266,7 +266,7 @@ QLineEdit:hover {
 </string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_4">
+  <widget class="QLabel" name="label_SomaGastos">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -288,7 +288,7 @@ QLineEdit:hover {
     <string>Soma dos gastos:</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_2">
+  <widget class="QLineEdit" name="txt_lucros">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -318,7 +318,7 @@ QLineEdit:hover {
 </string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_5">
+  <widget class="QLabel" name="label_SomaLucros">
    <property name="geometry">
     <rect>
      <x>640</x>
@@ -340,7 +340,7 @@ QLineEdit:hover {
     <string>Soma dos lucros:</string>
    </property>
   </widget>
-  <widget class="QTableWidget" name="tableWidget_3">
+  <widget class="QTableWidget" name="tableGastos">
    <property name="geometry">
     <rect>
      <x>50</x>
