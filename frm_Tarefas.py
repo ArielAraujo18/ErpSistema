@@ -544,6 +544,75 @@ class Ui_frm_Tarefas(object):
             self.frm_DadosTarefas.raise_()
             self.frm_DadosTarefas.activateWindow() 
 
+    def excluirTarefas(self):
+
+        line = self.tableWidget.currentRow()
+
+        if line == -1:
+            msg = QMessageBox()
+            msg.setWindowTitle('Erro!')
+            msg.setText('Por favor, selecione uma tarefa para excluir.')
+            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            msg.setIcon(QMessageBox.Warning)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+            return 
+
+        item = self.tableWidget.item(line, 0)
+
+        if item:
+            idTarefas = item.text()
+
+            mydb = mysql.connector.connect(
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
+            )
+
+            mycursor = mydb.cursor()
+            sql = "DELETE FROM tarefas WHERE idTarefas = %s"
+            mycursor.execute(sql, (idTarefas,))
+            mydb.commit()
+
+            msg = QMessageBox()
+            msg.setWindowTitle('Tarefa excluída')
+            msg.setText('Tarefa excluída com sucesso!')
+            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            msg.setIcon(QMessageBox.Information)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+
+            mycursor.execute("SELECT * FROM tarefas")
+            myresult = mycursor.fetchall()
+            df = pd.DataFrame(myresult, columns=['idTarefas', 'Nome', 'Início', 'Fim', 'Observação', 'Situação'])
+            self.all_data = df
+
+            numRows = len(self.all_data.index)
+            self.tableWidget.setColumnCount(len(self.all_data.columns))
+            self.tableWidget.setRowCount(numRows)
+            self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
+
+            for i in range(numRows):
+                for j in range(len(self.all_data.columns)):
+                    self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
+            
+            self.tableWidget.resizeRowsToContents()
+
+
+            for row in range(self.tableWidget.rowCount()):
+                self.tableWidget.resizeRowsToContents()
+
+            mydb.close()
+
+        else:
+            msg = QMessageBox()
+            msg.setWindowTitle('Erro seleção')
+            msg.setText('Tarefa não selecionada!')
+            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            msg.setIcon(QMessageBox.Warning)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
 
     def retranslateUi(self, frm_Tarefas):
         frm_Tarefas.setWindowTitle(QCoreApplication.translate("frm_Tarefas", u"Tarefas", None))
@@ -574,6 +643,7 @@ class Ui_frm_Tarefas(object):
         self.btn_Add.clicked.connect(self.cadastrarTarefas)
         self.btn_alterar.clicked.connect(self.alterarTarefas)
         self.btn_consul.clicked.connect(self.consultarTarefas)
+        self.btn_excluir.clicked.connect(self.excluirTarefas)
 
 if __name__ == "__main__":
     app = QApplication([])
