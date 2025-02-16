@@ -13,9 +13,11 @@ class Ui_Frm_Bancos(object):
     def setupUi(self, Frm_Bancos):
         if not Frm_Bancos.objectName():
             Frm_Bancos.setObjectName(u"Frm_Bancos")
-        Frm_Bancos.resize(1254, 860)
+        Frm_Bancos.setFixedSize(1254, 860)
+        self.frm_Bancos = frm_Bancos
+        frm_Bancos.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
         Frm_Bancos.setStyleSheet(u"QWidget {\n"
-"    background-color: #F5DEB3;\n"
+"    background-color: #FA8072;\n"
 "    border-radius: 8px;\n"
 "}")
         self.label_Bancos = QLabel(Frm_Bancos)
@@ -329,7 +331,7 @@ class Ui_Frm_Bancos(object):
     # setupUi
 
     def retranslateUi(self, Frm_Bancos):
-        Frm_Bancos.setWindowTitle(QCoreApplication.translate("Frm_Bancos", u"Form", None))
+        Frm_Bancos.setWindowTitle(QCoreApplication.translate("Frm_Bancos", u"Bancos", None))
         self.label_Bancos.setText(QCoreApplication.translate("Frm_Bancos", u"BANCOS", None))
         self.label_Gastos.setText(QCoreApplication.translate("Frm_Bancos", u"GASTOS:", None))
         self.labe_Lucros.setText(QCoreApplication.translate("Frm_Bancos", u"LUCROS:", None))
@@ -356,3 +358,10 @@ class Ui_Frm_Bancos(object):
         ___qtablewidgetitem8.setText(QCoreApplication.translate("Frm_Bancos", u"Total", None));
     # retranslateUi
 
+if __name__ == "__main__":
+    app = QApplication([])
+    frm_Bancos = QWidget()
+    ui = Ui_Frm_Bancos()
+    ui.setupUi(frm_Bancos)
+    frm_Bancos.show()
+    app.exec()
