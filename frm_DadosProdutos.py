@@ -400,6 +400,7 @@ class Ui_frm_DadosProdutos(object):
                 msg.exec()
                 return
 
+
         # Obtenção dos valores
         nome = self.txt_nome.text()
         quantidade = self.txt_qtd.text()
@@ -407,7 +408,7 @@ class Ui_frm_DadosProdutos(object):
         fornecedor = self.comboBox.currentText()  # Pega o texto selecionado na ComboBox
         obs = self.textEdit.toPlainText()
 
-
+        
         # Conexão com o banco de dados
         mydb = mysql.connector.connect(
                 host = Controle.host,
@@ -423,13 +424,16 @@ class Ui_frm_DadosProdutos(object):
         mycursor.execute(sql, val)
         mydb.commit()
 
-        self.carregarFornecedores()
+        
 
         print(mycursor.rowcount, 'Registro(s) inserido(s)')
 
         # Fechar conexão
         mycursor.close()
         mydb.close()
+
+        self.adicionarGastos(fornecedor)
+        self.carregarFornecedores()        
 
         # Limpar os campos após a inserção
         self.txt_nome.setText("")
@@ -447,6 +451,25 @@ class Ui_frm_DadosProdutos(object):
         msg.setIcon(QMessageBox.Information)
         msg.setStandardButtons(QMessageBox.Ok)
         msg.exec()
+
+    def adicionarGastos(self, fornecedor):
+        nome = self.txt_nome.text()
+        obs = self.textEdit.toPlainText()
+        valor = self.txt_valor.text()
+        
+        mydb = mysql.connector.connect(
+                host=Controle.host,
+                user=Controle.user,
+                password=Controle.password,
+                database=Controle.database
+        )
+        mycursor = mydb.cursor()
+        sql = "INSERT INTO `banco-gastos`(`Nome`, `Valor`, `Fornecedor`, `Observação`) VALUES (%s, %s, %s, %s)"
+        val = (nome, valor, fornecedor, obs)
+        mycursor.execute(sql, val)
+        mydb.commit()
+
+        print(mycursor.rowcount, 'Registro(s) inserido(s) em gastos')
 
     def carregarFornecedores(self):
         #Conexão com o banco de dados

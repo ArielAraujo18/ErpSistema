@@ -720,12 +720,15 @@ class Ui_frm_DadosContas(object):
         mycursor.execute(sql, val)
         mydb.commit()
 
-        self.carregarFornecedores()
+        
         
         print(mycursor.rowcount, 'Registros inseridos')
 
         mycursor.close()
         mydb.close()
+
+        self.cadastrarGastos(fornecedor)
+        self.carregarFornecedores()
 
         self.txt_nome.setText("")
         self.txt_emissao.setText("")
@@ -746,6 +749,32 @@ class Ui_frm_DadosContas(object):
         msg.setIcon(QMessageBox.Information)
         msg.setStandardButtons(QMessageBox.Ok)
         msg.exec()
+
+
+    def cadastrarGastos(self, fornecedor):
+
+        nome = self.txt_nome.text()
+        obs = self.textEdit.toPlainText()
+        valor = self.txt_valor.text()
+
+        mydb = mysql.connector.connect(
+            host = Controle.host,
+            user = Controle.user,
+            password = Controle.password,
+            database = Controle.database,
+        )
+
+        mycursor = mydb.cursor()
+
+        sql = "INSERT INTO `banco-gastos`(`Nome`,`Fornecedor`, `Observação`, `Valor`) values (%s, %s, %s, %s)"
+        val = (nome, fornecedor, obs, valor)
+        mycursor.execute(sql, val)
+        mydb.commit()
+
+        print(mycursor.rowcount, 'Registros inseridos em gastos')
+
+        mycursor.close()
+        mydb.close()
 
     def carregarFornecedores(self):
         mydb = mysql.connector.connect(

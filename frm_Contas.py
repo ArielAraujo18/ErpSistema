@@ -566,7 +566,7 @@ class Ui_frm_Contas(object):
 
 
             for row in range(self.tableWidget.rowCount()):
-                self.tableWidget.resizeRowsToContents(row)
+                self.tableWidget.resizeRowsToContents()
 
             mydb.close()
 
