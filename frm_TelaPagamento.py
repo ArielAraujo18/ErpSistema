@@ -277,107 +277,142 @@ class Ui_frm_TelaPagamento(object):
     def calculandoTroco(self):
         totalvd = Controle.totalDaVenda
 
+        # Captura os valores preenchidos nos campos de pagamento
         dinheiro = float(self.txt_Dinheiro.text().replace(",", ".") or 0)
         cartao = float(self.txt_Cartao.text().replace(",", ".") or 0)
         pix = float(self.txt_Pix.text().replace(",", ".") or 0)
         cheque = float(self.txt_Cheque.text().replace(",", ".") or 0)
 
-        troco = (dinheiro + cartao + pix + cheque) - totalvd
+        # Soma os valores para verificar se o pagamento é suficiente
+        totalPago = dinheiro + cartao + pix + cheque
 
+        # Verifica se o total pago é menor que o total da venda
+        if totalPago < totalvd:
+                msg = QMessageBox()
+                msg.setWindowTitle("ERRO!")
+                msg.setText('Valores insuficientes para finalizar a compra!')
+                msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+                msg.setIcon(QMessageBox.Critical)  # Alterei para um ícone de erro
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
 
-        if troco < 0:
-            msg = QMessageBox()
-            msg.setWindowTitle("ERRO!")
-            msg.setText('Valores insuficientes!')
-            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
-            msg.setIcon(QMessageBox.Information)
-            msg.setStandardButtons(QMessageBox.Ok)
-            msg.exec()
-            self.txt_Troco.setText(str("Insira valores validos!"))
-        
+                # Limpa o campo de troco
+                self.txt_Troco.setText("Insira valores válidos!")
+
         else:
-            self.txt_Troco.setText("R$" + str(troco))
+                troco = totalPago - totalvd
+                self.txt_Troco.setText("R$ " + str(troco))  # Mostra o troco
 
     def finalizarCompra(self):
-        msg = QMessageBox()
-        msg.setWindowTitle("Finalizar venda")
-        msg.setText("Deseja finalizar a venda e cadastrar ao banco de dados?")
-        msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
-        msg.setIcon(QMessageBox.Information)
-        msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
-        resposta = msg.exec()
+        totalvd = Controle.totalDaVenda
 
-        if resposta == QMessageBox.Yes:
-                from frm_Vendas import Ui_Frm_Vendas
-                valorTotal = Controle.totalDaVenda
-                totalDeItens = Controle.totalItens
-                print(valorTotal)
-                print(totalDeItens)
+        # Captura os valores preenchidos nos campos de pagamento
+        dinheiro = float(self.txt_Dinheiro.text().replace(",", ".") or 0)
+        cartao = float(self.txt_Cartao.text().replace(",", ".") or 0)
+        pix = float(self.txt_Pix.text().replace(",", ".") or 0)
+        cheque = float(self.txt_Cheque.text().replace(",", ".") or 0)
 
-                dinheiro = valorTotal
-                itens = totalDeItens
+        # Soma os valores para verificar se o pagamento é suficiente
+        totalPago = dinheiro + cartao + pix + cheque
 
-                mydb = mysql.connector.connect(
-                        host=Controle.host,
-                        user=Controle.user,
-                        password=Controle.password,
-                        database=Controle.database
-                )
-                mycursor = mydb.cursor()
-                mycursor.execute("SELECT `Quantidade de Itens`, `Valor total` FROM total")
-                resultado = mycursor.fetchone() 
+        # Verifica se o total pago é menor que o total da venda
+        if totalPago < totalvd:
+                msg = QMessageBox()
+                msg.setWindowTitle("ERRO!")
+                msg.setText('Valores insuficientes para finalizar a compra!')
+                msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+                msg.setIcon(QMessageBox.Critical)  # Alterei para um ícone de erro
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
 
-                if resultado:
-                        itens_existentes = int(float(resultado[0])) 
-                        valor_existente = float(resultado[1])  
-                else:
-                        itens_existentes, valor_existente = 0, 0
+                # Limpa o campo de troco
+                self.txt_Troco.setText("Insira valores válidos!")
 
-                # Somando os valores
-                novos_itens = itens_existentes + int(totalDeItens)
-                novo_valor = valor_existente + float(valorTotal)
+        else:
+                troco = totalPago - totalvd
+                self.txt_Troco.setText("R$ " + str(troco))  # Mostra o troco
 
-                # Atualizando os valores na tabela
-                sql = "UPDATE total SET `Quantidade de Itens` = %s, `Valor total` = %s"
-                val = (novos_itens, novo_valor)
-                mycursor.execute(sql, val)
-                mydb.commit()
-                print("VENDA ATUALIZADA")
 
-                msgF = QMessageBox()
-                msgF.setWindowTitle("Venda Finalizada")
-                msgF.setText("Sua venda foi finalizada com sucesso!")
-                msgF.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
-                msgF.setIcon(QMessageBox.Information)
-                msgF.setStandardButtons(QMessageBox.Ok)
-                
-                vendaFinalizada = msgF.exec()
+                msg = QMessageBox()
+                msg.setWindowTitle("Finalizar venda")
+                msg.setText("Deseja finalizar a venda e cadastrar ao banco de dados?")
+                msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+                msg.setIcon(QMessageBox.Information)
+                msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
-                if vendaFinalizada == QMessageBox.Ok:
-                        self.sairTela()
-        
-                        # Conectar ao banco e buscar os dados do carrinho antes de apagá-los
+                resposta = msg.exec()
+
+                if resposta == QMessageBox.Yes:
+                        from frm_Vendas import Ui_Frm_Vendas
+                        valorTotal = Controle.totalDaVenda
+                        totalDeItens = Controle.totalItens
+                        print(valorTotal)
+                        print(totalDeItens)
+
+                        dinheiro = valorTotal
+                        itens = totalDeItens
+
                         mydb = mysql.connector.connect(
                                 host=Controle.host,
                                 user=Controle.user,
                                 password=Controle.password,
                                 database=Controle.database
                         )
-                        
-                        cursor = mydb.cursor()
-                        cursor.execute("SELECT Produto, Valor, Quantidade FROM vendas")
-                        dados = cursor.fetchall()  # Lista de tuplas com os produtos do carrinho
-                        print(dados)
-                        
-                        cursor.close()
-                        mydb.close()
-                        
-                        # Envia os dados para serem cadastrados no novo banco
-                        self.receberDadosCarrinho(dados)
+                        mycursor = mydb.cursor()
+                        mycursor.execute("SELECT `Quantidade de Itens`, `Valor total` FROM total")
+                        resultado = mycursor.fetchone() 
 
-        else:
-                print("Teste")
+                        if resultado:
+                                itens_existentes = int(float(resultado[0])) 
+                                valor_existente = float(resultado[1])  
+                        else:
+                                itens_existentes, valor_existente = 0, 0
+
+                        # Somando os valores
+                        novos_itens = itens_existentes + int(totalDeItens)
+                        novo_valor = valor_existente + float(valorTotal)
+
+                        # Atualizando os valores na tabela
+                        sql = "UPDATE total SET `Quantidade de Itens` = %s, `Valor total` = %s"
+                        val = (novos_itens, novo_valor)
+                        mycursor.execute(sql, val)
+                        mydb.commit()
+                        print("VENDA ATUALIZADA")
+
+                        msgF = QMessageBox()
+                        msgF.setWindowTitle("Venda Finalizada")
+                        msgF.setText("Sua venda foi finalizada com sucesso!")
+                        msgF.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+                        msgF.setIcon(QMessageBox.Information)
+                        msgF.setStandardButtons(QMessageBox.Ok)
+                        
+                        vendaFinalizada = msgF.exec()
+
+                        if vendaFinalizada == QMessageBox.Ok:
+                                self.sairTela()
+                
+                                # Conectar ao banco e buscar os dados do carrinho antes de apagá-los
+                                mydb = mysql.connector.connect(
+                                        host=Controle.host,
+                                        user=Controle.user,
+                                        password=Controle.password,
+                                        database=Controle.database
+                                )
+                                
+                                cursor = mydb.cursor()
+                                cursor.execute("SELECT Produto, Valor, Quantidade FROM vendas")
+                                dados = cursor.fetchall()  # Lista de tuplas com os produtos do carrinho
+                                print(dados)
+                                
+                                cursor.close()
+                                mydb.close()
+                                
+                                # Envia os dados para serem cadastrados no novo banco
+                                self.receberDadosCarrinho(dados)
+
+                else:
+                        self.frm_TelaPagamento.close()
                 
     def sairTela(self):
         self.frm_TelaPagamento.close()

@@ -1,7 +1,6 @@
 tiposTelaDadosCliente = '' #incluir, alterar e consultar
 idConsulta = ''
 idFornecedor = ''
-nomeVenda = []
 totalDaVenda = ''
 totalItens = ''
 

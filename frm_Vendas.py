@@ -885,30 +885,6 @@ class Ui_Frm_Vendas(object):
         msg.setStandardButtons(QMessageBox.Ok)
         msg.exec()
 
-        
-    def pegarDadosDoCarrinho(self):
-         
-        mydb = mysql.connector.connect(
-            host=Controle.host,
-            user=Controle.user,
-            password=Controle.password,
-            database=Controle.database 
-        )
-         
-        mycursor = mydb.cursor()
-
-        sql = "SELECT * FROM vendas"
-        mycursor.execute(sql)
-
-        # Armazena todos os registros em uma variável (lista de tuplas)
-        dados_carrinho = mycursor.fetchall()
-
-        mycursor.close()
-        mydb.close()
-
-        self.frm_TelaPagamento.receberDadosCarrinho(dados_carrinho)
-
-        return dados_carrinho
 
     def configurarSincronizaçãoQtd(self):
          self.txtQtd.textChanged.connect(self.sincronizarQtd)
