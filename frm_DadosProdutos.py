@@ -456,6 +456,7 @@ class Ui_frm_DadosProdutos(object):
         nome = self.txt_nome.text()
         obs = self.textEdit.toPlainText()
         valor = self.txt_valor.text()
+        quantidade = self.txt_qtd.text()
         
         mydb = mysql.connector.connect(
                 host=Controle.host,
@@ -464,8 +465,8 @@ class Ui_frm_DadosProdutos(object):
                 database=Controle.database
         )
         mycursor = mydb.cursor()
-        sql = "INSERT INTO `banco-gastos`(`Nome`, `Valor`, `Fornecedor`, `Observação`) VALUES (%s, %s, %s, %s)"
-        val = (nome, valor, fornecedor, obs)
+        sql = "INSERT INTO `banco-gastos`(`Nome`, `Valor`, `Fornecedor`, `Observação`, `Quantidade`) VALUES (%s, %s, %s, %s, %s)"
+        val = (nome, valor, fornecedor, obs, quantidade)
         mycursor.execute(sql, val)
         mydb.commit()
 

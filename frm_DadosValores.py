@@ -593,6 +593,8 @@ class Ui_frm_DadosValores(object):
         mycursor.close()
         mydb.close()
 
+        self.adicionarGastos()
+
         self.txt_nome.setText("")
         self.txt_emissao.setText("")
         self.txt_vencimento.setText("")
@@ -611,6 +613,33 @@ class Ui_frm_DadosValores(object):
         msg.setIcon(QMessageBox.Information)
         msg.setStandardButtons(QMessageBox.Ok)
         msg.exec()
+
+
+    def adicionarGastos(self):
+
+        nome = self.txt_nome.text()
+        obs = self.textEdit.toPlainText()
+        valor = self.txt_valor.text()
+        quantidade = 1
+        
+        mydb = mysql.connector.connect(
+            host = Controle.host,
+            user = Controle.user,
+            password = Controle.password,
+            database = Controle.database,
+        )
+
+        mycursor = mydb.cursor()
+
+        sql = "INSERT INTO `banco-lucros` (`Nome/Produto`, `Valor`, `Observação`, `Quantidade`) values (%s, %s, %s, %s)"
+        val = (nome, obs, valor, quantidade)
+        mycursor.execute(sql, val)
+        mydb.commit()
+
+        print(mycursor.rowcount, 'Registros inseridos em lucros')
+
+        mycursor.close()
+        mydb.close()
 
     def alterarValores(self):
         
