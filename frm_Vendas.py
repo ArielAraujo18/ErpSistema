@@ -793,62 +793,69 @@ class Ui_Frm_Vendas(object):
 
 
     def adicionarAoCarrinho(self):
-        
-
         produto = self.comboProd.currentText()
         quantidade = self.txtQtd.text()
         quantidadee = self.txt_Qtd.text()
-        valor = self.txtValor.text()
+        valor = self.txtValor.text().replace("R$", "").replace(",", ".").strip()
         idProduto = self.txtIdProduto.text()
         idCliente = self.txt_idCliente.text()
         cliente = self.comboCliente.currentText()
+
+        # Converte valores para os tipos corretos
+        quantidade = int(quantidade) if quantidade.isdigit() else 1
+        valor = float(valor) if valor else 0.0
         total = valor
 
         campos_comuns = {
-             "Valor": valor,
-             "IdProduto": idProduto,
-             "Quantidade": quantidade,
-             "Quantidade": quantidadee,
-             "idCliente": idCliente
+                "Valor": valor,
+                "IdProduto": idProduto,
+                "Quantidade": quantidade,
+                "Quantidade2": quantidadee,
+                "idCliente": idCliente
         }
 
         campos_combo = {
-             "NomeCliente": cliente,
-             "NomeProduto": produto
+                "Cliente": cliente,
+                "Produto": produto
         }
 
-        for campo, valor in campos_comuns.items():
-             if not valor: #Verificando se o campo está vazio
+        for campo, preenchido in campos_comuns.items():
+                if not preenchido:  # Verificando se o campo está vazio
                         msg = QMessageBox()
                         msg.setWindowTitle("ERRO!")
                         msg.setText(f"O campo '{campo}' é obrigatório e não pode ficar vazio!")
-                        icon_path = r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"
+                        icon_path = r"C:\\Users\\Ariel\\PycharmProjects\\Scripts\\Sistema\\avsIcon.png"
                         msg.setWindowIcon(QIcon(icon_path))
                         msg.setIcon(QMessageBox.Information)
                         msg.setStandardButtons(QMessageBox.Ok)
                         msg.exec()
                         return
-        for campo, valor in campos_combo.items():
-             if not valor:
+
+        for campo, preenchido in campos_combo.items():
+                if not preenchido:
                         msg = QMessageBox()
                         msg.setWindowTitle("ERRO!")
-                        msg.setText(f"O campo '{campo}' deve está preenchido!")
-                        icon_path = r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"
+                        msg.setText(f"O campo '{campo}' deve estar preenchido!")
+                        icon_path = r"C:\\Users\\Ariel\\PycharmProjects\\Scripts\\Sistema\\avsIcon.png"
                         msg.setWindowIcon(QIcon(icon_path))
                         msg.setIcon(QMessageBox.Information)
                         msg.setStandardButtons(QMessageBox.Ok)
                         msg.exec()
                         return
-             
+
         mydb = mysql.connector.connect(
-                host = Controle.host,
-                user = Controle.user,
-                password = Controle.password,
-                database = Controle.database
+                host=Controle.host,
+                user=Controle.user,
+                password=Controle.password,
+                database=Controle.database
         )
 
         mycursor = mydb.cursor()
-        sql = "INSERT INTO vendas (`Produto`, `Quantidade`, `Valor`, `IdProduto`, `IdCliente`, `Cliente`, `Total`) values (%s, %s, %s, %s, %s, %s, %s)"
+        sql = """
+                INSERT INTO vendas 
+                (`Produto`, `Quantidade`, `Valor`, `IdProduto`, `IdCliente`, `Cliente`, `Total`) 
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """
         val = (produto, quantidade, valor, idProduto, idCliente, cliente, total)
         mycursor.execute(sql, val)
         mydb.commit()
@@ -857,7 +864,7 @@ class Ui_Frm_Vendas(object):
         self.carregarComboBoxProduto()
         self.atualizarTabela()
         
-        print(mycursor.rowcount, 'Inserindo(s) resgistros')
+        print(mycursor.rowcount, 'Registro(s) inserido(s)')
 
         mycursor.close()
         mydb.close()
@@ -865,7 +872,6 @@ class Ui_Frm_Vendas(object):
         self.txtQtd.setText("")
         self.txtValor.setText("")
         self.txtIdProduto.setText("")
-        self.txtQtd.setText("")
         self.txt_idCliente.setText("")
 
         self.atualizarTot()
@@ -873,13 +879,36 @@ class Ui_Frm_Vendas(object):
         msg = QMessageBox()
         msg.setWindowTitle("Sucesso!")
         msg.setText("Produto adicionado com sucesso!")
-        icon_path = r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"
+        icon_path = r"C:\\Users\\Ariel\\PycharmProjects\\Scripts\\Sistema\\avsIcon.png"
         msg.setWindowIcon(QIcon(icon_path))
         msg.setIcon(QMessageBox.Information)
         msg.setStandardButtons(QMessageBox.Ok)
         msg.exec()
+
         
-        
+    def pegarDadosDoCarrinho(self):
+         
+        mydb = mysql.connector.connect(
+            host=Controle.host,
+            user=Controle.user,
+            password=Controle.password,
+            database=Controle.database 
+        )
+         
+        mycursor = mydb.cursor()
+
+        sql = "SELECT * FROM vendas"
+        mycursor.execute(sql)
+
+        # Armazena todos os registros em uma variável (lista de tuplas)
+        dados_carrinho = mycursor.fetchall()
+
+        mycursor.close()
+        mydb.close()
+
+        self.frm_TelaPagamento.receberDadosCarrinho(dados_carrinho)
+
+        return dados_carrinho
 
     def configurarSincronizaçãoQtd(self):
          self.txtQtd.textChanged.connect(self.sincronizarQtd)

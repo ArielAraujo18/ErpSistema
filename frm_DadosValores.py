@@ -632,7 +632,7 @@ class Ui_frm_DadosValores(object):
         mycursor = mydb.cursor()
 
         sql = "INSERT INTO `banco-lucros` (`Nome/Produto`, `Valor`, `Observação`, `Quantidade`) values (%s, %s, %s, %s)"
-        val = (nome, obs, valor, quantidade)
+        val = (nome, valor, obs, quantidade)
         mycursor.execute(sql, val)
         mydb.commit()
 

@@ -355,14 +355,62 @@ class Ui_frm_TelaPagamento(object):
                 vendaFinalizada = msgF.exec()
 
                 if vendaFinalizada == QMessageBox.Ok:
-                     self.sairTela()
+                        self.sairTela()
+        
+                        # Conectar ao banco e buscar os dados do carrinho antes de apagá-los
+                        mydb = mysql.connector.connect(
+                                host=Controle.host,
+                                user=Controle.user,
+                                password=Controle.password,
+                                database=Controle.database
+                        )
+                        
+                        cursor = mydb.cursor()
+                        cursor.execute("SELECT Produto, Valor, Quantidade FROM vendas")
+                        dados = cursor.fetchall()  # Lista de tuplas com os produtos do carrinho
+                        print(dados)
+                        
+                        cursor.close()
+                        mydb.close()
+                        
+                        # Envia os dados para serem cadastrados no novo banco
+                        self.receberDadosCarrinho(dados)
 
         else:
                 print("Teste")
                 
     def sairTela(self):
-         self.frm_TelaPagamento.close()
-         self.frm_TelaPagamento = None
+        self.frm_TelaPagamento.close()
+        self.frm_TelaPagamento = None
+    
+    def receberDadosCarrinho(self, dados):
+        obs = 'Vendas'
+
+        mydb = mysql.connector.connect(
+                host=Controle.host,      
+                user=Controle.user,     
+                password=Controle.password,
+                database=Controle.database
+        )
+        mycursor = mydb.cursor()
+
+        sql = """INSERT INTO `banco-lucros` 
+                (`Nome`, `Valor`, `Observação`, `Quantidade`)
+                VALUES (%s, %s, %s, %s)"""
+
+        for registro in dados:
+                nomeProduto = registro[0]  
+                quantidade = int(float(registro[1]))  
+                valor = float(registro[2])  
+
+                valores = (nomeProduto, valor, obs, quantidade)
+                mycursor.execute(sql, valores)
+
+        mydb.commit()
+        mycursor.close()
+        mydb.close()
+
+        print("Dados inseridos com sucesso no novo banco.")
 
     def retranslateUi(self, frm_TelaPagamento):
         frm_TelaPagamento.setWindowTitle(QCoreApplication.translate("frm_TelaPagamento", u"Tela Pagamento", None))
