@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="icon_volt">
+    <file>retornar.png</file>
+  </qresource>
+</RCC>
