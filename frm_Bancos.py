@@ -9,6 +9,10 @@ from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QTableWidget, QTableWidgetItem,
     QWidget)
 
+import mysql.connector
+import pandas as pd
+import Controle
+
 class Ui_Frm_Bancos(object):
     def setupUi(self, Frm_Bancos):
         if not Frm_Bancos.objectName():
@@ -330,6 +334,82 @@ class Ui_Frm_Bancos(object):
         QMetaObject.connectSlotsByName(Frm_Bancos)
     # setupUi
 
+    def tabelaGastos(self):
+
+        print('Conectando...')
+        mydb = mysql.connector.connect(
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
+        )
+        print('Conexão bem-sucedida!')
+        mycursor = mydb.cursor()
+
+        consultaSQL = "SELECT * FROM `banco-gastos`"
+        mycursor.execute(consultaSQL)
+        myresult = mycursor.fetchall()
+
+        # Criando DataFrame
+        df = pd.DataFrame(myresult, columns=["Nome", "Fornecedor", "Observação", "Valor", "Quantidade"])
+        self.all_data = df
+
+        # Configurando a tabela no Pyside
+        numRows = len(self.all_data.index)
+        numCols = len(self.all_data.columns)
+        self.tableGastos.setColumnCount(numCols)
+        self.tableGastos.setRowCount(numRows)
+        self.tableGastos.setHorizontalHeaderLabels(self.all_data.columns)
+
+        # Preenchendo a tabela
+        for i in range(numRows):
+                for j in range(numCols):
+                        self.tableGastos.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
+
+        # Ajustando o layout das colunas e linhas
+        self.tableGastos.resizeColumnsToContents()
+        self.tableGastos.resizeRowsToContents()
+
+        mycursor.close()
+
+    def tabelaLucros(self):
+
+        print('Conectando...')
+        mydb = mysql.connector.connect(
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
+        )
+        print('Conexão bem-sucedida!')
+        mycursor = mydb.cursor()
+
+        consultaSQL = "SELECT * FROM `banco-lucros`"
+        mycursor.execute(consultaSQL)
+        myresult = mycursor.fetchall()
+
+        # Criando DataFrame
+        df = pd.DataFrame(myresult, columns=["Nome", "Valor", "Observação", "Quantidade"])
+        self.all_data = df
+
+        # Configurando a tabela no Pyside
+        numRows = len(self.all_data.index)
+        numCols = len(self.all_data.columns)
+        self.tableLucros.setColumnCount(numCols)
+        self.tableLucros.setRowCount(numRows)
+        self.tableLucros.setHorizontalHeaderLabels(self.all_data.columns)
+
+        # Preenchendo a tabela
+        for i in range(numRows):
+                for j in range(numCols):
+                        self.tableLucros.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
+
+        # Ajustando o layout das colunas e linhas
+        self.tableLucros.resizeColumnsToContents()
+        self.tableLucros.resizeRowsToContents()
+
+        mycursor.close()
+
     def retranslateUi(self, Frm_Bancos):
         Frm_Bancos.setWindowTitle(QCoreApplication.translate("Frm_Bancos", u"Bancos", None))
         self.label_Bancos.setText(QCoreApplication.translate("Frm_Bancos", u"BANCOS", None))
@@ -357,6 +437,8 @@ class Ui_Frm_Bancos(object):
         ___qtablewidgetitem8 = self.tableGastos.horizontalHeaderItem(4)
         ___qtablewidgetitem8.setText(QCoreApplication.translate("Frm_Bancos", u"Total", None));
     # retranslateUi
+        self.btn_Visualizar.clicked.connect(self.tabelaGastos)
+        self.btn_Visualizar.clicked.connect(self.tabelaLucros)
 
 if __name__ == "__main__":
     app = QApplication([])

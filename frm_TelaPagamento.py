@@ -434,9 +434,9 @@ class Ui_frm_TelaPagamento(object):
                 VALUES (%s, %s, %s, %s)"""
 
         for registro in dados:
-                nomeProduto = registro[0]  
-                quantidade = int(float(registro[1]))  
-                valor = float(registro[2])  
+                nomeProduto = registro[0]
+                valor = float(registro[1])
+                quantidade = int(float(registro[2]))  
 
                 valores = (nomeProduto, valor, obs, quantidade)
                 mycursor.execute(sql, valores)

@@ -752,6 +752,7 @@ class Ui_frm_DadosContas(object):
 
 
     def cadastrarGastos(self, fornecedor):
+        qtd = 1
 
         nome = self.txt_nome.text()
         obs = self.textEdit.toPlainText()
@@ -766,8 +767,8 @@ class Ui_frm_DadosContas(object):
 
         mycursor = mydb.cursor()
 
-        sql = "INSERT INTO `banco-gastos`(`Nome`,`Fornecedor`, `Observação`, `Valor`) values (%s, %s, %s, %s)"
-        val = (nome, fornecedor, obs, valor)
+        sql = "INSERT INTO `banco-gastos`(`Nome`,`Fornecedor`, `Observação`, `Valor`, `Quantidade`) values (%s, %s, %s, %s, %s)"
+        val = (nome, fornecedor, obs, valor, qtd)
         mycursor.execute(sql, val)
         mydb.commit()
 

@@ -631,12 +631,12 @@ class Ui_frm_DadosValores(object):
 
         mycursor = mydb.cursor()
 
-        sql = "INSERT INTO `banco-lucros` (`Nome/Produto`, `Valor`, `Observação`, `Quantidade`) values (%s, %s, %s, %s)"
+        sql = "INSERT INTO `banco-lucros` (`Nome`, `Valor`, `Observação`, `Quantidade`) values (%s, %s, %s, %s)"
         val = (nome, valor, obs, quantidade)
         mycursor.execute(sql, val)
         mydb.commit()
 
-        print(mycursor.rowcount, 'Registros inseridos em lucros')
+        print(mycursor.rowcount, 'Registros inseridos em gastos')
 
         mycursor.close()
         mydb.close()
