@@ -3,6 +3,7 @@ idConsulta = ''
 idFornecedor = ''
 totalDaVenda = ''
 totalItens = ''
+totalLucros = 0
 
 host = '127.0.0.1'
 user = 'Ariel'

@@ -514,7 +514,7 @@ class Ui_Frm_Bancos(object):
                 msg.setIcon(QMessageBox.Warning)
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
-                return  # Retorna se nenhuma linha estiver selecionada
+                return 
 
         item = self.tableLucros.item(line, 0)
 
@@ -541,7 +541,6 @@ class Ui_Frm_Bancos(object):
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
 
-                # Atualiza a tabela
                 mycursor.execute("SELECT * FROM `banco-lucros`")
                 myresult = mycursor.fetchall()
                 df = pd.DataFrame(myresult, columns=['Nome', 'Valor', 'Observação', 'Quantidade'])
@@ -579,7 +578,7 @@ class Ui_Frm_Bancos(object):
                 msg.setIcon(QMessageBox.Warning)
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
-                return  # Retorna se nenhuma linha estiver selecionada
+                return 
 
         item = self.tableGastos.item(line, 0)
 
@@ -606,7 +605,6 @@ class Ui_Frm_Bancos(object):
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
 
-                # Atualiza a tabela
                 mycursor.execute("SELECT * FROM `banco-gastos`")
                 myresult = mycursor.fetchall()
                 df = pd.DataFrame(myresult, columns=['Nome', 'Fornecedor', 'Observação', 'Valor', 'Quantidade'])
@@ -632,6 +630,73 @@ class Ui_Frm_Bancos(object):
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
         
+    def excluirBancoSelecionado(self):
+        if self.tableLucros.currentRow() != -1:
+                self.excluirBancosLucros()
+        else:
+                print("Nenhum lucro selecionado.")
+        
+        if self.tableGastos.currentRow() != -1:
+                self.excluirBancosGastos()
+        else:
+                print("Nenhum gasto selecionado.")
+
+    def SomaLucros(self):
+        mydb = mysql.connector.connect(
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
+        )
+
+        cursor = mydb.cursor()
+
+        sql = "SELECT Nome, Valor, Observação, Quantidade FROM `banco-lucros`"
+        cursor.execute(sql)
+        resultado = cursor.fetchall()
+
+        df = pd.DataFrame(resultado, columns=['Nome', 'Valor', 'Observação', 'Quantidade'])
+        
+        df['Valor'] = pd.to_numeric(df['Valor'], errors='coerce')
+
+        soma = df['Valor'].sum()
+        
+        self.txt_lucros.setText(f"R$ {soma}")
+
+        Controle.totalLucros = soma
+
+    def SomaGastos(self):
+        mydb = mysql.connector.connect(
+            host=Controle.host,
+            user=Controle.user,
+            password=Controle.password,
+            database=Controle.database
+        )
+        cursor = mydb.cursor()
+
+        sql = "SELECT Valor FROM `banco-gastos`"
+        cursor.execute(sql)
+        resultado = cursor.fetchall()
+
+        cursor.close()
+        mydb.close()
+
+        print("Valores brutos do BD:", resultado)
+
+        valores = []
+        for row in resultado:
+                valor = str(row[0]).replace("R$", "").replace(".", "").replace(",", ".").strip()
+                valores.append(float(valor))  # Converte para número
+
+        soma1 = sum(valores)
+
+        self.txt_gastos.setText(f"R$ {soma1:.2f}")
+
+        somaLucros = Controle.totalLucros
+
+        resultado = somaLucros - soma1
+
+        self.txt_gastos_2.setText(f"R$ {resultado}")
 
     def retranslateUi(self, Frm_Bancos):
         Frm_Bancos.setWindowTitle(QCoreApplication.translate("Frm_Bancos", u"Bancos", None))
@@ -666,11 +731,10 @@ class Ui_Frm_Bancos(object):
     # retranslateUi
         self.btn_Visualizar.clicked.connect(self.tabelaGastos)
         self.btn_Visualizar.clicked.connect(self.tabelaLucros)
+        self.btn_Visualizar.clicked.connect(self.SomaLucros)
+        self.btn_Visualizar.clicked.connect(self.SomaGastos)
         self.btn_voltar.clicked.connect(self.sairTela)
-        if Controle.tiposTelaDadosCliente == 'lucros':
-                self.btn_excluir.clicked.connect(self.excluirBancosLucros)
-        if Controle.tiposTelaDadosCliente == 'gastos':
-                self.btn_excluir.clicked.connect(self.excluirBancosGastos)
+        self.btn_excluir.clicked.connect(self.excluirBancoSelecionado)
 
 if __name__ == "__main__":
     app = QApplication([])
