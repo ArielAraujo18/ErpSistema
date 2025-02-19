@@ -17,6 +17,7 @@ from frm_Vendas import Ui_Frm_Vendas
 from frm_Contas import Ui_frm_Contas
 from frm_ValoresAReceber import Ui_frm_ValoresAReceber
 from frm_Tarefas import Ui_frm_Tarefas
+from frm_Bancos import Ui_Frm_Bancos
 
 import sys
 import icon_cliente
@@ -516,6 +517,22 @@ class Ui_frm_Main(object):
               self.frm_Tarefas.raise_()
               self.frm_Tarefas.activateWindow()
 
+    def TelaBancos(self):
+        if not hasattr(self, 'frm_Bancos') or self.Frm_Bancos is None or not self.Frm_Bancos.isVisible():
+                self.Frm_Bancos = QWidget()
+                self.ui = Ui_Frm_Bancos()
+                self.ui.setupUi(self.Frm_Bancos)
+
+                self.Frm_Bancos.setAttribute(Qt.WA_DeleteOnClose)
+                self.Frm_Bancos.destroyed.connect(lambda: setattr(self, 'Frm_Bancos', None))
+
+                self.Frm_Bancos.show()
+
+        else:
+
+                self.Frm_Bancos.raise_()
+                self.Frm_Bancos.activateWindow()
+
     def retranslateUi(self, frm_Main):
         frm_Main.setWindowTitle(QCoreApplication.translate("frm_Main", u"Tela principal", None))
         self.actionCliente.setText(QCoreApplication.translate("frm_Main", u"Cliente", None))
@@ -566,6 +583,7 @@ class Ui_frm_Main(object):
         self.btn_pagar.clicked.connect(self.telaContas)
         self.btn_receber.clicked.connect(self.telaValores)
         self.btn_produtos_2.clicked.connect(self.telaTarefas) #Esqueci de mudar o nome do btn
+        self.btn_bancos.clicked.connect(self.TelaBancos)
 
         #action
         self.actionCliente.triggered.connect(self.telaCliente)

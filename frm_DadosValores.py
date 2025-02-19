@@ -565,6 +565,18 @@ class Ui_frm_DadosValores(object):
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
                 return
+        
+        obs = self.textEdit.toPlainText()
+        if len(obs) > 500:
+                msg = QMessageBox()
+                msg.setWindowTitle("Erro!")
+                msg.setText("Preencha o campo de observação com 500 caracteres ou menos!")
+                msg.setWindowIcon(QIcon((r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png")))
+                msg.setIcon(QMessageBox.Icon.Warning)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+                return
+
         nome = self.txt_nome.text()
         emissao = self.txt_emissao.text()
         vencimento = self.txt_vencimento.text()

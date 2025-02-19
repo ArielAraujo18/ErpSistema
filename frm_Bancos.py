@@ -22,8 +22,8 @@ class Ui_Frm_Bancos(object):
         if not Frm_Bancos.objectName():
             Frm_Bancos.setObjectName(u"Frm_Bancos")
         Frm_Bancos.setFixedSize(1254, 860)
-        self.frm_Bancos = frm_Bancos
-        frm_Bancos.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+        self.Frm_Bancos = Frm_Bancos
+        Frm_Bancos.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
         Frm_Bancos.setStyleSheet(u"QWidget {\n"
 "    background-color: #FA8072;\n"
 "    border-radius: 8px;\n"
@@ -162,7 +162,6 @@ class Ui_Frm_Bancos(object):
 "    font-size: 14px;\n"
 "    font-weight: bold;\n"
 "    padding: 10px 16px;\n"
-"    background-image:url(:/icon_cadastrar/cadastrar.png); \n"
 "    background-repeat: no-repeat;\n"
 "    background-position: center;\n"
 "    transition: all 0.3s ease;\n"
@@ -499,8 +498,8 @@ class Ui_Frm_Bancos(object):
         mycursor.close()
 
     def sairTela(self):
-        self.frm_Bancos.close()
-        self.frm_Bancos = None
+        self.Frm_Bancos.close()
+        self.Frm_Bancos = None
 
     def excluirBancosLucros(self):
         Controle.tiposTelaDadosCliente = 'lucros'
