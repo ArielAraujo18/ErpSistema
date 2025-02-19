@@ -13,6 +13,7 @@ from frm_DadosValores import Ui_frm_DadosValores
 import mysql.connector
 import Controle
 import pandas as pd
+import os
 
 import icon_adicionar
 import icon_consultar
@@ -28,7 +29,8 @@ class Ui_frm_ValoresAReceber(object):
             frm_ValoresAReceber.setObjectName(u"frm_ValoresAReceber")
         frm_ValoresAReceber.setFixedSize(581, 593)
         self.frm_ValoresAReceber = frm_ValoresAReceber
-        frm_ValoresAReceber.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        frm_ValoresAReceber.setWindowIcon(QIcon(caminho_icone))
         frm_ValoresAReceber.setStyleSheet(u"QWidget{\n"
 "	background-color: #40E0D0;\n"
 "\n"

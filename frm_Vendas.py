@@ -18,6 +18,7 @@ import icon_excluirCart
 
 from frm_TelaPagamento import Ui_frm_TelaPagamento
 
+import os
 import Controle
 import mysql.connector
 import pandas as pd
@@ -28,7 +29,8 @@ class Ui_Frm_Vendas(object):
         if not Frm_Vendas.objectName():
             Frm_Vendas.setObjectName(u"Frm_Vendas")
         Frm_Vendas.setFixedSize(1422, 739)
-        Frm_Vendas.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        Frm_Vendas.setWindowIcon(QIcon(caminho_icone))
         Frm_Vendas.setStyleSheet(u"QWidget{\n"
 "	background-color: #2E8B57;\n"
 "}")

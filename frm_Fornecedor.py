@@ -14,6 +14,7 @@ from frm_DadosFornecedor import Ui_frm_DadosFornecedor
 import mysql.connector
 import Controle
 import pandas as pd
+import os
 
 import icon_adicionar
 import icon_consultar
@@ -29,7 +30,8 @@ class Ui_frm_Fornecedor(object):
             frm_Fornecedor.setObjectName(u"frm_Fornecedor")
         #frm_Fornecedor.resize(581, 592)
         frm_Fornecedor.setFixedSize(581, 592)
-        frm_Fornecedor.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        frm_Fornecedor.setWindowIcon(QIcon(caminho_icone))
         frm_Fornecedor.setStyleSheet(u"QWidget{\n"
 "	background-color: #264653;\n"
 "\n"

@@ -13,6 +13,7 @@ from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QLineEdit,
 import mysql.connector
 import pandas as pd
 import Controle
+import os
 
 import icon_excluir_banco
 import icon_voltar_banco
@@ -23,7 +24,8 @@ class Ui_Frm_Bancos(object):
             Frm_Bancos.setObjectName(u"Frm_Bancos")
         Frm_Bancos.setFixedSize(1254, 860)
         self.Frm_Bancos = Frm_Bancos
-        Frm_Bancos.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        Frm_Bancos.setWindowIcon(QIcon(caminho_icone))
         Frm_Bancos.setStyleSheet(u"QWidget {\n"
 "    background-color: #FA8072;\n"
 "    border-radius: 8px;\n"

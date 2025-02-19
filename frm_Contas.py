@@ -19,6 +19,8 @@ import icon_alterar
 import pandas as pd
 import Controle
 import mysql.connector
+import os
+
 
 from frm_DadosContas import Ui_frm_DadosContas
 
@@ -28,7 +30,8 @@ class Ui_frm_Contas(object):
             frm_Contas.setObjectName(u"frm_Contas")
         frm_Contas.setFixedSize(581, 593)
         self.frm_Contas = frm_Contas
-        frm_Contas.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        frm_Contas.setWindowIcon(QIcon(caminho_icone))
         frm_Contas.setStyleSheet(u"QWidget{\n"
 "	background-color: #4E342E;\n"
 "\n"

@@ -10,6 +10,8 @@ from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QLineEdit,
     QWidget, QMessageBox)
 import mysql.connector
 import pandas as pd
+import os
+
 #Import Imagens
 import icon_adicionar
 import icon_consultar
@@ -27,8 +29,8 @@ class Ui_frm_Cliente(object):
     def setupUi(self, frm_Cliente):
         if not frm_Cliente.objectName():
             frm_Cliente.setObjectName(u"frm_Cliente")
-        frm_Cliente.setFixedSize(581, 592)
-        frm_Cliente.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        frm_Cliente.setWindowIcon(QIcon(caminho_icone))
         frm_Cliente.setStyleSheet(u"QWidget {\n"
 "    background-color: #e8f5e9;\n"
 "}")

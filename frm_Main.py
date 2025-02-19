@@ -19,6 +19,7 @@ from frm_ValoresAReceber import Ui_frm_ValoresAReceber
 from frm_Tarefas import Ui_frm_Tarefas
 from frm_Bancos import Ui_Frm_Bancos
 
+import os
 import sys
 import icon_cliente
 import icon_tarefas
@@ -36,7 +37,8 @@ class Ui_frm_Main(object):
         if not frm_Main.objectName():
             frm_Main.setObjectName(u"frm_Main")
         frm_Main.setFixedSize(722, 294)
-        frm_Main.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        frm_Main.setWindowIcon(QIcon(caminho_icone))
         frm_Main.setStyleSheet(u"")
         self.actionCliente = QAction(frm_Main)
         self.actionCliente.setObjectName(u"actionCliente")

@@ -11,6 +11,7 @@ from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
 
 import icon_pagamentoTe
 import icon_calcularTroco
+import os
 
 import mysql.connector
 import time
@@ -26,7 +27,8 @@ class Ui_frm_TelaPagamento(object):
         if not frm_TelaPagamento.objectName():
             frm_TelaPagamento.setObjectName(u"frm_TelaPagamento")
         frm_TelaPagamento.setFixedSize(524, 761)
-        frm_TelaPagamento.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        frm_TelaPagamento.setWindowIcon(QIcon(caminho_icone))
         frm_TelaPagamento.setStyleSheet(u"QWidget{\n"
 "	background-color: #2E8B57;\n"
 "}")

@@ -13,6 +13,7 @@ from frm_DadosTarefas import Ui_frm_DadosTarefas
 import mysql.connector
 import pandas as pd
 import Controle
+import os
 
 import icon_adicionar
 import icon_consultar
@@ -28,7 +29,8 @@ class Ui_frm_Tarefas(object):
             frm_Tarefas.setObjectName(u"frm_Tarefas")
         frm_Tarefas.setFixedSize(581, 593)
         self.frm_Tarefas = frm_Tarefas
-        frm_Tarefas.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        frm_Tarefas.setWindowIcon(QIcon(caminho_icone))
         frm_Tarefas.setStyleSheet(u"QWidget{\n"
 "	background-color: #001F3F;\n"
 "\n"

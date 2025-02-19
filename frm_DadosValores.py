@@ -13,6 +13,7 @@ from PySide6 import QtCore
 import pandas as pd
 import Controle
 import mysql.connector
+import os
 
 import icon_cadastrar
 import icon_cancelar
@@ -22,7 +23,8 @@ class Ui_frm_DadosValores(object):
         if not frm_DadosValores.objectName():
             frm_DadosValores.setObjectName(u"frm_DadosValores")
         frm_DadosValores.setFixedSize(638, 654)
-        frm_DadosValores.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        frm_DadosValores.setWindowIcon(QIcon(caminho_icone))
         self.frm_DadosValores = frm_DadosValores
         frm_DadosValores.setStyleSheet(u"QWidget {\n"
 "    background-color: #40E0D0;\n"

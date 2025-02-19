@@ -11,7 +11,7 @@ import mysql.connector
 import pandas as pd
 
 import Controle
-
+import os
 import icon_cadastrar
 import icon_cancelar
 
@@ -22,7 +22,8 @@ class Ui_frm_DadosCliente(object):
             frm_DadosCliente.setObjectName(u"frm_DadosCliente")
         
         frm_DadosCliente.setFixedSize(526, 609)
-        frm_DadosCliente.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        frm_DadosCliente.setWindowIcon(QIcon(caminho_icone))
         frm_DadosCliente.resize(526, 609)
         frm_DadosCliente.setStyleSheet(u"QWidget {\n"
 "    background-color: #e8f5e9;\n"

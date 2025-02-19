@@ -427,25 +427,6 @@ QMenu::item:selected {
     <addaction name="actionCliente"/>
     <addaction name="actionFornecedor"/>
    </widget>
-   <widget class="QMenu" name="menuOpera_es">
-    <property name="title">
-     <string>Operações</string>
-    </property>
-    <widget class="QMenu" name="menuSa_da_de_produtos">
-     <property name="title">
-      <string>Saída de produtos</string>
-     </property>
-     <addaction name="actionVenda"/>
-     <addaction name="actionConsumo_de_produtos"/>
-    </widget>
-    <widget class="QMenu" name="menuEstoque">
-     <property name="title">
-      <string>Estoque</string>
-     </property>
-    </widget>
-    <addaction name="menuSa_da_de_produtos"/>
-    <addaction name="menuEstoque"/>
-   </widget>
    <widget class="QMenu" name="menuFinanceiro">
     <property name="title">
      <string>Financeiro</string>
@@ -457,30 +438,7 @@ QMenu::item:selected {
     <addaction name="actionContas_pagas"/>
     <addaction name="actionContas_recebidas"/>
    </widget>
-   <widget class="QMenu" name="menuConsultas">
-    <property name="title">
-     <string>Consultas</string>
-    </property>
-    <widget class="QMenu" name="menuVendas">
-     <property name="title">
-      <string>Vendas</string>
-     </property>
-     <addaction name="actionGeral"/>
-     <addaction name="actionResumido"/>
-    </widget>
-    <widget class="QMenu" name="menuConsumos">
-     <property name="title">
-      <string>Consumos</string>
-     </property>
-     <addaction name="actionGeral_3"/>
-     <addaction name="actionResumido_2"/>
-    </widget>
-    <addaction name="menuVendas"/>
-    <addaction name="menuConsumos"/>
-   </widget>
    <addaction name="menuCadastros"/>
-   <addaction name="menuOpera_es"/>
-   <addaction name="menuConsultas"/>
    <addaction name="menuFinanceiro"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>

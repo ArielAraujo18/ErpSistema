@@ -11,6 +11,7 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QLabel, QLineEdit,
 import Controle
 import pandas as pd
 import mysql.connector
+import os
 
 import icon_cadastrar
 import icon_cancelar
@@ -21,7 +22,8 @@ class Ui_frm_DadosContas(object):
             frm_DadosContas.setObjectName(u"frm_DadosContas")
         frm_DadosContas.setFixedSize(638, 795)
         self.frm_DadosContas = frm_DadosContas
-        frm_DadosContas.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        frm_DadosContas.setWindowIcon(QIcon(caminho_icone))
         frm_DadosContas.setStyleSheet(u"QWidget {\n"
 "    background-color: #4E342E;\n"
 "    border-radius: 8px;\n"

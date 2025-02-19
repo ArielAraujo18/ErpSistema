@@ -11,6 +11,7 @@ from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
 import pandas as pd
 
 #SQL
+import os
 import mysql.connector
 
 import icon_cadastrar
@@ -23,7 +24,8 @@ class Ui_frm_DadosFornecedor(object):
         if not frm_DadosFornecedor.objectName():
             frm_DadosFornecedor.setObjectName(u"frm_DadosFornecedor")
         #frm_DadosFornecedor.resize(526, 566)
-        frm_DadosFornecedor.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        frm_DadosFornecedor.setWindowIcon(QIcon(caminho_icone))
         frm_DadosFornecedor.setFixedSize(526, 566)
         frm_DadosFornecedor.setStyleSheet(u"QWidget {\n"
 "    background-color: #264653;\n"
