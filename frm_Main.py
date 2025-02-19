@@ -8,19 +8,8 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QTransform)
 from PySide6.QtWidgets import (QApplication, QLabel, QMainWindow, QMenu,
     QMenuBar, QPushButton, QSizePolicy, QStatusBar,
-    QWidget, QMessageBox)
+    QWidget)
 
-from frm_cliente_ui import Ui_frm_Cliente
-from frm_Fornecedor import Ui_frm_Fornecedor
-from frm_Produtos import Ui_frm_Produtos
-from frm_Vendas import Ui_Frm_Vendas
-from frm_Contas import Ui_frm_Contas
-from frm_ValoresAReceber import Ui_frm_ValoresAReceber
-from frm_Tarefas import Ui_frm_Tarefas
-from frm_Bancos import Ui_Frm_Bancos
-
-import os
-import sys
 import icon_cliente
 import icon_tarefas
 import icon_sair
@@ -31,6 +20,18 @@ import icon_pagar
 import icon_vendas
 import icon_produtos
 import icon_fornecedor
+
+import os
+import sys
+
+from frm_cliente_ui import Ui_frm_Cliente
+from frm_Fornecedor import Ui_frm_Fornecedor
+from frm_Produtos import Ui_frm_Produtos
+from frm_Vendas import Ui_Frm_Vendas
+from frm_Contas import Ui_frm_Contas
+from frm_ValoresAReceber import Ui_frm_ValoresAReceber
+from frm_Tarefas import Ui_frm_Tarefas
+from frm_Bancos import Ui_Frm_Bancos
 
 class Ui_frm_Main(object):
     def setupUi(self, frm_Main):
@@ -66,10 +67,10 @@ class Ui_frm_Main(object):
         self.actionContas_para_pagar.setObjectName(u"actionContas_para_pagar")
         self.actionContas_para_receber = QAction(frm_Main)
         self.actionContas_para_receber.setObjectName(u"actionContas_para_receber")
-        self.actionContas_pagas = QAction(frm_Main)
-        self.actionContas_pagas.setObjectName(u"actionContas_pagas")
-        self.actionContas_recebidas = QAction(frm_Main)
-        self.actionContas_recebidas.setObjectName(u"actionContas_recebidas")
+        #self.actionContas_pagas = QAction(frm_Main)
+        #self.actionContas_pagas.setObjectName(u"actionContas_pagas")
+        #self.actionContas_recebidas = QAction(frm_Main)
+        #self.actionContas_recebidas.setObjectName(u"actionContas_recebidas")
         self.actionGeral = QAction(frm_Main)
         self.actionGeral.setObjectName(u"actionGeral")
         self.actionResumido = QAction(frm_Main)
@@ -351,47 +352,23 @@ class Ui_frm_Main(object):
 "")
         self.menuCadastros = QMenu(self.menubar)
         self.menuCadastros.setObjectName(u"menuCadastros")
-        self.menuOpera_es = QMenu(self.menubar)
-        self.menuOpera_es.setObjectName(u"menuOpera_es")
-        self.menuSa_da_de_produtos = QMenu(self.menuOpera_es)
-        self.menuSa_da_de_produtos.setObjectName(u"menuSa_da_de_produtos")
-        self.menuEstoque = QMenu(self.menuOpera_es)
-        self.menuEstoque.setObjectName(u"menuEstoque")
         self.menuFinanceiro = QMenu(self.menubar)
         self.menuFinanceiro.setObjectName(u"menuFinanceiro")
-        self.menuConsultas = QMenu(self.menubar)
-        self.menuConsultas.setObjectName(u"menuConsultas")
-        self.menuVendas = QMenu(self.menuConsultas)
-        self.menuVendas.setObjectName(u"menuVendas")
-        self.menuConsumos = QMenu(self.menuConsultas)
-        self.menuConsumos.setObjectName(u"menuConsumos")
         frm_Main.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(frm_Main)
         self.statusbar.setObjectName(u"statusbar")
         frm_Main.setStatusBar(self.statusbar)
 
         self.menubar.addAction(self.menuCadastros.menuAction())
-        self.menubar.addAction(self.menuOpera_es.menuAction())
-        self.menubar.addAction(self.menuConsultas.menuAction())
         self.menubar.addAction(self.menuFinanceiro.menuAction())
         self.menuCadastros.addAction(self.actionCliente)
         self.menuCadastros.addAction(self.actionFornecedor)
-        self.menuOpera_es.addAction(self.menuSa_da_de_produtos.menuAction())
-        self.menuOpera_es.addAction(self.menuEstoque.menuAction())
-        self.menuSa_da_de_produtos.addAction(self.actionVenda)
-        self.menuSa_da_de_produtos.addAction(self.actionConsumo_de_produtos)
         self.menuFinanceiro.addAction(self.actionCaixa)
         self.menuFinanceiro.addAction(self.actionBanco)
         self.menuFinanceiro.addAction(self.actionContas_para_pagar)
         self.menuFinanceiro.addAction(self.actionContas_para_receber)
-        self.menuFinanceiro.addAction(self.actionContas_pagas)
-        self.menuFinanceiro.addAction(self.actionContas_recebidas)
-        self.menuConsultas.addAction(self.menuVendas.menuAction())
-        self.menuConsultas.addAction(self.menuConsumos.menuAction())
-        self.menuVendas.addAction(self.actionGeral)
-        self.menuVendas.addAction(self.actionResumido)
-        self.menuConsumos.addAction(self.actionGeral_3)
-        self.menuConsumos.addAction(self.actionResumido_2)
+        #self.menuFinanceiro.addAction(self.actionContas_pagas)
+        #self.menuFinanceiro.addAction(self.actionContas_recebidas)
 
         self.retranslateUi(frm_Main)
 
@@ -535,8 +512,9 @@ class Ui_frm_Main(object):
                 self.Frm_Bancos.raise_()
                 self.Frm_Bancos.activateWindow()
 
+
     def retranslateUi(self, frm_Main):
-        frm_Main.setWindowTitle(QCoreApplication.translate("frm_Main", u"Tela principal", None))
+        frm_Main.setWindowTitle(QCoreApplication.translate("frm_Main", u"Tela Principal", None))
         self.actionCliente.setText(QCoreApplication.translate("frm_Main", u"Cliente", None))
         self.actionFornecedor.setText(QCoreApplication.translate("frm_Main", u"Fornecedor", None))
         self.actionUsu_rio_do_sistema.setText(QCoreApplication.translate("frm_Main", u"Usu\u00e1rio", None))
@@ -550,8 +528,8 @@ class Ui_frm_Main(object):
         self.actionBanco.setText(QCoreApplication.translate("frm_Main", u"Banco", None))
         self.actionContas_para_pagar.setText(QCoreApplication.translate("frm_Main", u"Contas para pagar", None))
         self.actionContas_para_receber.setText(QCoreApplication.translate("frm_Main", u"Contas para receber", None))
-        self.actionContas_pagas.setText(QCoreApplication.translate("frm_Main", u"Contas pagas", None))
-        self.actionContas_recebidas.setText(QCoreApplication.translate("frm_Main", u"Contas recebidas", None))
+        #self.actionContas_pagas.setText(QCoreApplication.translate("frm_Main", u"Contas pagas", None))
+        #self.actionContas_recebidas.setText(QCoreApplication.translate("frm_Main", u"Contas recebidas", None))
         self.actionGeral.setText(QCoreApplication.translate("frm_Main", u"Geral", None))
         self.actionResumido.setText(QCoreApplication.translate("frm_Main", u"Resumido", None))
         self.actionGeral_3.setText(QCoreApplication.translate("frm_Main", u"Geral", None))
@@ -567,16 +545,9 @@ class Ui_frm_Main(object):
         self.label.setText(QCoreApplication.translate("frm_Main", u"AVS-SOFTWARES", None))
         self.btn_produtos_2.setText("")
         self.menuCadastros.setTitle(QCoreApplication.translate("frm_Main", u"Cadastros", None))
-        self.menuOpera_es.setTitle(QCoreApplication.translate("frm_Main", u"Opera\u00e7\u00f5es", None))
-        self.menuSa_da_de_produtos.setTitle(QCoreApplication.translate("frm_Main", u"Sa\u00edda de produtos", None))
-        self.menuEstoque.setTitle(QCoreApplication.translate("frm_Main", u"Estoque", None))
         self.menuFinanceiro.setTitle(QCoreApplication.translate("frm_Main", u"Financeiro", None))
-        self.menuConsultas.setTitle(QCoreApplication.translate("frm_Main", u"Consultas", None))
-        self.menuVendas.setTitle(QCoreApplication.translate("frm_Main", u"Vendas", None))
-        self.menuConsumos.setTitle(QCoreApplication.translate("frm_Main", u"Consumos", None))
     # retranslateUi
-
-     ##Botão##
+        ##Botão##
         self.btn_sair.clicked.connect(self.sairSistema)
         self.btn_cliente.clicked.connect(self.telaCliente)
         self.btn_fornecedor.clicked.connect(self.telaFornecedor)        
@@ -590,6 +561,10 @@ class Ui_frm_Main(object):
         #action
         self.actionCliente.triggered.connect(self.telaCliente)
         self.actionFornecedor.triggered.connect(self.telaFornecedor)
+        self.actionCaixa.triggered.connect(self.telaVendas)
+        self.actionBanco.triggered.connect(self.TelaBancos)
+        self.actionContas_para_pagar.triggered.connect(self.telaContas)
+        self.actionContas_para_receber.triggered.connect(self.telaValores)
 
 if __name__ == "__main__":
     app = QApplication([])
@@ -598,3 +573,4 @@ if __name__ == "__main__":
     ui.setupUi(frm_Main)
     frm_Main.show()
     app.exec()
+
