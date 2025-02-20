@@ -347,6 +347,7 @@ class Ui_frm_DadosCliente(object):
     # setupUi
     
     def adicionarCliente(self):
+        pontos = 0
         
         campos_comuns = {
               "Nome": self.txt_nome.text().strip(),
@@ -428,8 +429,8 @@ class Ui_frm_DadosCliente(object):
         )
 
         mycursor = mydb.cursor()
-        sql = "INSERT INTO cliente(`Nome`, `Celular`, `Cpf`, `Cidade`, `Rua`, `Bairro`, `Número`, `Cep`, `E-mail`) values (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        val = (nomeCliente, celularCliente, cpfCliente, cidadeCliente, ruaCliente, bairroCliente, numeroCliente, cepCliente, emailCliente)
+        sql = "INSERT INTO cliente(`Nome`, `Celular`, `Cpf`, `Cidade`, `Rua`, `Bairro`, `Número`, `Cep`, `E-mail`, `Pontos`) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        val = (nomeCliente, celularCliente, cpfCliente, cidadeCliente, ruaCliente, bairroCliente, numeroCliente, cepCliente, emailCliente, pontos)
         mycursor.execute(sql, val)
         mydb.commit()
         print(mycursor.rowcount, 'Record(s) inserted')
@@ -460,7 +461,9 @@ class Ui_frm_DadosCliente(object):
         frm_DadosCliente.close()
 
 
-    def alterarCliente(self):
+    def alterarCliente(self): 
+        pontos = pontos
+
         nomeCliente = self.txt_nome.text()
         celularCliente = self.txt_celular.text()
         cpfCliente = self.txt_cpf.text()
@@ -471,52 +474,46 @@ class Ui_frm_DadosCliente(object):
         cepCliente = self.txt_cep.text()
         emailCliente = self.txt_cidade_6.text()
 
-        try:
-                mydb = mysql.connector.connect(
+        mydb = mysql.connector.connect(
                 host = Controle.host,
                 user = Controle.user,
                 password = Controle.password,
                 database = Controle.database
-                )
+        )
 
-                mycursor = mydb.cursor()
+        mycursor = mydb.cursor()
 
                 # Query 
-                sql = """
-                UPDATE cliente
-                SET Nome = %s, Celular = %s, Cpf = %s, Cidade = %s, Rua = %s,
-                Bairro = %s, Número = %s, Cep = %s, `E-mail` = %s
-                WHERE IdCliente = %s
-                """
+        sql = """
+        UPDATE cliente
+        SET Nome = %s, Celular = %s, Cpf = %s, Cidade = %s, Rua = %s,
+        Bairro = %s, Número = %s, Cep = %s, `E-mail` = %s, `Pontos` = %s
+        WHERE IdCliente = %s
+        """
                 
-                # Lista de valores corrigida
-                val = (
-                nomeCliente, celularCliente, cpfCliente, cidadeCliente,
-                ruaCliente, bairroCliente, numeroCliente, cepCliente,
-                emailCliente, Controle.idConsulta
-                )
+        #Lista de valores corrigida
+        val = (
+        nomeCliente, celularCliente, cpfCliente, cidadeCliente,
+        ruaCliente, bairroCliente, numeroCliente, cepCliente,
+        emailCliente, pontos, Controle.idConsulta
+        )
 
-                # Executando a query
-                mycursor.execute(sql, val)
-                mydb.commit()
+        # Executando a query
+        mycursor.execute(sql, val)
+        mydb.commit()
 
-                print(f"{mycursor.rowcount} registro(s) alterado(s).")
+        print(f"{mycursor.rowcount} registro(s) alterado(s).")
 
-                msg = QMessageBox()
-                msg.setWindowTitle("Sucesso!")
-                msg.setText("Alterado com Sucesso!")
-                msg.setWindowIcon(QIcon((r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png")))
-                msg.setIcon(QMessageBox.Icon.Information)
-                msg.setStandardButtons(QMessageBox.Ok)
-                msg.exec()
+        msg = QMessageBox()
+        msg.setWindowTitle("Sucesso!")
+        msg.setText("Alterado com Sucesso!")
+        msg.setWindowIcon(QIcon((r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png")))
+        msg.setIcon(QMessageBox.Icon.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec()
 
-                self.frm_DadosCliente.close()
+        self.frm_DadosCliente.close()
 
-        except mysql.connector.Error as err:
-                print(f"Erro ao alterar cliente: {err}")
-        finally:
-                mycursor.close()
-                mydb.close()
 
     def retranslateUi(self, frm_DadosCliente):
         frm_DadosCliente.setWindowTitle(QCoreApplication.translate("frm_DadosCliente", u"Dados Cliente", None))

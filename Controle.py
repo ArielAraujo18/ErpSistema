@@ -4,6 +4,7 @@ idFornecedor = ''
 totalDaVenda = ''
 totalItens = ''
 totalLucros = 0
+NomesClientes = []
 
 host = '127.0.0.1'
 user = 'Ariel'

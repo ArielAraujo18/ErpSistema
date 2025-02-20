@@ -16,6 +16,8 @@ import os
 import mysql.connector
 import time
 import Controle
+import pandas as pd
+
 
 import icon_pagamentoTe
 
@@ -412,6 +414,7 @@ class Ui_frm_TelaPagamento(object):
                                 
                                 # Envia os dados para serem cadastrados no novo banco
                                 self.receberDadosCarrinho(dados)
+                                self.cadastrarPontos()
 
                 else:
                         self.frm_TelaPagamento.close()
@@ -448,6 +451,33 @@ class Ui_frm_TelaPagamento(object):
         mydb.close()
 
         print("Dados inseridos com sucesso no novo banco.")
+        
+    def cadastrarPontos(self):
+        mydb = mysql.connector.connect(
+                host=Controle.host,
+                user=Controle.user,
+                password=Controle.password,
+                database=Controle.database
+        )
+
+        mycursor = mydb.cursor()
+
+        consultaSQL = "SELECT IdCliente FROM vendas"
+        mycursor.execute(consultaSQL)
+        clientes_vendas = mycursor.fetchall()  
+
+        clientes_unicos = set(cliente[0] for cliente in clientes_vendas)
+
+        for cliente_id in clientes_unicos:
+                sql_update = "UPDATE cliente SET Pontos = pontos + 10 WHERE idCliente = %s"
+                mycursor.execute(sql_update, (cliente_id,))
+
+        mydb.commit()
+
+        print("Pontos adicionados com sucesso!")
+
+        mycursor.close()
+        mydb.close()
 
     def retranslateUi(self, frm_TelaPagamento):
         frm_TelaPagamento.setWindowTitle(QCoreApplication.translate("frm_TelaPagamento", u"Tela Pagamento", None))

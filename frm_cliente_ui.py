@@ -396,7 +396,7 @@ class Ui_frm_Cliente(object):
         myresult = mycursor.fetchall()
 
         # Criando DataFrame
-        df = pd.DataFrame(myresult, columns=["idCliente", "Nome", "Celular", "Cpf", "Cidade", "Rua", "Bairro", "Número", "Cep", "E-mail"])
+        df = pd.DataFrame(myresult, columns=["idCliente", "Nome", "Celular", "Cpf", "Cidade", "Rua", "Bairro", "Número", "Cep", "E-mail", "Pontos"])
         self.all_data = df
 
         # Configurando a tabela no Pyside
@@ -448,7 +448,7 @@ class Ui_frm_Cliente(object):
         myresult = mycursor.fetchall()  # Obtendo os resultados
 
         # Criando DataFrame
-        df = pd.DataFrame(myresult, columns=["idCliente", "Nome", "Celular", "Cpf", "Cidade", "Rua", "Bairro", "Número", "Cep", "E-mail"])
+        df = pd.DataFrame(myresult, columns=["idCliente", "Nome", "Celular", "Cpf", "Cidade", "Rua", "Bairro", "Número", "Cep", "E-mail", "Pontos"])
         self.all_data = df
 
         # Configurando a tabela no Pyside
@@ -625,7 +625,7 @@ class Ui_frm_Cliente(object):
                 # Atualiza a tabela após a exclusão
                 mycursor.execute("SELECT * FROM cliente")
                 myresult = mycursor.fetchall()
-                df = pd.DataFrame(myresult, columns=['idCliente', 'Nome', 'Celular', 'Cpf', 'Cidade', 'Rua', 'Bairro', 'Número', 'Cep', 'E-mail'])
+                df = pd.DataFrame(myresult, columns=['idCliente', 'Nome', 'Celular', 'Cpf', 'Cidade', 'Rua', 'Bairro', 'Número', 'Cep', 'E-mail', 'Pontos'])
                 self.all_data = df
                 numRows = len(self.all_data.index)
                 self.tableWidget.setColumnCount(len(self.all_data.columns))
