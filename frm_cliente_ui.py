@@ -29,6 +29,7 @@ class Ui_frm_Cliente(object):
     def setupUi(self, frm_Cliente):
         if not frm_Cliente.objectName():
             frm_Cliente.setObjectName(u"frm_Cliente")
+        frm_Cliente.setFixedSize(581, 592)
         caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
         frm_Cliente.setWindowIcon(QIcon(caminho_icone))
         frm_Cliente.setStyleSheet(u"QWidget {\n"

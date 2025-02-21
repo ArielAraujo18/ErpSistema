@@ -10,6 +10,8 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QLabel, QLineEdit,
 import icon_cadastrar
 import icon_cancelar
 
+import os
+
 import mysql.connector
 import Controle
 import pandas as pd
@@ -20,7 +22,8 @@ class Ui_frm_DadosProdutos(object):
         if not frm_DadosProdutos.objectName():
             frm_DadosProdutos.setObjectName(u"frm_DadosProdutos")
         frm_DadosProdutos.setFixedSize(526, 540)
-        frm_DadosProdutos.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        frm_DadosProdutos.setWindowIcon(QIcon(caminho_icone))
         frm_DadosProdutos.setStyleSheet(u"QWidget {\n"
 "    background-color: #FAF3E0;\n"
 "    border-radius: 8px;\n"

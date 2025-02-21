@@ -14,6 +14,8 @@ from frm_DadosProdutos import Ui_frm_DadosProdutos
 
 import mysql.connector
 import pandas as pd
+import os
+
 
 import icon_adicionar
 import icon_consultar
@@ -29,7 +31,8 @@ class Ui_frm_Produtos(object):
             frm_Produtos.setObjectName(u"frm_Produtos")
         frm_Produtos.setFixedSize(581, 592)
         self.frm_Produtos = frm_Produtos
-        frm_Produtos.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        frm_Produtos.setWindowIcon(QIcon(caminho_icone))
         frm_Produtos.setStyleSheet(u"QWidget{\n"
 "	background-color: #FAF3E0;\n"
 "\n"

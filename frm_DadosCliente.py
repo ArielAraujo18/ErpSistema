@@ -347,7 +347,7 @@ class Ui_frm_DadosCliente(object):
     # setupUi
     
     def adicionarCliente(self):
-        pontos = 0
+        Controle.pontos = 0
         
         campos_comuns = {
               "Nome": self.txt_nome.text().strip(),
@@ -430,7 +430,7 @@ class Ui_frm_DadosCliente(object):
 
         mycursor = mydb.cursor()
         sql = "INSERT INTO cliente(`Nome`, `Celular`, `Cpf`, `Cidade`, `Rua`, `Bairro`, `Número`, `Cep`, `E-mail`, `Pontos`) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        val = (nomeCliente, celularCliente, cpfCliente, cidadeCliente, ruaCliente, bairroCliente, numeroCliente, cepCliente, emailCliente, pontos)
+        val = (nomeCliente, celularCliente, cpfCliente, cidadeCliente, ruaCliente, bairroCliente, numeroCliente, cepCliente, emailCliente, Controle.pontos)
         mycursor.execute(sql, val)
         mydb.commit()
         print(mycursor.rowcount, 'Record(s) inserted')
@@ -462,8 +462,9 @@ class Ui_frm_DadosCliente(object):
 
 
     def alterarCliente(self): 
-        pontos = pontos
 
+
+       # Pegando os valores dos campos da interface
         nomeCliente = self.txt_nome.text()
         celularCliente = self.txt_celular.text()
         cpfCliente = self.txt_cpf.text()
@@ -474,28 +475,37 @@ class Ui_frm_DadosCliente(object):
         cepCliente = self.txt_cep.text()
         emailCliente = self.txt_cidade_6.text()
 
+        # Conectando ao banco de dados
         mydb = mysql.connector.connect(
-                host = Controle.host,
-                user = Controle.user,
-                password = Controle.password,
-                database = Controle.database
+        host=Controle.host,
+        user=Controle.user,
+        password=Controle.password,
+        database=Controle.database
         )
 
         mycursor = mydb.cursor()
 
-                # Query 
+        # Buscando o valor atual de Pontos
+        mycursor.execute("SELECT Pontos FROM cliente WHERE IdCliente = %s", (Controle.idConsulta,))
+        pontos_atual = mycursor.fetchone()
+
+        # Verificando se encontrou o cliente
+
+        pontos = pontos_atual[0]  # Pegando o valor de Pontos
+
+        # Query de atualização sem alterar Pontos
         sql = """
         UPDATE cliente
         SET Nome = %s, Celular = %s, Cpf = %s, Cidade = %s, Rua = %s,
-        Bairro = %s, Número = %s, Cep = %s, `E-mail` = %s, `Pontos` = %s
+        Bairro = %s, Número = %s, Cep = %s, `E-mail` = %s
         WHERE IdCliente = %s
         """
-                
-        #Lista de valores corrigida
+
+        # Lista de valores sem incluir Pontos
         val = (
-        nomeCliente, celularCliente, cpfCliente, cidadeCliente,
-        ruaCliente, bairroCliente, numeroCliente, cepCliente,
-        emailCliente, pontos, Controle.idConsulta
+                nomeCliente, celularCliente, cpfCliente, cidadeCliente,
+                ruaCliente, bairroCliente, numeroCliente, cepCliente,
+                emailCliente, Controle.idConsulta
         )
 
         # Executando a query
@@ -504,12 +514,13 @@ class Ui_frm_DadosCliente(object):
 
         print(f"{mycursor.rowcount} registro(s) alterado(s).")
 
+        # Exibindo mensagem de sucesso
         msg = QMessageBox()
         msg.setWindowTitle("Sucesso!")
         msg.setText("Alterado com Sucesso!")
-        msg.setWindowIcon(QIcon((r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png")))
+        msg.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
         msg.setIcon(QMessageBox.Icon.Information)
-        msg.setStandardButtons(QMessageBox.Ok)
+        msg.setStandardButtons(QMessageBox.StandardButton.Ok)
         msg.exec()
 
         self.frm_DadosCliente.close()
@@ -583,7 +594,7 @@ class Ui_frm_DadosCliente(object):
                 myresult = mycursor.fetchall()
                 mycursor.close()
                 #Converte resultados bd para dataframe#
-                df = pd.DataFrame(myresult, columns=["idCliente", "Nome", "Celular", "Cpf", "Cidade", "Rua", "Bairro", "Número", "Cep", "E-mail"])
+                df = pd.DataFrame(myresult, columns=["idCliente", "Nome", "Celular", "Cpf", "Cidade", "Rua", "Bairro", "Número", "Cep", "E-mail", "Pontos"])
                 nomeCliente = df['Nome'][0]
                 celularCliente = df['Celular'][0]
                 cpfCliente = df['Cpf'][0]
@@ -593,6 +604,7 @@ class Ui_frm_DadosCliente(object):
                 NumeroCliente = df['Número'][0]
                 cepCliente = df['Cep'][0]
                 emailCliente = df['E-mail'][0]
+                pontos = df['Pontos'][0]
                 #Setar na tela do sitema
                 self.txt_nome.setText(nomeCliente)
                 self.txt_celular.setText(celularCliente)
@@ -633,7 +645,7 @@ class Ui_frm_DadosCliente(object):
                 myresult = mycursor.fetchall()
                 mycursor.close()
                 #Converte resultados bd para dataframe#
-                df = pd.DataFrame(myresult, columns=["idCliente", "Nome", "Celular", "Cpf", "Cidade", "Rua", "Bairro", "Número", "Cep", "E-mail"])
+                df = pd.DataFrame(myresult, columns=["idCliente", "Nome", "Celular", "Cpf", "Cidade", "Rua", "Bairro", "Número", "Cep", "E-mail", "Pontos"])
                 nomeCliente = df['Nome'][0]
                 celularCliente = df['Celular'][0]
                 cpfCliente = df['Cpf'][0]
