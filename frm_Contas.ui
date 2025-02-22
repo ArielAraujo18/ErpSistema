@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>581</width>
+    <width>953</width>
     <height>593</height>
    </rect>
   </property>
@@ -64,7 +64,7 @@ QPushButton:pressed {
   <widget class="QPushButton" name="btn_voltar">
    <property name="geometry">
     <rect>
-     <x>490</x>
+     <x>860</x>
      <y>510</y>
      <width>91</width>
      <height>81</height>
@@ -513,9 +513,220 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
     </property>
    </column>
   </widget>
+  <widget class="QLabel" name="lbl_SomaDasDividas">
+   <property name="geometry">
+    <rect>
+     <x>690</x>
+     <y>140</y>
+     <width>151</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+    font-size: 16px;
+    color: #FFFFFF;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+</string>
+   </property>
+   <property name="text">
+    <string>Soma das Dívidas:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="txt_SomaDividas">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>170</y>
+     <width>321</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>-1</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 2px solid #cccccc; 
+    border-radius: 5px; 
+    padding: 6px; 
+    font-size: 14px; 
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+QLineEdit:hover {
+    border: 2px solid #3f51b5; 
+    background-color: #f5f5f5; 
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="txt_MaiorDivida">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>260</y>
+     <width>321</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>-1</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 2px solid #cccccc; 
+    border-radius: 5px; 
+    padding: 6px; 
+    font-size: 14px; 
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+QLineEdit:hover {
+    border: 2px solid #3f51b5; 
+    background-color: #f5f5f5; 
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_MaiorDivida">
+   <property name="geometry">
+    <rect>
+     <x>710</x>
+     <y>230</y>
+     <width>111</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+    font-size: 16px;
+    color: #FFFFFF;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+</string>
+   </property>
+   <property name="text">
+    <string>Maior Dívida:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="txt_MaiorValor">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>350</y>
+     <width>321</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>-1</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 2px solid #cccccc; 
+    border-radius: 5px; 
+    padding: 6px; 
+    font-size: 14px; 
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+QLineEdit:hover {
+    border: 2px solid #3f51b5; 
+    background-color: #f5f5f5; 
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>680</x>
+     <y>320</y>
+     <width>181</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+    font-size: 16px;
+    color: #FFFFFF;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+</string>
+   </property>
+   <property name="text">
+    <string>Valor da maior dívida:</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_atualizar">
+   <property name="geometry">
+    <rect>
+     <x>870</x>
+     <y>130</y>
+     <width>31</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: #EDE7F6;
+    border: 2px solid #83C5BE; 
+    border-radius: 14px;
+    color: #FFFFFF; 
+    background-image:url(:/icon_attConta/atualizar (1).png); 
+    background-repeat: no-repeat; 
+    background-position: center; 
+    font-size: 14px; 
+    font-weight: bold; 
+    padding: 10px 16px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); 
+    transition: all 0.3s ease; 
+}
+
+QPushButton:hover {
+    background-color: #FFFFFF;
+    box-shadow: none; 
+}
+
+QPushButton:pressed {
+    background-color: #7C3AED; 
+    color: #FFFFFF; 
+    padding-top: 2px; 
+    padding-left: 2px;
+}
+</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
  </widget>
  <resources>
   <include location="icon_adicionar.qrc"/>
+  <include location="icon_attConta.qrc"/>
   <include location="icon_consultar.qrc"/>
   <include location="icon_excluir.qrc"/>
   <include location="icon_filtro.qrc"/>
