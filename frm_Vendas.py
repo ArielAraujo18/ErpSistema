@@ -11,9 +11,9 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHeaderView,
 
 import Controle
 import icon_addCarrinho
+import icon_PagamentoV
 import icon_voltarVenda
 import icon_att
-import icon_pagamento
 import icon_excluirCart
 
 from frm_TelaPagamento import Ui_frm_TelaPagamento
@@ -25,17 +25,17 @@ import pandas as pd
 
 class Ui_Frm_Vendas(object):
     def setupUi(self, Frm_Vendas):
-        self.Frm_Vendas = Frm_Vendas
         if not Frm_Vendas.objectName():
             Frm_Vendas.setObjectName(u"Frm_Vendas")
-        Frm_Vendas.setFixedSize(1422, 739)
+        Frm_Vendas.setFixedSize(1302, 723)
+        self.Frm_Vendas = Frm_Vendas
         caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
         Frm_Vendas.setWindowIcon(QIcon(caminho_icone))
         Frm_Vendas.setStyleSheet(u"QWidget{\n"
 "	background-color: #2E8B57;\n"
 "}")
-        Frm_Vendas.closeEvent = self.FecharTela
         self.label = QLabel(Frm_Vendas)
+        Frm_Vendas.closeEvent = self.FecharTela
         self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(10, 80, 191, 21))
         font = QFont()
@@ -49,7 +49,7 @@ class Ui_Frm_Vendas(object):
 "}")
         self.label_2 = QLabel(Frm_Vendas)
         self.label_2.setObjectName(u"label_2")
-        self.label_2.setGeometry(QRect(560, 10, 271, 81))
+        self.label_2.setGeometry(QRect(540, 10, 271, 81))
         self.label_2.setFont(font)
         self.label_2.setStyleSheet(u"QLabel {\n"
 "    font-size: 65px;\n"
@@ -58,15 +58,16 @@ class Ui_Frm_Vendas(object):
 "    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
 "}")
         self.comboProd = QComboBox(Frm_Vendas)
+        self.comboProd.addItem("")
         self.comboProd.setObjectName(u"comboProd")
-        self.comboProd.setGeometry(QRect(0, 110, 701, 31))
+        self.comboProd.setGeometry(QRect(0, 110, 331, 41))
         self.comboProd.setStyleSheet(u"QComboBox {\n"
 "    background-color: #2c3e50;\n"
 "    color: #ecf0f1;\n"
 "    border: 1px solid #34495e;\n"
 "    border-radius: 5px;\n"
 "    padding: 5px;\n"
-"    font-size: 14px;\n"
+"    font-size: 18px;\n"
 "    min-width: 100px;\n"
 "}\n"
 "\n"
@@ -316,7 +317,7 @@ class Ui_Frm_Vendas(object):
 "")
         self.label_8 = QLabel(Frm_Vendas)
         self.label_8.setObjectName(u"label_8")
-        self.label_8.setGeometry(QRect(980, 100, 191, 31))
+        self.label_8.setGeometry(QRect(830, 110, 191, 31))
         self.label_8.setFont(font)
         self.label_8.setStyleSheet(u"QLabel {\n"
 "    font-size: 32px;\n"
@@ -392,7 +393,7 @@ class Ui_Frm_Vendas(object):
         __qtablewidgetitem6 = QTableWidgetItem()
         self.carrinho.setHorizontalHeaderItem(6, __qtablewidgetitem6)
         self.carrinho.setObjectName(u"carrinho")
-        self.carrinho.setGeometry(QRect(720, 160, 701, 361))
+        self.carrinho.setGeometry(QRect(600, 160, 701, 361))
         self.carrinho.setStyleSheet(u"QTableWidget, QTableView {\n"
 "    border: 2px solid #C0C0C0;  \n"
 "    border-radius: 8px;  \n"
@@ -458,7 +459,7 @@ class Ui_Frm_Vendas(object):
 "}")
         self.frame = QFrame(Frm_Vendas)
         self.frame.setObjectName(u"frame")
-        self.frame.setGeometry(QRect(900, 550, 371, 111))
+        self.frame.setGeometry(QRect(800, 550, 371, 111))
         self.frame.setStyleSheet(u"QFrame{\n"
 "	background-color:  #FFFFFF;\n"
 "}")
@@ -505,15 +506,16 @@ class Ui_Frm_Vendas(object):
 "    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
 "}")
         self.comboCliente = QComboBox(Frm_Vendas)
+        self.comboCliente.addItem("")
         self.comboCliente.setObjectName(u"comboCliente")
-        self.comboCliente.setGeometry(QRect(100, 530, 511, 41))
+        self.comboCliente.setGeometry(QRect(110, 530, 331, 41))
         self.comboCliente.setStyleSheet(u"QComboBox {\n"
 "    background-color: #2c3e50;\n"
 "    color: #ecf0f1;\n"
 "    border: 1px solid #34495e;\n"
 "    border-radius: 5px;\n"
 "    padding: 5px;\n"
-"    font-size: 14px;\n"
+"    font-size: 18px;\n"
 "    min-width: 100px;\n"
 "}\n"
 "\n"
@@ -618,7 +620,7 @@ class Ui_Frm_Vendas(object):
 "")
         self.btn_pagamento = QPushButton(Frm_Vendas)
         self.btn_pagamento.setObjectName(u"btn_pagamento")
-        self.btn_pagamento.setGeometry(QRect(120, 600, 381, 121))
+        self.btn_pagamento.setGeometry(QRect(50, 600, 381, 121))
         self.btn_pagamento.setStyleSheet(u"QPushButton {\n"
 "    background-color: #ffffff; \n"
 "    border: 2px solid #d1c4b2; \n"
@@ -627,7 +629,7 @@ class Ui_Frm_Vendas(object):
 "    font-size: 14px;\n"
 "    font-weight: bold;\n"
 "    padding: 10px 16px; \n"
-"    background-image:url(:/icon_pagamento/forma-de-pagamento AA (2).png);\n"
+"    background-image:url(:/icon_Pagar/forma-de-pagamento AA (2).png);\n"
 "    background-repeat: no-repeat;\n"
 "    background-position: center;\n"
 "    transition: all 0.3s ease;\n"
@@ -646,7 +648,7 @@ class Ui_Frm_Vendas(object):
 "}")
         self.btn_atualizar = QPushButton(Frm_Vendas)
         self.btn_atualizar.setObjectName(u"btn_atualizar")
-        self.btn_atualizar.setGeometry(QRect(560, 200, 31, 31))
+        self.btn_atualizar.setGeometry(QRect(540, 200, 31, 31))
         self.btn_atualizar.setStyleSheet(u"QPushButton {\n"
 "    background-color: #EDE7F6;\n"
 "    border: 2px solid #83C5BE; \n"
@@ -676,7 +678,7 @@ class Ui_Frm_Vendas(object):
 "")
         self.btn_voltar = QPushButton(Frm_Vendas)
         self.btn_voltar.setObjectName(u"btn_voltar")
-        self.btn_voltar.setGeometry(QRect(1330, 660, 91, 81))
+        self.btn_voltar.setGeometry(QRect(1210, 640, 91, 81))
         self.btn_voltar.setStyleSheet(u"QPushButton {\n"
 "    background-color: #EDE7F6;\n"
 "    border: 2px solid #83C5BE; \n"
@@ -714,10 +716,10 @@ class Ui_Frm_Vendas(object):
 
     def carregarComboBoxProduto(self):
         mydb = mysql.connector.connect(
-                host = Controle.host,
-                user = Controle.user,
-                password = Controle.password,
-                database = Controle.database
+                host=Controle.host,
+                user=Controle.user,
+                password=Controle.password,
+                database=Controle.database
         )
         mycursor = mydb.cursor()
 
@@ -725,19 +727,27 @@ class Ui_Frm_Vendas(object):
         resultados = mycursor.fetchall()
 
         self.comboProd.clear()
+        self.produtos_info = {} 
 
-        # Adicionando os produtos na combobox (armazenando o ID como dado e o valor em um dicionário interno)
-        self.produtos_info = {}  # Dicionário para armazenar valores
-        for produtos in resultados:
-                produtos_id, produtos_nome, produtos_valor = produtos
+        for produtos_id, produtos_nome, produtos_valor in resultados:
+                if produtos_valor is None:
+                        produtos_valor = "0.00"
+                else:
+                        produtos_valor = str(produtos_valor).replace("R$", "").replace(",", ".").strip() 
+
+                produtos_valor = float(produtos_valor)
+
                 self.comboProd.addItem(produtos_nome, produtos_id)
-                self.produtos_info[produtos_id] = produtos_valor  # Armazenando o valor pelo ID
+                self.produtos_info[produtos_id] = produtos_valor
 
-        # Atualiza o lineEdit ao mudar o item selecionado
         self.comboProd.currentIndexChanged.connect(self.atualizarCampoProdutos)
 
         mycursor.close()
         mydb.close()
+
+        if self.comboProd.count() > 0:
+                self.comboProd.setCurrentIndex(0)
+                self.atualizarCampoProdutos()
 
 
     def carregarComboBoxCliente(self):
@@ -759,7 +769,6 @@ class Ui_Frm_Vendas(object):
             cliente_id, cliente_nome = clientes
             self.comboCliente.addItem(cliente_nome, cliente_id)
 
-        #Atualizar o LineEdit do cliente para mudar de acordo com o cliente selecionado
         self.comboCliente.currentIndexChanged.connect(self.atualizarCampoCliente)
 
         mycursor.close()
@@ -767,7 +776,6 @@ class Ui_Frm_Vendas(object):
 
     def atualizarCampoCliente(self):
         
-        #Retorna o dado Oculto 
         self.atualizarTabela()
         cliente_id = self.comboCliente.currentData()
         if cliente_id:
@@ -778,21 +786,15 @@ class Ui_Frm_Vendas(object):
     def atualizarCampoProdutos(self):
         produtos_id = self.comboProd.currentData()
         self.atualizarTabela()
+        
         if produtos_id is not None:
-                # Recuperando o valor usando o dicionário
-                produtos_valor = self.produtos_info.get(produtos_id, "Valor não encontrado")
+                produtos_valor = self.produtos_info.get(produtos_id, 0.0)  #retorna 0.0 caso não encontre
                 
-                # Removendo "R$" se já estiver formatado
-                if isinstance(produtos_valor, str) and produtos_valor.startswith("R$"):
-                        produtos_valor = produtos_valor.replace("R$", "").strip()
-                
-                # Formatando novamente com "R$"
                 self.txtIdProduto.setText(str(produtos_id))
-                self.txtValor.setText(f"R$ {produtos_valor}")
+                self.txtValor.setText(f"R$ {produtos_valor:.2f}".replace(".", ","))
         else:
                 self.txtValor.clear()
                 self.txtIdProduto.clear()
-
 
     def adicionarAoCarrinho(self):
         produto = self.comboProd.currentText()
@@ -803,7 +805,6 @@ class Ui_Frm_Vendas(object):
         idCliente = self.txt_idCliente.text()
         cliente = self.comboCliente.currentText()
 
-        # Converte valores para os tipos corretos
         quantidade = int(quantidade) if quantidade.isdigit() else 1
         valor = float(valor) if valor else 0.0
         total = valor
@@ -946,7 +947,7 @@ class Ui_Frm_Vendas(object):
             msg.setIcon(QMessageBox.Warning)
             msg.setStandardButtons(QMessageBox.Ok)
             msg.exec()
-            return #Retorna se a codição for falsa
+            return 
 
          item = self.carrinho.item(line, 0)
 
@@ -1003,7 +1004,6 @@ class Ui_Frm_Vendas(object):
               msg.exec()
         
     def FecharTela(self, event):
-        # Criar a mensagem de confirmação
         resposta = QMessageBox(self.Frm_Vendas)
         resposta.setWindowTitle('Fechar o PDV')
         resposta.setText('Deseja fechar o PDV e limpar o carrinho?')
@@ -1011,8 +1011,6 @@ class Ui_Frm_Vendas(object):
         resposta.setIcon(QMessageBox.Warning)
         resposta.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
-
-        # Exibir a mensagem de erro
         resposta.exec()
 
         if resposta.clickedButton() == resposta.button(QMessageBox.Yes):
@@ -1047,10 +1045,24 @@ class Ui_Frm_Vendas(object):
                self.frm_TelaPagamento.raise_()
                self.frm_TelaPagamento.activateWindow()
 
+    def atualizarDados(self, cliente_id=None):
+        self.carregarComboBoxCliente()
+        self.carregarComboBoxProduto()
+
+        if cliente_id is not None:
+                index = self.comboCliente.findData(cliente_id)
+                if index != -1:
+                        self.comboCliente.setCurrentIndex(index)
+        else:
+                if self.comboCliente.count() > 0:
+                        self.comboCliente.setCurrentIndex(0)
+
     def retranslateUi(self, Frm_Vendas):
         Frm_Vendas.setWindowTitle(QCoreApplication.translate("Frm_Vendas", u"Vendas", None))
         self.label.setText(QCoreApplication.translate("Frm_Vendas", u"NOME DO PRODUTO: ", None))
         self.label_2.setText(QCoreApplication.translate("Frm_Vendas", u"VENDAS", None))
+        self.comboProd.setItemText(0, QCoreApplication.translate("Frm_Vendas", u"Nenhum selecionado", None))
+
         self.label_3.setText(QCoreApplication.translate("Frm_Vendas", u"QUANTIDADE:", None))
         self.label_4.setText(QCoreApplication.translate("Frm_Vendas", u"VALOR:", None))
         self.label_5.setText(QCoreApplication.translate("Frm_Vendas", u"ID DO PRODUTO:", None))
@@ -1077,14 +1089,17 @@ class Ui_Frm_Vendas(object):
         self.lblQtd.setText(QCoreApplication.translate("Frm_Vendas", u"0000000", None))
         self.label_11.setText(QCoreApplication.translate("Frm_Vendas", u"VALOR TOTAL:", None))
         self.lblValor.setText(QCoreApplication.translate("Frm_Vendas", u"0000000", None))
+        self.comboCliente.setItemText(0, QCoreApplication.translate("Frm_Vendas", u"Nenhum selecionado", None))
+
         self.btn_pagamento.setText("")
         self.btn_atualizar.setText("")
         self.btn_voltar.setText("")
     # retranslateUi
-
+        
         self.btn_voltar.clicked.connect(self.sairTela)
         self.btn_atualizar.clicked.connect(self.carregarComboBoxProduto)
         self.btn_atualizar.clicked.connect(self.carregarComboBoxCliente)
+        self.btn_atualizar.clicked.connect(self.atualizarDados)
         self.btn_addCarrinho.clicked.connect(self.adicionarAoCarrinho)
         self.btn_excluirCarrinho.clicked.connect(self.excluirDaTabela)
         self.btn_pagamento.clicked.connect(self.pagamentoTela)

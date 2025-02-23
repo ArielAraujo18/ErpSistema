@@ -9,6 +9,7 @@ from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QTableWidget, QTableWidgetItem,
     QWidget, QMessageBox)
 import icon_adicionar
+import icon_attConta
 import icon_consultar
 import icon_excluir
 import icon_filtro
@@ -21,14 +22,13 @@ import Controle
 import mysql.connector
 import os
 
-
 from frm_DadosContas import Ui_frm_DadosContas
 
 class Ui_frm_Contas(object):
     def setupUi(self, frm_Contas):
         if not frm_Contas.objectName():
             frm_Contas.setObjectName(u"frm_Contas")
-        frm_Contas.setFixedSize(581, 593)
+        frm_Contas.setFixedSize(953, 593)
         self.frm_Contas = frm_Contas
         caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
         frm_Contas.setWindowIcon(QIcon(caminho_icone))
@@ -68,7 +68,7 @@ class Ui_frm_Contas(object):
 "}")
         self.btn_voltar = QPushButton(frm_Contas)
         self.btn_voltar.setObjectName(u"btn_voltar")
-        self.btn_voltar.setGeometry(QRect(490, 510, 91, 81))
+        self.btn_voltar.setGeometry(QRect(860, 510, 91, 81))
         self.btn_voltar.setStyleSheet(u"QPushButton {\n"
 "    background-color: #EDE7F6;\n"
 "    border: 2px solid #83C5BE; \n"
@@ -235,7 +235,6 @@ class Ui_frm_Contas(object):
         self.txt_nomeContas.setFont(font1)
         self.txt_nomeContas.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
-"    color: #000000;\n"
 "    border-radius: 5px; \n"
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
@@ -381,6 +380,123 @@ class Ui_frm_Contas(object):
 "\n"
 "QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {\n"
 "    background: none;\n"
+"}\n"
+"")
+        self.lbl_SomaDasDividas = QLabel(frm_Contas)
+        self.lbl_SomaDasDividas.setObjectName(u"lbl_SomaDasDividas")
+        self.lbl_SomaDasDividas.setGeometry(QRect(690, 140, 151, 16))
+        self.lbl_SomaDasDividas.setStyleSheet(u"QLabel {\n"
+"    font-size: 16px;\n"
+"    color: #FFFFFF;\n"
+"    font-weight: bold;\n"
+"    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
+"}\n"
+"")
+        self.txt_SomaDividas = QLineEdit(frm_Contas)
+        self.txt_SomaDividas.setObjectName(u"txt_SomaDividas")
+        self.txt_SomaDividas.setEnabled(False)
+        self.txt_SomaDividas.setGeometry(QRect(610, 170, 321, 41))
+        self.txt_SomaDividas.setFont(font1)
+        self.txt_SomaDividas.setStyleSheet(u"QLineEdit {\n"
+"    border: 2px solid #cccccc; \n"
+"    border-radius: 5px; \n"
+"    padding: 6px; \n"
+"    font-size: 14px; \n"
+"    background-color: #ffffff;\n"
+"    transition: all 0.3s ease;\n"
+"}\n"
+"\n"
+"QLineEdit:hover {\n"
+"    border: 2px solid #3f51b5; \n"
+"    background-color: #f5f5f5; \n"
+"}\n"
+"")
+        self.txt_MaiorDivida = QLineEdit(frm_Contas)
+        self.txt_MaiorDivida.setObjectName(u"txt_MaiorDivida")
+        self.txt_MaiorDivida.setEnabled(False)
+        self.txt_MaiorDivida.setGeometry(QRect(610, 260, 321, 41))
+        self.txt_MaiorDivida.setFont(font1)
+        self.txt_MaiorDivida.setStyleSheet(u"QLineEdit {\n"
+"    border: 2px solid #cccccc; \n"
+"    border-radius: 5px; \n"
+"    padding: 6px; \n"
+"    font-size: 14px; \n"
+"    background-color: #ffffff;\n"
+"    transition: all 0.3s ease;\n"
+"}\n"
+"\n"
+"QLineEdit:hover {\n"
+"    border: 2px solid #3f51b5; \n"
+"    background-color: #f5f5f5; \n"
+"}\n"
+"")
+        self.lbl_MaiorDivida = QLabel(frm_Contas)
+        self.lbl_MaiorDivida.setObjectName(u"lbl_MaiorDivida")
+        self.lbl_MaiorDivida.setGeometry(QRect(710, 230, 111, 16))
+        self.lbl_MaiorDivida.setStyleSheet(u"QLabel {\n"
+"    font-size: 16px;\n"
+"    color: #FFFFFF;\n"
+"    font-weight: bold;\n"
+"    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
+"}\n"
+"")
+        self.txt_MaiorValor = QLineEdit(frm_Contas)
+        self.txt_MaiorValor.setObjectName(u"txt_MaiorValor")
+        self.txt_MaiorValor.setEnabled(False)
+        self.txt_MaiorValor.setGeometry(QRect(610, 350, 321, 41))
+        self.txt_MaiorValor.setFont(font1)
+        self.txt_MaiorValor.setStyleSheet(u"QLineEdit {\n"
+"    border: 2px solid #cccccc; \n"
+"    border-radius: 5px; \n"
+"    padding: 6px; \n"
+"    font-size: 14px; \n"
+"    background-color: #ffffff;\n"
+"    transition: all 0.3s ease;\n"
+"}\n"
+"\n"
+"QLineEdit:hover {\n"
+"    border: 2px solid #3f51b5; \n"
+"    background-color: #f5f5f5; \n"
+"}\n"
+"")
+        self.label_3 = QLabel(frm_Contas)
+        self.label_3.setObjectName(u"label_3")
+        self.label_3.setGeometry(QRect(680, 320, 181, 16))
+        self.label_3.setStyleSheet(u"QLabel {\n"
+"    font-size: 16px;\n"
+"    color: #FFFFFF;\n"
+"    font-weight: bold;\n"
+"    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
+"}\n"
+"")
+        self.btn_atualizar = QPushButton(frm_Contas)
+        self.btn_atualizar.setObjectName(u"btn_atualizar")
+        self.btn_atualizar.setGeometry(QRect(870, 130, 31, 31))
+        self.btn_atualizar.setStyleSheet(u"QPushButton {\n"
+"    background-color: #EDE7F6;\n"
+"    border: 2px solid #83C5BE; \n"
+"    border-radius: 14px;\n"
+"    color: #FFFFFF; \n"
+"    background-image:url(:/icon_attConta/atualizar (1).png); \n"
+"    background-repeat: no-repeat; \n"
+"    background-position: center; \n"
+"    font-size: 14px; \n"
+"    font-weight: bold; \n"
+"    padding: 10px 16px;\n"
+"    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); \n"
+"    transition: all 0.3s ease; \n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: #FFFFFF;\n"
+"    box-shadow: none; \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: #7C3AED; \n"
+"    color: #FFFFFF; \n"
+"    padding-top: 2px; \n"
+"    padding-left: 2px;\n"
 "}\n"
 "")
 
@@ -622,6 +738,73 @@ class Ui_frm_Contas(object):
             msg.setStandardButtons(QMessageBox.Ok)
             msg.exec()
 
+    def visualizar(self):
+        mydb = mysql.connector.connect(
+            host=Controle.host,
+            user=Controle.user,
+            password=Controle.password,
+            database=Controle.database
+        )
+
+        mycursor = mydb.cursor()
+
+        # Ajuste na query para desconsiderar valores com 'pago'
+        mycursor.execute("""
+            SELECT nome, valor FROM contas 
+            WHERE Situação != 'pago' 
+            ORDER BY CAST(REPLACE(valor, 'R$', '') AS DECIMAL(10,2)) DESC 
+            LIMIT 1
+        """)
+        resultado = mycursor.fetchone()
+
+        if resultado:
+            nome_maior_divida, maior_valor = resultado
+            
+            print(f"Maior dívida encontrada: {nome_maior_divida} - {maior_valor}")  # Debug
+
+            # Removendo "R$" e garantindo que seja número
+            maior_valor = float(maior_valor.replace("R$", "").replace(",", ".").strip())  # Substitui a vírgula por ponto
+
+            # Atualiza os campos de texto
+            self.txt_MaiorDivida.setText(nome_maior_divida)
+            self.txt_MaiorValor.setText(f"R${maior_valor:,.2f}".replace(",", "."))  # Formato correto
+        else:
+            # Caso não tenha nenhuma dívida pendente, limpar os campos
+            self.txt_MaiorDivida.setText("")
+            self.txt_MaiorValor.setText("")
+
+        mycursor.close()
+
+    def calcular_total_dividas(self):
+        conexao = mysql.connector.connect(
+            host=Controle.host,
+            user=Controle.user,
+            password=Controle.password,
+            database=Controle.database
+        )
+
+        cursor = conexao.cursor()
+
+        # Query para somar todos os valores, ignorando as contas com a situação 'pago'
+        cursor.execute("""
+            SELECT SUM(CAST(REPLACE(valor, 'R$', '') AS DECIMAL(10,2))) 
+            FROM contas 
+            WHERE Situação != 'pago'
+        """)
+        total_dividas = cursor.fetchone()[0]  # Pega o resultado da soma
+
+        if total_dividas is None:  
+            total_dividas = 0.0  # Caso não tenha nenhuma dívida, define como 0
+
+        print(f"Total de dívidas: R${total_dividas:,.2f}")  # Debug
+
+        # Exibir no campo de texto
+        self.txt_SomaDividas.setText(f"R${total_dividas:,.2f}".replace(",", "."))  
+
+        cursor.close()
+        conexao.close()
+
+
 
     def retranslateUi(self, frm_Contas):
         frm_Contas.setWindowTitle(QCoreApplication.translate("frm_Contas", u"Contas", None))
@@ -653,9 +836,11 @@ class Ui_frm_Contas(object):
         ___qtablewidgetitem8.setText(QCoreApplication.translate("frm_Contas", u"Forma de pagamento", None));
         ___qtablewidgetitem9 = self.tableWidget.horizontalHeaderItem(9)
         ___qtablewidgetitem9.setText(QCoreApplication.translate("frm_Contas", u"Situa\u00e7\u00e3o", None));
+        self.lbl_SomaDasDividas.setText(QCoreApplication.translate("frm_Contas", u"Soma das D\u00edvidas:", None))
+        self.lbl_MaiorDivida.setText(QCoreApplication.translate("frm_Contas", u"Maior D\u00edvida:", None))
+        self.label_3.setText(QCoreApplication.translate("frm_Contas", u"Valor da maior d\u00edvida:", None))
+        self.btn_atualizar.setText("")
     # retranslateUi
-
-
 
         self.btn_voltar.clicked.connect(self.sairTela)
         self.btn_filtro.clicked.connect(self.consultarGeral)
@@ -664,6 +849,8 @@ class Ui_frm_Contas(object):
         self.btn_alterar.clicked.connect(self.alterarContas)
         self.btn_excluir.clicked.connect(self.excluirContas)
         self.btn_consul.clicked.connect(self.consultarContas)
+        self.btn_atualizar.clicked.connect(self.visualizar)
+        self.btn_atualizar.clicked.connect(self.calcular_total_dividas)
 
 if __name__ == "__main__":
     app = QApplication([])

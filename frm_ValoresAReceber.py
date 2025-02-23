@@ -8,6 +8,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QTableWidget, QTableWidgetItem,
     QWidget, QMessageBox)
+
 from frm_DadosValores import Ui_frm_DadosValores
 
 import mysql.connector
@@ -16,6 +17,7 @@ import pandas as pd
 import os
 
 import icon_adicionar
+import icon_attValores
 import icon_consultar
 import icon_excluir
 import icon_filtro
@@ -27,10 +29,10 @@ class Ui_frm_ValoresAReceber(object):
     def setupUi(self, frm_ValoresAReceber):
         if not frm_ValoresAReceber.objectName():
             frm_ValoresAReceber.setObjectName(u"frm_ValoresAReceber")
-        frm_ValoresAReceber.setFixedSize(581, 593)
-        self.frm_ValoresAReceber = frm_ValoresAReceber
+        frm_ValoresAReceber.setFixedSize(952, 593)
         caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
         frm_ValoresAReceber.setWindowIcon(QIcon(caminho_icone))
+        self.frm_ValoresAReceber = frm_ValoresAReceber
         frm_ValoresAReceber.setStyleSheet(u"QWidget{\n"
 "	background-color: #40E0D0;\n"
 "\n"
@@ -67,7 +69,7 @@ class Ui_frm_ValoresAReceber(object):
 "}")
         self.btn_voltar = QPushButton(frm_ValoresAReceber)
         self.btn_voltar.setObjectName(u"btn_voltar")
-        self.btn_voltar.setGeometry(QRect(490, 510, 91, 81))
+        self.btn_voltar.setGeometry(QRect(860, 510, 91, 81))
         self.btn_voltar.setStyleSheet(u"QPushButton {\n"
 "    background-color: #EDE7F6;\n"
 "    border: 2px solid #83C5BE; \n"
@@ -234,7 +236,6 @@ class Ui_frm_ValoresAReceber(object):
         self.txt_nomeContas.setFont(font1)
         self.txt_nomeContas.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
-"    color: #000000;\n"
 "    border-radius: 5px; \n"
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
@@ -380,6 +381,123 @@ class Ui_frm_ValoresAReceber(object):
 "    background: none;\n"
 "}\n"
 "")
+        self.txt_MaiorValorAReceber = QLineEdit(frm_ValoresAReceber)
+        self.txt_MaiorValorAReceber.setObjectName(u"txt_MaiorValorAReceber")
+        self.txt_MaiorValorAReceber.setEnabled(False)
+        self.txt_MaiorValorAReceber.setGeometry(QRect(610, 370, 321, 41))
+        self.txt_MaiorValorAReceber.setFont(font1)
+        self.txt_MaiorValorAReceber.setStyleSheet(u"QLineEdit {\n"
+"    border: 2px solid #cccccc; \n"
+"    border-radius: 5px; \n"
+"    padding: 6px; \n"
+"    font-size: 14px; \n"
+"    background-color: #ffffff;\n"
+"    transition: all 0.3s ease;\n"
+"}\n"
+"\n"
+"QLineEdit:hover {\n"
+"    border: 2px solid #3f51b5; \n"
+"    background-color: #f5f5f5; \n"
+"}\n"
+"")
+        self.lbl_MaiorValor = QLabel(frm_ValoresAReceber)
+        self.lbl_MaiorValor.setObjectName(u"lbl_MaiorValor")
+        self.lbl_MaiorValor.setGeometry(QRect(680, 340, 181, 16))
+        self.lbl_MaiorValor.setStyleSheet(u"QLabel {\n"
+"    font-size: 16px;\n"
+"    color: #000000;\n"
+"    font-weight: bold;\n"
+"    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
+"}\n"
+"")
+        self.txt_NomeDoMaiorValorReceber = QLineEdit(frm_ValoresAReceber)
+        self.txt_NomeDoMaiorValorReceber.setObjectName(u"txt_NomeDoMaiorValorReceber")
+        self.txt_NomeDoMaiorValorReceber.setEnabled(False)
+        self.txt_NomeDoMaiorValorReceber.setGeometry(QRect(610, 280, 321, 41))
+        self.txt_NomeDoMaiorValorReceber.setFont(font1)
+        self.txt_NomeDoMaiorValorReceber.setStyleSheet(u"QLineEdit {\n"
+"    border: 2px solid #cccccc; \n"
+"    border-radius: 5px; \n"
+"    padding: 6px; \n"
+"    font-size: 14px; \n"
+"    background-color: #ffffff;\n"
+"    transition: all 0.3s ease;\n"
+"}\n"
+"\n"
+"QLineEdit:hover {\n"
+"    border: 2px solid #3f51b5; \n"
+"    background-color: #f5f5f5; \n"
+"}\n"
+"")
+        self.lbl_NomeMaiorValor = QLabel(frm_ValoresAReceber)
+        self.lbl_NomeMaiorValor.setObjectName(u"lbl_NomeMaiorValor")
+        self.lbl_NomeMaiorValor.setGeometry(QRect(640, 250, 261, 20))
+        self.lbl_NomeMaiorValor.setStyleSheet(u"QLabel {\n"
+"    font-size: 16px;\n"
+"    color: #000000;\n"
+"    font-weight: bold;\n"
+"    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
+"}\n"
+"")
+        self.txt_SomaDosValores = QLineEdit(frm_ValoresAReceber)
+        self.txt_SomaDosValores.setObjectName(u"txt_SomaDosValores")
+        self.txt_SomaDosValores.setEnabled(False)
+        self.txt_SomaDosValores.setGeometry(QRect(610, 190, 321, 41))
+        self.txt_SomaDosValores.setFont(font1)
+        self.txt_SomaDosValores.setStyleSheet(u"QLineEdit {\n"
+"    border: 2px solid #cccccc; \n"
+"    border-radius: 5px; \n"
+"    padding: 6px; \n"
+"    font-size: 14px; \n"
+"    background-color: #ffffff;\n"
+"    transition: all 0.3s ease;\n"
+"}\n"
+"\n"
+"QLineEdit:hover {\n"
+"    border: 2px solid #3f51b5; \n"
+"    background-color: #f5f5f5; \n"
+"}\n"
+"")
+        self.lbl_SomaDosValores = QLabel(frm_ValoresAReceber)
+        self.lbl_SomaDosValores.setObjectName(u"lbl_SomaDosValores")
+        self.lbl_SomaDosValores.setGeometry(QRect(690, 160, 151, 16))
+        self.lbl_SomaDosValores.setStyleSheet(u"QLabel {\n"
+"    font-size: 16px;\n"
+"    color: #000000;\n"
+"    font-weight: bold;\n"
+"    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
+"}\n"
+"")
+        self.btn_atualizar = QPushButton(frm_ValoresAReceber)
+        self.btn_atualizar.setObjectName(u"btn_atualizar")
+        self.btn_atualizar.setGeometry(QRect(860, 150, 31, 31))
+        self.btn_atualizar.setStyleSheet(u"QPushButton {\n"
+"    background-color: #EDE7F6;\n"
+"    border: 2px solid #83C5BE; \n"
+"    border-radius: 14px;\n"
+"    color: #FFFFFF; \n"
+"    background-image:url(:/icon_attValor/atualizar (1).png); \n"
+"    background-repeat: no-repeat; \n"
+"    background-position: center; \n"
+"    font-size: 14px; \n"
+"    font-weight: bold; \n"
+"    padding: 10px 16px;\n"
+"    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); \n"
+"    transition: all 0.3s ease; \n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: #FFFFFF;\n"
+"    box-shadow: none; \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: #7C3AED; \n"
+"    color: #FFFFFF; \n"
+"    padding-top: 2px; \n"
+"    padding-left: 2px;\n"
+"}\n"
+"")
 
         self.retranslateUi(frm_ValoresAReceber)
 
@@ -391,6 +509,7 @@ class Ui_frm_ValoresAReceber(object):
         self.frm_ValoresAReceber = None
 
     def consultarGeral(self):
+
         print("Conectando")
         mydb = mysql.connector.connect(
             host = Controle.host,
@@ -616,7 +735,7 @@ class Ui_frm_ValoresAReceber(object):
                 self.frm_DadosValores.activateWindow()
 
     def retranslateUi(self, frm_ValoresAReceber):
-        frm_ValoresAReceber.setWindowTitle(QCoreApplication.translate("frm_ValoresAReceber", u"Valores A Receber", None))
+        frm_ValoresAReceber.setWindowTitle(QCoreApplication.translate("frm_ValoresAReceber", u"Valores a receber", None))
         self.btn_Add.setText("")
         self.btn_voltar.setText("")
         self.btn_consul.setText("")
@@ -643,7 +762,12 @@ class Ui_frm_ValoresAReceber(object):
         ___qtablewidgetitem7.setText(QCoreApplication.translate("frm_ValoresAReceber", u"Forma de pagamento", None));
         ___qtablewidgetitem8 = self.tableWidget.horizontalHeaderItem(8)
         ___qtablewidgetitem8.setText(QCoreApplication.translate("frm_ValoresAReceber", u"Situa\u00e7\u00e3o", None));
+        self.lbl_MaiorValor.setText(QCoreApplication.translate("frm_ValoresAReceber", u"Maior valor a receber:", None))
+        self.lbl_NomeMaiorValor.setText(QCoreApplication.translate("frm_ValoresAReceber", u"Nome do maior valor \u00e1 receber:", None))
+        self.lbl_SomaDosValores.setText(QCoreApplication.translate("frm_ValoresAReceber", u"Soma dos valores:", None))
+        self.btn_atualizar.setText("")
     # retranslateUi
+
         self.btn_voltar.clicked.connect(self.sairTela)
         self.btn_filtro.clicked.connect(self.consultarGeral)
         self.btn_pesquisar.clicked.connect(self.pesquisarValores)

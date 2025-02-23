@@ -972,7 +972,7 @@ QScrollBar::left-arrow:horizontal, QScrollBar::right-arrow:horizontal {
     font-size: 14px;
     font-weight: bold;
     padding: 10px 16px; 
-    background-image:url(:/iconPagar/forma-de-pagamento AA (2).png);
+    background-image:url(:/icon_Pagar/forma-de-pagamento AA (2).png);
     background-repeat: no-repeat;
     background-position: center;
     transition: all 0.3s ease;
@@ -1079,9 +1079,9 @@ QPushButton:pressed {
  </widget>
  <resources>
   <include location="icon_addCarrinho.qrc"/>
+  <include location="icon_PagamentoV.qrc"/>
   <include location="icon_voltarVenda.qrc"/>
   <include location="icon_att.qrc"/>
-  <include location="icon_pagamento.qrc"/>
   <include location="icon_excluirCart.qrc"/>
  </resources>
  <connections/>

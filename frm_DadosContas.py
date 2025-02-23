@@ -1,3 +1,4 @@
+
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
@@ -20,10 +21,10 @@ class Ui_frm_DadosContas(object):
     def setupUi(self, frm_DadosContas):
         if not frm_DadosContas.objectName():
             frm_DadosContas.setObjectName(u"frm_DadosContas")
-        frm_DadosContas.setFixedSize(638, 795)
-        self.frm_DadosContas = frm_DadosContas
+        frm_DadosContas.setFixedSize(580, 644)
         caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
         frm_DadosContas.setWindowIcon(QIcon(caminho_icone))
+        self.frm_DadosContas = frm_DadosContas
         frm_DadosContas.setStyleSheet(u"QWidget {\n"
 "    background-color: #4E342E;\n"
 "    border-radius: 8px;\n"
@@ -68,7 +69,7 @@ class Ui_frm_DadosContas(object):
 "")
         self.lbl_vencimento = QLabel(frm_DadosContas)
         self.lbl_vencimento.setObjectName(u"lbl_vencimento")
-        self.lbl_vencimento.setGeometry(QRect(20, 170, 101, 20))
+        self.lbl_vencimento.setGeometry(QRect(250, 110, 101, 20))
         self.lbl_vencimento.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
@@ -78,7 +79,7 @@ class Ui_frm_DadosContas(object):
 "")
         self.btn_cancelar = QPushButton(frm_DadosContas)
         self.btn_cancelar.setObjectName(u"btn_cancelar")
-        self.btn_cancelar.setGeometry(QRect(210, 670, 101, 91))
+        self.btn_cancelar.setGeometry(QRect(180, 550, 101, 91))
         self.btn_cancelar.setAutoFillBackground(False)
         self.btn_cancelar.setStyleSheet(u"QPushButton {\n"
 "    background-color: #ffebee; \n"
@@ -109,7 +110,7 @@ class Ui_frm_DadosContas(object):
 "}")
         self.txt_emissao = QLineEdit(frm_DadosContas)
         self.txt_emissao.setObjectName(u"txt_emissao")
-        self.txt_emissao.setGeometry(QRect(130, 100, 361, 41))
+        self.txt_emissao.setGeometry(QRect(130, 100, 101, 41))
         self.txt_emissao.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
@@ -127,7 +128,7 @@ class Ui_frm_DadosContas(object):
 "")
         self.txt_vencimento = QLineEdit(frm_DadosContas)
         self.txt_vencimento.setObjectName(u"txt_vencimento")
-        self.txt_vencimento.setGeometry(QRect(130, 160, 361, 41))
+        self.txt_vencimento.setGeometry(QRect(360, 100, 101, 41))
         self.txt_vencimento.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
@@ -165,7 +166,7 @@ class Ui_frm_DadosContas(object):
 "")
         self.btn_cadastrar = QPushButton(frm_DadosContas)
         self.btn_cadastrar.setObjectName(u"btn_cadastrar")
-        self.btn_cadastrar.setGeometry(QRect(340, 670, 101, 91))
+        self.btn_cadastrar.setGeometry(QRect(320, 550, 101, 91))
         self.btn_cadastrar.setStyleSheet(u"QPushButton {\n"
 "    background-color: #ffffff;\n"
 "    border: 2px solid #d1c4b2;\n"
@@ -338,7 +339,7 @@ class Ui_frm_DadosContas(object):
 "")
         self.lbl_valor = QLabel(frm_DadosContas)
         self.lbl_valor.setObjectName(u"lbl_valor")
-        self.lbl_valor.setGeometry(QRect(60, 450, 51, 20))
+        self.lbl_valor.setGeometry(QRect(70, 170, 51, 20))
         self.lbl_valor.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
@@ -348,7 +349,7 @@ class Ui_frm_DadosContas(object):
 "")
         self.txt_valor = QLineEdit(frm_DadosContas)
         self.txt_valor.setObjectName(u"txt_valor")
-        self.txt_valor.setGeometry(QRect(120, 440, 371, 41))
+        self.txt_valor.setGeometry(QRect(130, 160, 141, 41))
         self.txt_valor.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
@@ -366,7 +367,7 @@ class Ui_frm_DadosContas(object):
 "")
         self.lbl_parcelas = QLabel(frm_DadosContas)
         self.lbl_parcelas.setObjectName(u"lbl_parcelas")
-        self.lbl_parcelas.setGeometry(QRect(500, 450, 91, 20))
+        self.lbl_parcelas.setGeometry(QRect(290, 170, 91, 20))
         self.lbl_parcelas.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
@@ -376,7 +377,7 @@ class Ui_frm_DadosContas(object):
 "")
         self.txt_parcelas = QLineEdit(frm_DadosContas)
         self.txt_parcelas.setObjectName(u"txt_parcelas")
-        self.txt_parcelas.setGeometry(QRect(580, 440, 51, 41))
+        self.txt_parcelas.setGeometry(QRect(370, 160, 61, 41))
         self.txt_parcelas.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
@@ -394,7 +395,7 @@ class Ui_frm_DadosContas(object):
 "")
         self.lbl_formaDePagamento = QLabel(frm_DadosContas)
         self.lbl_formaDePagamento.setObjectName(u"lbl_formaDePagamento")
-        self.lbl_formaDePagamento.setGeometry(QRect(10, 520, 181, 20))
+        self.lbl_formaDePagamento.setGeometry(QRect(10, 430, 181, 20))
         self.lbl_formaDePagamento.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
@@ -410,7 +411,7 @@ class Ui_frm_DadosContas(object):
         self.comboFormaDePagamento.addItem("")
         self.comboFormaDePagamento.addItem("")
         self.comboFormaDePagamento.setObjectName(u"comboFormaDePagamento")
-        self.comboFormaDePagamento.setGeometry(QRect(200, 520, 361, 31))
+        self.comboFormaDePagamento.setGeometry(QRect(200, 430, 361, 31))
         self.comboFormaDePagamento.setStyleSheet(u"QComboBox {\n"
 "    background-color: #2c3e50;\n"
 "    color: #ecf0f1;\n"
@@ -522,7 +523,7 @@ class Ui_frm_DadosContas(object):
 "")
         self.lbl_Situacao = QLabel(frm_DadosContas)
         self.lbl_Situacao.setObjectName(u"lbl_Situacao")
-        self.lbl_Situacao.setGeometry(QRect(110, 580, 81, 20))
+        self.lbl_Situacao.setGeometry(QRect(110, 480, 81, 20))
         self.lbl_Situacao.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
@@ -534,7 +535,7 @@ class Ui_frm_DadosContas(object):
         self.comboSituacao.addItem("")
         self.comboSituacao.addItem("")
         self.comboSituacao.setObjectName(u"comboSituacao")
-        self.comboSituacao.setGeometry(QRect(200, 580, 361, 31))
+        self.comboSituacao.setGeometry(QRect(200, 480, 361, 31))
         self.comboSituacao.setStyleSheet(u"QComboBox {\n"
 "    background-color: #2c3e50;\n"
 "    color: #ecf0f1;\n"
@@ -852,7 +853,6 @@ class Ui_frm_DadosContas(object):
 
         self.frm_DadosContas.close()
 
-
     def retranslateUi(self, frm_DadosContas):
         frm_DadosContas.setWindowTitle(QCoreApplication.translate("frm_DadosContas", u"Dados Contas", None))
         self.lbl_nome.setText(QCoreApplication.translate("frm_DadosContas", u"Nome:", None))
@@ -865,6 +865,12 @@ class Ui_frm_DadosContas(object):
         self.lbl_Fornecedor.setText(QCoreApplication.translate("frm_DadosContas", u"Fornecedor:", None))
         self.lbl_obs.setText(QCoreApplication.translate("frm_DadosContas", u"Observa\u00e7\u00e3o:", None))
         self.btn_cadastrar.setText("")
+        self.textEdit.setHtml(QCoreApplication.translate("frm_DadosContas", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:16px; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:16px;\">ND</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", None))
         self.lbl_maxCarac.setText(QCoreApplication.translate("frm_DadosContas", u"max: 500 caracteres", None))
         self.lbl_contador.setText(QCoreApplication.translate("frm_DadosContas", u"000", None))
         self.comboFornecedor.setItemText(0, QCoreApplication.translate("frm_DadosContas", u"Nenhum", None))
@@ -872,6 +878,7 @@ class Ui_frm_DadosContas(object):
         self.lbl_valor.setText(QCoreApplication.translate("frm_DadosContas", u"Valor:", None))
         self.txt_valor.setInputMask("")
         self.lbl_parcelas.setText(QCoreApplication.translate("frm_DadosContas", u"Parcelas:", None))
+        self.txt_parcelas.setText(QCoreApplication.translate("frm_DadosContas", u"0", None))
         self.lbl_formaDePagamento.setText(QCoreApplication.translate("frm_DadosContas", u"Forma de Pagamento:", None))
         self.comboFormaDePagamento.setItemText(0, QCoreApplication.translate("frm_DadosContas", u"Dinheiro", None))
         self.comboFormaDePagamento.setItemText(1, QCoreApplication.translate("frm_DadosContas", u"Pix", None))
@@ -1014,7 +1021,7 @@ class Ui_frm_DadosContas(object):
                 self.comboFornecedor.setCurrentText(fornecedor)
                 self.comboFormaDePagamento.setCurrentText(formaDePagamento)
                 self.comboSituacao.setCurrentText(situacao)
-
+    # retranslateUi
 
 if __name__ == "__main__":
     app = QApplication([])

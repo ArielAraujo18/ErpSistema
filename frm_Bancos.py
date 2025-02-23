@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
@@ -22,17 +21,17 @@ class Ui_Frm_Bancos(object):
     def setupUi(self, Frm_Bancos):
         if not Frm_Bancos.objectName():
             Frm_Bancos.setObjectName(u"Frm_Bancos")
-        Frm_Bancos.setFixedSize(1254, 860)
-        self.Frm_Bancos = Frm_Bancos
+        Frm_Bancos.setFixedSize(1192, 641)
         caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
         Frm_Bancos.setWindowIcon(QIcon(caminho_icone))
+        self.Frm_Bancos = Frm_Bancos
         Frm_Bancos.setStyleSheet(u"QWidget {\n"
 "    background-color: #FA8072;\n"
 "    border-radius: 8px;\n"
 "}")
         self.label_Bancos = QLabel(Frm_Bancos)
         self.label_Bancos.setObjectName(u"label_Bancos")
-        self.label_Bancos.setGeometry(QRect(590, 20, 141, 31))
+        self.label_Bancos.setGeometry(QRect(530, 10, 141, 31))
         self.label_Bancos.setStyleSheet(u"QLabel {\n"
 "    font-size: 32px;\n"
 "    color: #000000;\n"
@@ -42,7 +41,7 @@ class Ui_Frm_Bancos(object):
 "")
         self.label_Gastos = QLabel(Frm_Bancos)
         self.label_Gastos.setObjectName(u"label_Gastos")
-        self.label_Gastos.setGeometry(QRect(200, 90, 151, 31))
+        self.label_Gastos.setGeometry(QRect(160, 50, 151, 31))
         self.label_Gastos.setStyleSheet(u"QLabel {\n"
 "    font-size: 32px;\n"
 "    color: #000000;\n"
@@ -52,7 +51,7 @@ class Ui_Frm_Bancos(object):
 "")
         self.labe_Lucros = QLabel(Frm_Bancos)
         self.labe_Lucros.setObjectName(u"labe_Lucros")
-        self.labe_Lucros.setGeometry(QRect(910, 90, 151, 31))
+        self.labe_Lucros.setGeometry(QRect(870, 50, 151, 31))
         self.labe_Lucros.setStyleSheet(u"QLabel {\n"
 "    font-size: 32px;\n"
 "    color: #000000;\n"
@@ -72,7 +71,7 @@ class Ui_Frm_Bancos(object):
         __qtablewidgetitem3 = QTableWidgetItem()
         self.tableLucros.setHorizontalHeaderItem(3, __qtablewidgetitem3)
         self.tableLucros.setObjectName(u"tableLucros")
-        self.tableLucros.setGeometry(QRect(700, 140, 521, 271))
+        self.tableLucros.setGeometry(QRect(660, 100, 521, 271))
         self.tableLucros.setStyleSheet(u"QTableWidget, QTableView {\n"
 "    border: 1px solid #dcdcdc; \n"
 "    border-radius: 5px; \n"
@@ -155,7 +154,7 @@ class Ui_Frm_Bancos(object):
 "")
         self.btn_Visualizar = QPushButton(Frm_Bancos)
         self.btn_Visualizar.setObjectName(u"btn_Visualizar")
-        self.btn_Visualizar.setGeometry(QRect(490, 480, 321, 71))
+        self.btn_Visualizar.setGeometry(QRect(440, 390, 321, 71))
         self.btn_Visualizar.setStyleSheet(u"QPushButton {\n"
 "    background-color: #ffffff;\n"
 "    border: 2px solid #d1c4b2;\n"
@@ -164,6 +163,7 @@ class Ui_Frm_Bancos(object):
 "    font-size: 14px;\n"
 "    font-weight: bold;\n"
 "    padding: 10px 16px;\n"
+"    background-image:url(:/icon_cadastrar/cadastrar.png); \n"
 "    background-repeat: no-repeat;\n"
 "    background-position: center;\n"
 "    transition: all 0.3s ease;\n"
@@ -183,7 +183,7 @@ class Ui_Frm_Bancos(object):
         self.txt_gastos = QLineEdit(Frm_Bancos)
         self.txt_gastos.setObjectName(u"txt_gastos")
         self.txt_gastos.setEnabled(False)
-        self.txt_gastos.setGeometry(QRect(330, 620, 281, 41))
+        self.txt_gastos.setGeometry(QRect(300, 490, 281, 41))
         self.txt_gastos.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
@@ -201,7 +201,7 @@ class Ui_Frm_Bancos(object):
 "")
         self.label_SomaGastos = QLabel(Frm_Bancos)
         self.label_SomaGastos.setObjectName(u"label_SomaGastos")
-        self.label_SomaGastos.setGeometry(QRect(40, 620, 281, 41))
+        self.label_SomaGastos.setGeometry(QRect(10, 490, 281, 41))
         self.label_SomaGastos.setStyleSheet(u"QLabel {\n"
 "    font-size: 32px;\n"
 "    color: #000000;\n"
@@ -212,7 +212,7 @@ class Ui_Frm_Bancos(object):
         self.txt_lucros = QLineEdit(Frm_Bancos)
         self.txt_lucros.setObjectName(u"txt_lucros")
         self.txt_lucros.setEnabled(False)
-        self.txt_lucros.setGeometry(QRect(940, 620, 281, 41))
+        self.txt_lucros.setGeometry(QRect(900, 490, 281, 41))
         self.txt_lucros.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
@@ -230,7 +230,7 @@ class Ui_Frm_Bancos(object):
 "")
         self.label_SomaLucros = QLabel(Frm_Bancos)
         self.label_SomaLucros.setObjectName(u"label_SomaLucros")
-        self.label_SomaLucros.setGeometry(QRect(650, 620, 271, 41))
+        self.label_SomaLucros.setGeometry(QRect(620, 490, 271, 41))
         self.label_SomaLucros.setStyleSheet(u"QLabel {\n"
 "    font-size: 32px;\n"
 "    color: #000000;\n"
@@ -252,7 +252,7 @@ class Ui_Frm_Bancos(object):
         __qtablewidgetitem8 = QTableWidgetItem()
         self.tableGastos.setHorizontalHeaderItem(4, __qtablewidgetitem8)
         self.tableGastos.setObjectName(u"tableGastos")
-        self.tableGastos.setGeometry(QRect(50, 140, 521, 271))
+        self.tableGastos.setGeometry(QRect(10, 100, 521, 271))
         self.tableGastos.setStyleSheet(u"QTableWidget, QTableView {\n"
 "    border: 1px solid #dcdcdc; \n"
 "    border-radius: 5px; \n"
@@ -336,7 +336,7 @@ class Ui_Frm_Bancos(object):
         self.txt_gastos_2 = QLineEdit(Frm_Bancos)
         self.txt_gastos_2.setObjectName(u"txt_gastos_2")
         self.txt_gastos_2.setEnabled(False)
-        self.txt_gastos_2.setGeometry(QRect(650, 730, 281, 51))
+        self.txt_gastos_2.setGeometry(QRect(620, 560, 281, 51))
         self.txt_gastos_2.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
@@ -354,7 +354,7 @@ class Ui_Frm_Bancos(object):
 "")
         self.label_SomaGastos_2 = QLabel(Frm_Bancos)
         self.label_SomaGastos_2.setObjectName(u"label_SomaGastos_2")
-        self.label_SomaGastos_2.setGeometry(QRect(380, 740, 261, 41))
+        self.label_SomaGastos_2.setGeometry(QRect(350, 570, 261, 41))
         self.label_SomaGastos_2.setStyleSheet(u"QLabel {\n"
 "    font-size: 32px;\n"
 "    color: #000000;\n"
@@ -364,7 +364,7 @@ class Ui_Frm_Bancos(object):
 "")
         self.btn_excluir = QPushButton(Frm_Bancos)
         self.btn_excluir.setObjectName(u"btn_excluir")
-        self.btn_excluir.setGeometry(QRect(590, 240, 91, 81))
+        self.btn_excluir.setGeometry(QRect(550, 200, 91, 81))
         self.btn_excluir.setStyleSheet(u"QPushButton {\n"
 "    background-color: #ffebee; \n"
 "    border: 2px solid #ffcdd2;\n"
@@ -394,7 +394,7 @@ class Ui_Frm_Bancos(object):
 "}")
         self.btn_voltar = QPushButton(Frm_Bancos)
         self.btn_voltar.setObjectName(u"btn_voltar")
-        self.btn_voltar.setGeometry(QRect(1170, 780, 91, 81))
+        self.btn_voltar.setGeometry(QRect(1100, 560, 91, 81))
         self.btn_voltar.setStyleSheet(u"QPushButton{\n"
 "    background-color: #f5f5f5; \n"
 "    border: 2px solid #cccccc;\n"
@@ -702,7 +702,7 @@ class Ui_Frm_Bancos(object):
     def retranslateUi(self, Frm_Bancos):
         Frm_Bancos.setWindowTitle(QCoreApplication.translate("Frm_Bancos", u"Bancos", None))
         self.label_Bancos.setText(QCoreApplication.translate("Frm_Bancos", u"BANCOS", None))
-        self.label_Gastos.setText(QCoreApplication.translate("Frm_Bancos", u"GASTOS:", None))
+        self.label_Gastos.setText(QCoreApplication.translate("Frm_Bancos", u"GASTOS:", None)) 
         self.labe_Lucros.setText(QCoreApplication.translate("Frm_Bancos", u"LUCROS:", None))
         ___qtablewidgetitem = self.tableLucros.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("Frm_Bancos", u"Nome/Produtos", None));
@@ -744,3 +744,4 @@ if __name__ == "__main__":
     ui.setupUi(frm_Bancos)
     frm_Bancos.show()
     app.exec()
+
