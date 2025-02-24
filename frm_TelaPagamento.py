@@ -295,7 +295,8 @@ class Ui_frm_TelaPagamento(object):
                 msg = QMessageBox()
                 msg.setWindowTitle("ERRO!")
                 msg.setText('Valores insuficientes para finalizar a compra!')
-                msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+                caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+                msg.setWindowIcon(QIcon(caminho_icone))
                 msg.setIcon(QMessageBox.Critical)  # Alterei para um ícone de erro
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
@@ -325,7 +326,8 @@ class Ui_frm_TelaPagamento(object):
                 msg = QMessageBox()
                 msg.setWindowTitle("ERRO!")
                 msg.setText('Valores insuficientes para finalizar a compra!')
-                msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+                caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+                msg.setWindowIcon(QIcon(caminho_icone))
                 msg.setIcon(QMessageBox.Critical)  # Alterei para um ícone de erro
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
@@ -341,7 +343,8 @@ class Ui_frm_TelaPagamento(object):
                 msg = QMessageBox()
                 msg.setWindowTitle("Finalizar venda")
                 msg.setText("Deseja finalizar a venda e cadastrar ao banco de dados?")
-                msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+                caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+                msg.setWindowIcon(QIcon(caminho_icone))
                 msg.setIcon(QMessageBox.Information)
                 msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
@@ -387,7 +390,8 @@ class Ui_frm_TelaPagamento(object):
                         msgF = QMessageBox()
                         msgF.setWindowTitle("Venda Finalizada")
                         msgF.setText("Sua venda foi finalizada com sucesso!")
-                        msgF.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+                        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+                        msgF.setWindowIcon(QIcon(caminho_icone))
                         msgF.setIcon(QMessageBox.Information)
                         msgF.setStandardButtons(QMessageBox.Ok)
                         

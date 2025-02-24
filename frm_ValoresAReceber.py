@@ -241,6 +241,7 @@ class Ui_frm_ValoresAReceber(object):
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
 "    transition: all 0.3s ease;\n"
+"    color: #000000; \n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -393,6 +394,7 @@ class Ui_frm_ValoresAReceber(object):
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
 "    transition: all 0.3s ease;\n"
+"    color: #000000; \n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -422,6 +424,7 @@ class Ui_frm_ValoresAReceber(object):
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
 "    transition: all 0.3s ease;\n"
+"    color: #000000; \n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -451,6 +454,7 @@ class Ui_frm_ValoresAReceber(object):
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
 "    transition: all 0.3s ease;\n"
+"    color: #000000; \n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -608,7 +612,8 @@ class Ui_frm_ValoresAReceber(object):
             msg = QMessageBox()
             msg.setWindowTitle("Erro de seleção")
             msg.setText('Por favor selecione um valor para alterar')
-            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+            msg.setWindowIcon(QIcon(caminho_icone))
             msg.setIcon(QMessageBox.Warning)
             msg.setStandardButtons(QMessageBox.Ok)
             msg.exec()
@@ -641,7 +646,8 @@ class Ui_frm_ValoresAReceber(object):
             msg = QMessageBox()
             msg.setWindowTitle('Erro!')
             msg.setText('Por favor, selecione um valor para excluir.')
-            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+            msg.setWindowIcon(QIcon(caminho_icone))
             msg.setIcon(QMessageBox.Warning)
             msg.setStandardButtons(QMessageBox.Ok)
             msg.exec()
@@ -666,7 +672,8 @@ class Ui_frm_ValoresAReceber(object):
             msg = QMessageBox()
             msg.setWindowTitle('Conta excluída')
             msg.setText('Conta excluída com sucesso!')
-            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+            msg.setWindowIcon(QIcon(caminho_icone))
             msg.setIcon(QMessageBox.Information)
             msg.setStandardButtons(QMessageBox.Ok)
             msg.exec()
@@ -696,7 +703,8 @@ class Ui_frm_ValoresAReceber(object):
             msg = QMessageBox()
             msg.setWindowTitle('Erro seleção')
             msg.setText('Valor não selecionado!')
-            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+            msg.setWindowIcon(QIcon(caminho_icone))
             msg.setIcon(QMessageBox.Warning)
             msg.setStandardButtons(QMessageBox.Ok)
             msg.exec()
@@ -710,7 +718,8 @@ class Ui_frm_ValoresAReceber(object):
             msg = QMessageBox()
             msg.setWindowTitle('ERRO!')
             msg.setText('Por favor, selecione um Valor para consultar')
-            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+            msg.setWindowIcon(QIcon(caminho_icone))
             msg.setIcon(QMessageBox.Warning)
             msg.setStandardButtons(QMessageBox.Ok)
             msg.exec()
@@ -733,6 +742,73 @@ class Ui_frm_ValoresAReceber(object):
             else:
                 self.frm_DadosValores.raise_()
                 self.frm_DadosValores.activateWindow()
+
+    def visualizar(self):
+        mydb = mysql.connector.connect(
+            host=Controle.host,
+            user=Controle.user,
+            password=Controle.password,
+            database=Controle.database
+        )
+
+        mycursor = mydb.cursor()
+
+        mycursor.execute("""
+            SELECT nome, valor FROM valores 
+            WHERE Situação != 'PAGO' 
+            ORDER BY CAST(REPLACE(valor, 'R$', '') AS DECIMAL(10,2)) DESC 
+            LIMIT 1
+        """)
+
+        resultado = mycursor.fetchall()
+
+        if resultado:
+            # Aqui corrigimos para acessar os elementos da tupla corretamente
+            nome_maior_divida, maior_valor = resultado[0]
+
+            print(f'Maior dívida encontrada:  {nome_maior_divida} - {maior_valor}')
+
+            maior_valor = float(maior_valor.replace("R$", "").replace(",", ".").strip())  # Substitui a vírgula por ponto
+
+            # Atualiza os campos de texto
+            self.txt_NomeDoMaiorValorReceber.setText(nome_maior_divida)
+            self.txt_MaiorValorAReceber.setText(f"R${maior_valor:,.2f}".replace(",", "."))  # Formato correto
+
+        else:
+            # Caso não tenha nenhuma dívida pendente, limpar os campos
+            self.txt_MaiorDivida.setText("")
+            self.txt_MaiorValor.setText("")
+
+        mycursor.close()
+
+    def calcularDividas(self):
+        conexao = mysql.connector.connect(
+            host=Controle.host,
+            user=Controle.user,
+            password=Controle.password,
+            database=Controle.database
+        )
+
+        cursor = conexao.cursor()
+
+        # Query para somar todos os valores, ignorando as contas com a situação 'pago'
+        cursor.execute("""
+            SELECT SUM(CAST(REPLACE(valor, 'R$', '') AS DECIMAL(10,2))) 
+            FROM valores 
+            WHERE Situação != 'PAGO'
+        """)
+        total_dividas = cursor.fetchone()[0]  # Pega o resultado da soma
+
+        if total_dividas is None:  
+            total_dividas = 0.0  # Caso não tenha nenhuma dívida, define como 0
+
+        print(f"Total de dívidas: R${total_dividas:,.2f}")  # Debug
+
+        # Exibir no campo de texto
+        self.txt_SomaDosValores.setText(f"R${total_dividas:,.2f}".replace(",", "."))  
+
+        cursor.close()
+        conexao.close()
 
     def retranslateUi(self, frm_ValoresAReceber):
         frm_ValoresAReceber.setWindowTitle(QCoreApplication.translate("frm_ValoresAReceber", u"Valores a receber", None))
@@ -775,6 +851,8 @@ class Ui_frm_ValoresAReceber(object):
         self.btn_alterar.clicked.connect(self.alterarValores)
         self.btn_excluir.clicked.connect(self.excluirContas)
         self.btn_consul.clicked.connect(self.consultarValores)
+        self.btn_atualizar.clicked.connect(self.visualizar)
+        self.btn_atualizar.clicked.connect(self.calcularDividas)
 
 
 if __name__ == "__main__":

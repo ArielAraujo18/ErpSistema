@@ -687,7 +687,8 @@ class Ui_frm_DadosValores(object):
         msg = QMessageBox()
         msg.setWindowTitle('Sucesso!')
         msg.setText('Dívida alterada com sucesso!')
-        msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        msg.setWindowIcon(QIcon(caminho_icone))
         msg.setIcon(QMessageBox.Information)
         msg.setStandardButtons(QMessageBox.Ok)
         msg.exec()
@@ -726,6 +727,7 @@ class Ui_frm_DadosValores(object):
         if Controle.tiposTelaDadosCliente == 'incluir':
                 print('incluir')
                 self.btn_cadastrar.clicked.connect(self.adicionarValores)
+                self.btn_cadastrar.clicked.connect(self.adicionarGastos)
         if Controle.tiposTelaDadosCliente == 'alterar':
                 print('alterar')
                 self.btn_cadastrar.clicked.connect(self.alterarValores)

@@ -163,7 +163,6 @@ class Ui_Frm_Bancos(object):
 "    font-size: 14px;\n"
 "    font-weight: bold;\n"
 "    padding: 10px 16px;\n"
-"    background-image:url(:/icon_cadastrar/cadastrar.png); \n"
 "    background-repeat: no-repeat;\n"
 "    background-position: center;\n"
 "    transition: all 0.3s ease;\n"
@@ -509,9 +508,10 @@ class Ui_Frm_Bancos(object):
 
         if line == -1:
                 msg = QMessageBox()
+                caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
                 msg.setWindowTitle('Erro!')
                 msg.setText('Por favor, selecione um Lucro para excluir.')
-                msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+                msg.setWindowIcon(QIcon(caminho_icone))
                 msg.setIcon(QMessageBox.Warning)
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
@@ -535,9 +535,10 @@ class Ui_Frm_Bancos(object):
                 print("Linhas afetadas:", mycursor.rowcount)
 
                 msg = QMessageBox()
+                caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
                 msg.setWindowTitle('Lucro excluído')
                 msg.setText('Lucro excluído com sucesso!')
-                msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+                msg.setWindowIcon(QIcon(caminho_icone))
                 msg.setIcon(QMessageBox.Information)
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
@@ -562,7 +563,8 @@ class Ui_Frm_Bancos(object):
                 msg = QMessageBox()
                 msg.setWindowTitle('Erro seleção')
                 msg.setText('Lucros não selecionado!')
-                msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+                caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+                msg.setWindowIcon(QIcon(caminho_icone))
                 msg.setIcon(QMessageBox.Warning)
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
@@ -575,7 +577,8 @@ class Ui_Frm_Bancos(object):
                 msg = QMessageBox()
                 msg.setWindowTitle('Erro!')
                 msg.setText('Por favor, selecione um gasto para excluir.')
-                msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+                caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+                msg.setWindowIcon(QIcon(caminho_icone))
                 msg.setIcon(QMessageBox.Warning)
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
@@ -601,7 +604,8 @@ class Ui_Frm_Bancos(object):
                 msg = QMessageBox()
                 msg.setWindowTitle('Gasto excluído')
                 msg.setText('Gasto excluído com sucesso!')
-                msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+                caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+                msg.setWindowIcon(QIcon(caminho_icone))
                 msg.setIcon(QMessageBox.Information)
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
@@ -626,7 +630,8 @@ class Ui_Frm_Bancos(object):
                 msg = QMessageBox()
                 msg.setWindowTitle('Erro seleção')
                 msg.setText('Gasto não selecionado!')
-                msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+                caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+                msg.setWindowIcon(QIcon(caminho_icone))
                 msg.setIcon(QMessageBox.Warning)
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
@@ -644,27 +649,33 @@ class Ui_Frm_Bancos(object):
 
     def SomaLucros(self):
         mydb = mysql.connector.connect(
-                host = Controle.host,
-                user = Controle.user,
-                password = Controle.password,
-                database = Controle.database
+            host=Controle.host,
+            user=Controle.user,
+            password=Controle.password,
+            database=Controle.database
         )
-
         cursor = mydb.cursor()
 
-        sql = "SELECT Nome, Valor, Observação, Quantidade FROM `banco-lucros`"
+        sql = "SELECT Valor FROM `banco-lucros`"
         cursor.execute(sql)
         resultado = cursor.fetchall()
 
-        df = pd.DataFrame(resultado, columns=['Nome', 'Valor', 'Observação', 'Quantidade'])
-        
-        df['Valor'] = pd.to_numeric(df['Valor'], errors='coerce')
+        cursor.close()
+        mydb.close()
 
-        soma = df['Valor'].sum()
-        
-        self.txt_lucros.setText(f"R$ {soma}")
+        print("Valores brutos do BD:", resultado)
 
-        Controle.totalLucros = soma
+        valores = []
+        for row in resultado:
+                valor = str(row[0]).replace("R$", "").replace(".", "").replace(",", ".").strip()
+                valores.append(float(valor))  # Converte para número
+
+        somaL = sum(valores)
+        
+        self.txt_lucros.setText(f"R${somaL: .2f}")
+
+        Controle.somaLucros = somaL
+
 
     def SomaGastos(self):
         mydb = mysql.connector.connect(
@@ -689,15 +700,63 @@ class Ui_Frm_Bancos(object):
                 valor = str(row[0]).replace("R$", "").replace(".", "").replace(",", ".").strip()
                 valores.append(float(valor))  # Converte para número
 
-        soma1 = sum(valores)
+        somag = sum(valores)
 
-        self.txt_gastos.setText(f"R$ {soma1:.2f}")
+        self.txt_gastos.setText(f"R${somag:.2f}")
 
-        somaLucros = Controle.totalLucros
+        Controle.somaGastos = somag
 
-        resultado = somaLucros - soma1
+    def somaTotal(self):
+        somaLucros = Controle.somaLucros
+        somaGastos = Controle.somaGastos
 
-        self.txt_gastos_2.setText(f"R$ {resultado}")
+        # Limpar a formatação de valores monetários de somaLucros e somaGastos antes de somá-los
+        if isinstance(somaLucros, str):
+                somaLucros = float(somaLucros.replace("R$", "").replace(".", "").replace(",", "."))
+        
+        if isinstance(somaGastos, str):
+                somaGastos = float(somaGastos.replace("R$", "").replace(".", "").replace(",", "."))
+        
+        somaTotal = somaLucros - somaGastos  # Calculando a soma total (Lucros - Gastos)
+
+        print(f"Soma Total (Lucros - Gastos): R$ {somaTotal:,.2f}")
+
+        # Exibir o valor da soma total, com formatação monetária
+        self.txt_gastos_2.setText(f"R$ {somaTotal:,.2f}")
+
+    def atualizar_bancos(self):
+        # Conexão com o banco de dados
+        mydb = mysql.connector.connect(
+            host=Controle.host,
+            user=Controle.user,
+            password=Controle.password,
+            database=Controle.database
+        )
+
+        mycursor = mydb.cursor()
+
+        # Consulta para pegar os dados da tabela bancos onde a situação não é 'PENDENTE'
+        mycursor.execute("""
+            SELECT nome, valor FROM bancos
+            WHERE Situação != 'PENDENTE'
+        """)
+
+        resultado = mycursor.fetchall()
+
+        if resultado:
+            # Iterar sobre os resultados e atualizar a tabela ou fazer o que for necessário
+            for nome, valor in resultado:
+                # Atualizando os campos na interface
+                self.txt_NomeBanco.setText(nome)  # Certifique-se de que o nome do campo está correto
+                self.txt_ValorBanco.setText(f"R${float(valor.replace('R$', '').replace(',', '.').strip()):,.2f}")
+        else:
+            # Caso não haja registros, limpar os campos
+            self.txt_NomeBanco.setText("")
+            self.txt_ValorBanco.setText("")
+
+        # Fechar o cursor e a conexão com o banco
+        mycursor.close()
+        mydb.close()
 
     def retranslateUi(self, Frm_Bancos):
         Frm_Bancos.setWindowTitle(QCoreApplication.translate("Frm_Bancos", u"Bancos", None))
@@ -734,6 +793,7 @@ class Ui_Frm_Bancos(object):
         self.btn_Visualizar.clicked.connect(self.tabelaLucros)
         self.btn_Visualizar.clicked.connect(self.SomaLucros)
         self.btn_Visualizar.clicked.connect(self.SomaGastos)
+        self.btn_Visualizar.clicked.connect(self.somaTotal)
         self.btn_voltar.clicked.connect(self.sairTela)
         self.btn_excluir.clicked.connect(self.excluirBancoSelecionado)
 

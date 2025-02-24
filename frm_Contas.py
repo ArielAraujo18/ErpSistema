@@ -240,6 +240,7 @@ class Ui_frm_Contas(object):
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
 "    transition: all 0.3s ease;\n"
+"    color: #000000; \n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -404,6 +405,7 @@ class Ui_frm_Contas(object):
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
 "    transition: all 0.3s ease;\n"
+"    color: #000000; \n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -423,6 +425,7 @@ class Ui_frm_Contas(object):
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
 "    transition: all 0.3s ease;\n"
+"    color: #000000; \n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -452,6 +455,7 @@ class Ui_frm_Contas(object):
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
 "    transition: all 0.3s ease;\n"
+"    color: #000000; \n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -605,7 +609,8 @@ class Ui_frm_Contas(object):
             msg = QMessageBox()
             msg.setWindowTitle('Erro de Seleção')
             msg.setText('Por favor, selecione alguma conta para alterar')
-            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+            msg.setWindowIcon(QIcon(caminho_icone))
             msg.setIcon(QMessageBox.Warning)
             msg.setStandardButtons(QMessageBox.Ok)
             msg.exec()
@@ -637,7 +642,8 @@ class Ui_frm_Contas(object):
             msg = QMessageBox()
             msg.setWindowTitle('Erro!')
             msg.setText('Por favor, selecione uma conta para excluir.')
-            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+            msg.setWindowIcon(QIcon(caminho_icone))
             msg.setIcon(QMessageBox.Warning)
             msg.setStandardButtons(QMessageBox.Ok)
             msg.exec()
@@ -662,7 +668,8 @@ class Ui_frm_Contas(object):
             msg = QMessageBox()
             msg.setWindowTitle('Conta excluída')
             msg.setText('Conta excluída com sucesso!')
-            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+            msg.setWindowIcon(QIcon(caminho_icone))
             msg.setIcon(QMessageBox.Information)
             msg.setStandardButtons(QMessageBox.Ok)
             msg.exec()
@@ -693,7 +700,8 @@ class Ui_frm_Contas(object):
             msg = QMessageBox()
             msg.setWindowTitle('Erro seleção')
             msg.setText('Conta não selecionada!')
-            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+            msg.setWindowIcon(QIcon(caminho_icone))
             msg.setIcon(QMessageBox.Warning)
             msg.setStandardButtons(QMessageBox.Ok)
             msg.exec()
@@ -707,7 +715,8 @@ class Ui_frm_Contas(object):
             msg = QMessageBox()
             msg.setWindowTitle('ERRO!')
             msg.setText('Por favor, selecione uma Conta para consultar.')
-            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+            msg.setWindowIcon(QIcon(caminho_icone))
             msg.setIcon(QMessageBox.Warning)
             msg.setStandardButtons(QMessageBox.Ok)
             msg.exec()

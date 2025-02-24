@@ -9,7 +9,6 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHeaderView,
     QLabel, QLineEdit, QPushButton, QSizePolicy,
     QTableWidget, QTableWidgetItem, QWidget, QMessageBox)
 
-import Controle
 import icon_addCarrinho
 import icon_PagamentoV
 import icon_voltarVenda
@@ -23,11 +22,12 @@ import Controle
 import mysql.connector
 import pandas as pd
 
+
 class Ui_Frm_Vendas(object):
     def setupUi(self, Frm_Vendas):
         if not Frm_Vendas.objectName():
             Frm_Vendas.setObjectName(u"Frm_Vendas")
-        Frm_Vendas.setFixedSize(1302, 723)
+        Frm_Vendas.setFixedSize(1302, 673)
         self.Frm_Vendas = Frm_Vendas
         caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
         Frm_Vendas.setWindowIcon(QIcon(caminho_icone))
@@ -37,7 +37,7 @@ class Ui_Frm_Vendas(object):
         self.label = QLabel(Frm_Vendas)
         Frm_Vendas.closeEvent = self.FecharTela
         self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(10, 80, 191, 21))
+        self.label.setGeometry(QRect(10, 60, 191, 21))
         font = QFont()
         font.setBold(True)
         self.label.setFont(font)
@@ -49,7 +49,7 @@ class Ui_Frm_Vendas(object):
 "}")
         self.label_2 = QLabel(Frm_Vendas)
         self.label_2.setObjectName(u"label_2")
-        self.label_2.setGeometry(QRect(540, 10, 271, 81))
+        self.label_2.setGeometry(QRect(510, 0, 271, 81))
         self.label_2.setFont(font)
         self.label_2.setStyleSheet(u"QLabel {\n"
 "    font-size: 65px;\n"
@@ -60,7 +60,7 @@ class Ui_Frm_Vendas(object):
         self.comboProd = QComboBox(Frm_Vendas)
         self.comboProd.addItem("")
         self.comboProd.setObjectName(u"comboProd")
-        self.comboProd.setGeometry(QRect(0, 110, 331, 41))
+        self.comboProd.setGeometry(QRect(0, 90, 331, 41))
         self.comboProd.setStyleSheet(u"QComboBox {\n"
 "    background-color: #2c3e50;\n"
 "    color: #ecf0f1;\n"
@@ -173,7 +173,7 @@ class Ui_Frm_Vendas(object):
 "")
         self.label_3 = QLabel(Frm_Vendas)
         self.label_3.setObjectName(u"label_3")
-        self.label_3.setGeometry(QRect(10, 170, 121, 21))
+        self.label_3.setGeometry(QRect(10, 150, 121, 21))
         self.label_3.setFont(font)
         self.label_3.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
@@ -183,7 +183,7 @@ class Ui_Frm_Vendas(object):
 "}")
         self.txtQtd = QLineEdit(Frm_Vendas)
         self.txtQtd.setObjectName(u"txtQtd")
-        self.txtQtd.setGeometry(QRect(0, 200, 241, 41))
+        self.txtQtd.setGeometry(QRect(0, 180, 241, 41))
         self.txtQtd.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
@@ -201,7 +201,7 @@ class Ui_Frm_Vendas(object):
 "")
         self.label_4 = QLabel(Frm_Vendas)
         self.label_4.setObjectName(u"label_4")
-        self.label_4.setGeometry(QRect(290, 170, 71, 21))
+        self.label_4.setGeometry(QRect(290, 150, 71, 21))
         self.label_4.setFont(font)
         self.label_4.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
@@ -212,7 +212,7 @@ class Ui_Frm_Vendas(object):
         self.txtValor = QLineEdit(Frm_Vendas)
         self.txtValor.setObjectName(u"txtValor")
         self.txtValor.setEnabled(False)
-        self.txtValor.setGeometry(QRect(290, 200, 241, 41))
+        self.txtValor.setGeometry(QRect(290, 180, 241, 41))
         self.txtValor.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
@@ -230,7 +230,7 @@ class Ui_Frm_Vendas(object):
 "")
         self.label_5 = QLabel(Frm_Vendas)
         self.label_5.setObjectName(u"label_5")
-        self.label_5.setGeometry(QRect(10, 410, 141, 21))
+        self.label_5.setGeometry(QRect(10, 390, 141, 21))
         self.label_5.setFont(font)
         self.label_5.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
@@ -241,7 +241,7 @@ class Ui_Frm_Vendas(object):
         self.txtIdProduto = QLineEdit(Frm_Vendas)
         self.txtIdProduto.setObjectName(u"txtIdProduto")
         self.txtIdProduto.setEnabled(False)
-        self.txtIdProduto.setGeometry(QRect(0, 440, 241, 41))
+        self.txtIdProduto.setGeometry(QRect(0, 420, 241, 41))
         self.txtIdProduto.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
@@ -259,7 +259,7 @@ class Ui_Frm_Vendas(object):
 "")
         self.label_6 = QLabel(Frm_Vendas)
         self.label_6.setObjectName(u"label_6")
-        self.label_6.setGeometry(QRect(290, 410, 121, 21))
+        self.label_6.setGeometry(QRect(290, 390, 121, 21))
         self.label_6.setFont(font)
         self.label_6.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
@@ -270,7 +270,7 @@ class Ui_Frm_Vendas(object):
         self.txt_Qtd = QLineEdit(Frm_Vendas)
         self.txt_Qtd.setObjectName(u"txt_Qtd")
         self.txt_Qtd.setEnabled(False)
-        self.txt_Qtd.setGeometry(QRect(290, 440, 241, 41))
+        self.txt_Qtd.setGeometry(QRect(290, 420, 241, 41))
         self.txt_Qtd.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
@@ -288,7 +288,7 @@ class Ui_Frm_Vendas(object):
 "")
         self.label_7 = QLabel(Frm_Vendas)
         self.label_7.setObjectName(u"label_7")
-        self.label_7.setGeometry(QRect(10, 500, 81, 21))
+        self.label_7.setGeometry(QRect(10, 480, 81, 21))
         self.label_7.setFont(font)
         self.label_7.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
@@ -299,7 +299,7 @@ class Ui_Frm_Vendas(object):
         self.txt_idCliente = QLineEdit(Frm_Vendas)
         self.txt_idCliente.setObjectName(u"txt_idCliente")
         self.txt_idCliente.setEnabled(False)
-        self.txt_idCliente.setGeometry(QRect(0, 530, 91, 41))
+        self.txt_idCliente.setGeometry(QRect(0, 510, 91, 41))
         self.txt_idCliente.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
@@ -327,7 +327,7 @@ class Ui_Frm_Vendas(object):
 "}")
         self.btn_excluirCarrinho = QPushButton(Frm_Vendas)
         self.btn_excluirCarrinho.setObjectName(u"btn_excluirCarrinho")
-        self.btn_excluirCarrinho.setGeometry(QRect(280, 300, 101, 71))
+        self.btn_excluirCarrinho.setGeometry(QRect(280, 280, 101, 71))
         self.btn_excluirCarrinho.setStyleSheet(u"QPushButton{\n"
 "    background-color: #f5f5f5; \n"
 "    border: 2px solid #cccccc;\n"
@@ -352,7 +352,7 @@ class Ui_Frm_Vendas(object):
 "}")
         self.btn_addCarrinho = QPushButton(Frm_Vendas)
         self.btn_addCarrinho.setObjectName(u"btn_addCarrinho")
-        self.btn_addCarrinho.setGeometry(QRect(100, 300, 101, 71))
+        self.btn_addCarrinho.setGeometry(QRect(100, 280, 101, 71))
         self.btn_addCarrinho.setStyleSheet(u"QPushButton{\n"
 "    background-color: #f5f5f5; \n"
 "    border: 2px solid #cccccc;\n"
@@ -459,7 +459,7 @@ class Ui_Frm_Vendas(object):
 "}")
         self.frame = QFrame(Frm_Vendas)
         self.frame.setObjectName(u"frame")
-        self.frame.setGeometry(QRect(800, 550, 371, 111))
+        self.frame.setGeometry(QRect(760, 540, 371, 111))
         self.frame.setStyleSheet(u"QFrame{\n"
 "	background-color:  #FFFFFF;\n"
 "}")
@@ -508,7 +508,7 @@ class Ui_Frm_Vendas(object):
         self.comboCliente = QComboBox(Frm_Vendas)
         self.comboCliente.addItem("")
         self.comboCliente.setObjectName(u"comboCliente")
-        self.comboCliente.setGeometry(QRect(110, 530, 331, 41))
+        self.comboCliente.setGeometry(QRect(110, 510, 331, 41))
         self.comboCliente.setStyleSheet(u"QComboBox {\n"
 "    background-color: #2c3e50;\n"
 "    color: #ecf0f1;\n"
@@ -620,7 +620,7 @@ class Ui_Frm_Vendas(object):
 "")
         self.btn_pagamento = QPushButton(Frm_Vendas)
         self.btn_pagamento.setObjectName(u"btn_pagamento")
-        self.btn_pagamento.setGeometry(QRect(50, 600, 381, 121))
+        self.btn_pagamento.setGeometry(QRect(50, 580, 381, 91))
         self.btn_pagamento.setStyleSheet(u"QPushButton {\n"
 "    background-color: #ffffff; \n"
 "    border: 2px solid #d1c4b2; \n"
@@ -678,7 +678,7 @@ class Ui_Frm_Vendas(object):
 "")
         self.btn_voltar = QPushButton(Frm_Vendas)
         self.btn_voltar.setObjectName(u"btn_voltar")
-        self.btn_voltar.setGeometry(QRect(1210, 640, 91, 81))
+        self.btn_voltar.setGeometry(QRect(1210, 590, 91, 81))
         self.btn_voltar.setStyleSheet(u"QPushButton {\n"
 "    background-color: #EDE7F6;\n"
 "    border: 2px solid #83C5BE; \n"
@@ -1106,7 +1106,6 @@ class Ui_Frm_Vendas(object):
 
         self.configurarSincronizaçãoQtd()
 
-
 if __name__ == "__main__":
     app = QApplication([])
     frm_Vendas = QWidget()
@@ -1114,3 +1113,4 @@ if __name__ == "__main__":
     ui.setupUi(frm_Vendas)
     frm_Vendas.show()
     app.exec()
+
