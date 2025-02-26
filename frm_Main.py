@@ -506,7 +506,7 @@ class Ui_frm_Main(object):
                 self.Frm_Bancos.destroyed.connect(lambda: setattr(self, 'Frm_Bancos', None))
 
                 self.Frm_Bancos.show()
-
+       
         else:
 
                 self.Frm_Bancos.raise_()
