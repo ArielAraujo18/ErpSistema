@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>526</width>
-    <height>540</height>
+    <width>518</width>
+    <height>608</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -72,7 +72,7 @@ QLineEdit:hover {
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>110</y>
+     <y>170</y>
      <width>101</width>
      <height>20</height>
     </rect>
@@ -94,7 +94,7 @@ QLineEdit:hover {
    <property name="geometry">
     <rect>
      <x>70</x>
-     <y>170</y>
+     <y>230</y>
      <width>51</width>
      <height>20</height>
     </rect>
@@ -116,7 +116,7 @@ QLineEdit:hover {
    <property name="geometry">
     <rect>
      <x>150</x>
-     <y>440</y>
+     <y>500</y>
      <width>101</width>
      <height>91</height>
     </rect>
@@ -161,7 +161,7 @@ QPushButton:pressed {
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>100</y>
+     <y>160</y>
      <width>361</width>
      <height>41</height>
     </rect>
@@ -194,7 +194,7 @@ QLineEdit:hover {
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>160</y>
+     <y>220</y>
      <width>361</width>
      <height>41</height>
     </rect>
@@ -224,7 +224,7 @@ QLineEdit:hover {
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>220</y>
+     <y>280</y>
      <width>101</width>
      <height>20</height>
     </rect>
@@ -246,7 +246,7 @@ QLineEdit:hover {
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>340</y>
+     <y>400</y>
      <width>101</width>
      <height>20</height>
     </rect>
@@ -268,7 +268,7 @@ QLineEdit:hover {
    <property name="geometry">
     <rect>
      <x>290</x>
-     <y>440</y>
+     <y>500</y>
      <width>101</width>
      <height>91</height>
     </rect>
@@ -308,7 +308,7 @@ QPushButton:pressed {
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>220</y>
+     <y>280</y>
      <width>361</width>
      <height>31</height>
     </rect>
@@ -427,7 +427,7 @@ QScrollBar::left-arrow:horizontal, QScrollBar::right-arrow:horizontal {
    <property name="geometry">
     <rect>
      <x>123</x>
-     <y>290</y>
+     <y>350</y>
      <width>371</width>
      <height>121</height>
     </rect>
@@ -454,8 +454,8 @@ QTextEdit:hover {
   <widget class="QLabel" name="lbl_maxCarac">
    <property name="geometry">
     <rect>
-     <x>410</x>
-     <y>410</y>
+     <x>380</x>
+     <y>470</y>
      <width>111</width>
      <height>16</height>
     </rect>
@@ -473,17 +473,59 @@ QTextEdit:hover {
     <string>max: 500 caracteres</string>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_contador">
+  <widget class="QLineEdit" name="txt_nome_2">
    <property name="geometry">
     <rect>
-     <x>470</x>
-     <y>270</y>
-     <width>21</width>
-     <height>20</height>
+     <x>130</x>
+     <y>100</y>
+     <width>101</width>
+     <height>41</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 2px solid #cccccc; 
+    border-radius: 5px; 
+    padding: 6px; 
+    font-size: 14px; 
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+	color: #000000;
+}
+
+QLineEdit:hover {
+    border: 2px solid #3f51b5; 
+    background-color: #f5f5f5; 
+}
+</string>
+   </property>
+   <property name="inputMask">
+    <string>00/00/0000</string>
+   </property>
    <property name="text">
-    <string>000</string>
+    <string>//</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_nome_2">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>110</y>
+     <width>71</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+    font-size: 16px;
+    color: #333333;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+</string>
+   </property>
+   <property name="text">
+    <string>Emissão:</string>
    </property>
   </widget>
  </widget>

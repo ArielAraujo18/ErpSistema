@@ -474,6 +474,11 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
    </column>
    <column>
     <property name="text">
+     <string>Emissão</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
      <string>Quantidade</string>
     </property>
    </column>
