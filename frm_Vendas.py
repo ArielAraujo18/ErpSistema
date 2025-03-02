@@ -8,7 +8,6 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHeaderView,
     QLabel, QLineEdit, QPushButton, QSizePolicy,
     QTableWidget, QTableWidgetItem, QWidget, QMessageBox)
-
 import icon_addCarrinho
 import icon_PagamentoV
 import icon_voltarVenda
@@ -16,12 +15,12 @@ import icon_att
 import icon_excluirCart
 
 from frm_TelaPagamento import Ui_frm_TelaPagamento
+from datetime import date
 
 import os
 import Controle
 import mysql.connector
 import pandas as pd
-
 
 class Ui_Frm_Vendas(object):
     def setupUi(self, Frm_Vendas):
@@ -35,7 +34,7 @@ class Ui_Frm_Vendas(object):
 "	background-color: #2E8B57;\n"
 "}")
         self.label = QLabel(Frm_Vendas)
-        Frm_Vendas.closeEvent = self.FecharTela
+        self.Frm_Vendas.closeEvent = self.FecharTela
         self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(10, 60, 191, 21))
         font = QFont()
@@ -376,8 +375,8 @@ class Ui_Frm_Vendas(object):
 "	transform: scale(0.95);\n"
 "}")
         self.carrinho = QTableWidget(Frm_Vendas)
-        if (self.carrinho.columnCount() < 7):
-            self.carrinho.setColumnCount(7)
+        if (self.carrinho.columnCount() < 8):
+            self.carrinho.setColumnCount(8)
         __qtablewidgetitem = QTableWidgetItem()
         self.carrinho.setHorizontalHeaderItem(0, __qtablewidgetitem)
         __qtablewidgetitem1 = QTableWidgetItem()
@@ -392,6 +391,8 @@ class Ui_Frm_Vendas(object):
         self.carrinho.setHorizontalHeaderItem(5, __qtablewidgetitem5)
         __qtablewidgetitem6 = QTableWidgetItem()
         self.carrinho.setHorizontalHeaderItem(6, __qtablewidgetitem6)
+        __qtablewidgetitem7 = QTableWidgetItem()
+        self.carrinho.setHorizontalHeaderItem(7, __qtablewidgetitem7)
         self.carrinho.setObjectName(u"carrinho")
         self.carrinho.setGeometry(QRect(600, 160, 701, 361))
         self.carrinho.setStyleSheet(u"QTableWidget, QTableView {\n"
@@ -704,6 +705,35 @@ class Ui_Frm_Vendas(object):
 "    padding-top: 2px; \n"
 "    padding-left: 2px;\n"
 "}")
+        self.label_10 = QLabel(Frm_Vendas)
+        self.label_10.setObjectName(u"label_10")
+        self.label_10.setGeometry(QRect(540, 600, 131, 21))
+        self.label_10.setFont(font)
+        self.label_10.setStyleSheet(u"QLabel {\n"
+"    font-size: 16px;\n"
+"    color: #FFFFFF;\n"
+"    font-weight: bold;\n"
+"    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
+"}")
+        self.txtQtd_2 = QLineEdit(Frm_Vendas)
+        self.txtQtd_2.setObjectName(u"txtQtd_2")
+        self.txtQtd_2.setEnabled(False)
+        self.txtQtd_2.setGeometry(QRect(530, 630, 141, 41))
+        self.txtQtd_2.setStyleSheet(u"QLineEdit {\n"
+"    border: 2px solid #cccccc; \n"
+"    border-radius: 5px; \n"
+"    padding: 6px; \n"
+"    font-size: 14px; \n"
+"    background-color: #ffffff;\n"
+"    transition: all 0.3s ease;\n"
+"	color: #000000;\n"
+"}\n"
+"\n"
+"QLineEdit:hover {\n"
+"    border: 2px solid #3f51b5; \n"
+"    background-color: #f5f5f5; \n"
+"}\n"
+"")
 
         self.retranslateUi(Frm_Vendas)
 
@@ -748,7 +778,6 @@ class Ui_Frm_Vendas(object):
         if self.comboProd.count() > 0:
                 self.comboProd.setCurrentIndex(0)
                 self.atualizarCampoProdutos()
-
 
     def carregarComboBoxCliente(self):
         mydb = mysql.connector.connect(
@@ -796,8 +825,10 @@ class Ui_Frm_Vendas(object):
                 self.txtValor.clear()
                 self.txtIdProduto.clear()
 
+
     def adicionarAoCarrinho(self):
         produto = self.comboProd.currentText()
+        data = self.txtQtd_2 #Campos data
         quantidade = self.txtQtd.text()
         quantidadee = self.txt_Qtd.text()
         valor = self.txtValor.text().replace("R$", "").replace(",", ".").strip()
@@ -814,7 +845,8 @@ class Ui_Frm_Vendas(object):
                 "IdProduto": idProduto,
                 "Quantidade": quantidade,
                 "Quantidade2": quantidadee,
-                "idCliente": idCliente
+                "idCliente": idCliente,
+                "data": data
         }
 
         campos_combo = {
@@ -856,10 +888,10 @@ class Ui_Frm_Vendas(object):
         mycursor = mydb.cursor()
         sql = """
                 INSERT INTO vendas 
-                (`Produto`, `Quantidade`, `Valor`, `IdProduto`, `IdCliente`, `Cliente`, `Total`) 
-                VALUES (%s, %s, %s, %s, %s, %s, %s)
+                (`Produto`, `Data`, `Quantidade`, `Valor`, `IdProduto`, `IdCliente`, `Cliente`, `Total`) 
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
         """
-        val = (produto, quantidade, valor, idProduto, idCliente, cliente, total)
+        val = (produto, data, quantidade, valor, idProduto, idCliente, cliente, total)
         mycursor.execute(sql, val)
         mydb.commit()
 
@@ -887,7 +919,6 @@ class Ui_Frm_Vendas(object):
         msg.setIcon(QMessageBox.Information)
         msg.setStandardButtons(QMessageBox.Ok)
         msg.exec()
-
 
     def configurarSincronizaçãoQtd(self):
          self.txtQtd.textChanged.connect(self.sincronizarQtd)
@@ -1002,7 +1033,74 @@ class Ui_Frm_Vendas(object):
               msg.setIcon(QMessageBox.Warning)
               msg.setStandardButtons(QMessageBox.Ok)
               msg.exec()
-        
+
+    def excluirDaTabela(self):
+         line = self.carrinho.currentRow()
+
+         if line == -1:
+            msg = QMessageBox()
+            msg.setWindowTitle('Erro!')
+            msg.setText('Por favor, selecione um item para excluir.')
+            msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+            msg.setIcon(QMessageBox.Warning)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+            return 
+
+         item = self.carrinho.item(line, 0)
+
+         if item:
+              produto = item.text()
+              mydb = mysql.connector.connect(
+                        host = Controle.host,
+                        user = Controle.user,
+                        password = Controle.password,
+                        database = Controle.database
+                )
+              mycursor = mydb.cursor()
+              sql = "DELETE FROM vendas WHERE Produto = %s"
+              mycursor.execute(sql, (produto,))
+              mydb.commit()
+
+              msg = QMessageBox()
+              msg.setWindowTitle('Produto excluído')
+              msg.setText('Produto excluído com sucesso!')
+              msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+              msg.setIcon(QMessageBox.Information)
+              msg.setStandardButtons(QMessageBox.Ok)
+              msg.exec()
+
+              mycursor.execute("SELECT * FROM vendas")
+              myresult = mycursor.fetchall()
+              df = pd.DataFrame(myresult, columns=['Produto', 'Data', 'Quantidade', 'Valor', 'IdProduto', 'IdCliente', 'Cliente', 'Total'])
+              self.all_data = df
+
+              numRows = len(self.all_data.index)
+              self.carrinho.setColumnCount(len(self.all_data.columns))
+              self.carrinho.setRowCount(numRows)
+              self.carrinho.setHorizontalHeaderLabels(self.all_data.columns)
+
+              for i in range(numRows):
+                   for j in range(len(self.all_data.columns)):
+                        self.carrinho.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
+
+              self.carrinho.resizeColumnsToContents()
+
+              for row in range(self.carrinho.rowCount()):
+                   self.carrinho.resizeRowsToContents()
+
+              mydb.close()
+
+         else:
+    
+              msg = QMessageBox()
+              msg.setWindowTitle('Erro seleção')
+              msg.setText('Produto não selecionado!')
+              msg.setWindowIcon(QIcon(r'C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png'))
+              msg.setIcon(QMessageBox.Warning)
+              msg.setStandardButtons(QMessageBox.Ok)
+              msg.exec()
+
     def FecharTela(self, event):
         resposta = QMessageBox(self.Frm_Vendas)
         resposta.setWindowTitle('Fechar o PDV')
@@ -1029,7 +1127,6 @@ class Ui_Frm_Vendas(object):
         else:
                 event.ignore()
 
-
     def pagamentoTela(self):
          if not hasattr(self, 'frm_TelaPagamento') or self.frm_TelaPagamento is None or not self.frm_TelaPagamento.isVisible():
                 self.frm_TelaPagamento = QWidget()
@@ -1048,6 +1145,9 @@ class Ui_Frm_Vendas(object):
     def atualizarDados(self, cliente_id=None):
         self.carregarComboBoxCliente()
         self.carregarComboBoxProduto()
+
+        data = date.today()
+        self.txtQtd_2.setText(f'{data.strftime('%d/%m/%Y')}')
 
         if cliente_id is not None:
                 index = self.comboCliente.findData(cliente_id)
@@ -1074,17 +1174,19 @@ class Ui_Frm_Vendas(object):
         ___qtablewidgetitem = self.carrinho.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("Frm_Vendas", u"Produto", None));
         ___qtablewidgetitem1 = self.carrinho.horizontalHeaderItem(1)
-        ___qtablewidgetitem1.setText(QCoreApplication.translate("Frm_Vendas", u"Quantidade", None));
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("Frm_Vendas", u"Data", None));
         ___qtablewidgetitem2 = self.carrinho.horizontalHeaderItem(2)
-        ___qtablewidgetitem2.setText(QCoreApplication.translate("Frm_Vendas", u"Valor", None));
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("Frm_Vendas", u"Quantidade", None));
         ___qtablewidgetitem3 = self.carrinho.horizontalHeaderItem(3)
-        ___qtablewidgetitem3.setText(QCoreApplication.translate("Frm_Vendas", u"IdProduto", None));
+        ___qtablewidgetitem3.setText(QCoreApplication.translate("Frm_Vendas", u"Valor", None));
         ___qtablewidgetitem4 = self.carrinho.horizontalHeaderItem(4)
-        ___qtablewidgetitem4.setText(QCoreApplication.translate("Frm_Vendas", u"IdCliente", None));
+        ___qtablewidgetitem4.setText(QCoreApplication.translate("Frm_Vendas", u"IdProduto", None));
         ___qtablewidgetitem5 = self.carrinho.horizontalHeaderItem(5)
-        ___qtablewidgetitem5.setText(QCoreApplication.translate("Frm_Vendas", u"Cliente", None));
+        ___qtablewidgetitem5.setText(QCoreApplication.translate("Frm_Vendas", u"IdCliente", None));
         ___qtablewidgetitem6 = self.carrinho.horizontalHeaderItem(6)
-        ___qtablewidgetitem6.setText(QCoreApplication.translate("Frm_Vendas", u"Total", None));
+        ___qtablewidgetitem6.setText(QCoreApplication.translate("Frm_Vendas", u"Cliente", None));
+        ___qtablewidgetitem7 = self.carrinho.horizontalHeaderItem(7)
+        ___qtablewidgetitem7.setText(QCoreApplication.translate("Frm_Vendas", u"Total", None));
         self.label_9.setText(QCoreApplication.translate("Frm_Vendas", u"QUANTIDADE DE ITENS:", None))
         self.lblQtd.setText(QCoreApplication.translate("Frm_Vendas", u"0000000", None))
         self.label_11.setText(QCoreApplication.translate("Frm_Vendas", u"VALOR TOTAL:", None))
@@ -1094,8 +1196,9 @@ class Ui_Frm_Vendas(object):
         self.btn_pagamento.setText("")
         self.btn_atualizar.setText("")
         self.btn_voltar.setText("")
+        self.label_10.setText(QCoreApplication.translate("Frm_Vendas", u"Data da venda:", None))
     # retranslateUi
-        
+        	
         self.btn_voltar.clicked.connect(self.sairTela)
         self.btn_atualizar.clicked.connect(self.carregarComboBoxProduto)
         self.btn_atualizar.clicked.connect(self.carregarComboBoxCliente)
@@ -1113,4 +1216,3 @@ if __name__ == "__main__":
     ui.setupUi(frm_Vendas)
     frm_Vendas.show()
     app.exec()
-
