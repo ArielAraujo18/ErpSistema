@@ -828,7 +828,7 @@ class Ui_Frm_Vendas(object):
 
     def adicionarAoCarrinho(self):
         produto = self.comboProd.currentText()
-        data = self.txtQtd_2 #Campos data
+        data = self.txtQtd_2.text() #Campos data
         quantidade = self.txtQtd.text()
         quantidadee = self.txt_Qtd.text()
         valor = self.txtValor.text().replace("R$", "").replace(",", ".").strip()
@@ -950,8 +950,8 @@ class Ui_Frm_Vendas(object):
          total = 0.0
          totalqtd = 0
          for linha in range(self.carrinho.rowCount()):
-              item = self.carrinho.item(linha, 6)
-              quantidade = self.carrinho.item(linha, 1)
+              item = self.carrinho.item(linha, 7)
+              quantidade = self.carrinho.item(linha, 2)
               print(f"Linha {linha}: Preço = {item.text() if item else 'None'}, Quantidade = {quantidade.text() if quantidade else 'None'}")
               if item and quantidade:
                    precouni = float(item.text().replace(',', '.').replace('R$', '').strip())
@@ -1147,7 +1147,7 @@ class Ui_Frm_Vendas(object):
         self.carregarComboBoxProduto()
 
         data = date.today()
-        self.txtQtd_2.setText(f'{data.strftime('%d/%m/%Y')}')
+        self.txtQtd_2.setText(f'{data.strftime("%d/%m/%Y")}') 
 
         if cliente_id is not None:
                 index = self.comboCliente.findData(cliente_id)
