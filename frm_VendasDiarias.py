@@ -12,6 +12,9 @@ import icon_excluir_banco
 import icon_consultarVendas
 import icon_voltar_banco
 
+import mysql.connector
+import Controle
+import pandas as pd
 import os
 
 class Ui_Frm_VendasDiarias(object):
@@ -19,7 +22,9 @@ class Ui_Frm_VendasDiarias(object):
         if not Frm_VendasDiarias.objectName():
             Frm_VendasDiarias.setObjectName(u"Frm_VendasDiarias")
         Frm_VendasDiarias.setFixedSize(683, 632)
+        self.Frm_VendasDiarias = Frm_VendasDiarias
         caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        Frm_VendasDiarias.setWindowIcon(QIcon(caminho_icone))
         Frm_VendasDiarias.setStyleSheet(u"QWidget {\n"
 "    background-color: #008080;\n"
 "    border-radius: 8px;\n"
@@ -313,8 +318,43 @@ class Ui_Frm_VendasDiarias(object):
         QMetaObject.connectSlotsByName(Frm_VendasDiarias)
     # setupUi
 
+    def sairTela(self):
+        self.Frm_VendasDiarias.close()
+
+    def tabelaVendas(self):
+        print('Conectando...')
+        mydb = mysql.connector.connect(
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
+        )
+        print('Conexão bem-sucedida!')
+        mycursor = mydb.cursor()
+        consultaSQL = "SELECT * FROM `vendas-consulta` "
+        mycursor.execute(consultaSQL)
+        myresult = mycursor.fetchall()
+
+        df = pd.DataFrame(myresult, columns=["Nome/Produto", "Data", "Valor", "Quantidade"])
+        self.all_data = df
+
+        numRows = len(self.all_data.index)
+        numCols = len(self.all_data.columns)
+        self.tableWidget.setColumnCount(numCols)
+        self.tableWidget.setRowCount(numRows)
+        self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
+
+        for i in range(numRows):
+                for j in range(numCols):
+                        self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
+
+        self.tableWidget.resizeColumnsToContents()
+        self.tableWidget.resizeRowsToContents()
+
+        mycursor.close()
+
     def retranslateUi(self, Frm_VendasDiarias):
-        Frm_VendasDiarias.setWindowTitle(QCoreApplication.translate("Frm_VendasDiarias", u"Form", None))
+        Frm_VendasDiarias.setWindowTitle(QCoreApplication.translate("Frm_VendasDiarias", u"Vendas Diarias", None))
         self.labe_Lucros.setText(QCoreApplication.translate("Frm_VendasDiarias", u"Consultar vendas", None))
         self.btn_Visualizar.setText(QCoreApplication.translate("Frm_VendasDiarias", u"VIZUALIZAR", None))
         self.btn_excluir.setText("")
@@ -330,6 +370,9 @@ class Ui_Frm_VendasDiarias(object):
         ___qtablewidgetitem3.setText(QCoreApplication.translate("Frm_VendasDiarias", u"Quantidade", None));
         self.btn_consul.setText("")
     # retranslateUi
+
+        self.btn_Visualizar.clicked.connect(self.tabelaVendas)
+        self.btn_voltar.clicked.connect(self.sairTela)
 
 if __name__ == "__main__":
     app = QApplication([])

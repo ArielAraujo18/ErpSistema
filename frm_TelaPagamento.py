@@ -312,16 +312,16 @@ class Ui_frm_TelaPagamento(object):
 
         totalvd = Controle.totalDaVenda
 
-        # Captura os valores preenchidos nos campos de pagamento
+        #captura os valores preenchidos nos campos de pagamento
         dinheiro = float(self.txt_Dinheiro.text().replace(",", ".") or 0)
         cartao = float(self.txt_Cartao.text().replace(",", ".") or 0)
         pix = float(self.txt_Pix.text().replace(",", ".") or 0)
         cheque = float(self.txt_Cheque.text().replace(",", ".") or 0)
 
-        # Soma os valores para verificar se o pagamento é suficiente
+        #soma os valores para verificar se o pagamento é suficiente
         totalPago = dinheiro + cartao + pix + cheque
 
-        # Verifica se o total pago é menor que o total da venda
+        #verifica se o total pago é menor que o total da venda
         if totalPago < totalvd:
                 msg = QMessageBox()
                 msg.setWindowTitle("ERRO!")
@@ -332,7 +332,6 @@ class Ui_frm_TelaPagamento(object):
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
 
-                # Limpa o campo de troco
                 self.txt_Troco.setText("Insira valores válidos!")
 
         else:
@@ -376,11 +375,9 @@ class Ui_frm_TelaPagamento(object):
                         else:
                                 itens_existentes, valor_existente = 0, 0
 
-                        # Somando os valores
                         novos_itens = itens_existentes + int(totalDeItens)
                         novo_valor = valor_existente + float(valorTotal)
 
-                        # Atualizando os valores na tabela
                         sql = "UPDATE total SET `Quantidade de Itens` = %s, `Valor total` = %s"
                         val = (novos_itens, novo_valor)
                         mycursor.execute(sql, val)
@@ -398,9 +395,7 @@ class Ui_frm_TelaPagamento(object):
                         vendaFinalizada = msgF.exec()
 
                         if vendaFinalizada == QMessageBox.Ok:
-                                self.sairTela()
-                
-                                # Conectar ao banco e buscar os dados do carrinho antes de apagá-los
+
                                 mydb = mysql.connector.connect(
                                         host=Controle.host,
                                         user=Controle.user,
@@ -419,6 +414,8 @@ class Ui_frm_TelaPagamento(object):
                                 # Envia os dados para serem cadastrados no novo banco
                                 self.receberDadosCarrinho(dados)
                                 self.cadastrarPontos()
+                                self.pegarItensCarrinho(dados)
+                                self.sairTela()
 
                 else:
                         self.frm_TelaPagamento.close()
@@ -482,6 +479,41 @@ class Ui_frm_TelaPagamento(object):
 
         mycursor.close()
         mydb.close()
+
+    def pegarItensCarrinho(self, dados):
+
+        mydb = mysql.connector.connect(
+                host=Controle.host,
+                user=Controle.user,
+                password=Controle.password,
+                database=Controle.database
+        )
+                                
+        cursor = mydb.cursor()
+        cursor.execute("SELECT Produto, Data, Quantidade, Valor FROM vendas")
+        dados = cursor.fetchall()
+        print(dados)
+
+        sql = """INSERT INTO `vendas-consulta` 
+                (`Nome/Produto`, `Data`, `Valor`,`Quantidade`)
+                VALUES (%s, %s, %s, %s)"""
+
+        for registro in dados:
+                nomeProduto = registro[0]
+                data = registro[1]
+                quantidade = int(float(registro[2]))  
+                valor = float(registro[3])
+                
+
+                valores = (nomeProduto, data, valor, quantidade)
+                cursor.execute(sql, valores)
+
+        mydb.commit()
+
+        cursor.close()
+        mydb.close()
+        
+        print('Adicionado com sucesso em vendas-consulta')
 
     def retranslateUi(self, frm_TelaPagamento):
         frm_TelaPagamento.setWindowTitle(QCoreApplication.translate("frm_TelaPagamento", u"Tela Pagamento", None))
