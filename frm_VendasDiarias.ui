@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Frm_VendasDiarias</class>
+ <widget class="QWidget" name="Frm_VendasDiarias">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>683</width>
+    <height>632</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget {
+    background-color: #008080;
+    border-radius: 8px;
+}</string>
+  </property>
+  <widget class="QLabel" name="labe_Lucros">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>60</y>
+     <width>281</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+    font-size: 32px;
+    color: #000000;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+</string>
+   </property>
+   <property name="text">
+    <string>Consultar vendas</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_Visualizar">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>460</y>
+     <width>321</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: #ffffff;
+    border: 2px solid #d1c4b2;
+    border-radius: 12px;
+    color: #000000;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 16px;
+    background-image:url(:/icon_cadastrar/cadastrar.png); 
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: all 0.3s ease;
+}
+
+QPushButton:hover {
+    background-color: #f2ebe0;
+    border-color: #c4b49e;
+}
+
+QPushButton:pressed {
+    background-color: #e8dfcf; 
+    border-color: #b39b8d; 
+    padding-left: 12px; 
+    padding-top: 4px;
+}</string>
+   </property>
+   <property name="text">
+    <string>VIZUALIZAR</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_excluir">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>550</y>
+     <width>91</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: #ffebee; 
+    border: 2px solid #ffcdd2;
+    border-radius: 10px;
+    color: #b71c1c; 
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 16px;
+    background-image:url(:/icon_exclu/excluir.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    padding-left: 40px;
+    transition: all 0.3s ease;
+}
+
+QPushButton:hover {
+    background-color: #ffcdd2;
+    border-color: #e57373;
+    color: #d32f2f; 
+}
+
+QPushButton:pressed {
+    background-color: #e57373;
+    border-color: #b71c1c;
+    padding-left: 44px;
+    padding-top: 2px;
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_voltar">
+   <property name="geometry">
+    <rect>
+     <x>590</x>
+     <y>550</y>
+     <width>91</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+    background-color: #f5f5f5; 
+    border: 2px solid #cccccc;
+    border-radius: 10px; 
+    padding: 10px; 
+    color: #333333; 
+    font-size: 14px; 
+	background-image:url(:/icon_volt/retornar.png);
+    background-repeat: no-repeat; 
+    background-position: center;
+	transition: all 0.3s ease;
+}
+QPushButton:hover{
+    background-color: #e0e0e0; 
+    border-color: #aaaaaa;
+	transform: scale(1.05); 
+}
+QPushButton:pressed{
+	background-color: #d6d6d6;
+	border-color: #888888;
+	transform: scale(0.95);
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>110</y>
+     <width>161</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QComboBox {
+    background-color: #008080;
+    color: #FFFFFF;
+    border: 2px solid #00AFAF;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 14px;
+}
+
+QComboBox:hover {
+    border: 2px solid #00D7D7;
+}
+
+QComboBox::drop-down {
+    border: none;
+    background: transparent;
+}
+
+QComboBox::down-arrow {
+    image: url(imagens/seta-baixo.png);
+    width: 12px;
+    height: 12px;
+}
+
+QComboBox QAbstractItemView {
+    background-color: #007070;
+    border: 1px solid #00AFAF;
+    selection-background-color: #00D7D7;
+    selection-color: #FFFFFF;
+}
+
+/* Barra de rolagem */
+QScrollBar:vertical {
+    border: none;
+    background: #005F5F;
+    width: 8px;
+    margin: 2px 2px 2px 2px;
+    border-radius: 4px;
+}
+
+QScrollBar::handle:vertical {
+    background: #00AFAF;
+    min-height: 20px;
+    border-radius: 4px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background: #00D7D7;
+}
+
+QScrollBar::sub-line:vertical,
+QScrollBar::add-line:vertical {
+    background: none;
+    height: 0px;
+}</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labe_Lucros_2">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>70</y>
+     <width>71</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+    font-size: 22px;
+    color: #000000;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+</string>
+   </property>
+   <property name="text">
+    <string>Datas:</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>110</y>
+     <width>401</width>
+     <height>321</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QTableWidget, QTableView {
+    border: 1px solid #dcdcdc; 
+    border-radius: 5px; 
+    gridline-color: #dcdcdc; 
+    background-color: #ffffff; 
+    font-size: 14px; 
+    color: #333333; 
+}
+
+QHeaderView::section {
+    background-color: #f0f0f0; 
+    color: #333333;
+    font-weight: bold; 
+    border: 1px solid #dcdcdc; 
+    padding: 4px; 
+}
+
+QTableWidget::item:selected, QTableView::item:selected {
+    background-color: #b3d9ff; 
+    color: #000000;
+}
+
+QTableCornerButton::section {
+    background-color: #f0f0f0; 
+    border: 1px solid #dcdcdc;
+}
+
+QScrollBar:vertical {
+    background: #f0f0f0;
+    width: 12px; 
+    margin: 2px 0 2px 0; 
+    border: none; 
+}
+
+QScrollBar::handle:vertical {
+    background: #b0bec5; 
+    min-height: 20px; 
+    border-radius: 6px; 
+}
+
+QScrollBar::handle:vertical:hover {
+    background: #90a4ae; 
+}
+
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    background: none; 
+    height: 0px; 
+}
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    background: none; 
+}
+
+QScrollBar:horizontal {
+    background: #f0f0f0; 
+    height: 12px; 
+    margin: 0 2px 0 2px; 
+    border: none;
+}
+
+QScrollBar::handle:horizontal {
+    background: #b0bec5;
+    min-width: 20px; 
+    border-radius: 6px;
+}
+
+QScrollBar::handle:horizontal:hover {
+    background: #90a4ae; 
+}
+
+QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+    background: none;
+    width: 0px;
+}
+
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+    background: none;
+}
+</string>
+   </property>
+   <column>
+    <property name="text">
+     <string>Nome/Produto</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Data</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Valor</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Quantidade</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QPushButton" name="btn_consul">
+   <property name="geometry">
+    <rect>
+     <x>590</x>
+     <y>360</y>
+     <width>91</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: #ffffff; 
+    border: 2px solid #d1c4b2; 
+    border-radius: 12px; 
+    color: #5a5a5a;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 16px; 
+    background-image:url(:/icon_consultar/consultar.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: all 0.3s ease;
+}
+
+QPushButton:hover {
+    background-color: #f2ebe0;
+    border-color: #c4b49e;
+}
+
+QPushButton:pressed {
+    background-color: #e8dfcf;
+    border-color: #b39b8d;
+    padding-left: 12px;
+    padding-top: 4px;
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="icon_excluir_banco.qrc"/>
+  <include location="icon_consultarVendas.qrc"/>
+  <include location="icon_voltar_banco.qrc"/>
+ </resources>
+ <connections/>
+</ui>

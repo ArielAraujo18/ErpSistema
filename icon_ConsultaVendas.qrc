@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="icon_vendasconsulta">
+    <file>consulVenda.png</file>
+  </qresource>
+</RCC>

@@ -10,7 +10,11 @@ from PySide6.QtWidgets import (QApplication, QLabel, QMainWindow, QMenu,
     QMenuBar, QPushButton, QSizePolicy, QStatusBar,
     QWidget)
 
+import sys
+import os
+
 import icon_cliente
+import icon_ConsultaVendas
 import icon_tarefas
 import icon_sair
 import icon_caixa
@@ -20,9 +24,6 @@ import icon_pagar
 import icon_vendas
 import icon_produtos
 import icon_fornecedor
-
-import os
-import sys
 
 from frm_cliente_ui import Ui_frm_Cliente
 from frm_Fornecedor import Ui_frm_Fornecedor
@@ -37,7 +38,7 @@ class Ui_frm_Main(object):
     def setupUi(self, frm_Main):
         if not frm_Main.objectName():
             frm_Main.setObjectName(u"frm_Main")
-        frm_Main.setFixedSize(722, 294)
+        frm_Main.setFixedSize(802, 294)
         caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
         frm_Main.setWindowIcon(QIcon(caminho_icone))
         frm_Main.setStyleSheet(u"")
@@ -67,10 +68,10 @@ class Ui_frm_Main(object):
         self.actionContas_para_pagar.setObjectName(u"actionContas_para_pagar")
         self.actionContas_para_receber = QAction(frm_Main)
         self.actionContas_para_receber.setObjectName(u"actionContas_para_receber")
-        #self.actionContas_pagas = QAction(frm_Main)
-        #self.actionContas_pagas.setObjectName(u"actionContas_pagas")
-        #self.actionContas_recebidas = QAction(frm_Main)
-        #self.actionContas_recebidas.setObjectName(u"actionContas_recebidas")
+        self.actionContas_pagas = QAction(frm_Main)
+        self.actionContas_pagas.setObjectName(u"actionContas_pagas")
+        self.actionContas_recebidas = QAction(frm_Main)
+        self.actionContas_recebidas.setObjectName(u"actionContas_recebidas")
         self.actionGeral = QAction(frm_Main)
         self.actionGeral.setObjectName(u"actionGeral")
         self.actionResumido = QAction(frm_Main)
@@ -259,7 +260,7 @@ class Ui_frm_Main(object):
 "}")
         self.btn_sair = QPushButton(self.centralwidget)
         self.btn_sair.setObjectName(u"btn_sair")
-        self.btn_sair.setGeometry(QRect(640, 0, 81, 71))
+        self.btn_sair.setGeometry(QRect(720, 0, 81, 71))
         self.btn_sair.setStyleSheet(u"QPushButton{\n"
 "    background-color: #f5f5f5; \n"
 "    border: 2px solid #cccccc; \n"
@@ -284,7 +285,7 @@ class Ui_frm_Main(object):
 "}")
         self.label = QLabel(self.centralwidget)
         self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(220, 140, 301, 31))
+        self.label.setGeometry(QRect(280, 140, 301, 31))
         font = QFont()
         font.setBold(True)
         self.label.setFont(font)
@@ -319,10 +320,44 @@ class Ui_frm_Main(object):
 "	border-color: #888888;\n"
 "	transform: scale(0.95);\n"
 "}")
+        self.btn_produtos_3 = QPushButton(self.centralwidget)
+        self.btn_produtos_3.setObjectName(u"btn_produtos_3")
+        self.btn_produtos_3.setGeometry(QRect(640, 0, 81, 71))
+        self.btn_produtos_3.setStyleSheet(u"QPushButton{\n"
+"    background-color: #f5f5f5;\n"
+"    border: 2px solid #cccccc;\n"
+"    border-radius: 10px;\n"
+"    padding: 10px; \n"
+"    color: #333333; \n"
+"    font-size: 14px; \n"
+"	background-image:url(:/icon_vendasconsulta/consulVenda.png); \n"
+"    background-repeat: no-repeat; \n"
+"    background-position: center; \n"
+"	transition: all 0.3s ease;\n"
+"}\n"
+"QPushButton:hover{\n"
+"    background-color: #e0e0e0;\n"
+"    border-color: #aaaaaa;\n"
+"	transform: scale(1.05); \n"
+"}\n"
+"QPushButton:pressed{\n"
+"	background-color: #d6d6d6;\n"
+"	border-color: #888888;\n"
+"	transform: scale(0.95);\n"
+"}")
+        self.label_2 = QLabel(self.centralwidget)
+        self.label_2.setObjectName(u"label_2")
+        self.label_2.setGeometry(QRect(720, 220, 81, 21))
+        self.label_2.setStyleSheet(u"QLabel {\n"
+"    font-size: 14px;\n"
+"    color: #FFFFFF;\n"
+"    font-weight: bold;\n"
+"    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
+"}")
         frm_Main.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(frm_Main)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 722, 34))
+        self.menubar.setGeometry(QRect(0, 0, 802, 34))
         self.menubar.setStyleSheet(u"QMenuBar {\n"
 "    background-color: #2E3440;\n"
 "    color: white;\n"
@@ -367,8 +402,8 @@ class Ui_frm_Main(object):
         self.menuFinanceiro.addAction(self.actionBanco)
         self.menuFinanceiro.addAction(self.actionContas_para_pagar)
         self.menuFinanceiro.addAction(self.actionContas_para_receber)
-        #self.menuFinanceiro.addAction(self.actionContas_pagas)
-        #self.menuFinanceiro.addAction(self.actionContas_recebidas)
+        self.menuFinanceiro.addAction(self.actionContas_pagas)
+        self.menuFinanceiro.addAction(self.actionContas_recebidas)
 
         self.retranslateUi(frm_Main)
 
@@ -512,7 +547,6 @@ class Ui_frm_Main(object):
                 self.Frm_Bancos.raise_()
                 self.Frm_Bancos.activateWindow()
 
-
     def retranslateUi(self, frm_Main):
         frm_Main.setWindowTitle(QCoreApplication.translate("frm_Main", u"Tela Principal", None))
         self.actionCliente.setText(QCoreApplication.translate("frm_Main", u"Cliente", None))
@@ -528,8 +562,8 @@ class Ui_frm_Main(object):
         self.actionBanco.setText(QCoreApplication.translate("frm_Main", u"Banco", None))
         self.actionContas_para_pagar.setText(QCoreApplication.translate("frm_Main", u"Contas para pagar", None))
         self.actionContas_para_receber.setText(QCoreApplication.translate("frm_Main", u"Contas para receber", None))
-        #self.actionContas_pagas.setText(QCoreApplication.translate("frm_Main", u"Contas pagas", None))
-        #self.actionContas_recebidas.setText(QCoreApplication.translate("frm_Main", u"Contas recebidas", None))
+        self.actionContas_pagas.setText(QCoreApplication.translate("frm_Main", u"Contas pagas", None))
+        self.actionContas_recebidas.setText(QCoreApplication.translate("frm_Main", u"Contas recebidas", None))
         self.actionGeral.setText(QCoreApplication.translate("frm_Main", u"Geral", None))
         self.actionResumido.setText(QCoreApplication.translate("frm_Main", u"Resumido", None))
         self.actionGeral_3.setText(QCoreApplication.translate("frm_Main", u"Geral", None))
@@ -544,10 +578,12 @@ class Ui_frm_Main(object):
         self.btn_sair.setText("")
         self.label.setText(QCoreApplication.translate("frm_Main", u"AVS-SOFTWARES", None))
         self.btn_produtos_2.setText("")
+        self.btn_produtos_3.setText("")
+        self.label_2.setText(QCoreApplication.translate("frm_Main", u"Vers\u00e3o: 2.0", None))
         self.menuCadastros.setTitle(QCoreApplication.translate("frm_Main", u"Cadastros", None))
         self.menuFinanceiro.setTitle(QCoreApplication.translate("frm_Main", u"Financeiro", None))
     # retranslateUi
-        ##Botão##
+    
         self.btn_sair.clicked.connect(self.sairSistema)
         self.btn_cliente.clicked.connect(self.telaCliente)
         self.btn_fornecedor.clicked.connect(self.telaFornecedor)        
@@ -558,7 +594,8 @@ class Ui_frm_Main(object):
         self.btn_produtos_2.clicked.connect(self.telaTarefas) #Esqueci de mudar o nome do btn
         self.btn_bancos.clicked.connect(self.TelaBancos)
 
-        #action
+        #Action
+
         self.actionCliente.triggered.connect(self.telaCliente)
         self.actionFornecedor.triggered.connect(self.telaFornecedor)
         self.actionCaixa.triggered.connect(self.telaVendas)
@@ -573,4 +610,3 @@ if __name__ == "__main__":
     ui.setupUi(frm_Main)
     frm_Main.show()
     app.exec()
-
