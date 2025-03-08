@@ -4,9 +4,10 @@ from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform, QPixmap, QIntValidator)
+    QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
     QSizePolicy, QWidget, QMessageBox)
+
 import mysql.connector
 import pandas as pd
 
@@ -17,16 +18,14 @@ import icon_cancelar
 
 class Ui_frm_DadosCliente(object):
     def setupUi(self, frm_DadosCliente):
-        self.frm_DadosCliente = frm_DadosCliente
         if not frm_DadosCliente.objectName():
             frm_DadosCliente.setObjectName(u"frm_DadosCliente")
-        
-        frm_DadosCliente.setFixedSize(526, 609)
+        frm_DadosCliente.setFixedSize(526, 647)
         caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
         frm_DadosCliente.setWindowIcon(QIcon(caminho_icone))
-        frm_DadosCliente.resize(526, 609)
+        self.frm_DadosCliente = frm_DadosCliente
         frm_DadosCliente.setStyleSheet(u"QWidget {\n"
-"    background-color: #e8f5e9;\n"
+"    background-color: #eaf2f8;\n"
 "    border-radius: 8px;\n"
 "}")
         self.lbl_nome = QLabel(frm_DadosCliente)
@@ -48,7 +47,7 @@ class Ui_frm_DadosCliente(object):
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
-"    color: #000000; \n"
+"    color: #000000;\n"
 "    transition: all 0.3s ease;\n"
 "}\n"
 "\n"
@@ -79,7 +78,7 @@ class Ui_frm_DadosCliente(object):
 "")
         self.btn_cancelar = QPushButton(frm_DadosCliente)
         self.btn_cancelar.setObjectName(u"btn_cancelar")
-        self.btn_cancelar.setGeometry(QRect(150, 500, 101, 91))
+        self.btn_cancelar.setGeometry(QRect(150, 550, 101, 91))
         self.btn_cancelar.setAutoFillBackground(False)
         self.btn_cancelar.setStyleSheet(u"QPushButton {\n"
 "    background-color: #ffebee; \n"
@@ -117,7 +116,7 @@ class Ui_frm_DadosCliente(object):
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
-"    color: #000000; \n"
+"    color: #000000;\n"
 "    transition: all 0.3s ease;\n"
 "}\n"
 "\n"
@@ -135,7 +134,7 @@ class Ui_frm_DadosCliente(object):
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
-"    color: #000000; \n"
+"    color: #000000;\n"
 "    transition: all 0.3s ease;\n"
 "}\n"
 "\n"
@@ -163,7 +162,7 @@ class Ui_frm_DadosCliente(object):
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
-"    color: #000000; \n"
+"    color: #000000;\n"
 "    transition: all 0.3s ease;\n"
 "}\n"
 "\n"
@@ -184,7 +183,7 @@ class Ui_frm_DadosCliente(object):
 "")
         self.btn_cadastrar_3 = QPushButton(frm_DadosCliente)
         self.btn_cadastrar_3.setObjectName(u"btn_cadastrar_3")
-        self.btn_cadastrar_3.setGeometry(QRect(290, 500, 101, 91))
+        self.btn_cadastrar_3.setGeometry(QRect(290, 550, 101, 91))
         self.btn_cadastrar_3.setStyleSheet(u"QPushButton {\n"
 "    background-color: #ffffff;\n"
 "    border: 2px solid #d1c4b2;\n"
@@ -219,7 +218,7 @@ class Ui_frm_DadosCliente(object):
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
-"    color: #000000; \n"
+"    color: #000000;\n"
 "    transition: all 0.3s ease;\n"
 "}\n"
 "\n"
@@ -247,7 +246,7 @@ class Ui_frm_DadosCliente(object):
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
-"    color: #000000; \n"
+"    color: #000000;\n"
 "    transition: all 0.3s ease;\n"
 "}\n"
 "\n"
@@ -275,7 +274,7 @@ class Ui_frm_DadosCliente(object):
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
-"    color: #000000; \n"
+"    color: #000000;\n"
 "    transition: all 0.3s ease;\n"
 "}\n"
 "\n"
@@ -293,7 +292,7 @@ class Ui_frm_DadosCliente(object):
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
-"    color: #000000; \n"
+"    color: #000000;\n"
 "    transition: all 0.3s ease;\n"
 "}\n"
 "\n"
@@ -321,7 +320,7 @@ class Ui_frm_DadosCliente(object):
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
-"    color: #000000; \n"
+"    color: #000000;\n"
 "    transition: all 0.3s ease;\n"
 "}\n"
 "\n"
@@ -340,10 +339,41 @@ class Ui_frm_DadosCliente(object):
 "    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
 "}\n"
 "")
+        self.txt_cidade_7 = QLineEdit(frm_DadosCliente)
+        self.txt_cidade_7.setObjectName(u"txt_cidade_7")
+        self.txt_cidade_7.setEnabled(False)
+        self.txt_cidade_7.setGeometry(QRect(120, 490, 371, 41))
+        self.txt_cidade_7.setStyleSheet(u"QLineEdit {\n"
+"    border: 2px solid #cccccc; \n"
+"    border-radius: 5px; \n"
+"    padding: 6px; \n"
+"    font-size: 14px; \n"
+"    background-color: #ffffff;\n"
+"    color: #000000;\n"
+"    transition: all 0.3s ease;\n"
+"}\n"
+"\n"
+"QLineEdit:hover {\n"
+"    border: 2px solid #3f51b5; \n"
+"    background-color: #f5f5f5; \n"
+"}\n"
+"")
+        self.lbl_email_2 = QLabel(frm_DadosCliente)
+        self.lbl_email_2.setObjectName(u"lbl_email_2")
+        self.lbl_email_2.setGeometry(QRect(10, 500, 91, 21))
+        self.lbl_email_2.setStyleSheet(u"QLabel {\n"
+"    font-size: 16px;\n"
+"    color: #333333;\n"
+"    font-weight: bold;\n"
+"    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
+"}\n"
+"")
 
         self.retranslateUi(frm_DadosCliente)
 
         QMetaObject.connectSlotsByName(frm_DadosCliente)
+    # setupUi
+
     # setupUi
     
     def adicionarCliente(self):
@@ -473,7 +503,8 @@ class Ui_frm_DadosCliente(object):
         bairroCliente = self.txt_bairro.text()
         numeroCliente = self.txt_Numero.text()
         cepCliente = self.txt_cep.text()
-        emailCliente = self.txt_cidade_6.text()
+        emailCliente = self.txt_cidade_6.text() #email
+        pontuacao = self.txt_cidade_7.text() #Data
 
         # Conectando ao banco de dados
         mydb = mysql.connector.connect(
@@ -485,19 +516,15 @@ class Ui_frm_DadosCliente(object):
 
         mycursor = mydb.cursor()
 
-        # Buscando o valor atual de Pontos
         mycursor.execute("SELECT Pontos FROM cliente WHERE IdCliente = %s", (Controle.idConsulta,))
         pontos_atual = mycursor.fetchone()
 
-        # Verificando se encontrou o cliente
+        pontos = pontos_atual[0]  
 
-        pontos = pontos_atual[0]  # Pegando o valor de Pontos
-
-        # Query de atualização sem alterar Pontos
         sql = """
         UPDATE cliente
         SET Nome = %s, Celular = %s, Cpf = %s, Cidade = %s, Rua = %s,
-        Bairro = %s, Número = %s, Cep = %s, `E-mail` = %s
+        Bairro = %s, Número = %s, Cep = %s, `E-mail` = %s, Pontos = %s
         WHERE IdCliente = %s
         """
 
@@ -505,7 +532,7 @@ class Ui_frm_DadosCliente(object):
         val = (
                 nomeCliente, celularCliente, cpfCliente, cidadeCliente,
                 ruaCliente, bairroCliente, numeroCliente, cepCliente,
-                emailCliente, Controle.idConsulta
+                emailCliente, pontuacao, Controle.idConsulta
         )
 
         # Executando a query
@@ -525,7 +552,6 @@ class Ui_frm_DadosCliente(object):
 
         self.frm_DadosCliente.close()
 
-
     def retranslateUi(self, frm_DadosCliente):
         frm_DadosCliente.setWindowTitle(QCoreApplication.translate("frm_DadosCliente", u"Dados Cliente", None))
         self.lbl_nome.setText(QCoreApplication.translate("frm_DadosCliente", u"Nome:", None))
@@ -543,8 +569,10 @@ class Ui_frm_DadosCliente(object):
         self.lbl_Numero.setText(QCoreApplication.translate("frm_DadosCliente", u"N\u00famero:", None))
         self.txt_cidade_6.setText("")
         self.lbl_email.setText(QCoreApplication.translate("frm_DadosCliente", u"E-mail:", None))
+        self.txt_cidade_7.setText("")
+        self.lbl_email_2.setText(QCoreApplication.translate("frm_DadosCliente", u"Pontua\u00e7\u00e3o:", None))
     # retranslateUi
-
+        
         if Controle.tiposTelaDadosCliente == 'incluir':
                 self.btn_cadastrar_3.clicked.connect(self.adicionarCliente)
         if Controle.tiposTelaDadosCliente == 'alterar':
@@ -563,6 +591,7 @@ class Ui_frm_DadosCliente(object):
                 self.txt_Numero.setEnabled(True)
                 self.txt_cep.setEnabled(True)
                 self.txt_cidade_6.setEnabled(True)
+                self.txt_cidade_7.setEnabled(False)
                 self.btn_cadastrar_3.setEnabled(True)
         elif Controle.tiposTelaDadosCliente == 'consultar':            
                 print('DadosCliente: ', Controle.tiposTelaDadosCliente)
@@ -575,7 +604,57 @@ class Ui_frm_DadosCliente(object):
                 self.txt_Numero.setEnabled(False)
                 self.txt_cep.setEnabled(False)
                 self.txt_cidade_6.setEnabled(False)
+                self.txt_cidade_7.setEnabled(False)
                 self.btn_cadastrar_3.setEnabled(False)
+                #Conexão com bd
+                print('Conectando...')
+                mydb = mysql.connector.connect(
+                        host = Controle.host,
+                        user = Controle.user,
+                        password = Controle.password,
+                        database = Controle.database
+                )
+                mycursor = mydb.cursor()
+                consultaSQL = "SELECT * FROM cliente WHERE idCliente = '" + Controle.idConsulta + "'"
+                mycursor.execute(consultaSQL)
+                myresult = mycursor.fetchall()
+                mycursor.close()
+                #Converte resultados bd para dataframe#
+                df = pd.DataFrame(myresult, columns=["idCliente", "Nome", "Celular", "Cpf", "Cidade", "Rua", "Bairro", "Número", "Cep", "E-mail", "Pontos"])
+                nomeCliente = df['Nome'][0]
+                celularCliente = df['Celular'][0]
+                cpfCliente = df['Cpf'][0]
+                cidadeCliente = df['Cidade'][0]
+                ruaCliente = df['Rua'][0]
+                bairroCliente = df['Bairro'][0]
+                NumeroCliente = df['Número'][0]
+                cepCliente = df['Cep'][0]
+                emailCliente = df['E-mail'][0]
+                pontos = df['Pontos'][0]
+                #Setar na tela do sitema
+                self.txt_nome.setText(nomeCliente)
+                self.txt_celular.setText(celularCliente)
+                self.txt_cpf.setText(cpfCliente)
+                self.txt_Rua.setText(ruaCliente)
+                self.txt_cidade.setText(cidadeCliente)
+                self.txt_bairro.setText(bairroCliente)
+                self.txt_Numero.setText(str(NumeroCliente))
+                self.txt_cep.setText(cepCliente)
+                self.txt_cidade_6.setText(emailCliente)
+                self.txt_cidade_7.setText(str(pontos))
+        elif Controle.tiposTelaDadosCliente == 'alterar':
+                print('DadosCliente: ', Controle.tiposTelaDadosCliente)
+                self.txt_nome.setEnabled(True)
+                self.txt_celular.setEnabled(True)
+                self.txt_cpf.setEnabled(True)
+                self.txt_cidade.setEnabled(True)
+                self.txt_Rua.setEnabled(True)
+                self.txt_bairro.setEnabled(True)
+                self.txt_Numero.setEnabled(True)
+                self.txt_cep.setEnabled(True)
+                self.txt_cidade_6.setEnabled(True)
+                self.txt_cidade_7.setEnabled(False)
+                self.btn_cadastrar_3.setEnabled(True)
                 #Conexão com bd
                 self.host = Controle.host
                 self.user = Controle.user
@@ -615,56 +694,8 @@ class Ui_frm_DadosCliente(object):
                 self.txt_Numero.setText(str(NumeroCliente))
                 self.txt_cep.setText(cepCliente)
                 self.txt_cidade_6.setText(emailCliente)
-        elif Controle.tiposTelaDadosCliente == 'alterar':
-                print('DadosCliente: ', Controle.tiposTelaDadosCliente)
-                self.txt_nome.setEnabled(True)
-                self.txt_celular.setEnabled(True)
-                self.txt_cpf.setEnabled(True)
-                self.txt_cidade.setEnabled(True)
-                self.txt_Rua.setEnabled(True)
-                self.txt_bairro.setEnabled(True)
-                self.txt_Numero.setEnabled(True)
-                self.txt_cep.setEnabled(True)
-                self.txt_cidade_6.setEnabled(True)
-                self.btn_cadastrar_3.setEnabled(True)
-                #Conexão com bd
-                self.host = Controle.host
-                self.user = Controle.user
-                self.password = Controle.password
-                self.database = Controle.database 
-                print('Conectando...')
-                mydb = mysql.connector.connect(
-                        host = Controle.host,
-                        user = Controle.user,
-                        password = Controle.password,
-                        database = Controle.database
-                )
-                mycursor = mydb.cursor()
-                consultaSQL = "SELECT * FROM cliente WHERE idCliente = '" + Controle.idConsulta + "'"
-                mycursor.execute(consultaSQL)
-                myresult = mycursor.fetchall()
-                mycursor.close()
-                #Converte resultados bd para dataframe#
-                df = pd.DataFrame(myresult, columns=["idCliente", "Nome", "Celular", "Cpf", "Cidade", "Rua", "Bairro", "Número", "Cep", "E-mail", "Pontos"])
-                nomeCliente = df['Nome'][0]
-                celularCliente = df['Celular'][0]
-                cpfCliente = df['Cpf'][0]
-                cidadeCliente = df['Cidade'][0]
-                ruaCliente = df['Rua'][0]
-                bairroCliente = df['Bairro'][0]
-                NumeroCliente = df['Número'][0]
-                cepCliente = df['Cep'][0]
-                emailCliente = df['E-mail'][0]
-                #Setar na tela do sitema
-                self.txt_nome.setText(nomeCliente)
-                self.txt_celular.setText(celularCliente)
-                self.txt_cpf.setText(cpfCliente)
-                self.txt_Rua.setText(ruaCliente)
-                self.txt_cidade.setText(cidadeCliente)
-                self.txt_bairro.setText(bairroCliente)
-                self.txt_Numero.setText(str(NumeroCliente))
-                self.txt_cep.setText(cepCliente)
-                self.txt_cidade_6.setText(emailCliente)
+                self.txt_cidade_7.setText(str(pontos))
+
 
 if __name__ == "__main__":
     app = QApplication([])

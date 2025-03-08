@@ -9,13 +9,15 @@ from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QTableWidget, QTableWidgetItem,
     QWidget, QMessageBox)
 
+from frm_VendasDiarias import Ui_Frm_VendasDiarias
+
 import mysql.connector
 import pandas as pd
 import Controle
 import os
 
-import icon_excluir_banco
-import icon_voltar_banco
+import icon_consultarBancos
+import icon_voltar
 
 class Ui_Frm_Bancos(object):
     def setupUi(self, Frm_Bancos):
@@ -361,36 +363,6 @@ class Ui_Frm_Bancos(object):
 "    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
 "}\n"
 "")
-        self.btn_excluir = QPushButton(Frm_Bancos)
-        self.btn_excluir.setObjectName(u"btn_excluir")
-        self.btn_excluir.setGeometry(QRect(550, 200, 91, 81))
-        self.btn_excluir.setStyleSheet(u"QPushButton {\n"
-"    background-color: #ffebee; \n"
-"    border: 2px solid #ffcdd2;\n"
-"    border-radius: 10px;\n"
-"    color: #b71c1c; \n"
-"    font-size: 14px;\n"
-"    font-weight: bold;\n"
-"    padding: 10px 16px;\n"
-"    background-image:url(:/icon_exclu/excluir.png);\n"
-"    background-repeat: no-repeat;\n"
-"    background-position: center;\n"
-"    padding-left: 40px;\n"
-"    transition: all 0.3s ease;\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background-color: #ffcdd2;\n"
-"    border-color: #e57373;\n"
-"    color: #d32f2f; \n"
-"}\n"
-"\n"
-"QPushButton:pressed {\n"
-"    background-color: #e57373;\n"
-"    border-color: #b71c1c;\n"
-"    padding-left: 44px;\n"
-"    padding-top: 2px;\n"
-"}")
         self.btn_voltar = QPushButton(Frm_Bancos)
         self.btn_voltar.setObjectName(u"btn_voltar")
         self.btn_voltar.setGeometry(QRect(1100, 560, 91, 81))
@@ -402,6 +374,31 @@ class Ui_Frm_Bancos(object):
 "    color: #333333; \n"
 "    font-size: 14px; \n"
 "	background-image:url(:/icon_volt/retornar.png);\n"
+"    background-repeat: no-repeat; \n"
+"    background-position: center;\n"
+"	transition: all 0.3s ease;\n"
+"}\n"
+"QPushButton:hover{\n"
+"    background-color: #e0e0e0; \n"
+"    border-color: #aaaaaa;\n"
+"	transform: scale(1.05); \n"
+"}\n"
+"QPushButton:pressed{\n"
+"	background-color: #d6d6d6;\n"
+"	border-color: #888888;\n"
+"	transform: scale(0.95);\n"
+"}")
+        self.btn_voltar_2 = QPushButton(Frm_Bancos)
+        self.btn_voltar_2.setObjectName(u"btn_voltar_2")
+        self.btn_voltar_2.setGeometry(QRect(550, 100, 91, 81))
+        self.btn_voltar_2.setStyleSheet(u"QPushButton{\n"
+"    background-color: #f5f5f5; \n"
+"    border: 2px solid #cccccc;\n"
+"    border-radius: 10px; \n"
+"    padding: 10px; \n"
+"    color: #333333; \n"
+"    font-size: 14px; \n"
+"	background-image:url(:/icon_BancosCon/consultar.png);\n"
 "    background-repeat: no-repeat; \n"
 "    background-position: center;\n"
 "	transition: all 0.3s ease;\n"
@@ -501,151 +498,6 @@ class Ui_Frm_Bancos(object):
     def sairTela(self):
         self.Frm_Bancos.close()
         self.Frm_Bancos = None
-
-    def excluirBancosLucros(self):
-        Controle.tiposTelaDadosCliente = 'lucros'
-        line = self.tableLucros.currentRow()
-
-        if line == -1:
-                msg = QMessageBox()
-                caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
-                msg.setWindowTitle('Erro!')
-                msg.setText('Por favor, selecione um Lucro para excluir.')
-                msg.setWindowIcon(QIcon(caminho_icone))
-                msg.setIcon(QMessageBox.Warning)
-                msg.setStandardButtons(QMessageBox.Ok)
-                msg.exec()
-                return 
-
-        item = self.tableLucros.item(line, 0)
-
-        if item:
-                nomeConta = item.text()
-                mydb = mysql.connector.connect(
-                        host=Controle.host,
-                        user=Controle.user,
-                        password=Controle.password,
-                        database=Controle.database
-                )
-
-                mycursor = mydb.cursor()
-                sql = "DELETE FROM `banco-lucros` WHERE Nome = %s"
-                mycursor.execute(sql, (nomeConta,))
-                mydb.commit()
-                print("Linhas afetadas:", mycursor.rowcount)
-
-                msg = QMessageBox()
-                caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
-                msg.setWindowTitle('Lucro excluído')
-                msg.setText('Lucro excluído com sucesso!')
-                msg.setWindowIcon(QIcon(caminho_icone))
-                msg.setIcon(QMessageBox.Information)
-                msg.setStandardButtons(QMessageBox.Ok)
-                msg.exec()
-
-                mycursor.execute("SELECT * FROM `banco-lucros`")
-                myresult = mycursor.fetchall()
-                df = pd.DataFrame(myresult, columns=['Nome', 'Valor', 'Observação', 'Quantidade'])
-                self.all_data = df
-
-                numRows = len(self.all_data.index)
-                self.tableLucros.setColumnCount(len(self.all_data.columns))
-                self.tableLucros.setRowCount(numRows)
-                self.tableLucros.setHorizontalHeaderLabels(self.all_data.columns)
-
-                for i in range(numRows):
-                        for j in range(len(self.all_data.columns)):
-                                self.tableLucros.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
-
-                self.tableLucros.resizeRowsToContents()
-                mydb.close()
-        else:
-                msg = QMessageBox()
-                msg.setWindowTitle('Erro seleção')
-                msg.setText('Lucros não selecionado!')
-                caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
-                msg.setWindowIcon(QIcon(caminho_icone))
-                msg.setIcon(QMessageBox.Warning)
-                msg.setStandardButtons(QMessageBox.Ok)
-                msg.exec()
-
-    def excluirBancosGastos(self):
-        Controle.tiposTelaDadosCliente = 'gastos'
-        line = self.tableGastos.currentRow()
-
-        if line == -1:
-                msg = QMessageBox()
-                msg.setWindowTitle('Erro!')
-                msg.setText('Por favor, selecione um gasto para excluir.')
-                caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
-                msg.setWindowIcon(QIcon(caminho_icone))
-                msg.setIcon(QMessageBox.Warning)
-                msg.setStandardButtons(QMessageBox.Ok)
-                msg.exec()
-                return 
-
-        item = self.tableGastos.item(line, 0)
-
-        if item:
-                nomeConta = item.text()
-                mydb = mysql.connector.connect(
-                        host=Controle.host,
-                        user=Controle.user,
-                        password=Controle.password,
-                        database=Controle.database
-                )
-
-                mycursor = mydb.cursor()
-                sql = "DELETE FROM `banco-gastos` WHERE Nome = %s"
-                mycursor.execute(sql, (nomeConta,))
-                mydb.commit()
-                print("Linhas afetadas:", mycursor.rowcount)
-
-                msg = QMessageBox()
-                msg.setWindowTitle('Gasto excluído')
-                msg.setText('Gasto excluído com sucesso!')
-                caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
-                msg.setWindowIcon(QIcon(caminho_icone))
-                msg.setIcon(QMessageBox.Information)
-                msg.setStandardButtons(QMessageBox.Ok)
-                msg.exec()
-
-                mycursor.execute("SELECT * FROM `banco-gastos`")
-                myresult = mycursor.fetchall()
-                df = pd.DataFrame(myresult, columns=['Nome', 'Fornecedor', 'Observação', 'Valor', 'Quantidade'])
-                self.all_data = df
-
-                numRows = len(self.all_data.index)
-                self.tableGastos.setColumnCount(len(self.all_data.columns))
-                self.tableGastos.setRowCount(numRows)
-                self.tableGastos.setHorizontalHeaderLabels(self.all_data.columns)
-
-                for i in range(numRows):
-                        for j in range(len(self.all_data.columns)):
-                                self.tableGastos.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
-
-                self.tableGastos.resizeRowsToContents()
-                mydb.close()
-        else:
-                msg = QMessageBox()
-                msg.setWindowTitle('Erro seleção')
-                msg.setText('Gasto não selecionado!')
-                caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
-                msg.setWindowIcon(QIcon(caminho_icone))
-                msg.setIcon(QMessageBox.Warning)
-                msg.setStandardButtons(QMessageBox.Ok)
-                msg.exec()
-        
-    def excluirBancoSelecionado(self):
-        if self.tableLucros.currentRow() != -1:
-                self.excluirBancosLucros()
-        else:
-                print("Nenhum lucro selecionado.")
-        
-        if self.tableGastos.currentRow() != -1:
-                self.excluirBancosGastos()
-        else:
-                print("Nenhum gasto selecionado.")
 
     def SomaLucros(self):
         mydb = mysql.connector.connect(
@@ -758,10 +610,24 @@ class Ui_Frm_Bancos(object):
         mycursor.close()
         mydb.close()
 
+    def consultar(self):
+        if not hasattr(self, 'Frm_VendasDiarias') or self.frm_VendasDiarias is None or not self.Frm_VendasDiarias.isVisible():
+                self.frm_VendasDiarias = QWidget()
+                self.ui = Ui_Frm_VendasDiarias()
+                self.ui.setupUi(self.frm_VendasDiarias)
+
+                self.frm_VendasDiarias.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_VendasDiarias.destroyed.connect(lambda: setattr(self, 'Frm_Vendas Diarias', None))
+
+                self.frm_VendasDiarias.show()
+        else:
+                self.frm_VendasDiarias.raise_()
+                self.frm_VendasDiarias.activateWindow()
+
     def retranslateUi(self, Frm_Bancos):
-        Frm_Bancos.setWindowTitle(QCoreApplication.translate("Frm_Bancos", u"Bancos", None))
+        Frm_Bancos.setWindowTitle(QCoreApplication.translate("Frm_Bancos", u"Form", None))
         self.label_Bancos.setText(QCoreApplication.translate("Frm_Bancos", u"BANCOS", None))
-        self.label_Gastos.setText(QCoreApplication.translate("Frm_Bancos", u"GASTOS:", None)) 
+        self.label_Gastos.setText(QCoreApplication.translate("Frm_Bancos", u"GASTOS:", None))
         self.labe_Lucros.setText(QCoreApplication.translate("Frm_Bancos", u"LUCROS:", None))
         ___qtablewidgetitem = self.tableLucros.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("Frm_Bancos", u"Nome/Produtos", None));
@@ -786,8 +652,8 @@ class Ui_Frm_Bancos(object):
         ___qtablewidgetitem8.setText(QCoreApplication.translate("Frm_Bancos", u"Total", None));
         self.txt_gastos_2.setText(QCoreApplication.translate("Frm_Bancos", u"R$", None))
         self.label_SomaGastos_2.setText(QCoreApplication.translate("Frm_Bancos", u"Resultado Final:", None))
-        self.btn_excluir.setText("")
         self.btn_voltar.setText("")
+        self.btn_voltar_2.setText("")
     # retranslateUi
         self.btn_Visualizar.clicked.connect(self.tabelaGastos)
         self.btn_Visualizar.clicked.connect(self.tabelaLucros)
@@ -795,7 +661,7 @@ class Ui_Frm_Bancos(object):
         self.btn_Visualizar.clicked.connect(self.SomaGastos)
         self.btn_Visualizar.clicked.connect(self.somaTotal)
         self.btn_voltar.clicked.connect(self.sairTela)
-        self.btn_excluir.clicked.connect(self.excluirBancoSelecionado)
+        self.btn_voltar_2.clicked.connect(self.consultar)
 
 if __name__ == "__main__":
     app = QApplication([])

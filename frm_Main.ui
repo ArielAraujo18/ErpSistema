@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>802</width>
-    <height>294</height>
+    <width>723</width>
+    <height>453</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -282,7 +282,7 @@ QPushButton:pressed{
    <widget class="QPushButton" name="btn_sair">
     <property name="geometry">
      <rect>
-      <x>720</x>
+      <x>640</x>
       <y>0</y>
       <width>81</width>
       <height>71</height>
@@ -319,25 +319,21 @@ QPushButton:pressed{
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>140</y>
-      <width>301</width>
+      <x>240</x>
+      <y>270</y>
+      <width>251</width>
       <height>31</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <pointsize>-1</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
      </font>
     </property>
     <property name="styleSheet">
      <string notr="true">QLabel {
     font-size: 32px;
     color: #FFFFFF;
-    font-weight: bold;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
 }</string>
     </property>
     <property name="text">
@@ -381,48 +377,11 @@ QPushButton:pressed{
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_produtos_3">
-    <property name="geometry">
-     <rect>
-      <x>640</x>
-      <y>0</y>
-      <width>81</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton{
-    background-color: #f5f5f5;
-    border: 2px solid #cccccc;
-    border-radius: 10px;
-    padding: 10px; 
-    color: #333333; 
-    font-size: 14px; 
-	background-image:url(:/icon_vendasconsulta/consulVenda.png); 
-    background-repeat: no-repeat; 
-    background-position: center; 
-	transition: all 0.3s ease;
-}
-QPushButton:hover{
-    background-color: #e0e0e0;
-    border-color: #aaaaaa;
-	transform: scale(1.05); 
-}
-QPushButton:pressed{
-	background-color: #d6d6d6;
-	border-color: #888888;
-	transform: scale(0.95);
-}</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>720</x>
-      <y>220</y>
+      <x>640</x>
+      <y>380</y>
       <width>81</width>
       <height>21</height>
      </rect>
@@ -436,7 +395,51 @@ QPushButton:pressed{
 }</string>
     </property>
     <property name="text">
-     <string>Versão: 2.0</string>
+     <string>Versão: 1.1</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>140</y>
+      <width>81</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+	background: url(:/icon_avs/avsIconLogo.png);
+	background-repeat: no-repeat; 
+    background-position: center; 
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>310</y>
+      <width>201</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>-1</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel {
+    font-size: 16px;
+    color: #FFFFFF;
+}</string>
+    </property>
+    <property name="text">
+     <string>SOFTWARE E TECNOLOGIA</string>
     </property>
    </widget>
   </widget>
@@ -445,7 +448,7 @@ QPushButton:pressed{
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>802</width>
+     <width>723</width>
      <height>34</height>
     </rect>
    </property>
@@ -598,6 +601,7 @@ QMenu::item:selected {
  </widget>
  <resources>
   <include location="icon_cliente.qrc"/>
+  <include location="icon_back.qrc"/>
   <include location="icon_ConsultaVendas.qrc"/>
   <include location="icon_tarefas.qrc"/>
   <include location="icon_sair.qrc"/>

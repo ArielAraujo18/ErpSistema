@@ -6,32 +6,29 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QHeaderView, QLabel,
-    QPushButton, QSizePolicy, QTableWidget, QTableWidgetItem,
-    QWidget)
-import icon_excluir_banco
-import icon_consultarVendas
-import icon_voltar_banco
+    QLineEdit, QPushButton, QSizePolicy, QTableWidget,
+    QTableWidgetItem, QWidget, QMessageBox)
+from datetime import datetime
 
+import pandas as pd
 import mysql.connector
 import Controle
-import pandas as pd
-import os
+
+import icon_consultarVendas
+import icon_voltar_banco
 
 class Ui_Frm_VendasDiarias(object):
     def setupUi(self, Frm_VendasDiarias):
         if not Frm_VendasDiarias.objectName():
             Frm_VendasDiarias.setObjectName(u"Frm_VendasDiarias")
-        Frm_VendasDiarias.setFixedSize(683, 632)
-        self.Frm_VendasDiarias = Frm_VendasDiarias
-        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
-        Frm_VendasDiarias.setWindowIcon(QIcon(caminho_icone))
+        Frm_VendasDiarias.resize(772, 593)
         Frm_VendasDiarias.setStyleSheet(u"QWidget {\n"
 "    background-color: #008080;\n"
 "    border-radius: 8px;\n"
 "}")
         self.labe_Lucros = QLabel(Frm_VendasDiarias)
         self.labe_Lucros.setObjectName(u"labe_Lucros")
-        self.labe_Lucros.setGeometry(QRect(140, 60, 281, 31))
+        self.labe_Lucros.setGeometry(QRect(100, 60, 281, 31))
         self.labe_Lucros.setStyleSheet(u"QLabel {\n"
 "    font-size: 32px;\n"
 "    color: #000000;\n"
@@ -41,7 +38,7 @@ class Ui_Frm_VendasDiarias(object):
 "")
         self.btn_Visualizar = QPushButton(Frm_VendasDiarias)
         self.btn_Visualizar.setObjectName(u"btn_Visualizar")
-        self.btn_Visualizar.setGeometry(QRect(120, 460, 321, 71))
+        self.btn_Visualizar.setGeometry(QRect(50, 450, 281, 61))
         self.btn_Visualizar.setStyleSheet(u"QPushButton {\n"
 "    background-color: #ffffff;\n"
 "    border: 2px solid #d1c4b2;\n"
@@ -50,7 +47,6 @@ class Ui_Frm_VendasDiarias(object):
 "    font-size: 14px;\n"
 "    font-weight: bold;\n"
 "    padding: 10px 16px;\n"
-"    background-image:url(:/icon_cadastrar/cadastrar.png); \n"
 "    background-repeat: no-repeat;\n"
 "    background-position: center;\n"
 "    transition: all 0.3s ease;\n"
@@ -67,39 +63,9 @@ class Ui_Frm_VendasDiarias(object):
 "    padding-left: 12px; \n"
 "    padding-top: 4px;\n"
 "}")
-        self.btn_excluir = QPushButton(Frm_VendasDiarias)
-        self.btn_excluir.setObjectName(u"btn_excluir")
-        self.btn_excluir.setGeometry(QRect(0, 550, 91, 81))
-        self.btn_excluir.setStyleSheet(u"QPushButton {\n"
-"    background-color: #ffebee; \n"
-"    border: 2px solid #ffcdd2;\n"
-"    border-radius: 10px;\n"
-"    color: #b71c1c; \n"
-"    font-size: 14px;\n"
-"    font-weight: bold;\n"
-"    padding: 10px 16px;\n"
-"    background-image:url(:/icon_exclu/excluir.png);\n"
-"    background-repeat: no-repeat;\n"
-"    background-position: center;\n"
-"    padding-left: 40px;\n"
-"    transition: all 0.3s ease;\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background-color: #ffcdd2;\n"
-"    border-color: #e57373;\n"
-"    color: #d32f2f; \n"
-"}\n"
-"\n"
-"QPushButton:pressed {\n"
-"    background-color: #e57373;\n"
-"    border-color: #b71c1c;\n"
-"    padding-left: 44px;\n"
-"    padding-top: 2px;\n"
-"}")
         self.btn_voltar = QPushButton(Frm_VendasDiarias)
         self.btn_voltar.setObjectName(u"btn_voltar")
-        self.btn_voltar.setGeometry(QRect(590, 550, 91, 81))
+        self.btn_voltar.setGeometry(QRect(680, 510, 91, 81))
         self.btn_voltar.setStyleSheet(u"QPushButton{\n"
 "    background-color: #f5f5f5; \n"
 "    border: 2px solid #cccccc;\n"
@@ -286,7 +252,7 @@ class Ui_Frm_VendasDiarias(object):
 "")
         self.btn_consul = QPushButton(Frm_VendasDiarias)
         self.btn_consul.setObjectName(u"btn_consul")
-        self.btn_consul.setGeometry(QRect(590, 360, 91, 81))
+        self.btn_consul.setGeometry(QRect(360, 440, 81, 81))
         self.btn_consul.setStyleSheet(u"QPushButton {\n"
 "    background-color: #ffffff; \n"
 "    border: 2px solid #d1c4b2; \n"
@@ -312,6 +278,93 @@ class Ui_Frm_VendasDiarias(object):
 "    padding-left: 12px;\n"
 "    padding-top: 4px;\n"
 "}")
+        self.txt_nome = QLineEdit(Frm_VendasDiarias)
+        self.txt_nome.setObjectName(u"txt_nome")
+        self.txt_nome.setEnabled(False)
+        self.txt_nome.setGeometry(QRect(500, 230, 211, 41))
+        self.txt_nome.setStyleSheet(u"QLineEdit {\n"
+"    border: 2px solid #cccccc;\n"
+"	color: #000000;\n"
+"    border-radius: 5px; \n"
+"    padding: 6px; \n"
+"    font-size: 14px; \n"
+"    background-color: ;\n"
+"    transition: all 0.3s ease;\n"
+"}\n"
+"\n"
+"QLineEdit:hover {\n"
+"    border: 2px solid #3f51b5; \n"
+"    background-color: #f5f5f5; \n"
+"}\n"
+"")
+        self.lbl_nome = QLabel(Frm_VendasDiarias)
+        self.lbl_nome.setObjectName(u"lbl_nome")
+        self.lbl_nome.setGeometry(QRect(460, 190, 281, 21))
+        self.lbl_nome.setStyleSheet(u"QLabel {\n"
+"    font-size: 16px;\n"
+"    color: #FFFFFF;\n"
+"    font-weight: bold;\n"
+"    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
+"}\n"
+"")
+        self.txt_nome_2 = QLineEdit(Frm_VendasDiarias)
+        self.txt_nome_2.setObjectName(u"txt_nome_2")
+        self.txt_nome_2.setEnabled(False)
+        self.txt_nome_2.setGeometry(QRect(500, 330, 211, 41))
+        self.txt_nome_2.setStyleSheet(u"QLineEdit {\n"
+"    border: 2px solid #cccccc;\n"
+"	color: #000000;\n"
+"    border-radius: 5px; \n"
+"    padding: 6px; \n"
+"    font-size: 14px; \n"
+"    background-color: ;\n"
+"    transition: all 0.3s ease;\n"
+"}\n"
+"\n"
+"QLineEdit:hover {\n"
+"    border: 2px solid #3f51b5; \n"
+"    background-color: #f5f5f5; \n"
+"}\n"
+"")
+        self.lbl_nome_2 = QLabel(Frm_VendasDiarias)
+        self.lbl_nome_2.setObjectName(u"lbl_nome_2")
+        self.lbl_nome_2.setGeometry(QRect(520, 290, 181, 21))
+        self.lbl_nome_2.setStyleSheet(u"QLabel {\n"
+"    font-size: 16px;\n"
+"    color: #FFFFFF;\n"
+"    font-weight: bold;\n"
+"    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
+"}\n"
+"")
+        self.txt_nome_3 = QLineEdit(Frm_VendasDiarias)
+        self.txt_nome_3.setObjectName(u"txt_nome_3")
+        self.txt_nome_3.setEnabled(False)
+        self.txt_nome_3.setGeometry(QRect(500, 430, 211, 41))
+        self.txt_nome_3.setStyleSheet(u"QLineEdit {\n"
+"    border: 2px solid #cccccc;\n"
+"	color: #000000;\n"
+"    border-radius: 5px; \n"
+"    padding: 6px; \n"
+"    font-size: 14px; \n"
+"    background-color: ;\n"
+"    transition: all 0.3s ease;\n"
+"}\n"
+"\n"
+"QLineEdit:hover {\n"
+"    border: 2px solid #3f51b5; \n"
+"    background-color: #f5f5f5; \n"
+"}\n"
+"")
+        self.lbl_nome_3 = QLabel(Frm_VendasDiarias)
+        self.lbl_nome_3.setObjectName(u"lbl_nome_3")
+        self.lbl_nome_3.setGeometry(QRect(550, 390, 121, 21))
+        self.lbl_nome_3.setStyleSheet(u"QLabel {\n"
+"    font-size: 16px;\n"
+"    color: #FFFFFF;\n"
+"    font-weight: bold;\n"
+"    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
+"}\n"
+"")
 
         self.retranslateUi(Frm_VendasDiarias)
 
@@ -321,43 +374,129 @@ class Ui_Frm_VendasDiarias(object):
     def sairTela(self):
         self.Frm_VendasDiarias.close()
 
-    def tabelaVendas(self):
+    def adicionarData(self):
         print('Conectando...')
         mydb = mysql.connector.connect(
-                host = Controle.host,
-                user = Controle.user,
-                password = Controle.password,
-                database = Controle.database
+                host=Controle.host,
+                user=Controle.user,
+                password=Controle.password,
+                database=Controle.database
         )
         print('Conexão bem-sucedida!')
+
         mycursor = mydb.cursor()
-        consultaSQL = "SELECT * FROM `vendas-consulta` "
+        consultaSQL = "SELECT DISTINCT Data FROM `vendas-consulta`"  
         mycursor.execute(consultaSQL)
         myresult = mycursor.fetchall()
+        
+        self.comboBox.clear()  
 
-        df = pd.DataFrame(myresult, columns=["Nome/Produto", "Data", "Valor", "Quantidade"])
-        self.all_data = df
-
-        numRows = len(self.all_data.index)
-        numCols = len(self.all_data.columns)
-        self.tableWidget.setColumnCount(numCols)
-        self.tableWidget.setRowCount(numRows)
-        self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
-
-        for i in range(numRows):
-                for j in range(numCols):
-                        self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
-
-        self.tableWidget.resizeColumnsToContents()
-        self.tableWidget.resizeRowsToContents()
+        for row in myresult:
+                self.comboBox.addItem(str(row[0]))  
 
         mycursor.close()
+        mydb.close()
+
+    def filtrarPorData(self):
+        data_selecionada = self.comboBox.currentText() 
+        if not data_selecionada:
+                print("Nenhuma data selecionada.")
+                return
+        
+        print(f"Buscando vendas para a data: {data_selecionada}")
+
+        mydb = mysql.connector.connect(
+                host=Controle.host,
+                user=Controle.user,
+                password=Controle.password,
+                database=Controle.database
+        )
+        
+        mycursor = mydb.cursor()
+        consultaSQL = "SELECT * FROM `vendas-consulta` WHERE Data = %s"
+        mycursor.execute(consultaSQL, (data_selecionada,))
+        myresult = mycursor.fetchall()
+
+        self.tableWidget.setRowCount(0)
+
+        for row_data in myresult:
+                row_number = self.tableWidget.rowCount()
+                self.tableWidget.insertRow(row_number)
+                for col_number, data in enumerate(row_data):
+                        self.tableWidget.setItem(row_number, col_number, QTableWidgetItem(str(data)))
+
+        mycursor.close()
+        mydb.close()
+        
+    def visualizar(self):
+        mydb = mysql.connector.connect(
+        host=Controle.host,
+        user=Controle.user,
+        password=Controle.password,
+        database=Controle.database
+        )
+
+        mycursor = mydb.cursor()
+
+        mycursor.execute("""
+                SELECT `Nome/Produto`, CAST(REPLACE(valor, 'R$', '') AS DECIMAL(10,2)) AS valor_formatado
+                FROM `vendas-consulta`
+                ORDER BY valor_formatado DESC 
+                LIMIT 1
+        """)
+
+        resultado = mycursor.fetchall()
+
+        if resultado:
+                nome_maior_divida, maior_valor = resultado[0]
+                print(f'Maior valor encontrado: {nome_maior_divida} - R${maior_valor:,.2f}'.replace(",", "."))
+
+                self.txt_nome.setText(nome_maior_divida)
+                self.txt_nome_2.setText(f"R${maior_valor:,.2f}".replace(",", "."))
+        
+        else: 
+                self.txt_nome.setText("")
+                self.txt_nome_2.setText("")
+        
+        mycursor.close()
+        mydb.close()
+
+
+    def visualizarTotal(self):
+        data = self.comboBox.currentText()
+
+        # Convertendo a data para o formato esperado pelo MySQL (YYYY-MM-DD)
+        data_formatada = datetime.strptime(data, "%d/%m/%Y").strftime("%Y-%m-%d")
+
+        mydb = mysql.connector.connect(
+                host=Controle.host,
+                user=Controle.user,
+                password=Controle.password,
+                database=Controle.database
+        )
+
+        mycursor = mydb.cursor()
+
+        mycursor.execute("""
+        SELECT SUM(CAST(REPLACE(valor, 'R$', '') AS DECIMAL(10,2)) * quantidade) AS total_vendas
+        FROM `vendas-consulta`
+        WHERE DATE(Data) = %s
+        """, (data_formatada,))
+
+        resultado = mycursor.fetchone()
+        print(resultado)
+
+        if resultado and resultado[0 ] is not None:
+                total_vendas = resultado[0]
+                print(f'Total de vendas do dia {data_formatada}: R${total_vendas:.2f}')
+                self.txt_nome_3.setText(f"R${total_vendas:,.2f}".replace(",", "."))
+        else:
+                self.txt_nome_3.setText("R$0.00")
 
     def retranslateUi(self, Frm_VendasDiarias):
-        Frm_VendasDiarias.setWindowTitle(QCoreApplication.translate("Frm_VendasDiarias", u"Vendas Diarias", None))
+        Frm_VendasDiarias.setWindowTitle(QCoreApplication.translate("Frm_VendasDiarias", u"Form", None))
         self.labe_Lucros.setText(QCoreApplication.translate("Frm_VendasDiarias", u"Consultar vendas", None))
         self.btn_Visualizar.setText(QCoreApplication.translate("Frm_VendasDiarias", u"VIZUALIZAR", None))
-        self.btn_excluir.setText("")
         self.btn_voltar.setText("")
         self.labe_Lucros_2.setText(QCoreApplication.translate("Frm_VendasDiarias", u"Datas:", None))
         ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
@@ -369,10 +508,19 @@ class Ui_Frm_VendasDiarias(object):
         ___qtablewidgetitem3 = self.tableWidget.horizontalHeaderItem(3)
         ___qtablewidgetitem3.setText(QCoreApplication.translate("Frm_VendasDiarias", u"Quantidade", None));
         self.btn_consul.setText("")
+        self.txt_nome.setText("")
+        self.lbl_nome.setText(QCoreApplication.translate("Frm_VendasDiarias", u"Nome do produto de maior venda:", None))
+        self.txt_nome_2.setText("")
+        self.lbl_nome_2.setText(QCoreApplication.translate("Frm_VendasDiarias", u"Valor da maior venda:", None))
+        self.txt_nome_3.setText("")
+        self.lbl_nome_3.setText(QCoreApplication.translate("Frm_VendasDiarias", u"SOMA TOTAL:", None))
     # retranslateUi
-
-        self.btn_Visualizar.clicked.connect(self.tabelaVendas)
+        
+        self.btn_Visualizar.clicked.connect(self.filtrarPorData)
+        self.btn_Visualizar.clicked.connect(self.visualizar)
+        self.adicionarData()
         self.btn_voltar.clicked.connect(self.sairTela)
+        self.btn_Visualizar.clicked.connect(self.visualizarTotal)
 
 if __name__ == "__main__":
     app = QApplication([])

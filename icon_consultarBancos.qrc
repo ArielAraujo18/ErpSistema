@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="icon_BancosCon">
+    <file>consultar.png</file>
+  </qresource>
+</RCC>

@@ -491,14 +491,14 @@ class Ui_frm_Cliente(object):
 
     def consultarCliente(self):
 
-        # Tipo tela dados Cliente
+        #tipo tela dados Cliente
         Controle.tiposTelaDadosCliente = "consultar"
         print('frmCliente: ', Controle.tiposTelaDadosCliente)
         
-        # Verificar se há uma linha selecionada na tabela
+        #verificar se há uma linha selecionada na tabela
         line = self.tableWidget.currentRow()
         
-        if line == -1:  # Se não houver linha selecionada
+        if line == -1:  #se não houver linha selecionada
                 msg = QMessageBox()
                 msg.setWindowTitle("ERRO!")
                 msg.setText("Por favor, selecione um cliente para consultar.")
@@ -507,14 +507,14 @@ class Ui_frm_Cliente(object):
                 msg.setIcon(QMessageBox.Warning)
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
-                return  # Não prosseguir com a consulta
+                return  #não prosseguir com a consulta
         
-        item = self.tableWidget.item(line, 0)  # Obtém o item da primeira coluna (ID do cliente)
+        item = self.tableWidget.item(line, 0)  #obtem o item da primeira coluna (ID do cliente)
         
-        if item:  # Verifica se o item não é None
+        if item:  #verifica se o item não é None
                 Controle.idConsulta = item.text()
                 if not hasattr(self, 'frm_DadosCliente') or self.frm_DadosCliente is None or not self.frm_DadosCliente.isVisible():
-                        #Cria a tela se não tiver aberta
+                        #cria a tela se não tiver aberta
                         self.frm_DadosCliente = QWidget()
                         self.ui = Ui_frm_DadosCliente()
                         self.ui.setupUi(self.frm_DadosCliente)

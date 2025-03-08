@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>526</width>
-    <height>609</height>
+    <height>647</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -56,7 +56,7 @@
     border-radius: 5px; 
     padding: 6px; 
     font-size: 14px; 
-    background-color: #ffffff;
+    background-color: ;
     transition: all 0.3s ease;
 }
 
@@ -115,7 +115,7 @@ QLineEdit:hover {
    <property name="geometry">
     <rect>
      <x>150</x>
-     <y>500</y>
+     <y>550</y>
      <width>101</width>
      <height>91</height>
     </rect>
@@ -171,7 +171,7 @@ QPushButton:pressed {
     border-radius: 5px; 
     padding: 6px; 
     font-size: 14px; 
-    background-color: #ffffff;
+    background-color: ;
     transition: all 0.3s ease;
 }
 
@@ -200,7 +200,7 @@ QLineEdit:hover {
     border-radius: 5px; 
     padding: 6px; 
     font-size: 14px; 
-    background-color: #ffffff;
+    background-color: ;
     transition: all 0.3s ease;
 }
 
@@ -251,7 +251,7 @@ QLineEdit:hover {
     border-radius: 5px; 
     padding: 6px; 
     font-size: 14px; 
-    background-color: #ffffff;
+    background-color: ;
     transition: all 0.3s ease;
 }
 
@@ -288,14 +288,14 @@ QLineEdit:hover {
    <property name="geometry">
     <rect>
      <x>290</x>
-     <y>500</y>
+     <y>550</y>
      <width>101</width>
      <height>91</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">QPushButton {
-    background-color: #ffffff;
+    background-color: ;
     border: 2px solid #d1c4b2;
     border-radius: 12px;
     color: #5a5a5a;
@@ -339,7 +339,7 @@ QPushButton:pressed {
     border-radius: 5px; 
     padding: 6px; 
     font-size: 14px; 
-    background-color: #ffffff;
+    background-color: ;
     transition: all 0.3s ease;
 }
 
@@ -387,7 +387,7 @@ QLineEdit:hover {
     border-radius: 5px; 
     padding: 6px; 
     font-size: 14px; 
-    background-color: #ffffff;
+    background-color: ;
     transition: all 0.3s ease;
 }
 
@@ -435,7 +435,7 @@ QLineEdit:hover {
     border-radius: 5px; 
     padding: 6px; 
     font-size: 14px; 
-    background-color: #ffffff;
+    background-color: ;
     transition: all 0.3s ease;
 }
 
@@ -464,7 +464,7 @@ QLineEdit:hover {
     border-radius: 5px; 
     padding: 6px; 
     font-size: 14px; 
-    background-color: #ffffff;
+    background-color: ;
     transition: all 0.3s ease;
 }
 
@@ -512,7 +512,7 @@ QLineEdit:hover {
     border-radius: 5px; 
     padding: 6px; 
     font-size: 14px; 
-    background-color: #ffffff;
+    background-color: ;
     transition: all 0.3s ease;
 }
 
@@ -546,6 +546,60 @@ QLineEdit:hover {
    </property>
    <property name="text">
     <string>E-mail:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="txt_cidade_7">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>490</y>
+     <width>371</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 2px solid #cccccc; 
+    border-radius: 5px; 
+    padding: 6px; 
+    font-size: 14px; 
+    background-color: ;
+    transition: all 0.3s ease;
+}
+
+QLineEdit:hover {
+    border: 2px solid #3f51b5; 
+    background-color: #f5f5f5; 
+}
+</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_email_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>500</y>
+     <width>91</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+    font-size: 16px;
+    color: #333333;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+</string>
+   </property>
+   <property name="text">
+    <string>Pontuação:</string>
    </property>
   </widget>
  </widget>
