@@ -13,6 +13,8 @@ from datetime import datetime
 import pandas as pd
 import mysql.connector
 import Controle
+import os
+import sys
 
 import icon_consultarVendas
 import icon_voltar_banco
@@ -21,7 +23,10 @@ class Ui_Frm_VendasDiarias(object):
     def setupUi(self, Frm_VendasDiarias):
         if not Frm_VendasDiarias.objectName():
             Frm_VendasDiarias.setObjectName(u"Frm_VendasDiarias")
-        Frm_VendasDiarias.resize(772, 593)
+        Frm_VendasDiarias.setFixedSize(772, 593)
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        Frm_VendasDiarias.setWindowIcon(QIcon(caminho_icone))
+        self.Frm_VendasDiarias = Frm_VendasDiarias
         Frm_VendasDiarias.setStyleSheet(u"QWidget {\n"
 "    background-color: #008080;\n"
 "    border-radius: 8px;\n"
@@ -429,44 +434,9 @@ class Ui_Frm_VendasDiarias(object):
         mydb.close()
         
     def visualizar(self):
-        mydb = mysql.connector.connect(
-        host=Controle.host,
-        user=Controle.user,
-        password=Controle.password,
-        database=Controle.database
-        )
 
-        mycursor = mydb.cursor()
+        data_formatada = self.comboBox.currentText().strip() 
 
-        mycursor.execute("""
-                SELECT `Nome/Produto`, CAST(REPLACE(valor, 'R$', '') AS DECIMAL(10,2)) AS valor_formatado
-                FROM `vendas-consulta`
-                ORDER BY valor_formatado DESC 
-                LIMIT 1
-        """)
-
-        resultado = mycursor.fetchall()
-
-        if resultado:
-                nome_maior_divida, maior_valor = resultado[0]
-                print(f'Maior valor encontrado: {nome_maior_divida} - R${maior_valor:,.2f}'.replace(",", "."))
-
-                self.txt_nome.setText(nome_maior_divida)
-                self.txt_nome_2.setText(f"R${maior_valor:,.2f}".replace(",", "."))
-        
-        else: 
-                self.txt_nome.setText("")
-                self.txt_nome_2.setText("")
-        
-        mycursor.close()
-        mydb.close()
-
-
-    def visualizarTotal(self):
-        data = self.comboBox.currentText()
-
-        # Convertendo a data para o formato esperado pelo MySQL (YYYY-MM-DD)
-        data_formatada = datetime.strptime(data, "%d/%m/%Y").strftime("%Y-%m-%d")
 
         mydb = mysql.connector.connect(
                 host=Controle.host,
@@ -477,21 +447,63 @@ class Ui_Frm_VendasDiarias(object):
 
         mycursor = mydb.cursor()
 
-        mycursor.execute("""
-        SELECT SUM(CAST(REPLACE(valor, 'R$', '') AS DECIMAL(10,2)) * quantidade) AS total_vendas
-        FROM `vendas-consulta`
-        WHERE DATE(Data) = %s
-        """, (data_formatada,))
+        consulta = """
+                SELECT `Nome/Produto`, 
+                        CAST(REPLACE(valor, 'R$', '') AS DECIMAL(10,2)) AS valor_formatado
+                FROM `vendas-consulta`
+                WHERE Data = %s  -- Filtra pela data selecionada
+                ORDER BY valor_formatado DESC 
+                LIMIT 1
+                """
 
-        resultado = mycursor.fetchone()
-        print(resultado)
+        mycursor.execute(consulta, (data_formatada,))
+        resultado = mycursor.fetchall()
 
-        if resultado and resultado[0 ] is not None:
-                total_vendas = resultado[0]
-                print(f'Total de vendas do dia {data_formatada}: R${total_vendas:.2f}')
-                self.txt_nome_3.setText(f"R${total_vendas:,.2f}".replace(",", "."))
+        if resultado:
+                nome_maior_divida, maior_valor = resultado[0]
+                print(f'Maior valor encontrado: {nome_maior_divida} - R${maior_valor:,.2f}'.replace(",", "."))
+
+                self.txt_nome.setText(nome_maior_divida)
+                self.txt_nome_2.setText(f"R${maior_valor:,.2f}".replace(",", "."))
+
+        else: 
+                self.txt_nome.setText("")
+                self.txt_nome_2.setText("")
+
+
+        mycursor.close()
+        mydb.close()
+
+    def visualizarTotal(self):
+        data_formatada = self.comboBox.currentText()  
+
+        mydb = mysql.connector.connect(
+                host=Controle.host,
+                user=Controle.user,
+                password=Controle.password,
+                database=Controle.database
+        )
+
+        mycursor = mydb.cursor()
+
+        consulta = "SELECT Valor, Quantidade FROM `vendas-consulta` WHERE Data = %s"
+        print("Query executada:", consulta, "| Data enviada:", data_formatada)
+
+        mycursor.execute(consulta, (data_formatada,))
+        resultado = mycursor.fetchall()
+
+        print("Resultado:", resultado)
+
+        if resultado:
+                total = 0
+                for valor, quantidade in resultado:
+                        valor = str(valor).replace("R$", "").replace(",", ".").strip()
+                        valor = float(valor) 
+                        total += valor * quantidade
+
+                self.txt_nome_3.setText(f"R${total:,.2f}")
         else:
-                self.txt_nome_3.setText("R$0.00")
+                self.txt_nome_3.setText("R$0.00") 
 
     def retranslateUi(self, Frm_VendasDiarias):
         Frm_VendasDiarias.setWindowTitle(QCoreApplication.translate("Frm_VendasDiarias", u"Form", None))

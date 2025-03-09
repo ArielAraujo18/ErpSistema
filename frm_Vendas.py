@@ -1147,7 +1147,7 @@ class Ui_Frm_Vendas(object):
         self.carregarComboBoxProduto()
 
         data = date.today()
-        self.txtQtd_2.setText(f'{data.strftime("%d/%m/%Y")}') 
+        self.txtQtd_2.setText(f'{data.strftime("%Y/%m/%d")}') 
 
         if cliente_id is not None:
                 index = self.comboCliente.findData(cliente_id)
