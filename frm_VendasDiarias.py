@@ -8,25 +8,25 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QComboBox, QHeaderView, QLabel,
     QLineEdit, QPushButton, QSizePolicy, QTableWidget,
     QTableWidgetItem, QWidget, QMessageBox)
-from datetime import datetime
-
-import pandas as pd
-import mysql.connector
-import Controle
-import os
-import sys
-
 import icon_consultarVendas
 import icon_voltar_banco
+
+import sys
+import os
+import pandas as pd
+import Controle
+import mysql.connector
+
+from frm_DadosConsultasV import Ui_frm_DadosConsultasV
 
 class Ui_Frm_VendasDiarias(object):
     def setupUi(self, Frm_VendasDiarias):
         if not Frm_VendasDiarias.objectName():
             Frm_VendasDiarias.setObjectName(u"Frm_VendasDiarias")
         Frm_VendasDiarias.setFixedSize(772, 593)
+        self.Frm_VendasDiarias = Frm_VendasDiarias
         caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
         Frm_VendasDiarias.setWindowIcon(QIcon(caminho_icone))
-        self.Frm_VendasDiarias = Frm_VendasDiarias
         Frm_VendasDiarias.setStyleSheet(u"QWidget {\n"
 "    background-color: #008080;\n"
 "    border-radius: 8px;\n"
@@ -163,8 +163,8 @@ class Ui_Frm_VendasDiarias(object):
 "}\n"
 "")
         self.tableWidget = QTableWidget(Frm_VendasDiarias)
-        if (self.tableWidget.columnCount() < 4):
-            self.tableWidget.setColumnCount(4)
+        if (self.tableWidget.columnCount() < 5):
+            self.tableWidget.setColumnCount(5)
         __qtablewidgetitem = QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem)
         __qtablewidgetitem1 = QTableWidgetItem()
@@ -173,8 +173,10 @@ class Ui_Frm_VendasDiarias(object):
         self.tableWidget.setHorizontalHeaderItem(2, __qtablewidgetitem2)
         __qtablewidgetitem3 = QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(3, __qtablewidgetitem3)
+        __qtablewidgetitem4 = QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(4, __qtablewidgetitem4)
         self.tableWidget.setObjectName(u"tableWidget")
-        self.tableWidget.setGeometry(QRect(30, 110, 401, 321))
+        self.tableWidget.setGeometry(QRect(20, 110, 431, 321))
         self.tableWidget.setStyleSheet(u"QTableWidget, QTableView {\n"
 "    border: 1px solid #dcdcdc; \n"
 "    border-radius: 5px; \n"
@@ -283,11 +285,11 @@ class Ui_Frm_VendasDiarias(object):
 "    padding-left: 12px;\n"
 "    padding-top: 4px;\n"
 "}")
-        self.txt_nome = QLineEdit(Frm_VendasDiarias)
-        self.txt_nome.setObjectName(u"txt_nome")
-        self.txt_nome.setEnabled(False)
-        self.txt_nome.setGeometry(QRect(500, 230, 211, 41))
-        self.txt_nome.setStyleSheet(u"QLineEdit {\n"
+        self.txt_nomeProduto = QLineEdit(Frm_VendasDiarias)
+        self.txt_nomeProduto.setObjectName(u"txt_nomeProduto")
+        self.txt_nomeProduto.setEnabled(False)
+        self.txt_nomeProduto.setGeometry(QRect(500, 230, 211, 41))
+        self.txt_nomeProduto.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc;\n"
 "	color: #000000;\n"
 "    border-radius: 5px; \n"
@@ -312,11 +314,11 @@ class Ui_Frm_VendasDiarias(object):
 "    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
 "}\n"
 "")
-        self.txt_nome_2 = QLineEdit(Frm_VendasDiarias)
-        self.txt_nome_2.setObjectName(u"txt_nome_2")
-        self.txt_nome_2.setEnabled(False)
-        self.txt_nome_2.setGeometry(QRect(500, 330, 211, 41))
-        self.txt_nome_2.setStyleSheet(u"QLineEdit {\n"
+        self.txt_ValorMaior = QLineEdit(Frm_VendasDiarias)
+        self.txt_ValorMaior.setObjectName(u"txt_ValorMaior")
+        self.txt_ValorMaior.setEnabled(False)
+        self.txt_ValorMaior.setGeometry(QRect(500, 330, 211, 41))
+        self.txt_ValorMaior.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc;\n"
 "	color: #000000;\n"
 "    border-radius: 5px; \n"
@@ -341,11 +343,11 @@ class Ui_Frm_VendasDiarias(object):
 "    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
 "}\n"
 "")
-        self.txt_nome_3 = QLineEdit(Frm_VendasDiarias)
-        self.txt_nome_3.setObjectName(u"txt_nome_3")
-        self.txt_nome_3.setEnabled(False)
-        self.txt_nome_3.setGeometry(QRect(500, 430, 211, 41))
-        self.txt_nome_3.setStyleSheet(u"QLineEdit {\n"
+        self.txt_SomaTotal = QLineEdit(Frm_VendasDiarias)
+        self.txt_SomaTotal.setObjectName(u"txt_SomaTotal")
+        self.txt_SomaTotal.setEnabled(False)
+        self.txt_SomaTotal.setGeometry(QRect(500, 430, 211, 41))
+        self.txt_SomaTotal.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc;\n"
 "	color: #000000;\n"
 "    border-radius: 5px; \n"
@@ -463,12 +465,12 @@ class Ui_Frm_VendasDiarias(object):
                 nome_maior_divida, maior_valor = resultado[0]
                 print(f'Maior valor encontrado: {nome_maior_divida} - R${maior_valor:,.2f}'.replace(",", "."))
 
-                self.txt_nome.setText(nome_maior_divida)
-                self.txt_nome_2.setText(f"R${maior_valor:,.2f}".replace(",", "."))
+                self.txt_nomeProduto.setText(nome_maior_divida)
+                self.txt_ValorMaior.setText(f"R${maior_valor:,.2f}".replace(",", "."))
 
         else: 
-                self.txt_nome.setText("")
-                self.txt_nome_2.setText("")
+                self.txt_nomeProduto.setText("")
+                self.txt_ValorMaior.setText("")
 
 
         mycursor.close()
@@ -486,7 +488,7 @@ class Ui_Frm_VendasDiarias(object):
 
         mycursor = mydb.cursor()
 
-        consulta = "SELECT Valor, Quantidade FROM `vendas-consulta` WHERE Data = %s"
+        consulta = "SELECT Valor, Quantidade FROM WHERE Data = %s"
         print("Query executada:", consulta, "| Data enviada:", data_formatada)
 
         mycursor.execute(consulta, (data_formatada,))
@@ -501,39 +503,76 @@ class Ui_Frm_VendasDiarias(object):
                         valor = float(valor) 
                         total += valor * quantidade
 
-                self.txt_nome_3.setText(f"R${total:,.2f}")
+                self.txt_SomaTotal.setText(f"R${total:,.2f}")
         else:
-                self.txt_nome_3.setText("R$0.00") 
+                self.txt_SomaTotal.setText("R$0.00") 
+
+    def consultar(self):
+        Controle.tiposTelaDadosCliente = 'consultar'
+        print('frm_VendasDiarias', Controle.tiposTelaDadosCliente)
+
+        line = self.tableWidget.currentRow()
+
+        if line == -1:
+                msg = QMessageBox()
+                msg.setWindowTitle('ERRO!')
+                msg.setText('Por favor, selecione uma Venda para consultar.')
+                caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+                msg.setWindowIcon(QIcon(caminho_icone))
+                msg.setIcon(QMessageBox.Warning)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+                return
+        
+        item = self.tableWidget.item(line, 0)
+        if item:
+                Controle.idConsulta = item.text()
+                if not hasattr(self, 'frm_DadosConsultasV') or self.frm_DadosConsultasV is None or not self.frm_DadosConsultasV.isVisible():
+                        self.frm_DadosConsultasV = QWidget()
+                        self.ui = Ui_frm_DadosConsultasV()
+                        self.ui.setupUi(self.frm_DadosConsultasV)
+
+                        self.frm_DadosConsultasV.setAttribute(Qt.WA_DeleteOnClose)
+                        self.frm_DadosConsultasV.destroyed.connect(lambda: setattr(self, 'frm_DadosConsultasV', None))
+
+                        self.frm_DadosConsultasV.show()
+
+        else:
+            self.frm_DadosConsultasV.raise_()
+            self.frm_DadosConsultasV.activateWindow() 
 
     def retranslateUi(self, Frm_VendasDiarias):
-        Frm_VendasDiarias.setWindowTitle(QCoreApplication.translate("Frm_VendasDiarias", u"Form", None))
+        Frm_VendasDiarias.setWindowTitle(QCoreApplication.translate("Frm_VendasDiarias", u"Vendas Diárias", None))
         self.labe_Lucros.setText(QCoreApplication.translate("Frm_VendasDiarias", u"Consultar vendas", None))
         self.btn_Visualizar.setText(QCoreApplication.translate("Frm_VendasDiarias", u"VIZUALIZAR", None))
         self.btn_voltar.setText("")
         self.labe_Lucros_2.setText(QCoreApplication.translate("Frm_VendasDiarias", u"Datas:", None))
         ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
-        ___qtablewidgetitem.setText(QCoreApplication.translate("Frm_VendasDiarias", u"Nome/Produto", None));
+        ___qtablewidgetitem.setText(QCoreApplication.translate("Frm_VendasDiarias", u"idVendas", None));
         ___qtablewidgetitem1 = self.tableWidget.horizontalHeaderItem(1)
-        ___qtablewidgetitem1.setText(QCoreApplication.translate("Frm_VendasDiarias", u"Data", None));
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("Frm_VendasDiarias", u"Nome/Produto", None));
         ___qtablewidgetitem2 = self.tableWidget.horizontalHeaderItem(2)
-        ___qtablewidgetitem2.setText(QCoreApplication.translate("Frm_VendasDiarias", u"Valor", None));
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("Frm_VendasDiarias", u"Data", None));
         ___qtablewidgetitem3 = self.tableWidget.horizontalHeaderItem(3)
-        ___qtablewidgetitem3.setText(QCoreApplication.translate("Frm_VendasDiarias", u"Quantidade", None));
+        ___qtablewidgetitem3.setText(QCoreApplication.translate("Frm_VendasDiarias", u"Valor", None));
+        ___qtablewidgetitem4 = self.tableWidget.horizontalHeaderItem(4)
+        ___qtablewidgetitem4.setText(QCoreApplication.translate("Frm_VendasDiarias", u"Quantidade", None));
         self.btn_consul.setText("")
-        self.txt_nome.setText("")
+        self.txt_nomeProduto.setText("")
         self.lbl_nome.setText(QCoreApplication.translate("Frm_VendasDiarias", u"Nome do produto de maior venda:", None))
-        self.txt_nome_2.setText("")
+        self.txt_ValorMaior.setText("")
         self.lbl_nome_2.setText(QCoreApplication.translate("Frm_VendasDiarias", u"Valor da maior venda:", None))
-        self.txt_nome_3.setText("")
+        self.txt_SomaTotal.setText("")
         self.lbl_nome_3.setText(QCoreApplication.translate("Frm_VendasDiarias", u"SOMA TOTAL:", None))
     # retranslateUi
-        
+
         self.btn_Visualizar.clicked.connect(self.filtrarPorData)
         self.btn_Visualizar.clicked.connect(self.visualizar)
         self.adicionarData()
         self.btn_voltar.clicked.connect(self.sairTela)
         self.btn_Visualizar.clicked.connect(self.visualizarTotal)
-
+        self.btn_consul.clicked.connect(self.consultar)
+        
 if __name__ == "__main__":
     app = QApplication([])
     frm_VendasDiarias = QWidget()

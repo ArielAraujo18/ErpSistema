@@ -524,7 +524,7 @@ class Ui_Frm_Bancos(object):
 
         somaL = sum(valores)
         
-        self.txt_lucros.setText(f"R${somaL: .2f}")
+        self.txt_lucros.setText(f"R${somaL:,.2f}")
 
         Controle.somaLucros = somaL
 
@@ -554,7 +554,7 @@ class Ui_Frm_Bancos(object):
 
         somag = sum(valores)
 
-        self.txt_gastos.setText(f"R${somag:.2f}")
+        self.txt_gastos.setText(f"R${somag:,.2f}")
 
         Controle.somaGastos = somag
 
@@ -625,7 +625,7 @@ class Ui_Frm_Bancos(object):
                 self.frm_VendasDiarias.activateWindow()
 
     def retranslateUi(self, Frm_Bancos):
-        Frm_Bancos.setWindowTitle(QCoreApplication.translate("Frm_Bancos", u"Form", None))
+        Frm_Bancos.setWindowTitle(QCoreApplication.translate("Frm_Bancos", u"Bancos", None))
         self.label_Bancos.setText(QCoreApplication.translate("Frm_Bancos", u"BANCOS", None))
         self.label_Gastos.setText(QCoreApplication.translate("Frm_Bancos", u"GASTOS:", None))
         self.labe_Lucros.setText(QCoreApplication.translate("Frm_Bancos", u"LUCROS:", None))

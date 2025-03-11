@@ -13,6 +13,10 @@ import icon_cancelar
 import os
 import sys
 
+import pandas as pd
+import Controle
+import mysql.connector
+
 class Ui_frm_DadosConsultasV(object):
     def setupUi(self, frm_DadosConsultasV):
         if not frm_DadosConsultasV.objectName():
@@ -174,6 +178,9 @@ class Ui_frm_DadosConsultasV(object):
         QMetaObject.connectSlotsByName(frm_DadosConsultasV)
     # setupUi
 
+    def sairTela(self):
+        self.frm_DadosConsultasV.close()
+
     def retranslateUi(self, frm_DadosConsultasV):
         frm_DadosConsultasV.setWindowTitle(QCoreApplication.translate("frm_DadosConsultasV", u"Dados Consultas", None))
         self.lbl_nome.setText(QCoreApplication.translate("frm_DadosConsultasV", u"Nome/Produto:", None))
@@ -182,11 +189,40 @@ class Ui_frm_DadosConsultasV(object):
         self.btn_cancelar.setText("")
         self.txt_qtd.setInputMask(QCoreApplication.translate("frm_DadosConsultasV", u"00000000000000000000000000000000000000000000000000", None))
         self.txt_qtd.setText("")
-        self.txt_valor.setInputMask(QCoreApplication.translate("frm_DadosConsultasV", u"R$", None))
-        self.txt_nome_2.setInputMask(QCoreApplication.translate("frm_DadosConsultasV", u"00/00/0000", None))
-        self.txt_nome_2.setText(QCoreApplication.translate("frm_DadosConsultasV", u"//", None))
         self.lbl_nome_2.setText(QCoreApplication.translate("frm_DadosConsultasV", u"Data:", None))
     # retranslateUi
+        
+        self.btn_cancelar.clicked.connect(self.sairTela)
+
+        if Controle.tiposTelaDadosCliente == 'consultar':
+                print('DadosConsultasV: ', Controle.tiposTelaDadosCliente)
+                self.txt_nome.setEnabled(False)
+                self.txt_nome_2.setEnabled(False)
+                self.txt_qtd.setEnabled(False)
+                self.txt_valor.setEnabled(False)
+                print('Conectando...')
+                mydb = mysql.connector.connect(
+                        host = Controle.host,
+                        user = Controle.user,
+                        password = Controle.password,
+                        database = Controle.database
+                )
+                mycursor = mydb.cursor()
+                consultaSQL = "SELECT * FROM `vendas-consulta` WHERE idVendas = '" + Controle.idConsulta + "'"
+                mycursor.execute(consultaSQL)
+                myresult = mycursor.fetchall()
+                mycursor.close()
+                df = pd.DataFrame(myresult, columns=["idVendas", "Nome/Produto", "Data", "Valor", "Quantidade"])
+                
+                nomeProduto = df['Nome/Produto'][0]
+                data = df['Data'][0]
+                valor = float(df['Valor'][0])
+                quantidade = df['Quantidade'][0]
+
+                self.txt_nome.setText(nomeProduto)
+                self.txt_nome_2.setText(str(data))
+                self.txt_valor.setText(str(f'R${valor:.2f}'))
+                self.txt_qtd.setText(str(quantidade))
 
 if __name__ == "__main__":
     app = QApplication([])

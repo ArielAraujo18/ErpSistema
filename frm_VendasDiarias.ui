@@ -209,9 +209,9 @@ QScrollBar::add-line:vertical {
   <widget class="QTableWidget" name="tableWidget">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>20</x>
      <y>110</y>
-     <width>401</width>
+     <width>431</width>
      <height>321</height>
     </rect>
    </property>
@@ -298,6 +298,11 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
    </property>
    <column>
     <property name="text">
+     <string>idVendas</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
      <string>Nome/Produto</string>
     </property>
    </column>
@@ -357,7 +362,7 @@ QPushButton:pressed {
     <string/>
    </property>
   </widget>
-  <widget class="QLineEdit" name="txt_nome">
+  <widget class="QLineEdit" name="txt_nomeProduto">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -412,7 +417,7 @@ QLineEdit:hover {
     <string>Nome do produto de maior venda:</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="txt_nome_2">
+  <widget class="QLineEdit" name="txt_ValorMaior">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -467,7 +472,7 @@ QLineEdit:hover {
     <string>Valor da maior venda:</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="txt_nome_3">
+  <widget class="QLineEdit" name="txt_SomaTotal">
    <property name="enabled">
     <bool>false</bool>
    </property>

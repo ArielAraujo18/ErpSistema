@@ -963,7 +963,7 @@ class Ui_Frm_Vendas(object):
                    print(Controle.totalDaVenda)
                   
 
-         self.lblValor.setText(f"R$ {total:.2f}")
+         self.lblValor.setText(f"R$ {total:,.2f}")
          self.lblQtd.setText(str(totalqtd))
          print(f"Total calculado: R$ {total:.2f}")
 
