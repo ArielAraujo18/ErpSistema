@@ -6,147 +6,39 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>675</width>
-    <height>383</height>
+    <width>800</width>
+    <height>658</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">QWidget {
+    background-color: #2F4F4F;
+}</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <property name="styleSheet">
-    <string notr="true">background-color: #FFFFE0;</string>
-   </property>
-   <widget class="QLabel" name="lbl_senha">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>170</y>
-      <width>111</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QLabel {
-    font-size: 32px;
-    color: #000000;
-    font-weight: bold;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
-}
-</string>
-    </property>
-    <property name="text">
-     <string>Senha:</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_cancelar">
-    <property name="geometry">
-     <rect>
-      <x>190</x>
-      <y>290</y>
-      <width>141</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton {
-    background-color: #ffffff; 
-    border: 2px solid #d1c4b2; 
-    border-radius: 12px; 
-    color: #5a5a5a;
-    font-size: 14px;
-    font-weight: bold;
-    padding: 10px 16px; 
-    background-image:url(:/icon_alt/consultar.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    transition: all 0.3s ease;
-}
-
-QPushButton:hover {
-    background-color: #f2ebe0;
-    border-color: #c4b49e;
-}
-
-QPushButton:pressed {
-    background-color: #e8dfcf;
-    border-color: #b39b8d;
-    padding-left: 12px;
-    padding-top: 4px;
-}</string>
-    </property>
-    <property name="text">
-     <string>CANCELAR</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="txt_usuario">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>60</y>
-      <width>471</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QLineEdit {
-    border: 2px solid #cccccc; 
-    border-radius: 5px; 
-    padding: 6px; 
-    font-size: 30px; 
-    background-color: #ffffff;
-    transition: all 0.3s ease;
-}
-
-QLineEdit:hover {
-    border: 2px solid #3f51b5; 
-    background-color: #f5f5f5; 
-}
-</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="txt_senha">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>160</y>
-      <width>471</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QLineEdit {
-    border: 2px solid #cccccc; 
-    border-radius: 5px; 
-    padding: 6px; 
-    font-size: 30px; 
-    background-color: #ffffff;
-    transition: all 0.3s ease;
-}
-
-QLineEdit:hover {
-    border: 2px solid #3f51b5; 
-    background-color: #f5f5f5; 
-}
-</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="lbl_usuario">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>80</y>
+      <x>70</x>
+      <y>250</y>
       <width>131</width>
       <height>31</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>-1</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">QLabel {
     font-size: 32px;
-    color: #000000;
+    color: #FFFFFF;
     font-weight: bold;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
 }
@@ -156,154 +48,196 @@ QLineEdit:hover {
      <string>Usuário:</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_entrar">
+   <widget class="QLineEdit" name="txt_Usuario">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>240</y>
+      <width>511</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>-1</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLineEdit {
+    border: 2px solid #cccccc; 
+    border-radius: 5px; 
+    padding: 6px; 
+    font-size: 30px; 
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+	color: #00000
+}
+
+QLineEdit:hover {
+    border: 2px solid #3f51b5; 
+    background-color: #f5f5f5; 
+}
+</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lbl_senha">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>330</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>-1</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel {
+    font-size: 32px;
+    color: #FFFFFF;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+</string>
+    </property>
+    <property name="text">
+     <string>Senha:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="txt_Senha">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>320</y>
+      <width>511</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>-1</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLineEdit {
+    border: 2px solid #cccccc; 
+    border-radius: 5px; 
+    padding: 6px; 
+    font-size: 30px; 
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+	color: #00000
+}
+
+QLineEdit:hover {
+    border: 2px solid #3f51b5; 
+    background-color: #f5f5f5; 
+}
+</string>
+    </property>
+    <property name="echoMode">
+     <enum>QLineEdit::Password</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
       <x>380</x>
-      <y>290</y>
-      <width>141</width>
-      <height>61</height>
+      <y>420</y>
+      <width>81</width>
+      <height>121</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton {
-    background-color: #ffffff; 
-    border: 2px solid #d1c4b2; 
-    border-radius: 12px; 
-    color: #5a5a5a;
-    font-size: 14px;
-    font-weight: bold;
-    padding: 10px 16px; 
-    background-image:url(:/icon_alt/consultar.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    transition: all 0.3s ease;
-}
-
-QPushButton:hover {
-    background-color: #f2ebe0;
-    border-color: #c4b49e;
-}
-
-QPushButton:pressed {
-    background-color: #e8dfcf;
-    border-color: #b39b8d;
-    padding-left: 12px;
-    padding-top: 4px;
+     <string notr="true">QLabel{
+	background: url(:/icon_login/avsIconLogo.png);
+	background-repeat: no-repeat; 
+    background-position: center; 
 }</string>
     </property>
     <property name="text">
-     <string>ENTRAR</string>
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>550</y>
+      <width>251</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>-1</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel {
+    font-size: 32px;
+    color: #FFFFFF;
+}</string>
+    </property>
+    <property name="text">
+     <string>AVS-SOFTWARES</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>590</y>
+      <width>201</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>-1</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel {
+    font-size: 16px;
+    color: #FFFFFF;
+}</string>
+    </property>
+    <property name="text">
+     <string>SOFTWARE E TECNOLOGIA</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>60</y>
+      <width>401</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+    font-size: 60px;
+    font-weight: bold;
+    color: #FFA500;
+    padding: 10px;
+    border-radius: 8px;
+}</string>
+    </property>
+    <property name="text">
+     <string>BEM-VINDO!</string>
     </property>
    </widget>
   </widget>
-  <action name="actionCliente">
-   <property name="text">
-    <string>Cliente</string>
-   </property>
-  </action>
-  <action name="actionFornecedor">
-   <property name="text">
-    <string>Fornecedor</string>
-   </property>
-  </action>
-  <action name="actionUsu_rio_do_sistema">
-   <property name="text">
-    <string>Usuário</string>
-   </property>
-  </action>
-  <action name="actionVenda">
-   <property name="text">
-    <string>Venda</string>
-   </property>
-  </action>
-  <action name="actionConsumo_de_produtos">
-   <property name="text">
-    <string>Consumo de produtos</string>
-   </property>
-  </action>
-  <action name="actionSaldo">
-   <property name="text">
-    <string>Saldo</string>
-   </property>
-  </action>
-  <action name="actionCompras_2">
-   <property name="text">
-    <string>Compras</string>
-   </property>
-  </action>
-  <action name="actionPedido">
-   <property name="text">
-    <string>Pedido</string>
-   </property>
-  </action>
-  <action name="actionCancelar_compra">
-   <property name="text">
-    <string>Cancelar</string>
-   </property>
-  </action>
-  <action name="actionCaixa">
-   <property name="text">
-    <string>Caixa</string>
-   </property>
-  </action>
-  <action name="actionBanco">
-   <property name="text">
-    <string>Banco</string>
-   </property>
-  </action>
-  <action name="actionContas_para_pagar">
-   <property name="text">
-    <string>Contas para pagar</string>
-   </property>
-  </action>
-  <action name="actionContas_para_receber">
-   <property name="text">
-    <string>Contas para receber</string>
-   </property>
-  </action>
-  <action name="actionContas_pagas">
-   <property name="text">
-    <string>Contas pagas</string>
-   </property>
-  </action>
-  <action name="actionContas_recebidas">
-   <property name="text">
-    <string>Contas recebidas</string>
-   </property>
-  </action>
-  <action name="actionGeral">
-   <property name="text">
-    <string>Geral</string>
-   </property>
-  </action>
-  <action name="actionResumido">
-   <property name="text">
-    <string>Resumido</string>
-   </property>
-  </action>
-  <action name="actionGeral_3">
-   <property name="text">
-    <string>Geral</string>
-   </property>
-  </action>
-  <action name="actionResumido_2">
-   <property name="text">
-    <string>Resumido</string>
-   </property>
-  </action>
  </widget>
  <resources>
-  <include location="icon_cliente.qrc"/>
-  <include location="icon_tarefas.qrc"/>
-  <include location="icon_sair.qrc"/>
-  <include location="icon_caixa.qrc"/>
-  <include location="icon_receber.qrc"/>
-  <include location="icon_bancos.qrc"/>
-  <include location="icon_pagar.qrc"/>
-  <include location="icon_vendas.qrc"/>
-  <include location="icon_produtos.qrc"/>
-  <include location="icon_fornecedor.qrc"/>
+  <include location="icon_TelaLogin.qrc"/>
  </resources>
  <connections/>
 </ui>

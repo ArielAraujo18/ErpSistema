@@ -11,12 +11,4 @@ somaLucros = 0
 host = '127.0.0.1'
 user = 'Ariel'
 password = 'IRani18@#'
-database = 'sistema' 
-
-
-
-
-
-
-
-po
+database = 'sistema'

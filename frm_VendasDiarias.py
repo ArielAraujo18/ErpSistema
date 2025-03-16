@@ -453,7 +453,7 @@ class Ui_Frm_VendasDiarias(object):
                 SELECT `Nome/Produto`, 
                         CAST(REPLACE(valor, 'R$', '') AS DECIMAL(10,2)) AS valor_formatado
                 FROM `vendas-consulta`
-                WHERE Data = %s  -- Filtra pela data selecionada
+                WHERE Data = %s 
                 ORDER BY valor_formatado DESC 
                 LIMIT 1
                 """
@@ -488,7 +488,7 @@ class Ui_Frm_VendasDiarias(object):
 
         mycursor = mydb.cursor()
 
-        consulta = "SELECT Valor, Quantidade FROM WHERE Data = %s"
+        consulta = "SELECT Valor, Quantidade FROM `vendas-consulta` WHERE Data = %s"
         print("Query executada:", consulta, "| Data enviada:", data_formatada)
 
         mycursor.execute(consulta, (data_formatada,))
@@ -566,7 +566,7 @@ class Ui_Frm_VendasDiarias(object):
         self.lbl_nome_3.setText(QCoreApplication.translate("Frm_VendasDiarias", u"SOMA TOTAL:", None))
     # retranslateUi
 
-        self.btn_Visualizar.clicked.connect(self.filtrarPorData)
+        #self.btn_Visualizar.clicked.connect(self.filtrarPorData)
         self.btn_Visualizar.clicked.connect(self.visualizar)
         self.adicionarData()
         self.btn_voltar.clicked.connect(self.sairTela)

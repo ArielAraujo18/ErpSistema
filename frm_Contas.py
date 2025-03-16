@@ -23,7 +23,6 @@ import mysql.connector
 import os
 
 from frm_DadosContas import Ui_frm_DadosContas
-#testando
 
 class Ui_frm_Contas(object):
     def setupUi(self, frm_Contas):
