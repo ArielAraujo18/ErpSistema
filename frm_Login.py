@@ -7,6 +7,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QMainWindow,
     QPushButton, QSizePolicy, QWidget, QMessageBox)
+
+from frm_Main import Ui_frm_Main
+
 import icon_TelaLogin
 
 import os
@@ -229,11 +232,34 @@ class Ui_frm_Login(object):
                 return
             
             else:
-                print('bem vindo')
+                msg = QMessageBox()
+                msg.setWindowTitle("SUCESSO!")
+                msg.setText(f"Credênciais corretas, seja bem-vindo!")
+                msg.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+                msg.setIcon(QMessageBox.NoIcon)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+                self.abrirTela()
+                self.voltar()
             
         else:
                 print("Usuário não encontrado!")  # Trate o caso de usuário inexistente
-                
+
+    def abrirTela(self):                
+        if not hasattr(self, 'frm_Main') or self.frm_Main is None or not self.frm_Main.isVisible():
+
+                self.frm_Main = QMainWindow()
+                self.ui = Ui_frm_Main()
+                self.ui.setupUi(self.frm_Main)
+
+                self.frm_Main.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_Main.destroyed.connect(lambda: setattr(self, 'frm_Main', None))
+
+                self.frm_Main.show()
+
+        else:
+                self.frm_Main.raise_()
+                self.frm_Main.activateWindow()
 
     def retranslateUi(self, frm_Login):
         frm_Login.setWindowTitle(QCoreApplication.translate("frm_Login", u"MainWindow", None))
