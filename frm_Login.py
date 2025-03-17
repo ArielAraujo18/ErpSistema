@@ -219,12 +219,17 @@ class Ui_frm_Login(object):
 
         if myresult:
             
-            usere, pasworde = myresult[0]
+            credenciais_corretas = False
 
-            if usuario != usere or senha != pasworde:
+            for usere, pasworde in myresult:
+                if usuario == usere and senha == pasworde:
+                     credenciais_corretas = True
+                     break
+            
+            if not credenciais_corretas:
                 msg = QMessageBox()
                 msg.setWindowTitle("ERRO!")
-                msg.setText(f"Credências incorretas")
+                msg.setText("Credenciais incorretas")
                 msg.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
                 msg.setIcon(QMessageBox.Warning)
                 msg.setStandardButtons(QMessageBox.Ok)
@@ -234,15 +239,16 @@ class Ui_frm_Login(object):
             else:
                 msg = QMessageBox()
                 msg.setWindowTitle("SUCESSO!")
-                msg.setText(f"Credênciais corretas, seja bem-vindo!")
+                msg.setText("Credenciais corretas, seja bem-vindo!")
                 msg.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
                 msg.setIcon(QMessageBox.NoIcon)
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
                 self.abrirTela()
                 self.voltar()
-            
+
         else:
+                
                 print("Usuário não encontrado!")  # Trate o caso de usuário inexistente
 
     def abrirTela(self):                
