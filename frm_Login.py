@@ -212,7 +212,7 @@ class Ui_frm_Login(object):
         )
 
         mycursor = mydb.cursor()
-        mycursor.execute("SELECT `Usuário`, `SENHA` FROM login")
+        mycursor.execute("SELECT `Usuário`, `SENHA`, `Permissão` FROM login")
 
         myresult = mycursor.fetchall()
         print(myresult)
@@ -221,7 +221,7 @@ class Ui_frm_Login(object):
             
             credenciais_corretas = False
 
-            for usere, pasworde in myresult:
+            for usere, pasworde, permissao in myresult:
                 if usuario == usere and senha == pasworde:
                      credenciais_corretas = True
                      break
