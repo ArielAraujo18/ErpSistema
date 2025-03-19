@@ -1,3 +1,13 @@
+# -*- coding: utf-8 -*-
+
+################################################################################
+## Form generated from reading UI file 'frm_Main.ui'
+##
+## Created by: Qt User Interface Compiler version 6.8.2
+##
+## WARNING! All changes made in this file will be lost when recompiling UI file!
+################################################################################
+
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
@@ -8,9 +18,10 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QTransform)
 from PySide6.QtWidgets import (QApplication, QLabel, QMainWindow, QMenu,
     QMenuBar, QPushButton, QSizePolicy, QStatusBar,
-    QWidget)
+    QWidget, QMessageBox)
 
 import sys
+import Controle
 import os
 
 import icon_cliente
@@ -343,10 +354,19 @@ class Ui_frm_Main(object):
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
 "}")
+        self.lbl_login = QLabel(self.centralwidget)
+        self.lbl_login.setObjectName(u"lbl_login")
+        self.lbl_login.setGeometry(QRect(10, 370, 131, 21))
+        self.lbl_login.setStyleSheet(u"QLabel {\n"
+"    font-size: 14px;\n"
+"    color: #FFFFFF;\n"
+"    font-weight: bold;\n"
+"    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
+"}")
         frm_Main.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(frm_Main)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 723, 34))
+        self.menubar.setGeometry(QRect(0, 0, 723, 35))
         self.menubar.setStyleSheet(u"QMenuBar {\n"
 "    background-color: #2E3440;\n"
 "    color: white;\n"
@@ -398,6 +418,9 @@ class Ui_frm_Main(object):
 
         QMetaObject.connectSlotsByName(frm_Main)
     # setupUi
+
+    def login(self):
+        self.lbl_login.setText(Controle.login)
 
     def telaCliente(self):
         #Verifica se o atributo existe e não é None
@@ -457,7 +480,6 @@ class Ui_frm_Main(object):
     def sairSistema(self):
         sys.exit()   
 
-        QMetaObject.connectSlotsByName(frm_Main)
 
     def telaVendas(self):
          if not hasattr(self, 'frm_Vendas') or self.frm_Vendas is None or not self.frm_Vendas.isVisible():
@@ -475,7 +497,17 @@ class Ui_frm_Main(object):
                self.frm_Vendas.activateWindow()
 
     def telaContas(self):
-         if not hasattr(self, 'frm_Contas') or self.frm_Contas is None or not self.frm_Contas.isVisible():
+        if Controle.login == 'Usuário':
+                msg = QMessageBox()
+                msg.setWindowTitle("ERRO!")
+                msg.setText("Você não tem permissão para acessar esse frame!")
+                msg.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+                msg.setIcon(QMessageBox.Warning)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+                return
+         
+        if not hasattr(self, 'frm_Contas') or self.frm_Contas is None or not self.frm_Contas.isVisible():
 
                 self.frm_Contas = QWidget()
                 self.ui = Ui_frm_Contas()
@@ -485,7 +517,7 @@ class Ui_frm_Main(object):
                 self.frm_Contas.destroyed.connect(lambda: setattr(self, 'frm_Contas', None))
 
                 self.frm_Contas.show()
-         else:
+        else:
                self.frm_Contas.raise_()
                self.frm_Contas.activateWindow()
 
@@ -521,6 +553,16 @@ class Ui_frm_Main(object):
               self.frm_Tarefas.activateWindow()
 
     def TelaBancos(self):
+        if Controle.login == 'Usuário':
+                msg = QMessageBox()
+                msg.setWindowTitle("ERRO!")
+                msg.setText("Você não tem permissão para acessar esse frame!")
+                msg.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+                msg.setIcon(QMessageBox.Warning)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+                return
+
         if not hasattr(self, 'frm_Bancos') or self.Frm_Bancos is None or not self.Frm_Bancos.isVisible():
                 self.Frm_Bancos = QWidget()
                 self.ui = Ui_Frm_Bancos()
@@ -537,7 +579,7 @@ class Ui_frm_Main(object):
                 self.Frm_Bancos.activateWindow()
 
     def retranslateUi(self, frm_Main):
-        frm_Main.setWindowTitle(QCoreApplication.translate("frm_Main", u"Tela principal",))
+        frm_Main.setWindowTitle(QCoreApplication.translate("frm_Main", u"Tela Principal", None))
         self.actionCliente.setText(QCoreApplication.translate("frm_Main", u"Cliente", None))
         self.actionFornecedor.setText(QCoreApplication.translate("frm_Main", u"Fornecedor", None))
         self.actionUsu_rio_do_sistema.setText(QCoreApplication.translate("frm_Main", u"Usu\u00e1rio", None))
@@ -570,9 +612,11 @@ class Ui_frm_Main(object):
         self.label_2.setText(QCoreApplication.translate("frm_Main", u"Vers\u00e3o: 1.1", None))
         self.label_3.setText("")
         self.label_4.setText(QCoreApplication.translate("frm_Main", u"SOFTWARE E TECNOLOGIA", None))
+        self.lbl_login.setText(QCoreApplication.translate("frm_Main", u"Login", None))
         self.menuCadastros.setTitle(QCoreApplication.translate("frm_Main", u"Cadastros", None))
         self.menuFinanceiro.setTitle(QCoreApplication.translate("frm_Main", u"Financeiro", None))
     # retranslateUi
+        self.login()
 
         self.btn_sair.clicked.connect(self.sairSistema)
         self.btn_cliente.clicked.connect(self.telaCliente)
@@ -600,3 +644,4 @@ if __name__ == "__main__":
     ui.setupUi(frm_Main)
     frm_Main.show()
     app.exec()
+

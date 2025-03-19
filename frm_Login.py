@@ -203,6 +203,7 @@ class Ui_frm_Login(object):
 
         usuario = self.txt_Usuario.text()
         senha = self.txt_Senha.text()
+        situacaoo = ''
 
         mydb = mysql.connector.connect(
             host = Controle.host,
@@ -221,9 +222,11 @@ class Ui_frm_Login(object):
             
             credenciais_corretas = False
 
-            for usere, pasworde, permissao in myresult:
-                if usuario == usere and senha == pasworde:
+            for usere, pasworde, situacao in myresult:
+                if usuario == usere and senha == pasworde and situacao != situacaoo:
                      credenciais_corretas = True
+                     Controle.login = situacao
+                     print(Controle.login)
                      break
             
             if not credenciais_corretas:
@@ -268,7 +271,7 @@ class Ui_frm_Login(object):
                 self.frm_Main.activateWindow()
 
     def retranslateUi(self, frm_Login):
-        frm_Login.setWindowTitle(QCoreApplication.translate("frm_Login", u"MainWindow", None))
+        frm_Login.setWindowTitle(QCoreApplication.translate("frm_Login", u"Login", None))
         self.lbl_usuario.setText(QCoreApplication.translate("frm_Login", u"Usu\u00e1rio:", None))
         self.lbl_senha.setText(QCoreApplication.translate("frm_Login", u"Senha:", None))
         self.label_3.setText("")
