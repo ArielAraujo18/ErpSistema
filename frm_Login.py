@@ -6,15 +6,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QMainWindow,
-    QPushButton, QSizePolicy, QWidget, QMessageBox)
-from frm_Main import Ui_frm_Main
-
-import icon_TelaLogin
-
+    QPushButton, QSizePolicy, QWidget)
 import os
-import mysql.connector
-import pandas as pd
-import Controle
 
 class Ui_frm_Login(object):
     def setupUi(self, frm_Login):
@@ -29,13 +22,11 @@ class Ui_frm_Login(object):
 "}")
         self.centralwidget = QWidget(frm_Login)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.lbl_usuario = QLabel(self.centralwidget)
-        self.lbl_usuario.setObjectName(u"lbl_usuario")
-        self.lbl_usuario.setGeometry(QRect(30, 250, 111, 31))
-        font = QFont()
-        font.setBold(True)
-        self.lbl_usuario.setFont(font)
-        self.lbl_usuario.setStyleSheet(u"QLabel {\n"
+        self.centralwidget.setStyleSheet(u"background-color: #FFFFE0;")
+        self.lbl_senha = QLabel(self.centralwidget)
+        self.lbl_senha.setObjectName(u"lbl_senha")
+        self.lbl_senha.setGeometry(QRect(50, 170, 111, 31))
+        self.lbl_senha.setStyleSheet(u"QLabel {\n"
 "    font-size: 32px;\n"
 "    color: #FFFFFF;\n"
 "    font-weight: bold;\n"
@@ -54,7 +45,6 @@ class Ui_frm_Login(object):
 "    font-size: 30px; \n"
 "    background-color: #ffffff;\n"
 "    transition: all 0.3s ease;\n"
-"	color: #000000;\n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -84,7 +74,6 @@ class Ui_frm_Login(object):
 "    font-size: 30px; \n"
 "    background-color: #ffffff;\n"
 "    transition: all 0.3s ease;\n"
-"	color: #000000\n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -177,116 +166,38 @@ class Ui_frm_Login(object):
     def voltar(self):
         self.frm_Login.close()
 
-
-    def login(self):
-         
-        campos = {
-             'Usuario': self.txt_Usuario.text(),
-             'Senha': self.txt_Senha.text(),
-        }
-
-        for campo, valor in campos.items():
-             if not valor:
-                msg = QMessageBox()
-                msg.setWindowTitle("ERRO!")
-                msg.setText(f"O campo {campo} deve está preenchido!")
-                msg.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
-                msg.setIcon(QMessageBox.Warning)
-                msg.setStandardButtons(QMessageBox.Ok)
-                msg.exec()
-                return
-             
-        self.txt_Usuario.text()
-        self.txt_Senha.text()
-
-        usuario = self.txt_Usuario.text()
-        senha = self.txt_Senha.text()
-        situacaoo = ''
-
-        mydb = mysql.connector.connect(
-            host = Controle.host,
-            user = Controle.user,
-            password = Controle.password,
-            database = Controle.database,
-        )
-
-        mycursor = mydb.cursor()
-        mycursor.execute("SELECT `Email`, `SENHA`, `Permissão` FROM login")
-
-        myresult = mycursor.fetchall()
-        print(myresult)
-
-        if myresult:
-            
-            credenciais_corretas = False
-
-            for usere, pasworde, situacao in myresult:
-                if usuario == usere and senha == pasworde and situacao != situacaoo:
-                     credenciais_corretas = True
-                     Controle.login = situacao
-                     print(Controle.login)
-                     break
-            
-            if not credenciais_corretas:
-                msg = QMessageBox()
-                msg.setWindowTitle("ERRO!")
-                msg.setText("Credenciais incorretas")
-                msg.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
-                msg.setIcon(QMessageBox.Warning)
-                msg.setStandardButtons(QMessageBox.Ok)
-                msg.exec()
-                return
-            
-            else:
-                msg = QMessageBox()
-                msg.setWindowTitle("SUCESSO!")
-                msg.setText("Credenciais corretas, seja bem-vindo!")
-                msg.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
-                msg.setIcon(QMessageBox.NoIcon)
-                msg.setStandardButtons(QMessageBox.Ok)
-                msg.exec()
-                self.abrirTela()
-                self.voltar()
-
-        else:
-                
-                print("Email não encontrado!")  # Trate o caso de usuário inexistente
-
-    def abrirTela(self):                
-        if not hasattr(self, 'frm_Main') or self.frm_Main is None or not self.frm_Main.isVisible():
-
-                self.frm_Main = QMainWindow()
-                self.ui = Ui_frm_Main()
-                self.ui.setupUi(self.frm_Main)
-
-                self.frm_Main.setAttribute(Qt.WA_DeleteOnClose)
-                self.frm_Main.destroyed.connect(lambda: setattr(self, 'frm_Main', None))
-
-                self.frm_Main.show()
-
-        else:
-                self.frm_Main.raise_()
-                self.frm_Main.activateWindow()
-
     def retranslateUi(self, frm_Login):
         frm_Login.setWindowTitle(QCoreApplication.translate("frm_Login", u"Login", None))
-        self.lbl_usuario.setText(QCoreApplication.translate("frm_Login", u"E-mail:", None))
+        self.actionCliente.setText(QCoreApplication.translate("frm_Login", u"Cliente", None))
+        self.actionFornecedor.setText(QCoreApplication.translate("frm_Login", u"Fornecedor", None))
+        self.actionUsu_rio_do_sistema.setText(QCoreApplication.translate("frm_Login", u"Usu\u00e1rio", None))
+        self.actionVenda.setText(QCoreApplication.translate("frm_Login", u"Venda", None))
+        self.actionConsumo_de_produtos.setText(QCoreApplication.translate("frm_Login", u"Consumo de produtos", None))
+        self.actionSaldo.setText(QCoreApplication.translate("frm_Login", u"Saldo", None))
+        self.actionCompras_2.setText(QCoreApplication.translate("frm_Login", u"Compras", None))
+        self.actionPedido.setText(QCoreApplication.translate("frm_Login", u"Pedido", None))
+        self.actionCancelar_compra.setText(QCoreApplication.translate("frm_Login", u"Cancelar", None))
+        self.actionCaixa.setText(QCoreApplication.translate("frm_Login", u"Caixa", None))
+        self.actionBanco.setText(QCoreApplication.translate("frm_Login", u"Banco", None))
+        self.actionContas_para_pagar.setText(QCoreApplication.translate("frm_Login", u"Contas para pagar", None))
+        self.actionContas_para_receber.setText(QCoreApplication.translate("frm_Login", u"Contas para receber", None))
+        self.actionContas_pagas.setText(QCoreApplication.translate("frm_Login", u"Contas pagas", None))
+        self.actionContas_recebidas.setText(QCoreApplication.translate("frm_Login", u"Contas recebidas", None))
+        self.actionGeral.setText(QCoreApplication.translate("frm_Login", u"Geral", None))
+        self.actionResumido.setText(QCoreApplication.translate("frm_Login", u"Resumido", None))
+        self.actionGeral_3.setText(QCoreApplication.translate("frm_Login", u"Geral", None))
+        self.actionResumido_2.setText(QCoreApplication.translate("frm_Login", u"Resumido", None))
         self.lbl_senha.setText(QCoreApplication.translate("frm_Login", u"Senha:", None))
-        self.label_3.setText("")
-        self.label.setText(QCoreApplication.translate("frm_Login", u"AVS-SOFTWARES", None))
-        self.label_4.setText(QCoreApplication.translate("frm_Login", u"SOFTWARE E TECNOLOGIA", None))
-        self.label_2.setText(QCoreApplication.translate("frm_Login", u"BEM-VINDO!", None))
-        self.pushButton.setText(QCoreApplication.translate("frm_Login", u"ENTRAR", None))
-        self.pushButton_2.setText(QCoreApplication.translate("frm_Login", u"VOLTAR", None))
-        # retranslateUi
-        # retranslateUi
-        self.pushButton_2.clicked.connect(self.voltar)
-        self.pushButton.clicked.connect(self.login)
+        self.btn_cancelar.setText(QCoreApplication.translate("frm_Login", u"CANCELAR", None))
+        self.lbl_usuario.setText(QCoreApplication.translate("frm_Login", u"Usu\u00e1rio:", None))
+        self.btn_entrar.setText(QCoreApplication.translate("frm_Login", u"ENTRAR", None))
+    # retranslateUi
+        self.btn_cancelar.clicked.connect(self.sairTela)
 
 if __name__ == "__main__":
-        app = QApplication([])
-        frm_Login = QMainWindow()
-        ui = Ui_frm_Login()
-        ui.setupUi(frm_Login)
-        frm_Login.show()
-        app.exec()
+    app = QApplication([])
+    frm_Login = QMainWindow()
+    ui = Ui_frm_Login()
+    ui.setupUi(frm_Login)
+    frm_Login.show()
+    app.exec()
