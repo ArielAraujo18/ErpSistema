@@ -754,25 +754,23 @@ class Ui_frm_ValoresAReceber(object):
         mycursor = mydb.cursor()
 
         mycursor.execute("""
-            SELECT nome, valor FROM valores 
+            SELECT Nome, Valor FROM valores 
             WHERE Situação != 'PAGO' 
             ORDER BY CAST(REPLACE(valor, 'R$', '') AS DECIMAL(10,2)) DESC 
             LIMIT 1
         """)
 
-        resultado = mycursor.fetchall()
+        resultado = mycursor.fetchone()
 
         if resultado:
-            nome_maior_divida, maior_valor = resultado[0]
+            nome_maior_divida, maior_valor = resultado
 
             print(f'Maior dívida encontrada:  {nome_maior_divida} - {maior_valor}')
 
             maior_valor = float(maior_valor.replace("R$", "").replace(",", ".").strip())
 
-
             self.txt_NomeDoMaiorValorReceber.setText(nome_maior_divida)
             self.txt_MaiorValorAReceber.setText(f"R${maior_valor:,.2f}".replace(",", "."))
-
         else:
             self.txt_MaiorValorAReceber.setText("")
             self.txt_NomeDoMaiorValorReceber.setText("")

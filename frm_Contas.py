@@ -757,7 +757,6 @@ class Ui_frm_Contas(object):
 
         mycursor = mydb.cursor()
 
-        # Ajuste na query para desconsiderar valores com 'pago'
         mycursor.execute("""
             SELECT nome, valor FROM contas 
             WHERE Situação != 'pago' 
@@ -769,16 +768,13 @@ class Ui_frm_Contas(object):
         if resultado:
             nome_maior_divida, maior_valor = resultado
             
-            print(f"Maior dívida encontrada: {nome_maior_divida} - {maior_valor}")  # Debug
+            print(f"Maior dívida encontrada: {nome_maior_divida} - {maior_valor}") 
 
-            # Removendo "R$" e garantindo que seja número
             maior_valor = float(maior_valor.replace("R$", "").replace(",", ".").strip())  # Substitui a vírgula por ponto
 
-            # Atualiza os campos de texto
             self.txt_MaiorDivida.setText(nome_maior_divida)
-            self.txt_MaiorValor.setText(f"R${maior_valor:,.2f}".replace(",", "."))  # Formato correto
+            self.txt_MaiorValor.setText(f"R${maior_valor:,.2f}".replace(",", ".")) 
         else:
-            # Caso não tenha nenhuma dívida pendente, limpar os campos
             self.txt_MaiorDivida.setText("")
             self.txt_MaiorValor.setText("")
 
