@@ -459,12 +459,11 @@ class Ui_Frm_Bancos(object):
 
     def tabelaLucros(self):
 
-        print('Conectando...')
         mydb = mysql.connector.connect(
-                host = Controle.host,
-                user = Controle.user,
-                password = Controle.password,
-                database = Controle.database
+        host = Controle.host,
+        user = Controle.user,
+        password = Controle.password,
+        database = Controle.database
         )
         print('Conexão bem-sucedida!')
         mycursor = mydb.cursor()
@@ -473,23 +472,23 @@ class Ui_Frm_Bancos(object):
         mycursor.execute(consultaSQL)
         myresult = mycursor.fetchall()
 
-        #Criando DataFrame
         df = pd.DataFrame(myresult, columns=["Nome", "Valor", "Observação", "Quantidade"])
+
+        df.replace('', pd.NA, inplace=True) 
+        df = df.dropna(how='any') 
+
         self.all_data = df
 
-        #Configurando a tabela no Pyside
         numRows = len(self.all_data.index)
         numCols = len(self.all_data.columns)
         self.tableLucros.setColumnCount(numCols)
         self.tableLucros.setRowCount(numRows)
         self.tableLucros.setHorizontalHeaderLabels(self.all_data.columns)
 
-        #Preenchendo a tabela
         for i in range(numRows):
                 for j in range(numCols):
                         self.tableLucros.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
 
-        #Ajustando o layout das colunas e linhas
         self.tableLucros.resizeColumnsToContents()
         self.tableLucros.resizeRowsToContents()
 
@@ -522,7 +521,9 @@ class Ui_Frm_Bancos(object):
                 valor_raw = row[0]
                 quantidade = row[1]
 
-                if valor_raw is not None and quantidade is not None:
+                if valor_raw is not None and str(valor_raw).strip() != "" and \
+                quantidade is not None and str(quantidade).strip() != "":
+                        
                         if isinstance(valor_raw, (float, int)):
                                 valor_unitario = float(valor_raw)
                         else:
@@ -531,8 +532,8 @@ class Ui_Frm_Bancos(object):
                                 valor_str = valor_str.replace(",", ".")
                                 valor_unitario = float(valor_str)
 
-                total_item = valor_unitario * int(quantidade)
-                valores.append(total_item)
+                        total_item = valor_unitario * int(quantidade)
+                        valores.append(total_item)
 
         somaL = sum(valores)
         self.txt_lucros.setText(f"R${somaL:,.2f}")

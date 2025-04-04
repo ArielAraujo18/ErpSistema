@@ -8,7 +8,6 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
     QSizePolicy, QWidget, QMessageBox)
 
-
 import icon_pagamentoTe
 import icon_calcularTroco
 import os
@@ -21,14 +20,12 @@ import pandas as pd
 
 import icon_pagamentoTe
 
-
-
 class Ui_frm_TelaPagamento(object):
     def setupUi(self, frm_TelaPagamento):
         self.frm_TelaPagamento = frm_TelaPagamento
         if not frm_TelaPagamento.objectName():
             frm_TelaPagamento.setObjectName(u"frm_TelaPagamento")
-        frm_TelaPagamento.setFixedSize(524, 761)
+        frm_TelaPagamento.setFixedSize(524, 650)
         caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
         frm_TelaPagamento.setWindowIcon(QIcon(caminho_icone))
         frm_TelaPagamento.setStyleSheet(u"QWidget{\n"
@@ -154,7 +151,7 @@ class Ui_frm_TelaPagamento(object):
         self.txt_Total = QLineEdit(frm_TelaPagamento)
         self.txt_Total.setObjectName(u"txt_Total")
         self.txt_Total.setEnabled(False)
-        self.txt_Total.setGeometry(QRect(250, 460, 271, 41))
+        self.txt_Total.setGeometry(QRect(240, 410, 271, 41))
         self.txt_Total.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
@@ -172,17 +169,17 @@ class Ui_frm_TelaPagamento(object):
 "")
         self.label_6 = QLabel(frm_TelaPagamento)
         self.label_6.setObjectName(u"label_6")
-        self.label_6.setGeometry(QRect(10, 460, 241, 41))
+        self.label_6.setGeometry(QRect(0, 410, 241, 41))
         self.label_6.setStyleSheet(u"QLabel {\n"
 "    font-size: 32px;\n"
-"    color: #000000;\n"
+"    color: #FFFFFF;\n"
 "    font-weight: bold;\n"
 "    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
 "}")
         self.txt_Troco = QLineEdit(frm_TelaPagamento)
         self.txt_Troco.setObjectName(u"txt_Troco")
         self.txt_Troco.setEnabled(False)
-        self.txt_Troco.setGeometry(QRect(250, 530, 271, 41))
+        self.txt_Troco.setGeometry(QRect(240, 480, 271, 41))
         self.txt_Troco.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
@@ -200,16 +197,16 @@ class Ui_frm_TelaPagamento(object):
 "")
         self.label_7 = QLabel(frm_TelaPagamento)
         self.label_7.setObjectName(u"label_7")
-        self.label_7.setGeometry(QRect(10, 530, 131, 41))
+        self.label_7.setGeometry(QRect(0, 480, 131, 41))
         self.label_7.setStyleSheet(u"QLabel {\n"
 "    font-size: 32px;\n"
-"    color: #000000;\n"
+"    color: #FFFFFF;\n"
 "    font-weight: bold;\n"
 "    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
 "}")
         self.btn_CalcularTroco = QPushButton(frm_TelaPagamento)
         self.btn_CalcularTroco.setObjectName(u"btn_CalcularTroco")
-        self.btn_CalcularTroco.setGeometry(QRect(80, 620, 171, 121))
+        self.btn_CalcularTroco.setGeometry(QRect(120, 560, 121, 81))
         self.btn_CalcularTroco.setStyleSheet(u"QPushButton {\n"
 "    background-color: #ffffff; \n"
 "    border: 2px solid #d1c4b2; \n"
@@ -237,7 +234,7 @@ class Ui_frm_TelaPagamento(object):
 "}")
         self.btn_pagamento = QPushButton(frm_TelaPagamento)
         self.btn_pagamento.setObjectName(u"btn_pagamento")
-        self.btn_pagamento.setGeometry(QRect(300, 620, 171, 121))
+        self.btn_pagamento.setGeometry(QRect(280, 560, 121, 81))
         self.btn_pagamento.setStyleSheet(u"QPushButton {\n"
 "    background-color: #ffffff; \n"
 "    border: 2px solid #d1c4b2; \n"
@@ -527,12 +524,11 @@ class Ui_frm_TelaPagamento(object):
         self.label_7.setText(QCoreApplication.translate("frm_TelaPagamento", u"TROCO:", None))
         self.btn_CalcularTroco.setText("")
         self.btn_pagamento.setText("")
-
+    # retranslateUi
+    
         self.btn_CalcularTroco.clicked.connect(self.calculandoTroco)
         self.btn_pagamento.clicked.connect(self.finalizarCompra)
         self.adicionarValores()
-
-    # retranslateUi
 
 if __name__ == "__main__":
     app = QApplication([])
