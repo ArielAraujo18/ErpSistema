@@ -396,17 +396,13 @@ class Ui_frm_Tarefas(object):
 
         mycursor = mydb.cursor()
 
-        # Obtendo o valor do campo de texto corretamente
         nomeConsulta = self.txt_nomeTarefas.text()
 
-        # Corrigindo a query SQL (adicionando o nome da tabela e usando placeholders)
         consultaSQL = "SELECT * FROM tarefas WHERE Nome LIKE %s"
 
-        # Executando a consulta com um parâmetro seguro
         mycursor.execute(consultaSQL, (nomeConsulta + '%',))
         myresult = mycursor.fetchall()
 
-        # Criando DataFrame com os resultados
         df = pd.DataFrame(myresult, columns=["idTarefas", "Nome", "Início", "Fim", "Observação", "Situação"])
         self.all_data = df
 
@@ -424,7 +420,6 @@ class Ui_frm_Tarefas(object):
         self.tableWidget.resizeColumnsToContents()
         self.tableWidget.resizeRowsToContents()
 
-        # Fechando a conexão com o banco
         mydb.close()
 
     def pesquisarGeral(self):

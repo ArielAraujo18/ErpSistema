@@ -652,7 +652,7 @@ class Ui_frm_DadosContas(object):
     # setupUi
 
     def adiconarContas(self):
-        #Definição dos campos
+        #campos para verificação
         campos_comuns = {
             "Nome": self.txt_nome.text().strip(),
             "Observação": self.textEdit.toPlainText().strip(),
@@ -665,7 +665,7 @@ class Ui_frm_DadosContas(object):
         }
 
         for campo, valor in campos_comuns.items():
-            if not valor: #Verifica se o campo está vazio
+            if not valor: 
                 msg = QMessageBox()
                 msg.setWindowTitle("ERRO!")
                 msg.setText(f"O campo {campo} é obrigatório e não pode ficar vazio!")
@@ -754,7 +754,6 @@ class Ui_frm_DadosContas(object):
         self.comboFormaDePagamento.setCurrentIndex(0)
         self.comboSituacao.setCurrentIndex(0)
 
-        # Mensagem de sucesso
         msg = QMessageBox()
         msg.setWindowTitle("Sucesso!")
         msg.setText("Dívida adicionada com sucesso!")
@@ -800,7 +799,6 @@ class Ui_frm_DadosContas(object):
                 )
         mycursor = mydb.cursor()
 
-        #Query para nomes dos fornecedores
         mycursor.execute("SELECT `Razão Social` FROM fornecedor")
         resultados = mycursor.fetchall()
 
@@ -901,7 +899,7 @@ class Ui_frm_DadosContas(object):
         
         self.btn_cancelar.clicked.connect(self.sairTela)
 
-        #Condições da tela
+        #condições da tela
         if Controle.tiposTelaDadosCliente == 'incluir':
                 self.carregarFornecedores()
                 self.txt_nome.setEnabled(True)
@@ -940,7 +938,7 @@ class Ui_frm_DadosContas(object):
                 consultarSQL = "SELECT * FROM contas WHERE idContas = %s"
                 
                 mycursor.execute(consultarSQL, (Controle.idConsulta,))
-                myresult = mycursor.fetchone()  # Obtém o resultado como uma tupla
+                myresult = mycursor.fetchone()
 
                 nome = myresult[1]
                 emissao = myresult[2]
@@ -965,14 +963,13 @@ class Ui_frm_DadosContas(object):
                 mycursor.execute("SELECT `Razão Social` FROM fornecedor")
                 fornecedores = mycursor.fetchall()
                 
-                # Adicionar todos os fornecedores à ComboBox
+                #adicionando os fornecedores a combobox
                 for fornecedor_item in fornecedores:
                         self.comboFornecedor.addItem(fornecedor_item[0])
                 
-                # Definir o fornecedor atual na ComboBox
+                #adicionando os fornecedor selecionadoa combobox
                 self.comboFornecedor.setCurrentText(fornecedor)
                 
-                # Fechar o cursor e a conexão
                 mycursor.close()
                 mydb.close()
         

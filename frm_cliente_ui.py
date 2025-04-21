@@ -396,23 +396,20 @@ class Ui_frm_Cliente(object):
         mycursor.execute(consultaSQL)
         myresult = mycursor.fetchall()
 
-        # Criando DataFrame
         df = pd.DataFrame(myresult, columns=["idCliente", "Nome", "Celular", "Cpf", "Cidade", "Rua", "Bairro", "Número", "Cep", "E-mail", "Pontos"])
         self.all_data = df
 
-        # Configurando a tabela no Pyside
         numRows = len(self.all_data.index)
         numCols = len(self.all_data.columns)
         self.tableWidget.setColumnCount(numCols)
         self.tableWidget.setRowCount(numRows)
         self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
 
-        # Preenchendo a tabela
+        #adicionando na tabela
         for i in range(numRows):
                 for j in range(numCols):
                         self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
 
-        # Ajustando o layout das colunas e linhas
         self.tableWidget.resizeColumnsToContents()
         self.tableWidget.resizeRowsToContents()
 
@@ -420,9 +417,9 @@ class Ui_frm_Cliente(object):
 
 
     def sairTela(self, frm_Cliente):
-         Controle.tiposTelaDadosCliente == ''
-         frm_Cliente.close()
-         self.frm_Cliente = None
+
+        frm_Cliente.close()
+        self.frm_Cliente = None
 
 
     def pesquisarCliente(self):
@@ -442,29 +439,25 @@ class Ui_frm_Cliente(object):
 
         mycursor = mydb.cursor()
 
-        nomeConsulta = self.txt_nomeCliente.text()  # Obtendo o texto da caixa de pesquisa
+        nomeConsulta = self.txt_nomeCliente.text()
         consultaSQL = "SELECT * FROM cliente WHERE nome LIKE %s"
-        mycursor.execute(consultaSQL, ('%' + nomeConsulta + '%',))  # Parametrizando a consulta SQL
+        mycursor.execute(consultaSQL, ('%' + nomeConsulta + '%',))
 
-        myresult = mycursor.fetchall()  # Obtendo os resultados
+        myresult = mycursor.fetchall()
 
-        # Criando DataFrame
         df = pd.DataFrame(myresult, columns=["idCliente", "Nome", "Celular", "Cpf", "Cidade", "Rua", "Bairro", "Número", "Cep", "E-mail", "Pontos"])
         self.all_data = df
 
-        # Configurando a tabela no Pyside
         numRows = len(self.all_data.index)
         numCols = len(self.all_data.columns)
         self.tableWidget.setColumnCount(numCols)
         self.tableWidget.setRowCount(numRows)
         self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
 
-        # Preenchendo a tabela
         for i in range(numRows):
                 for j in range(numCols):
                         self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
 
-        # Ajustando o layout das colunas e linhas
         self.tableWidget.resizeColumnsToContents()
         self.tableWidget.resizeRowsToContents()
 
@@ -473,19 +466,18 @@ class Ui_frm_Cliente(object):
     def cadastrarCliente(self):
         Controle.tiposTelaDadosCliente = "incluir"
         if not hasattr(self, 'frm_DadosCliente') or self.frm_DadosCliente is None or not self.frm_DadosCliente.isVisible():
-              #Cria a tela se não tiver aberta
+              
               self.frm_DadosCliente = QWidget()
               self.ui = Ui_frm_DadosCliente()
               self.ui.setupUi(self.frm_DadosCliente)
 
-              #Config para garantir a remoção da referência ao fechar a janela
               self.frm_DadosCliente.setAttribute(Qt.WA_DeleteOnClose)
               self.frm_DadosCliente.destroyed.connect(lambda: setattr(self, 'frm_DadosCliente', None))
 
               self.frm_DadosCliente.show()
         
         else:
-             #Traz a janela existente
+
              self.frm_DadosCliente.raise_()
              self.frm_DadosCliente.activateWindow() 
 
@@ -495,7 +487,7 @@ class Ui_frm_Cliente(object):
         Controle.tiposTelaDadosCliente = "consultar"
         print('frmCliente: ', Controle.tiposTelaDadosCliente)
         
-        #verificar se há uma linha selecionada na tabela
+        #verifica se tem uma linha selecionada na tabela
         line = self.tableWidget.currentRow()
         
         if line == -1:  #se não houver linha selecionada
@@ -507,11 +499,11 @@ class Ui_frm_Cliente(object):
                 msg.setIcon(QMessageBox.Warning)
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
-                return  #não prosseguir com a consulta
+                return
         
-        item = self.tableWidget.item(line, 0)  #obtem o item da primeira coluna (ID do cliente)
+        item = self.tableWidget.item(line, 0) #pegando a linha selecionanda na tabela
         
-        if item:  #verifica se o item não é None
+        if item: 
                 Controle.idConsulta = item.text()
                 if not hasattr(self, 'frm_DadosCliente') or self.frm_DadosCliente is None or not self.frm_DadosCliente.isVisible():
                         #cria a tela se não tiver aberta
@@ -526,7 +518,6 @@ class Ui_frm_Cliente(object):
                         self.frm_DadosCliente.show()
                         
                 else:
-                        #Traz a janela existente
                         self.frm_DadosCliente.raise_()
                         self.frm_DadosCliente.activateWindow() 
 
@@ -539,14 +530,12 @@ class Ui_frm_Cliente(object):
                 msg.exec()
 
     def alterarCliente(self):
-        # Tipo tela dados Cliente
         Controle.tiposTelaDadosCliente = "alterar"
         print('frmCliente: ', Controle.tiposTelaDadosCliente)
         
-        # Verificar se há uma linha selecionada na tabela
         line = self.tableWidget.currentRow()
         
-        if line == -1:  # Se não houver linha selecionada
+        if line == -1: 
                 msg = QMessageBox()
                 msg.setWindowTitle("Erro de Seleção")
                 msg.setText("Por favor, selecione um cliente para alterar.")
@@ -555,26 +544,23 @@ class Ui_frm_Cliente(object):
                 msg.setIcon(QMessageBox.Warning)
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
-                return  # Não prosseguir com a alteração
+                return 
         
-        item = self.tableWidget.item(line, 0)  # Obtém o item da primeira coluna (ID do cliente)
+        item = self.tableWidget.item(line, 0) 
         
-        if item:  # Verifica se o item não é None
+        if item: 
                 Controle.idConsulta = item.text()
                 if not hasattr(self, 'frm_DadosCliente') or self.frm_DadosCliente is None or not self.frm_DadosCliente.isVisible():
-                        #Cria a tela se não tiver aberta
                         self.frm_DadosCliente = QWidget()
                         self.ui = Ui_frm_DadosCliente()
                         self.ui.setupUi(self.frm_DadosCliente)
 
-                        #Config para garantir a remoção da referência ao fechar a janela
                         self.frm_DadosCliente.setAttribute(Qt.WA_DeleteOnClose)
                         self.frm_DadosCliente.destroyed.connect(lambda: setattr(self, 'frm_DadosCliente', None))
 
                         self.frm_DadosCliente.show()
                 
                 else:
-                        #Traz a janela existente
                         self.frm_DadosCliente.raise_()
                         self.frm_DadosCliente.activateWindow() 
         else:
@@ -586,10 +572,9 @@ class Ui_frm_Cliente(object):
                 msg.exec()
 
     def excluirCliente(self):
-        # Verificar se há uma linha selecionada na tabela
         line = self.tableWidget.currentRow()
         
-        if line == -1:  # Se não houver linha selecionada
+        if line == -1: 
                 msg = QMessageBox()
                 msg.setWindowTitle("ERRO!")
                 msg.setText("Por favor, selecione um cliente para excluir.")
@@ -598,14 +583,12 @@ class Ui_frm_Cliente(object):
                 msg.setIcon(QMessageBox.Warning)
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
-                return  # Não prosseguir com a exclusão
+                return 
         
-        item = self.tableWidget.item(line, 0)  # Obtém o item da primeira coluna (ID do cliente)
+        item = self.tableWidget.item(line, 0) 
         
-        if item:  # Verifica se o item não é None
+        if item: 
                 idCliente = item.text()
-                
-                # Conexão com o banco de dados
                 mydb = mysql.connector.connect(
                 host = Controle.host,
                 user = Controle.user,
@@ -627,7 +610,6 @@ class Ui_frm_Cliente(object):
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
 
-                # Atualiza a tabela após a exclusão
                 mycursor.execute("SELECT * FROM cliente")
                 myresult = mycursor.fetchall()
                 df = pd.DataFrame(myresult, columns=['idCliente', 'Nome', 'Celular', 'Cpf', 'Cidade', 'Rua', 'Bairro', 'Número', 'Cep', 'E-mail', 'Pontos'])
@@ -646,7 +628,7 @@ class Ui_frm_Cliente(object):
 
                 mycursor.close()
         
-        else:  # Se o item não for encontrado
+        else:
                 msg = QMessageBox()
                 msg.setWindowTitle("Erro de Seleção")
                 msg.setText("Não foi possível obter o ID do cliente selecionado.")

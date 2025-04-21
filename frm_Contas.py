@@ -531,7 +531,7 @@ class Ui_frm_Contas(object):
         df = pd.DataFrame(myresult, columns=["idContas", "Nome", "Emissão", "Vencimento", "Fornecedor", "Observação", "Valor", "Parcelas", "Forma de pagamento", "Situação"])
         self.all_data = df
 
-        #Criando a tabela
+        #criando a tabela
         numRows = len(self.all_data.index)
         numCols = len(self.all_data.columns)
         self.tableWidget.setColumnCount(numCols)
@@ -647,7 +647,7 @@ class Ui_frm_Contas(object):
             msg.setIcon(QMessageBox.Warning)
             msg.setStandardButtons(QMessageBox.Ok)
             msg.exec()
-            return #Retorna se a codição for falsa
+            return 
 
         item = self.tableWidget.item(line, 0)
 
@@ -757,7 +757,6 @@ class Ui_frm_Contas(object):
 
         mycursor = mydb.cursor()
 
-        # Ajuste na query para desconsiderar valores com 'pago'
         mycursor.execute("""
             SELECT nome, valor FROM contas 
             WHERE Situação != 'pago' 
@@ -769,16 +768,13 @@ class Ui_frm_Contas(object):
         if resultado:
             nome_maior_divida, maior_valor = resultado
             
-            print(f"Maior dívida encontrada: {nome_maior_divida} - {maior_valor}")  # Debug
+            print(f"Maior dívida encontrada: {nome_maior_divida} - {maior_valor}") 
 
-            # Removendo "R$" e garantindo que seja número
             maior_valor = float(maior_valor.replace("R$", "").replace(",", ".").strip())  # Substitui a vírgula por ponto
 
-            # Atualiza os campos de texto
             self.txt_MaiorDivida.setText(nome_maior_divida)
-            self.txt_MaiorValor.setText(f"R${maior_valor:,.2f}".replace(",", "."))  # Formato correto
+            self.txt_MaiorValor.setText(f"R${maior_valor:,.2f}".replace(",", ".")) 
         else:
-            # Caso não tenha nenhuma dívida pendente, limpar os campos
             self.txt_MaiorDivida.setText("")
             self.txt_MaiorValor.setText("")
 
@@ -794,20 +790,20 @@ class Ui_frm_Contas(object):
 
         cursor = conexao.cursor()
 
-        # Query para somar todos os valores, ignorando as contas com a situação 'pago'
+        #querry para somar todos os valores que forem diferente de 'pago'
         cursor.execute("""
             SELECT SUM(CAST(REPLACE(valor, 'R$', '') AS DECIMAL(10,2))) 
             FROM contas 
             WHERE Situação != 'pago'
         """)
-        total_dividas = cursor.fetchone()[0]  # Pega o resultado da soma
+        total_dividas = cursor.fetchone()[0]  #resultado da soma
 
         if total_dividas is None:  
-            total_dividas = 0.0  # Caso não tenha nenhuma dívida, define como 0
+            total_dividas = 0.0  #se não tiver divida o valor é 0
 
-        print(f"Total de dívidas: R${total_dividas:,.2f}")  # Debug
+        print(f"Total de dívidas: R${total_dividas:,.2f}")  #para debug
 
-        # Exibir no campo de texto
+        #exibe no txt
         self.txt_SomaDividas.setText(f"R${total_dividas:,.2f}".replace(",", "."))  
 
         cursor.close()

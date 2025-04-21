@@ -410,26 +410,21 @@ class Ui_frm_Fornecedor(object):
         mycursor.execute(consultaSQL)
         myresult = mycursor.fetchall()
 
-        #Crianda DataFrame
         df = pd.DataFrame(myresult, columns=["idFornecedor", "Razão Social", "Contato", "Cnpj", "Cidade", "Rua", "Bairro", "Cep", "E-mail"])
         self.all_data = df
 
-        #Configurando a tabela 
         numRows = len(self.all_data.index)
         numCols = len(self.all_data.columns)
         self.tableWidget.setColumnCount(numCols)
         self.tableWidget.setRowCount(numRows)
         self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
 
-        #Preenchendo a tabela
         for i in range(numRows):
                 for j in range(numCols):
                         self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
         
-        #Layout das colunas e linhas                
         self.tableWidget.resizeColumnsToContents()
 
-        #Ajusta todas as linhas
         for row in range(self.tableWidget.rowCount()):
                 self.tableWidget.resizeRowToContents(row)
                 mydb.close()
@@ -445,29 +440,25 @@ class Ui_frm_Fornecedor(object):
         
         mycursor = mydb.cursor()
 
-        nomeConsulta = self.txt_nomeFornecedor.text().strip() #texto da caixa de pesquisa
+        nomeConsulta = self.txt_nomeFornecedor.text().strip()
         consultaSQL = 'SELECT * FROM fornecedor WHERE `Razão Social` LIKE %s'
-        mycursor.execute(consultaSQL, ('%' + nomeConsulta + '%',)) #Parametro da consulta sql
+        mycursor.execute(consultaSQL, ('%' + nomeConsulta + '%',)) 
 
         myresult = mycursor.fetchall() #resultados
 
-        #Criando df
         df = pd.DataFrame(myresult, columns=['idFornecedor', 'Razão Social', 'Contato', 'Cnpj', 'Cidade', 'Rua', 'Bairro', 'Cep', 'E-mail'])
         self.all_data = df
 
-        #Configurando a tbl no pyside
         numRows = len(self.all_data.index)
         numCols = len(self.all_data.columns)
         self.tableWidget.setColumnCount(numCols)
         self.tableWidget.setRowCount(numRows)
         self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
 
-        #tabela
         for i in range(numRows):
              for j in range(numCols):
                   self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
         
-        #Layout das colunas e lines
         self.tableWidget.resizeColumnsToContents()
         self.tableWidget.resizeRowsToContents()
 
@@ -476,18 +467,15 @@ class Ui_frm_Fornecedor(object):
     def cadastrarFornecedor(self):
         Controle.tiposTelaDadosCliente = 'incluir'
         if not hasattr(self, 'frm_DadosFornecedor') or self.frm_DadosFornecedor is None or not self.frm_DadosFornecedor.isVisible():
-                #Criando a tela
                 self.frm_DadosFornecedor= QWidget()
                 self.ui = Ui_frm_DadosFornecedor()
                 self.ui.setupUi(self.frm_DadosFornecedor)
 
-                #remoção da ref para fechar janela
                 self.frm_DadosFornecedor.setAttribute(Qt.WA_DeleteOnClose)
                 self.frm_DadosFornecedor.destroyed.connect(lambda: setattr(self, 'frm_DadosFornecedor', None))
 
                 self.frm_DadosFornecedor.show()
         else:
-             #Traz a janela aberta
              self.frm_DadosFornecedor.raise__()
              self.frm_DadosFornecedor.activateWindow()
 
@@ -498,10 +486,8 @@ class Ui_frm_Fornecedor(object):
         Controle.tiposTelaDadosCliente = 'consultar'
         print('frmFornecedor', Controle.tiposTelaDadosCliente)
 
-        #Verifica se há linha selecionada na tabela
         line = self.tableWidget.currentRow()
 
-        #Se não houver linha selecionada na tabela
         if line == -1:
              msg = QMessageBox()
              msg.setWindowTitle('ERRO!')
@@ -513,17 +499,15 @@ class Ui_frm_Fornecedor(object):
              msg.exec()
              return
         
-        item = self.tableWidget.item(line, 0) #primeiro item 
+        item = self.tableWidget.item(line, 0)
         
-        if item: #Verifica se não é none
+        if item:
              Controle.idConsulta = item.text()
              if not hasattr(self, 'frm_DadosFornecedor') or self.frm_DadosFornecedor is None or not self.frm_DadosFornecedor.isVisible():
-                #Cria a tela se não tiver aberta
                 self.frm_DadosFornecedor = QWidget()
                 self.ui = Ui_frm_DadosFornecedor()
                 self.ui.setupUi(self.frm_DadosFornecedor)
 
-                #Configuração para garantir a remoção da referência ao fechar a janela
                 self.frm_DadosFornecedor.setAttribute(Qt.WA_DeleteOnClose)
                 self.frm_DadosFornecedor.destroyed.connect(lambda: setattr(self, 'frm_DadosFornecedor', None))
 
@@ -541,13 +525,12 @@ class Ui_frm_Fornecedor(object):
              msg.exec()
 
     def alterarFornecedor(self):
-        #Tipo da tela
         Controle.tiposTelaDadosCliente = 'alterar'
         print('frm_Fornecedor', Controle.tiposTelaDadosCliente)
         
         line = self.tableWidget.currentRow() 
 
-        if line == -1: #Se não houver linha selecionada
+        if line == -1:
              msg = QMessageBox()
              msg.setWindowTitle('Erro de Seleção')
              msg.setText('Por favor, selecione algum fornecedor para alterar')
@@ -556,23 +539,21 @@ class Ui_frm_Fornecedor(object):
              msg.setIcon(QMessageBox.Warning)
              msg.setStandardButtons(QMessageBox.Ok)
              msg.exec()
-             return #Retorna e não prossegue
+             return
         
-        item = self.tableWidget.item(line, 0) #primeiro cliente
+        item = self.tableWidget.item(line, 0)
 
         if item:
                 Controle.idConsulta = item.text()
                 if not hasattr(self, 'frm_DadosFornecedor') or self.frm_DadosFornecedor is None or not self.frm_DadosFornecedor.isVisible():
-                        #Cria a tela se não tiver aberta
                         self.frm_DadosFornecedor = QWidget()
                         self.ui = Ui_frm_DadosFornecedor()
                         self.ui.setupUi(self.frm_DadosFornecedor)
 
-                        #Configuração para garantir a remoção da referência ao fechar a janela
+        
                         self.frm_DadosFornecedor.setAttribute(Qt.WA_DeleteOnClose)
                         self.frm_DadosFornecedor.destroyed.connect(lambda: setattr(self, 'frm_DadosFornecedor', None))
 
-                        #Abre a tela
                         self.frm_DadosFornecedor.show()
                 else:
                         self.frm_DadosFornecedor.raise_()
@@ -582,7 +563,7 @@ class Ui_frm_Fornecedor(object):
         
         line = self.tableWidget.currentRow()
 
-        if line == -1: #Sem linha selecionada
+        if line == -1:
              msg = QMessageBox()
              msg.setWindowTitle('Erro!')
              msg.setText('Por favor, selecione um forncedor para excluir.')
@@ -591,14 +572,13 @@ class Ui_frm_Fornecedor(object):
              msg.setIcon(QMessageBox.Warning)
              msg.setStandardButtons(QMessageBox.Ok)
              msg.exec()
-             return #Retorna se a codição for falsa
+             return 
         
-        item = self.tableWidget.item(line, 0) #Obtém o item da primeira coluna
+        item = self.tableWidget.item(line, 0) 
 
         if item:
              idFornecedor = item.text()
 
-             #Conexão com bd
              mydb = mysql.connector.connect(
                         host = Controle.host,
                         user = Controle.user,

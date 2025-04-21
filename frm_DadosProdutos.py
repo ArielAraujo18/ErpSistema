@@ -343,7 +343,7 @@ class Ui_frm_DadosProdutos(object):
 
     def adicionarProdutos(self):
 
-        # Definição de campos
+        #definindo campo
         campos_comuns = {
                 "Nome": self.txt_nome.text().strip(),
                 "Observação": self.textEdit.toPlainText().strip(),
@@ -353,9 +353,8 @@ class Ui_frm_DadosProdutos(object):
                 "Valor": self.txt_valor.text().strip(),
         }
 
-        # Validação dos campos comuns
         for campo, valor in campos_comuns.items():
-                if not valor:  # Verifica se o campo está vazio
+                if not valor:
                         msg = QMessageBox()
                         msg.setWindowTitle("ERRO!")
                         msg.setText(f"O campo '{campo}' é obrigatório e não pode ficar vazio!")
@@ -366,9 +365,7 @@ class Ui_frm_DadosProdutos(object):
                         msg.exec()
                         return
 
-        # Validação dos campos com máscara (exemplo: validação de número e valores)
         for campo, valor in campos_mask.items():
-                # Remove a máscara (exemplo: "R$", espaços, etc.)
                 valor_limpo = valor.replace("R$", "").replace(" ", "").replace(",", "").replace(".", "").strip()
                 
                 if not valor_limpo.isdigit():  # Verifica se é um número válido após a limpeza
@@ -381,6 +378,7 @@ class Ui_frm_DadosProdutos(object):
                         msg.setStandardButtons(QMessageBox.Ok)
                         msg.exec()
                         return
+                
         valor = self.txt_valor.text().strip()
         if "R$" not in valor:
                 msg = QMessageBox()
@@ -403,16 +401,12 @@ class Ui_frm_DadosProdutos(object):
                 msg.exec()
                 return
 
-
-        # Obtenção dos valores
         nome = self.txt_nome.text()
         quantidade = self.txt_qtd.text()
         valor = self.txt_valor.text()
-        fornecedor = self.comboBox.currentText()  # Pega o texto selecionado na ComboBox
+        fornecedor = self.comboBox.currentText() 
         obs = self.textEdit.toPlainText()
 
-        
-        # Conexão com o banco de dados
         mydb = mysql.connector.connect(
                 host = Controle.host,
                 user = Controle.user,
@@ -421,7 +415,7 @@ class Ui_frm_DadosProdutos(object):
         )
 
         mycursor = mydb.cursor()
-        # Query SQL corrigida (removida a vírgula extra)
+
         sql = "INSERT INTO produtos(`Nome`, `Quantidade`, `Valor`, `Fornecedor`, `Observação`) values (%s, %s, %s, %s, %s)"
         val = (nome, quantidade, valor, fornecedor, obs)
         mycursor.execute(sql, val)
@@ -431,21 +425,18 @@ class Ui_frm_DadosProdutos(object):
 
         print(mycursor.rowcount, 'Registro(s) inserido(s)')
 
-        # Fechar conexão
         mycursor.close()
         mydb.close()
 
         self.adicionarGastos(fornecedor)
         self.carregarFornecedores()        
 
-        # Limpar os campos após a inserção
         self.txt_nome.setText("")
         self.txt_qtd.setText("")
         self.txt_valor.setText("")
         self.textEdit.setPlainText("")
         self.comboBox.setCurrentIndex(0)
 
-        # Mensagem de sucesso
         msg = QMessageBox()
         msg.setWindowTitle("Sucesso!")
         msg.setText("Produto adicionado com sucesso!")
@@ -476,64 +467,62 @@ class Ui_frm_DadosProdutos(object):
         print(mycursor.rowcount, 'Registro(s) inserido(s) em gastos')
 
     def carregarFornecedores(self):
-        #Conexão com o banco de dados
-                mydb = mysql.connector.connect(
-                        host = Controle.host,
-                        user = Controle.user,
-                        password = Controle.password,
-                        database = Controle.database
-                )
-                mycursor = mydb.cursor()
 
-                #Query para nomes dos fornecedores
-                mycursor.execute("SELECT `Razão Social` FROM fornecedor")
-                resultados = mycursor.fetchall()
-                
-                self.comboBox.clear()
-
-                # Adiciona os fornecedores na ComboBox
-                for fornecedor in resultados:
-                        print(f"Adicionando fornecedor: {fornecedor[0]}")  # Imprime para depuração
-                        self.comboBox.addItem(fornecedor[0])
-
-                mycursor.close()
-                mydb.close()
-
-    def sairTela(self, frm_DadosProdutos):
-           frm_DadosProdutos.close()
-
-    def alterarProdutos(self):
-           nome = self.txt_nome.text()
-           quantidade = self.txt_qtd.text()
-           valor = self.txt_valor.text()
-           fornecedor = self.comboBox.currentText()
-           obs = self.textEdit.toPlainText()
-
-           mydb = mysql.connector.connect(
+        mydb = mysql.connector.connect(
                 host = Controle.host,
                 user = Controle.user,
                 password = Controle.password,
                 database = Controle.database
-           )
-           mycursor = mydb.cursor()
-           sql = """ UPDATE Produtos
-                        SET Nome = %s, Quantidade = %s, Valor = %s, Fornecedor = %s, `Observação` = %s
-                        WHERE IdProdutos = %s
-                                """
-           val = (nome, quantidade, valor, fornecedor, obs, Controle.idConsulta)
-           mycursor.execute(sql, val)
-           mydb.commit()
+        )
+        mycursor = mydb.cursor()
 
-           msg = QMessageBox()
-           msg.setWindowTitle('Sucesso!')
-           msg.setText('Fornecedor alterado com sucesso!')
-           caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
-           msg.setWindowIcon(QIcon(caminho_icone))
-           msg.setIcon(QMessageBox.Information)
-           msg.setStandardButtons(QMessageBox.Ok)
-           msg.exec()
+        mycursor.execute("SELECT `Razão Social` FROM fornecedor")
+        resultados = mycursor.fetchall()
+                
+        self.comboBox.clear()
 
-           self.frm_DadosProdutos.close()
+        for fornecedor in resultados:
+                print(f"Adicionando fornecedor: {fornecedor[0]}")  # Imprime para depuração
+                self.comboBox.addItem(fornecedor[0])
+
+        mycursor.close()
+        mydb.close()
+
+    def sairTela(self, frm_DadosProdutos):
+        frm_DadosProdutos.close()
+
+    def alterarProdutos(self):
+        nome = self.txt_nome.text()
+        quantidade = self.txt_qtd.text()
+        valor = self.txt_valor.text()
+        fornecedor = self.comboBox.currentText()
+        obs = self.textEdit.toPlainText()
+
+        mydb = mysql.connector.connect(
+        host = Controle.host,
+        user = Controle.user,
+        password = Controle.password,
+        database = Controle.database
+        )
+        mycursor = mydb.cursor()
+        sql = """ UPDATE Produtos
+                SET Nome = %s, Quantidade = %s, Valor = %s, Fornecedor = %s, `Observação` = %s
+                WHERE IdProdutos = %s
+                        """
+        val = (nome, quantidade, valor, fornecedor, obs, Controle.idConsulta)
+        mycursor.execute(sql, val)
+        mydb.commit()
+
+        msg = QMessageBox()
+        msg.setWindowTitle('Sucesso!')
+        msg.setText('Fornecedor alterado com sucesso!')
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        msg.setWindowIcon(QIcon(caminho_icone))
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec()
+
+        self.frm_DadosProdutos.close()
 
 
 
@@ -587,20 +576,17 @@ class Ui_frm_DadosProdutos(object):
                 mycursor.execute(consultaSQL, (Controle.idConsulta,))
                 myresult = mycursor.fetchall()
                 
-                # Convertendo de BD para DataFrame
                 df = pd.DataFrame(myresult, columns=["Nome", "Quantidade", "Valor", "Fornecedor", "Observação"])
                 
-                # Extraindo os dados
                 self.txt_nome.setText(str(df['Nome'][0]))
                 self.txt_qtd.setText(str(df['Quantidade'][0]))
                 self.txt_valor.setText(str(df['Valor'][0]))
-                #Adicionando forncedor na comboBox
+                #adicionando fornecedor na combobox
                 fornecedor = str(df['Fornecedor'][0])
                 print("Fornecedor:", fornecedor)
-                #Verificando se o fornecedor já existe na lista de itens da comboBox
+                #verificando se o fornecedor existe
                 if fornecedor not in [self.comboBox.itemText(i) for i in range(self.comboBox.count())]:
                         self.comboBox.addItem(fornecedor)
-                #Definindo o texto atual da comboBox
                 self.comboBox.setCurrentText(fornecedor)
                 self.textEdit.setText(str(df['Observação'][0]))
         elif Controle.tiposTelaDadosCliente == 'incluir':
@@ -635,12 +621,12 @@ class Ui_frm_DadosProdutos(object):
                 
                 consultarSQL = "SELECT * FROM produtos WHERE idProdutos = '" + Controle.idConsulta + "'"
                 mycursor.execute(consultarSQL)
-                myresult = mycursor.fetchone()  # Obtém o resultado como uma tupla
+                myresult = mycursor.fetchone()
                 
                 nome = myresult[1]
                 quantidade = myresult[2]
                 valor = myresult[3]
-                fornecedor_atual = myresult[4]  # O fornecedor do produto atual
+                fornecedor_atual = myresult[4]
                 obs = myresult[5]
 
                
@@ -649,21 +635,16 @@ class Ui_frm_DadosProdutos(object):
                 self.txt_valor.setText(str(valor))
                 self.textEdit.setText(obs)
                 
-                #limpar a ComboBox
                 self.comboBox.clear()
 
-                #consultar todos os fornecedores
                 mycursor.execute("SELECT `Razão Social` FROM fornecedor")
                 fornecedores = mycursor.fetchall()
                 
-                # Adicionar todos os fornecedores à ComboBox
                 for fornecedor_item in fornecedores:
                         self.comboBox.addItem(fornecedor_item[0])
                 
-                # Definir o fornecedor atual na ComboBox
                 self.comboBox.setCurrentText(fornecedor_atual)
                 
-                # Fechar o cursor e a conexão
                 mycursor.close()
                 mydb.close()
 

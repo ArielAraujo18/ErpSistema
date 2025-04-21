@@ -566,12 +566,12 @@ class Ui_Frm_VendasDiarias(object):
         self.lbl_nome_3.setText(QCoreApplication.translate("Frm_VendasDiarias", u"SOMA TOTAL:", None))
     # retranslateUi
 
-        #self.btn_Visualizar.clicked.connect(self.filtrarPorData)
         self.btn_Visualizar.clicked.connect(self.visualizar)
         self.adicionarData()
         self.btn_voltar.clicked.connect(self.sairTela)
         self.btn_Visualizar.clicked.connect(self.visualizarTotal)
         self.btn_consul.clicked.connect(self.consultar)
+        self.btn_Visualizar.clicked.connect(self.filtrarPorData)
         
 if __name__ == "__main__":
     app = QApplication([])

@@ -513,7 +513,6 @@ class Ui_frm_DadosTarefas(object):
             self.textEdit.setText(obs)
             self.comboSituacao.setCurrentText(situacao)
 
-            # Fechar o cursor e a conexão
             mycursor.close()
             mydb.close()
         elif Controle.tiposTelaDadosCliente == 'consultar':

@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Servidor:                     127.0.0.1
--- Versão do servidor:           8.0.40 - MySQL Community Server - GPL
--- OS do Servidor:               Win64
--- HeidiSQL Versão:              12.8.0.6908
+-- Versão do servidor:           8.0.41-0ubuntu0.22.04.1 - (Ubuntu)
+-- OS do Servidor:               Linux
+-- HeidiSQL Versão:              12.10.0.7000
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `cliente` (
   `E-mail` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `Pontos` int DEFAULT NULL,
   PRIMARY KEY (`idCliente`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Exportação de dados foi desmarcado.
 
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `contas` (
   `Forma de pagamento` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `Situação` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`idContas`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Exportação de dados foi desmarcado.
 
@@ -87,7 +87,16 @@ CREATE TABLE IF NOT EXISTS `fornecedor` (
   `Cep` varchar(50) NOT NULL,
   `E-mail` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`idFornecedor`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Exportação de dados foi desmarcado.
+
+-- Copiando estrutura para tabela sistema.login
+CREATE TABLE IF NOT EXISTS `login` (
+  `Usuário` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `Senha` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `Permissão` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Exportação de dados foi desmarcado.
 
@@ -95,12 +104,13 @@ CREATE TABLE IF NOT EXISTS `fornecedor` (
 CREATE TABLE IF NOT EXISTS `produtos` (
   `idProdutos` int NOT NULL AUTO_INCREMENT,
   `Nome` varchar(100) DEFAULT NULL,
+  `Emissão` varchar(100) DEFAULT NULL,
   `Quantidade` int DEFAULT NULL,
   `Valor` varchar(50) DEFAULT NULL,
   `Fornecedor` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `Observação` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY (`idProdutos`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Exportação de dados foi desmarcado.
 
@@ -113,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `tarefas` (
   `Observação` varchar(500) DEFAULT NULL,
   `Situação` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`idTarefas`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Exportação de dados foi desmarcado.
 
@@ -137,13 +147,14 @@ CREATE TABLE IF NOT EXISTS `valores` (
   `Forma de pagamento` varchar(50) DEFAULT NULL,
   `Situação` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`idValores`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Exportação de dados foi desmarcado.
 
 -- Copiando estrutura para tabela sistema.vendas
 CREATE TABLE IF NOT EXISTS `vendas` (
   `Produto` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'indefinido',
+  `Data` varchar(50) DEFAULT NULL,
   `Quantidade` int DEFAULT NULL,
   `Valor` varchar(50) DEFAULT NULL,
   `IdProduto` int DEFAULT NULL,
@@ -151,6 +162,18 @@ CREATE TABLE IF NOT EXISTS `vendas` (
   `Cliente` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `Total` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Exportação de dados foi desmarcado.
+
+-- Copiando estrutura para tabela sistema.vendas-consulta
+CREATE TABLE IF NOT EXISTS `vendas-consulta` (
+  `idVendas` int NOT NULL AUTO_INCREMENT,
+  `Nome/Produto` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `Data` date DEFAULT NULL,
+  `Valor` varchar(50) DEFAULT NULL,
+  `Quantidade` int DEFAULT NULL,
+  PRIMARY KEY (`idVendas`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Exportação de dados foi desmarcado.
 

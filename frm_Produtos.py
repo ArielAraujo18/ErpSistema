@@ -400,11 +400,9 @@ class Ui_frm_Produtos(object):
         mycursor.execute(consultaSQL)
         myresult = mycursor.fetchall()
 
-        #Criando Dataframe
         df = pd.DataFrame(myresult, columns=["idProdutos", "Nome", "Quantidade", "Valor", "Fornecedor", "Observação"])
         self.all_data = df
 
-        #Criando a tabela
         numRows = len(self.all_data.index)
         numCols = len(self.all_data.columns)
         self.tableWidget.setColumnCount(numCols)
@@ -494,7 +492,6 @@ class Ui_frm_Produtos(object):
         if item:
             Controle.idConsulta = item.text()
             if not hasattr(self, 'frm_DadosProdutos') or self.frm_DadosProdutos is None or not self.frm_DadosProdutos.isVisible():
-                #Cria a tabela se não tiver aberta
                 self.frm_DadosProdutos = QWidget()
                 self.ui = Ui_frm_DadosProdutos()
                 self.ui.setupUi(self.frm_DadosProdutos)
@@ -529,19 +526,17 @@ class Ui_frm_Produtos(object):
             msg.setIcon(QMessageBox.Warning)
             msg.setStandardButtons(QMessageBox.Ok)
             msg.exec()
-            return #Retorna e não prossegue
+            return
 
         item = self.tableWidget.item(line, 0)
 
         if item:
             Controle.idConsulta = item.text()
             if not hasattr(self, 'frm_DadosProdutos') or self.frm_DadosProdutos is None or not self.frm_DadosProdutos.isVisible():
-                #Cria a tela
                 self.frm_DadosProdutos = QWidget()
                 self.ui = Ui_frm_DadosProdutos()
                 self.ui.setupUi(self.frm_DadosProdutos)
 
-                #Config para garantir a remoção da referência ao fechar a janela
                 self.frm_DadosProdutos.setAttribute(Qt.WA_DeleteOnClose)
                 self.frm_DadosProdutos.destroyed.connect(lambda: setattr(self, 'frm_DadosProdutos', None))
 
@@ -563,7 +558,7 @@ class Ui_frm_Produtos(object):
             msg.setIcon(QMessageBox.Warning)
             msg.setStandardButtons(QMessageBox.Ok)
             msg.exec()
-            return #Retorna se a codição for falsa
+            return
 
         item = self.tableWidget.item(line, 0)
 
@@ -606,7 +601,6 @@ class Ui_frm_Produtos(object):
 
             self.tableWidget.resizeColumnsToContents()
 
-            # Redimensiona todas as linhas
             for row in range(self.tableWidget.rowCount()):
                 self.tableWidget.resizeRowToContents(row)
 

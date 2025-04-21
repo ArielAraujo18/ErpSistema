@@ -817,7 +817,7 @@ class Ui_Frm_Vendas(object):
         self.atualizarTabela()
         
         if produtos_id is not None:
-                produtos_valor = self.produtos_info.get(produtos_id, 0.0)  #retorna 0.0 caso não encontre
+                produtos_valor = self.produtos_info.get(produtos_id, 0.0)
                 
                 self.txtIdProduto.setText(str(produtos_id))
                 self.txtValor.setText(f"R$ {produtos_valor:.2f}".replace(".", ","))
@@ -828,7 +828,7 @@ class Ui_Frm_Vendas(object):
 
     def adicionarAoCarrinho(self):
         produto = self.comboProd.currentText()
-        data = self.txtQtd_2.text() #Campos data
+        data = self.txtQtd_2.text() #campo data
         quantidade = self.txtQtd.text()
         quantidadee = self.txt_Qtd.text()
         valor = self.txtValor.text().replace("R$", "").replace(",", ".").strip()
@@ -855,7 +855,7 @@ class Ui_Frm_Vendas(object):
         }
 
         for campo, preenchido in campos_comuns.items():
-                if not preenchido:  # Verificando se o campo está vazio
+                if not preenchido: 
                         msg = QMessageBox()
                         msg.setWindowTitle("ERRO!")
                         msg.setText(f"O campo '{campo}' é obrigatório e não pode ficar vazio!")

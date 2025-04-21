@@ -524,7 +524,7 @@ class Ui_frm_ValoresAReceber(object):
         print("Conexão bem sucedida")
         
         mycursor = mydb.cursor()
-        nomeConsulta = self.txt_nomeContas.text() #Esqueci de trocar o nome da variavel
+        nomeConsulta = self.txt_nomeContas.text() 
         consultaSQL = "SELECT * FROM valores WHERE Nome LIKE '" + nomeConsulta + "%'"
         mycursor.execute(consultaSQL)
         myresult = mycursor.fetchall()
@@ -560,7 +560,7 @@ class Ui_frm_ValoresAReceber(object):
 
         mycursor = mydb.cursor()
 
-        nomeConsulta = self.txt_nomeContas.text() #Esqueci de mudar o nome da variavel
+        nomeConsulta = self.txt_nomeContas.text()
         consultaSQL = "SELECT * FROM valores WHERE nome LIKE     %s"
         mycursor.execute(consultaSQL, ('%' + nomeConsulta + '%',))
 
@@ -651,7 +651,7 @@ class Ui_frm_ValoresAReceber(object):
             msg.setIcon(QMessageBox.Warning)
             msg.setStandardButtons(QMessageBox.Ok)
             msg.exec()
-            return #Retorna se a codição for falsa
+            return
         
         item = self.tableWidget.item(line, 0)
 
@@ -754,30 +754,27 @@ class Ui_frm_ValoresAReceber(object):
         mycursor = mydb.cursor()
 
         mycursor.execute("""
-            SELECT nome, valor FROM valores 
+            SELECT Nome, Valor FROM valores 
             WHERE Situação != 'PAGO' 
             ORDER BY CAST(REPLACE(valor, 'R$', '') AS DECIMAL(10,2)) DESC 
             LIMIT 1
         """)
 
-        resultado = mycursor.fetchall()
+        resultado = mycursor.fetchone()
 
         if resultado:
-            # Aqui corrigimos para acessar os elementos da tupla corretamente
-            nome_maior_divida, maior_valor = resultado[0]
+            nome_maior_divida, maior_valor = resultado
 
             print(f'Maior dívida encontrada:  {nome_maior_divida} - {maior_valor}')
 
-            maior_valor = float(maior_valor.replace("R$", "").replace(",", ".").strip())  # Substitui a vírgula por ponto
+            maior_valor = float(maior_valor.replace("R$", "").replace(",", ".").strip())
 
-            # Atualiza os campos de texto
             self.txt_NomeDoMaiorValorReceber.setText(nome_maior_divida)
-            self.txt_MaiorValorAReceber.setText(f"R${maior_valor:,.2f}".replace(",", "."))  # Formato correto
-
+            self.txt_MaiorValorAReceber.setText(f"R${maior_valor:,.2f}".replace(",", "."))
         else:
-            # Caso não tenha nenhuma dívida pendente, limpar os campos
-            self.txt_MaiorDivida.setText("")
-            self.txt_MaiorValor.setText("")
+            self.txt_MaiorValorAReceber.setText("")
+            self.txt_NomeDoMaiorValorReceber.setText("")
+
 
         mycursor.close()
 
@@ -791,20 +788,19 @@ class Ui_frm_ValoresAReceber(object):
 
         cursor = conexao.cursor()
 
-        # Query para somar todos os valores, ignorando as contas com a situação 'pago'
+        #querry para soma todos os valores que forem diferentes de 'pago'
         cursor.execute("""
             SELECT SUM(CAST(REPLACE(valor, 'R$', '') AS DECIMAL(10,2))) 
             FROM valores 
             WHERE Situação != 'PAGO'
         """)
-        total_dividas = cursor.fetchone()[0]  # Pega o resultado da soma
+        total_dividas = cursor.fetchone()[0]
 
         if total_dividas is None:  
-            total_dividas = 0.0  # Caso não tenha nenhuma dívida, define como 0
+            total_dividas = 0.0 
 
-        print(f"Total de dívidas: R${total_dividas:,.2f}")  # Debug
+        print(f"Total de dívidas: R${total_dividas:,.2f}") 
 
-        # Exibir no campo de texto
         self.txt_SomaDosValores.setText(f"R${total_dividas:,.2f}".replace(",", "."))  
 
         cursor.close()

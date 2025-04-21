@@ -17,12 +17,11 @@ import mysql.connector
 import pandas as pd
 import Controle
 
-
 class Ui_frm_Login(object):
     def setupUi(self, frm_Login):
         if not frm_Login.objectName():
             frm_Login.setObjectName(u"frm_Login")
-        frm_Login.setFixedSize(674, 791)
+        frm_Login.setFixedSize(674, 635)
         caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
         frm_Login.setWindowIcon(QIcon(caminho_icone))
         self.frm_Login = frm_Login
@@ -33,7 +32,7 @@ class Ui_frm_Login(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.lbl_usuario = QLabel(self.centralwidget)
         self.lbl_usuario.setObjectName(u"lbl_usuario")
-        self.lbl_usuario.setGeometry(QRect(10, 250, 131, 31))
+        self.lbl_usuario.setGeometry(QRect(30, 150, 111, 31))
         font = QFont()
         font.setBold(True)
         self.lbl_usuario.setFont(font)
@@ -46,7 +45,7 @@ class Ui_frm_Login(object):
 "")
         self.txt_Usuario = QLineEdit(self.centralwidget)
         self.txt_Usuario.setObjectName(u"txt_Usuario")
-        self.txt_Usuario.setGeometry(QRect(150, 240, 511, 51))
+        self.txt_Usuario.setGeometry(QRect(150, 140, 511, 51))
         font1 = QFont()
         self.txt_Usuario.setFont(font1)
         self.txt_Usuario.setStyleSheet(u"QLineEdit {\n"
@@ -56,7 +55,7 @@ class Ui_frm_Login(object):
 "    font-size: 30px; \n"
 "    background-color: #ffffff;\n"
 "    transition: all 0.3s ease;\n"
-"    color: #000000;\n"
+"	color: #000000;\n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -66,7 +65,7 @@ class Ui_frm_Login(object):
 "")
         self.lbl_senha = QLabel(self.centralwidget)
         self.lbl_senha.setObjectName(u"lbl_senha")
-        self.lbl_senha.setGeometry(QRect(30, 330, 111, 31))
+        self.lbl_senha.setGeometry(QRect(30, 230, 111, 31))
         self.lbl_senha.setFont(font)
         self.lbl_senha.setStyleSheet(u"QLabel {\n"
 "    font-size: 32px;\n"
@@ -77,7 +76,7 @@ class Ui_frm_Login(object):
 "")
         self.txt_Senha = QLineEdit(self.centralwidget)
         self.txt_Senha.setObjectName(u"txt_Senha")
-        self.txt_Senha.setGeometry(QRect(150, 320, 511, 51))
+        self.txt_Senha.setGeometry(QRect(150, 220, 511, 51))
         self.txt_Senha.setFont(font1)
         self.txt_Senha.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
@@ -86,7 +85,7 @@ class Ui_frm_Login(object):
 "    font-size: 30px; \n"
 "    background-color: #ffffff;\n"
 "    transition: all 0.3s ease;\n"
-"    color: #000000;\n"
+"	color: #000000;\n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -97,7 +96,7 @@ class Ui_frm_Login(object):
         self.txt_Senha.setEchoMode(QLineEdit.Password)
         self.label_3 = QLabel(self.centralwidget)
         self.label_3.setObjectName(u"label_3")
-        self.label_3.setGeometry(QRect(300, 570, 81, 121))
+        self.label_3.setGeometry(QRect(300, 430, 81, 121))
         self.label_3.setStyleSheet(u"QLabel{\n"
 "	background: url(:/icon_login/avsIconLogo.png);\n"
 "	background-repeat: no-repeat; \n"
@@ -105,7 +104,7 @@ class Ui_frm_Login(object):
 "}")
         self.label = QLabel(self.centralwidget)
         self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(210, 700, 251, 31))
+        self.label.setGeometry(QRect(210, 560, 251, 31))
         self.label.setFont(font1)
         self.label.setStyleSheet(u"QLabel {\n"
 "    font-size: 32px;\n"
@@ -113,7 +112,7 @@ class Ui_frm_Login(object):
 "}")
         self.label_4 = QLabel(self.centralwidget)
         self.label_4.setObjectName(u"label_4")
-        self.label_4.setGeometry(QRect(240, 740, 201, 20))
+        self.label_4.setGeometry(QRect(240, 600, 201, 20))
         self.label_4.setFont(font1)
         self.label_4.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
@@ -121,7 +120,7 @@ class Ui_frm_Login(object):
 "}")
         self.label_2 = QLabel(self.centralwidget)
         self.label_2.setObjectName(u"label_2")
-        self.label_2.setGeometry(QRect(140, 70, 401, 81))
+        self.label_2.setGeometry(QRect(140, 10, 401, 81))
         self.label_2.setStyleSheet(u"QLabel{\n"
 "    font-size: 60px;\n"
 "    font-weight: bold;\n"
@@ -131,7 +130,7 @@ class Ui_frm_Login(object):
 "}")
         self.pushButton = QPushButton(self.centralwidget)
         self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setGeometry(QRect(170, 410, 481, 91))
+        self.pushButton.setGeometry(QRect(170, 310, 481, 91))
         self.pushButton.setStyleSheet(u"QPushButton {\n"
 "    background-color: #007BFF; \n"
 "    color: white;\n"
@@ -151,7 +150,7 @@ class Ui_frm_Login(object):
 "}")
         self.pushButton_2 = QPushButton(self.centralwidget)
         self.pushButton_2.setObjectName(u"pushButton_2")
-        self.pushButton_2.setGeometry(QRect(10, 410, 141, 91))
+        self.pushButton_2.setGeometry(QRect(10, 310, 141, 91))
         self.pushButton_2.setStyleSheet(u"QPushButton {\n"
 "    background-color: #6c757d; \n"
 "    color: white; \n"
@@ -192,7 +191,8 @@ class Ui_frm_Login(object):
                 msg = QMessageBox()
                 msg.setWindowTitle("ERRO!")
                 msg.setText(f"O campo {campo} deve está preenchido!")
-                msg.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+                caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+                msg.setWindowIcon(QIcon(caminho_icone))
                 msg.setIcon(QMessageBox.Warning)
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
@@ -213,7 +213,7 @@ class Ui_frm_Login(object):
         )
 
         mycursor = mydb.cursor()
-        mycursor.execute("SELECT `Usuário`, `SENHA`, `Permissão` FROM login")
+        mycursor.execute("SELECT `Email`, `SENHA`, `Permissão` FROM login")
 
         myresult = mycursor.fetchall()
         print(myresult)
@@ -233,7 +233,8 @@ class Ui_frm_Login(object):
                 msg = QMessageBox()
                 msg.setWindowTitle("ERRO!")
                 msg.setText("Credenciais incorretas")
-                msg.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+                caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+                msg.setWindowIcon(QIcon(caminho_icone))
                 msg.setIcon(QMessageBox.Warning)
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
@@ -243,7 +244,8 @@ class Ui_frm_Login(object):
                 msg = QMessageBox()
                 msg.setWindowTitle("SUCESSO!")
                 msg.setText("Credenciais corretas, seja bem-vindo!")
-                msg.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+                caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+                msg.setWindowIcon(QIcon(caminho_icone))
                 msg.setIcon(QMessageBox.NoIcon)
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
@@ -252,7 +254,7 @@ class Ui_frm_Login(object):
 
         else:
                 
-                print("Usuário não encontrado!")  # Trate o caso de usuário inexistente
+                print("Email não encontrado!")
 
     def abrirTela(self):                
         if not hasattr(self, 'frm_Main') or self.frm_Main is None or not self.frm_Main.isVisible():
@@ -272,7 +274,7 @@ class Ui_frm_Login(object):
 
     def retranslateUi(self, frm_Login):
         frm_Login.setWindowTitle(QCoreApplication.translate("frm_Login", u"Login", None))
-        self.lbl_usuario.setText(QCoreApplication.translate("frm_Login", u"Usu\u00e1rio:", None))
+        self.lbl_usuario.setText(QCoreApplication.translate("frm_Login", u"E-mail:", None))
         self.lbl_senha.setText(QCoreApplication.translate("frm_Login", u"Senha:", None))
         self.label_3.setText("")
         self.label.setText(QCoreApplication.translate("frm_Login", u"AVS-SOFTWARES", None))
@@ -280,9 +282,11 @@ class Ui_frm_Login(object):
         self.label_2.setText(QCoreApplication.translate("frm_Login", u"BEM-VINDO!", None))
         self.pushButton.setText(QCoreApplication.translate("frm_Login", u"ENTRAR", None))
         self.pushButton_2.setText(QCoreApplication.translate("frm_Login", u"VOLTAR", None))
-    # retranslateUi
+        
+    # retranslateUi     
         self.pushButton_2.clicked.connect(self.voltar)
         self.pushButton.clicked.connect(self.login)
+
 
 if __name__ == "__main__":
         app = QApplication([])

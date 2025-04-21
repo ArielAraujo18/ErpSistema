@@ -435,23 +435,21 @@ class Ui_Frm_Bancos(object):
         mycursor.execute(consultaSQL)
         myresult = mycursor.fetchall()
 
-        # Criando DataFrame
+        #criando dataframe
         df = pd.DataFrame(myresult, columns=["Nome", "Fornecedor", "Observação", "Valor", "Quantidade"])
         self.all_data = df
 
-        # Configurando a tabela no Pyside
+        #config da tabela
         numRows = len(self.all_data.index)
         numCols = len(self.all_data.columns)
         self.tableGastos.setColumnCount(numCols)
         self.tableGastos.setRowCount(numRows)
         self.tableGastos.setHorizontalHeaderLabels(self.all_data.columns)
 
-        # Preenchendo a tabela
         for i in range(numRows):
                 for j in range(numCols):
                         self.tableGastos.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
-
-        # Ajustando o layout das colunas e linhas
+                        
         self.tableGastos.resizeColumnsToContents()
         self.tableGastos.resizeRowsToContents()
 
@@ -459,12 +457,11 @@ class Ui_Frm_Bancos(object):
 
     def tabelaLucros(self):
 
-        print('Conectando...')
         mydb = mysql.connector.connect(
-                host = Controle.host,
-                user = Controle.user,
-                password = Controle.password,
-                database = Controle.database
+        host = Controle.host,
+        user = Controle.user,
+        password = Controle.password,
+        database = Controle.database
         )
         print('Conexão bem-sucedida!')
         mycursor = mydb.cursor()
@@ -473,23 +470,23 @@ class Ui_Frm_Bancos(object):
         mycursor.execute(consultaSQL)
         myresult = mycursor.fetchall()
 
-        # Criando DataFrame
         df = pd.DataFrame(myresult, columns=["Nome", "Valor", "Observação", "Quantidade"])
+
+        df.replace('', pd.NA, inplace=True) 
+        df = df.dropna(how='any') 
+
         self.all_data = df
 
-        # Configurando a tabela no Pyside
         numRows = len(self.all_data.index)
         numCols = len(self.all_data.columns)
         self.tableLucros.setColumnCount(numCols)
         self.tableLucros.setRowCount(numRows)
         self.tableLucros.setHorizontalHeaderLabels(self.all_data.columns)
 
-        # Preenchendo a tabela
         for i in range(numRows):
                 for j in range(numCols):
                         self.tableLucros.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
 
-        # Ajustando o layout das colunas e linhas
         self.tableLucros.resizeColumnsToContents()
         self.tableLucros.resizeRowsToContents()
 
@@ -500,41 +497,54 @@ class Ui_Frm_Bancos(object):
         self.Frm_Bancos = None
 
     def SomaLucros(self):
+        import re
+
         mydb = mysql.connector.connect(
-            host=Controle.host,
-            user=Controle.user,
-            password=Controle.password,
-            database=Controle.database
+                host=Controle.host,
+                user=Controle.user,
+                password=Controle.password,
+                database=Controle.database
         )
         cursor = mydb.cursor()
 
-        sql = "SELECT Valor FROM `banco-lucros`"
+        sql = "SELECT Valor, Quantidade FROM `banco-lucros`"
         cursor.execute(sql)
         resultado = cursor.fetchall()
 
         cursor.close()
         mydb.close()
 
-        print("Valores brutos do BD:", resultado)
-
         valores = []
         for row in resultado:
-                valor = str(row[0]).replace("R$", "").replace(".", "").replace(",", ".").strip()
-                valores.append(float(valor))  # Converte para número
+                valor_raw = row[0]
+                quantidade = row[1]
+
+                if valor_raw is not None and str(valor_raw).strip() != "" and \
+                quantidade is not None and str(quantidade).strip() != "":
+                        
+                        if isinstance(valor_raw, (float, int)):
+                                valor_unitario = float(valor_raw)
+                        else:
+                                valor_str = str(valor_raw).replace("R$", "").strip()
+                                valor_str = re.sub(r'\.(?=\d{3}(,|$))', '', valor_str)
+                                valor_str = valor_str.replace(",", ".")
+                                valor_unitario = float(valor_str)
+
+                        total_item = valor_unitario * int(quantidade)
+                        valores.append(total_item)
 
         somaL = sum(valores)
-        
         self.txt_lucros.setText(f"R${somaL:,.2f}")
-
         Controle.somaLucros = somaL
 
-
     def SomaGastos(self):
+        import re
+
         mydb = mysql.connector.connect(
-            host=Controle.host,
-            user=Controle.user,
-            password=Controle.password,
-            database=Controle.database
+                host=Controle.host,
+                user=Controle.user,
+                password=Controle.password,
+                database=Controle.database
         )
         cursor = mydb.cursor()
 
@@ -545,39 +555,43 @@ class Ui_Frm_Bancos(object):
         cursor.close()
         mydb.close()
 
-        print("Valores brutos do BD:", resultado)
-
         valores = []
         for row in resultado:
-                valor = str(row[0]).replace("R$", "").replace(".", "").replace(",", ".").strip()
-                valores.append(float(valor))  # Converte para número
+                valor_raw = row[0]
+
+                if valor_raw is not None and str(valor_raw).strip() != "":
+                        if isinstance(valor_raw, (float, int)):
+                                valor = float(valor_raw)
+                        else:
+                                valor_str = str(valor_raw).replace("R$", "").strip()
+                                valor_str = re.sub(r'\.(?=\d{3}(,|$))', '', valor_str)
+                                valor_str = valor_str.replace(",", ".")
+                                valor = float(valor_str)
+
+                valores.append(valor)
 
         somag = sum(valores)
-
         self.txt_gastos.setText(f"R${somag:,.2f}")
-
         Controle.somaGastos = somag
 
     def somaTotal(self):
         somaLucros = Controle.somaLucros
         somaGastos = Controle.somaGastos
 
-        # Limpar a formatação de valores monetários de somaLucros e somaGastos antes de somá-los
         if isinstance(somaLucros, str):
                 somaLucros = float(somaLucros.replace("R$", "").replace(".", "").replace(",", "."))
         
         if isinstance(somaGastos, str):
                 somaGastos = float(somaGastos.replace("R$", "").replace(".", "").replace(",", "."))
         
-        somaTotal = somaLucros - somaGastos  # Calculando a soma total (Lucros - Gastos)
+        somaTotal = somaLucros - somaGastos 
 
         print(f"Soma Total (Lucros - Gastos): R$ {somaTotal:,.2f}")
 
-        # Exibir o valor da soma total, com formatação monetária
         self.txt_gastos_2.setText(f"R$ {somaTotal:,.2f}")
 
     def atualizar_bancos(self):
-        # Conexão com o banco de dados
+
         mydb = mysql.connector.connect(
             host=Controle.host,
             user=Controle.user,
@@ -587,7 +601,6 @@ class Ui_Frm_Bancos(object):
 
         mycursor = mydb.cursor()
 
-        # Consulta para pegar os dados da tabela bancos onde a situação não é 'PENDENTE'
         mycursor.execute("""
             SELECT nome, valor FROM bancos
             WHERE Situação != 'PENDENTE'
@@ -596,17 +609,13 @@ class Ui_Frm_Bancos(object):
         resultado = mycursor.fetchall()
 
         if resultado:
-            # Iterar sobre os resultados e atualizar a tabela ou fazer o que for necessário
             for nome, valor in resultado:
-                # Atualizando os campos na interface
-                self.txt_NomeBanco.setText(nome)  # Certifique-se de que o nome do campo está correto
+                self.txt_NomeBanco.setText(nome) 
                 self.txt_ValorBanco.setText(f"R${float(valor.replace('R$', '').replace(',', '.').strip()):,.2f}")
         else:
-            # Caso não haja registros, limpar os campos
             self.txt_NomeBanco.setText("")
             self.txt_ValorBanco.setText("")
 
-        # Fechar o cursor e a conexão com o banco
         mycursor.close()
         mydb.close()
 

@@ -1,13 +1,3 @@
-# -*- coding: utf-8 -*-
-
-################################################################################
-## Form generated from reading UI file 'frm_Main.ui'
-##
-## Created by: Qt User Interface Compiler version 6.8.2
-##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
-################################################################################
-
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
@@ -423,21 +413,16 @@ class Ui_frm_Main(object):
         self.lbl_login.setText(Controle.login)
 
     def telaCliente(self):
-        #Verifica se o atributo existe e não é None
         if not hasattr(self, 'frm_Cliente') or self.frm_Cliente is None or not self.frm_Cliente.isVisible():
-                #Cria a tela somente se não estiver aberta
                 self.frm_Cliente = QWidget()
                 self.ui = Ui_frm_Cliente()
                 self.ui.setupUi(self.frm_Cliente)
 
-                #Configurações para garantir a remoção da referência ao fechar a janela
                 self.frm_Cliente.setAttribute(Qt.WA_DeleteOnClose)
                 self.frm_Cliente.destroyed.connect(lambda: setattr(self, 'frm_Cliente', None))
 
-                #Mostra a tela  
                 self.frm_Cliente.show()
         else:
-                #Traz a janela existente
                 self.frm_Cliente.raise_()
                 self.frm_Cliente.activateWindow()
 
@@ -449,11 +434,9 @@ class Ui_frm_Main(object):
                 self.ui = Ui_frm_Fornecedor()
                 self.ui.setupUi(self.frm_Fornecedor)
                 
-                #Configurações para garantir a remoção da referência ao fechar a janela
                 self.frm_Fornecedor.setAttribute(Qt.WA_DeleteOnClose)
                 self.frm_Fornecedor.destroyed.connect(lambda: setattr(self, 'frm_Fornecedor', None))
 
-                #Mostra a tela
                 self.frm_Fornecedor.show()
 
          else:
@@ -467,7 +450,6 @@ class Ui_frm_Main(object):
                 self.ui = Ui_frm_Produtos()
                 self.ui.setupUi(self.frm_Produtos)
 
-                #Config para garantir a remoção total da tela ao ser fechada
                 self.frm_Produtos.setAttribute(Qt.WA_DeleteOnClose)
                 self.frm_Produtos.destroyed.connect(lambda: setattr(self, 'frm_Produtos', None))
 

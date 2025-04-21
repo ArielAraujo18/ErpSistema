@@ -379,6 +379,7 @@ class Ui_frm_DadosCliente(object):
     def adicionarCliente(self):
         Controle.pontos = 0
         
+        #Campos para verificação
         campos_comuns = {
               "Nome": self.txt_nome.text().strip(),
               "Cidade": self.txt_cidade.text().strip(),
@@ -417,7 +418,7 @@ class Ui_frm_DadosCliente(object):
                 return
 
         for campos_mask, valor in campos_mask.items():
-                if len(valor.replace("_", "").replace(".", "").strip()) < 6:  # Remove "_" (máscaras) e verifica o comprimento
+                if len(valor.replace("_", "").replace(".", "").strip()) < 6:
                         msg = QMessageBox()
                         msg.setWindowTitle("ERRO!")
                         msg.setText(f"O campo '{campos_mask}' deve ser preenchido!")
@@ -436,7 +437,7 @@ class Ui_frm_DadosCliente(object):
                 msg.setIcon(QMessageBox.Warning)
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec()
-                return  # Não prosseguir com a adição do cliente
+                return 
 
 
         nomeCliente = self.txt_nome.text()
@@ -449,7 +450,7 @@ class Ui_frm_DadosCliente(object):
         cepCliente = self.txt_cep.text()
         emailCliente = self.txt_cidade_6.text()
 
-                # Conexão com o banco de dados
+                
         mydb = mysql.connector.connect( 
               
                 host= Controle.host,
@@ -466,7 +467,7 @@ class Ui_frm_DadosCliente(object):
         print(mycursor.rowcount, 'Record(s) inserted')
         mycursor.close()
 
-        # Limpa os campos após a inserção
+        #limpando os campos
         self.txt_nome.setText("")
         self.txt_celular.setText("")
         self.txt_cpf.setText("")
@@ -493,8 +494,6 @@ class Ui_frm_DadosCliente(object):
 
     def alterarCliente(self): 
 
-
-       # Pegando os valores dos campos da interface
         nomeCliente = self.txt_nome.text()
         celularCliente = self.txt_celular.text()
         cpfCliente = self.txt_cpf.text()
@@ -504,9 +503,9 @@ class Ui_frm_DadosCliente(object):
         numeroCliente = self.txt_Numero.text()
         cepCliente = self.txt_cep.text()
         emailCliente = self.txt_cidade_6.text() #email
-        pontuacao = self.txt_cidade_7.text() #Data
+        pontuacao = self.txt_cidade_7.text() #data
 
-        # Conectando ao banco de dados
+        #conectando ao bd
         mydb = mysql.connector.connect(
         host=Controle.host,
         user=Controle.user,
@@ -528,20 +527,17 @@ class Ui_frm_DadosCliente(object):
         WHERE IdCliente = %s
         """
 
-        # Lista de valores sem incluir Pontos
         val = (
                 nomeCliente, celularCliente, cpfCliente, cidadeCliente,
                 ruaCliente, bairroCliente, numeroCliente, cepCliente,
                 emailCliente, pontuacao, Controle.idConsulta
         )
 
-        # Executando a query
         mycursor.execute(sql, val)
         mydb.commit()
 
         print(f"{mycursor.rowcount} registro(s) alterado(s).")
 
-        # Exibindo mensagem de sucesso
         msg = QMessageBox()
         msg.setWindowTitle("Sucesso!")
         msg.setText("Alterado com Sucesso!")
@@ -619,7 +615,6 @@ class Ui_frm_DadosCliente(object):
                 mycursor.execute(consultaSQL)
                 myresult = mycursor.fetchall()
                 mycursor.close()
-                #Converte resultados bd para dataframe#
                 df = pd.DataFrame(myresult, columns=["idCliente", "Nome", "Celular", "Cpf", "Cidade", "Rua", "Bairro", "Número", "Cep", "E-mail", "Pontos"])
                 nomeCliente = df['Nome'][0]
                 celularCliente = df['Celular'][0]
@@ -631,7 +626,7 @@ class Ui_frm_DadosCliente(object):
                 cepCliente = df['Cep'][0]
                 emailCliente = df['E-mail'][0]
                 pontos = df['Pontos'][0]
-                #Setar na tela do sitema
+                #setar na tela do sitema
                 self.txt_nome.setText(nomeCliente)
                 self.txt_celular.setText(celularCliente)
                 self.txt_cpf.setText(cpfCliente)
@@ -672,7 +667,6 @@ class Ui_frm_DadosCliente(object):
                 mycursor.execute(consultaSQL)
                 myresult = mycursor.fetchall()
                 mycursor.close()
-                #Converte resultados bd para dataframe#
                 df = pd.DataFrame(myresult, columns=["idCliente", "Nome", "Celular", "Cpf", "Cidade", "Rua", "Bairro", "Número", "Cep", "E-mail", "Pontos"])
                 nomeCliente = df['Nome'][0]
                 celularCliente = df['Celular'][0]

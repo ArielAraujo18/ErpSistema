@@ -618,7 +618,7 @@ class Ui_frm_DadosValores(object):
         self.comboFormaDePagamento.setCurrentIndex(0)
         self.comboSituacao.setCurrentIndex(0)
 
-        # Mensagem de sucesso
+        
         msg = QMessageBox()
         msg.setWindowTitle("Sucesso!")
         msg.setText("Valor adicionado com sucesso!")
@@ -770,7 +770,7 @@ class Ui_frm_DadosValores(object):
                 consultarSQL = "SELECT * FROM valores WHERE idValores = %s"
 
                 mycursor.execute(consultarSQL, (Controle.idConsulta,))
-                myresult = mycursor.fetchone()  # Obtém o resultado como uma tupla
+                myresult = mycursor.fetchone()
                 
                 nome = myresult[1]
                 emissao = myresult[2]
@@ -791,7 +791,6 @@ class Ui_frm_DadosValores(object):
                 self.comboFormaDePagamento.setCurrentText(formaDePagamento)
                 self.comboSituacao.setCurrentText(situacao)
 
-                # Fechar o cursor e a conexão
                 mycursor.close()
                 mydb.close()
         

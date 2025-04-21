@@ -23,7 +23,6 @@ class Ui_frm_DadosFornecedor(object):
         self.frm_DadosFornecedor = frm_DadosFornecedor
         if not frm_DadosFornecedor.objectName():
             frm_DadosFornecedor.setObjectName(u"frm_DadosFornecedor")
-        #frm_DadosFornecedor.resize(526, 566)
         caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
         frm_DadosFornecedor.setWindowIcon(QIcon(caminho_icone))
         frm_DadosFornecedor.setFixedSize(526, 566)
@@ -321,7 +320,6 @@ class Ui_frm_DadosFornecedor(object):
     # setupUi
 
     def adicionarFornecedor(self):
-        # Campos comuns com "E-mail" incluído
         campos_comuns = {
                 "Razão Social": self.txt_razao.text().strip(),
                 "Cidade": self.txt_cidade.text().strip(),
@@ -336,7 +334,6 @@ class Ui_frm_DadosFornecedor(object):
                 "Cnpj": self.txt_cnpj.text().strip(),
         }
 
-        # Validação de campos comuns
         for campo, valor in campos_comuns.items():
                 if not valor:
                         msg = QMessageBox()
@@ -348,7 +345,7 @@ class Ui_frm_DadosFornecedor(object):
                         msg.exec()
                         return
 
-        # Validação de formato do e-mail
+        #verificando se o email tem @
         email = self.txt_email.text().strip()
         if "@" not in email or "." not in email.split("@")[-1]:
                 msg = QMessageBox()
@@ -360,7 +357,6 @@ class Ui_frm_DadosFornecedor(object):
                 msg.exec()
                 return
 
-        # Validação de campos mascarados
         for campo, valor in campos_mask.items():
                 if len(valor.replace("-", "").replace(".", "").strip()) < 8:
                         msg = QMessageBox()
@@ -372,7 +368,6 @@ class Ui_frm_DadosFornecedor(object):
                         msg.exec()
                         return
 
-        # Validação de contato numérico
         contatoFornecedor = self.txt_contato.text().strip().replace("(", "").replace(")", "").replace("-", "").replace(" ", "")
         if not contatoFornecedor.isdigit():
                 msg = QMessageBox()
@@ -384,7 +379,6 @@ class Ui_frm_DadosFornecedor(object):
                 msg.exec()
                 return
 
-        # Dados do fornecedor
         razaoSocial = self.txt_razao.text()
         contato = self.txt_contato.text()
         cnpj = self.txt_cnpj.text()
@@ -393,7 +387,6 @@ class Ui_frm_DadosFornecedor(object):
         bairro = self.txt_bairro.text()
         cep = self.txt_cep.text()
 
-        # Conexão ao banco de dados
         mydb = mysql.connector.connect(
                 host = Controle.host,
                 user = Controle.user,
@@ -410,7 +403,6 @@ class Ui_frm_DadosFornecedor(object):
         print(mycursor.rowcount, 'registro(s) inserido(s)')
         mycursor.close()
 
-        # Limpar os campos
         self.txt_razao.setText("")
         self.txt_contato.setText("")
         self.txt_cnpj.setText("")
@@ -453,7 +445,6 @@ class Ui_frm_DadosFornecedor(object):
         )
         mycursor = mydb.cursor()
 
-        # Query
         sql = """
         UPDATE fornecedor
         SET `Razão Social` = %s, Contato = %s, cnpj = %s, Cidade = %s, Rua = %s,
@@ -528,11 +519,7 @@ class Ui_frm_DadosFornecedor(object):
                 self.txt_cep.setEnabled(False)
                 self.txt_email.setEnabled(False)
                 self.btn_cadastrar.setEnabled(False)
-                #Conexão com bd
-                self.host = Controle.host
-                self.user = Controle.user
-                self.password = Controle.password
-                self.database = Controle.database 
+        
                 print('Conectando...')
                 mydb = mysql.connector.connect(
                 host = Controle.host,
@@ -546,7 +533,7 @@ class Ui_frm_DadosFornecedor(object):
                 myresult = mycursor.fetchall()
                 print (myresult)
                 mycursor.close()
-                #Converte resultados bd para dataframe#
+
                 df = pd.DataFrame(myresult, columns=["idFornecedor", "Razão Social", "Contato", "Cnpj", "Cidade", "Rua", "Bairro", "Cep", "E-mail"])
                 razaoSocial = df['Razão Social'][0]
                 contatoF = df['Contato'][0]
@@ -556,7 +543,7 @@ class Ui_frm_DadosFornecedor(object):
                 bairroF = df['Bairro'][0]
                 CepF = df['Cep'][0]
                 emailF = df['E-mail'][0]
-                #Setar na tela do sitema
+
                 self.txt_razao.setText(razaoSocial)
                 self.txt_contato.setText(contatoF)
                 self.txt_cnpj.setText(cnpjF)
@@ -577,7 +564,6 @@ class Ui_frm_DadosFornecedor(object):
                 self.txt_cep.setEnabled(True)
                 self.txt_email.setEnabled(True)
                 self.btn_cadastrar.setEnabled(True)
-                #Conexão com bd
                 print('Conectando...')
                 mydb = mysql.connector.connect(
                         host = Controle.host,
@@ -590,7 +576,7 @@ class Ui_frm_DadosFornecedor(object):
                 mycursor.execute(consultaSQL)
                 myresult = mycursor.fetchall()
                 mycursor.close()
-                #Converte resultados bd para dataframe#
+
                 df = pd.DataFrame(myresult, columns=["idFornecedor", "Razão Social", "Contato", "Cnpj", "Cidade", "Rua", "Bairro", "Cep", "E-mail"])
                 razaoSocial = df['Razão Social'][0]
                 contato = df['Contato'][0]
@@ -600,7 +586,7 @@ class Ui_frm_DadosFornecedor(object):
                 bairro = df['Bairro'][0]
                 cep = df['Cep'][0]
                 email = df['E-mail'][0]
-                #Setar na tela do sitema
+                
                 self.txt_razao.setText(razaoSocial)
                 self.txt_contato.setText(contato)
                 self.txt_cnpj.setText(cnpj)
