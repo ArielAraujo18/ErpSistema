@@ -221,7 +221,7 @@ class Ui_frm_Login(object):
         if myresult:
             
             credenciais_corretas = False
-
+            
             for usere, pasworde, situacao in myresult:
                 if usuario == usere and senha == pasworde and situacao != situacaoo:
                      credenciais_corretas = True

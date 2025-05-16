@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>frm_Login</class>
- <widget class="QMainWindow" name="frm_Login">
+ <class>frm_Cadastrar</class>
+ <widget class="QMainWindow" name="frm_Cadastrar">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>674</width>
-    <height>635</height>
+    <width>1133</width>
+    <height>724</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,7 +22,7 @@
    <widget class="QLabel" name="lbl_usuario">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>580</x>
       <y>150</y>
       <width>111</width>
       <height>31</height>
@@ -48,12 +48,12 @@
      <string>E-mail:</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="txt_Usuario">
+   <widget class="QLineEdit" name="txt_email">
     <property name="geometry">
      <rect>
-      <x>150</x>
+      <x>700</x>
       <y>140</y>
-      <width>511</width>
+      <width>411</width>
       <height>51</height>
      </rect>
     </property>
@@ -83,7 +83,7 @@ QLineEdit:hover {
    <widget class="QLabel" name="lbl_senha">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>20</x>
       <y>230</y>
       <width>111</width>
       <height>31</height>
@@ -112,9 +112,9 @@ QLineEdit:hover {
    <widget class="QLineEdit" name="txt_Senha">
     <property name="geometry">
      <rect>
-      <x>150</x>
+      <x>140</x>
       <y>220</y>
-      <width>511</width>
+      <width>421</width>
       <height>51</height>
      </rect>
     </property>
@@ -147,8 +147,8 @@ QLineEdit:hover {
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>430</y>
+      <x>530</x>
+      <y>510</y>
       <width>81</width>
       <height>121</height>
      </rect>
@@ -167,8 +167,8 @@ QLineEdit:hover {
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>560</y>
+      <x>440</x>
+      <y>640</y>
       <width>251</width>
       <height>31</height>
      </rect>
@@ -191,8 +191,8 @@ QLineEdit:hover {
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>600</y>
+      <x>470</x>
+      <y>680</y>
       <width>201</width>
       <height>20</height>
      </rect>
@@ -215,9 +215,9 @@ QLineEdit:hover {
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>430</x>
       <y>10</y>
-      <width>401</width>
+      <width>321</width>
       <height>81</height>
      </rect>
     </property>
@@ -231,47 +231,15 @@ QLineEdit:hover {
 }</string>
     </property>
     <property name="text">
-     <string>BEM-VINDO!</string>
+     <string>Cadastrar</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="btn_voltar">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>310</y>
-      <width>481</width>
-      <height>91</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton {
-    background-color: #007BFF; 
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 8px;
-    padding: 8px 16px;
-    border: none;
-}
-
-QPushButton:hover {
-    background-color: #0056b3; 
-}
-
-QPushButton:pressed {
-    background-color: #004085;
-}</string>
-    </property>
-    <property name="text">
-     <string>ENTRAR</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_2">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>310</y>
-      <width>141</width>
+      <x>110</x>
+      <y>360</y>
+      <width>441</width>
       <height>91</height>
      </rect>
     </property>
@@ -298,13 +266,13 @@ QPushButton:pressed {
      <string>VOLTAR</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_Cadastro">
+   <widget class="QPushButton" name="btn_cadastrar">
     <property name="geometry">
      <rect>
-      <x>540</x>
-      <y>570</y>
-      <width>121</width>
-      <height>41</height>
+      <x>570</x>
+      <y>360</y>
+      <width>481</width>
+      <height>91</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -329,6 +297,228 @@ QPushButton:pressed {
     <property name="text">
      <string>Cadastre-se</string>
     </property>
+   </widget>
+   <widget class="QLabel" name="lbl_usuario_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>150</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>-1</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel {
+    font-size: 32px;
+    color: #FFFFFF;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+</string>
+    </property>
+    <property name="text">
+     <string>Nome:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="txt_nome">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>140</y>
+      <width>421</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>-1</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLineEdit {
+    border: 2px solid #cccccc; 
+    border-radius: 5px; 
+    padding: 6px; 
+    font-size: 30px; 
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+	color: #00000;
+}
+
+QLineEdit:hover {
+    border: 2px solid #3f51b5; 
+    background-color: #f5f5f5; 
+}
+</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lbl_usuario_3">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>230</y>
+      <width>171</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>-1</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel {
+    font-size: 32px;
+    color: #FFFFFF;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+</string>
+    </property>
+    <property name="text">
+     <string>Permissão:</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>230</y>
+      <width>221</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QComboBox {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    border: 1px solid #34495e;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 24px;
+    min-width: 100px;
+}
+
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: center right;
+    width: 30px;
+    border-left: 1px solid #34495e;
+    background-color: #34495e;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+QComboBox::down-arrow {
+    width: 0px;
+    height: 0px;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid #ecf0f1;
+    margin: 4px;
+}
+
+QComboBox QAbstractItemView {
+    background-color: #34495e;
+    color: #ecf0f1;
+    selection-background-color: #1abc9c;
+    selection-color: #ffffff;
+    border: 1px solid #34495e;
+    border-radius: 5px;
+    outline: none;
+    min-width: 100px;
+}
+
+QComboBox QAbstractItemView::item {
+    padding: 10px;
+    font-size: 14px;
+}
+
+QComboBox QAbstractItemView::item:selected {
+    background-color: #1abc9c;
+}
+
+QComboBox QAbstractItemView::item:hover {
+    background-color: #16a085;
+}
+
+QScrollBar:vertical {
+    border: none;
+    background: #2c3e50;
+    width: 10px;
+    border-radius: 5px;
+}
+
+QScrollBar::handle:vertical {
+    background: #1abc9c;
+    border-radius: 5px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background: #16a085;
+}
+
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    background: none;
+    border: none;
+}
+
+QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
+    border: none;
+    background: none;
+}
+
+QScrollBar:horizontal {
+    border: none;
+    background: #2c3e50;
+    height: 10px;
+    border-radius: 5px;
+}
+
+QScrollBar::handle:horizontal {
+    background: #1abc9c;
+    border-radius: 5px;
+}
+
+QScrollBar::handle:horizontal:hover {
+    background: #16a085;
+}
+
+QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+    background: none;
+    border: none;
+}
+
+QScrollBar::left-arrow:horizontal, QScrollBar::right-arrow:horizontal {
+    border: none;
+    background: none;
+}
+</string>
+    </property>
+    <item>
+     <property name="text">
+      <string>Nenhum</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Administrador</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Usuário</string>
+     </property>
+    </item>
    </widget>
   </widget>
  </widget>

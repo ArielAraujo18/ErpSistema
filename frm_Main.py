@@ -35,12 +35,14 @@ from frm_Contas import Ui_frm_Contas
 from frm_ValoresAReceber import Ui_frm_ValoresAReceber
 from frm_Tarefas import Ui_frm_Tarefas
 from frm_Bancos import Ui_Frm_Bancos
+from frm_Login import Ui_frm_Login
 
 class Ui_frm_Main(object):
     def setupUi(self, frm_Main):
         if not frm_Main.objectName():
             frm_Main.setObjectName(u"frm_Main")
         frm_Main.setFixedSize(723, 453)
+        self.frm_Main = frm_Main
         caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
         frm_Main.setWindowIcon(QIcon(caminho_icone))
         frm_Main.setStyleSheet(u"")
@@ -460,8 +462,24 @@ class Ui_frm_Main(object):
 
 
     def sairSistema(self):
-        sys.exit()   
+        if not hasattr(self, 'frm_Login') or self.frm_Login is None or not self.frm_Login.isVisible():
+                self.frm_Login = QMainWindow()
+                self.ui = Ui_frm_Login()
+                self.ui.setupUi(self.frm_Login)
+                self.frm_Login.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_Login.destroyed.connect(lambda: setattr(self, 'frm_Login', None))
 
+                #Abre a tela
+                self.frm_Login.show()
+
+        else:
+
+                self.frm_Login.raise_()
+                self.frm_Login.activateWindow()
+
+
+        self.frm_Main.close()
+        
 
     def telaVendas(self):
          if not hasattr(self, 'frm_Vendas') or self.frm_Vendas is None or not self.frm_Vendas.isVisible():
