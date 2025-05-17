@@ -863,4 +863,4 @@ if __name__ == "__main__":
     ui = Ui_frm_Contas()
     ui.setupUi(frm_Contas)
     frm_Contas.show()
-    app.exec()
+    app.exec()  

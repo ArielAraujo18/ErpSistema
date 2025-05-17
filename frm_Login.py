@@ -8,9 +8,11 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QMainWindow,
     QPushButton, QSizePolicy, QWidget, QMessageBox)
 
-from frm_Main import Ui_frm_Main
+#from frm_Main import Ui_frm_Main
+from frm_Cadastrar import Ui_frm_Cadastrar
 
 import icon_TelaLogin
+
 
 import os
 import mysql.connector
@@ -22,9 +24,6 @@ class Ui_frm_Login(object):
         if not frm_Login.objectName():
             frm_Login.setObjectName(u"frm_Login")
         frm_Login.setFixedSize(674, 635)
-        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
-        frm_Login.setWindowIcon(QIcon(caminho_icone))
-        self.frm_Login = frm_Login
         frm_Login.setStyleSheet(u"QWidget {\n"
 "    background-color: #2F4F4F;\n"
 "}")
@@ -55,7 +54,7 @@ class Ui_frm_Login(object):
 "    font-size: 30px; \n"
 "    background-color: #ffffff;\n"
 "    transition: all 0.3s ease;\n"
-"	color: #000000;\n"
+"	color: #00000;\n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -85,7 +84,7 @@ class Ui_frm_Login(object):
 "    font-size: 30px; \n"
 "    background-color: #ffffff;\n"
 "    transition: all 0.3s ease;\n"
-"	color: #000000;\n"
+"	color: #00000\n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -167,6 +166,26 @@ class Ui_frm_Login(object):
 "\n"
 "QPushButton:pressed {\n"
 "    background-color: #495057; \n"
+"}")
+        self.btn_Cadastro = QPushButton(self.centralwidget)
+        self.btn_Cadastro.setObjectName(u"btn_Cadastro")
+        self.btn_Cadastro.setGeometry(QRect(540, 570, 121, 41))
+        self.btn_Cadastro.setStyleSheet(u"QPushButton {\n"
+"    background-color: #8FBC8F; \n"
+"    color: #000000;\n"
+"    font-size: 16px;\n"
+"    font-weight: bold;\n"
+"    border-radius: 8px;\n"
+"    padding: 8px 16px;\n"
+"    border: none;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: #00FF7F; \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: #004085;\n"
 "}")
         frm_Login.setCentralWidget(self.centralwidget)
 
@@ -272,8 +291,9 @@ class Ui_frm_Login(object):
                 self.frm_Main.raise_()
                 self.frm_Main.activateWindow()
 
+
     def retranslateUi(self, frm_Login):
-        frm_Login.setWindowTitle(QCoreApplication.translate("frm_Login", u"Login", None))
+        frm_Login.setWindowTitle(QCoreApplication.translate("frm_Login", u"MainWindow", None))
         self.lbl_usuario.setText(QCoreApplication.translate("frm_Login", u"E-mail:", None))
         self.lbl_senha.setText(QCoreApplication.translate("frm_Login", u"Senha:", None))
         self.label_3.setText("")
@@ -282,11 +302,11 @@ class Ui_frm_Login(object):
         self.label_2.setText(QCoreApplication.translate("frm_Login", u"BEM-VINDO!", None))
         self.pushButton.setText(QCoreApplication.translate("frm_Login", u"ENTRAR", None))
         self.pushButton_2.setText(QCoreApplication.translate("frm_Login", u"VOLTAR", None))
-        
-    # retranslateUi     
+        self.btn_Cadastro.setText(QCoreApplication.translate("frm_Login", u"Cadastre-se", None))
+    # retranslateUi
+
         self.pushButton_2.clicked.connect(self.voltar)
         self.pushButton.clicked.connect(self.login)
-
 
 if __name__ == "__main__":
         app = QApplication([])
