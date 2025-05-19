@@ -7,8 +7,6 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QMainWindow,
     QPushButton, QSizePolicy, QWidget, QMessageBox)
-
-#from frm_Main import Ui_frm_Main
 from frm_Cadastrar import Ui_frm_Cadastrar
 
 import icon_TelaLogin
@@ -24,6 +22,7 @@ class Ui_frm_Login(object):
         if not frm_Login.objectName():
             frm_Login.setObjectName(u"frm_Login")
         frm_Login.setFixedSize(674, 635)
+        self.frm_Login = frm_Login
         frm_Login.setStyleSheet(u"QWidget {\n"
 "    background-color: #2F4F4F;\n"
 "}")
@@ -54,7 +53,7 @@ class Ui_frm_Login(object):
 "    font-size: 30px; \n"
 "    background-color: #ffffff;\n"
 "    transition: all 0.3s ease;\n"
-"	color: #00000;\n"
+"	color: #000000;\n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -84,7 +83,7 @@ class Ui_frm_Login(object):
 "    font-size: 30px; \n"
 "    background-color: #ffffff;\n"
 "    transition: all 0.3s ease;\n"
-"	color: #00000\n"
+"	color: #000000\n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -275,7 +274,9 @@ class Ui_frm_Login(object):
                 
                 print("Email não encontrado!")
 
-    def abrirTela(self):                
+    def abrirTela(self):
+
+        from frm_Main import Ui_frm_Main                
         if not hasattr(self, 'frm_Main') or self.frm_Main is None or not self.frm_Main.isVisible():
 
                 self.frm_Main = QMainWindow()
@@ -290,6 +291,25 @@ class Ui_frm_Login(object):
         else:
                 self.frm_Main.raise_()
                 self.frm_Main.activateWindow()
+        
+    def cadastro(self):
+        
+        from frm_Cadastrar import Ui_frm_Cadastrar
+        if not hasattr(self, 'frm_Cadastrar') or self.frm_Cadastrar is None or not self.frm_Cadastrar.isVisible():
+             
+                self.frm_Cadastrar = QMainWindow()
+                self.ui = Ui_frm_Cadastrar()
+                self.ui.setupUi(self.frm_Cadastrar)
+
+                self.frm_Cadastrar.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_Cadastrar.destroyed.connect(lambda: setattr(self, 'frm_Cadastrar', None))
+
+                self.frm_Cadastrar.show()
+        
+        else:
+             
+                self.frm_Cadastrar.raise_()
+                self.frm_Cadastrar.activateWindow()
 
 
     def retranslateUi(self, frm_Login):
@@ -307,6 +327,9 @@ class Ui_frm_Login(object):
 
         self.pushButton_2.clicked.connect(self.voltar)
         self.pushButton.clicked.connect(self.login)
+        self.pushButton.clicked.connect(self.voltar)
+        self.btn_Cadastro.clicked.connect(self.cadastro)
+        self.btn_Cadastro.clicked.connect(self.voltar)
 
 if __name__ == "__main__":
         app = QApplication([])

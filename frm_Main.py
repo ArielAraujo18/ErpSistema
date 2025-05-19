@@ -644,4 +644,3 @@ if __name__ == "__main__":
     ui.setupUi(frm_Main)
     frm_Main.show()
     app.exec()
-

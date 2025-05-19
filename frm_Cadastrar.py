@@ -319,7 +319,7 @@ class Ui_frm_Cadastrar(object):
     # setupUi
 
     def retranslateUi(self, frm_Cadastrar):
-        frm_Cadastrar.setWindowTitle(QCoreApplication.translate("frm_Cadastrar", u"MainWindow", None))
+        frm_Cadastrar.setWindowTitle(QCoreApplication.translate("frm_Cadastrar", u"CADASTRE-SE", None))
         self.lbl_usuario.setText(QCoreApplication.translate("frm_Cadastrar", u"E-mail:", None))
         self.lbl_senha.setText(QCoreApplication.translate("frm_Cadastrar", u"Senha:", None))
         self.label_3.setText("")
