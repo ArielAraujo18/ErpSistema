@@ -6,7 +6,11 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QLabel, QLineEdit,
-    QMainWindow, QPushButton, QSizePolicy, QWidget)
+    QMainWindow, QPushButton, QSizePolicy, QWidget, QMessageBox)
+
+import sys
+import os
+
 import icon_TelaLogin
 
 class Ui_frm_Cadastrar(object):
@@ -14,6 +18,7 @@ class Ui_frm_Cadastrar(object):
         if not frm_Cadastrar.objectName():
             frm_Cadastrar.setObjectName(u"frm_Cadastrar")
         frm_Cadastrar.setFixedSize(1133, 724)
+        self.frm_Cadastrar = frm_Cadastrar
         frm_Cadastrar.setStyleSheet(u"QWidget {\n"
 "    background-color: #2F4F4F;\n"
 "}")
@@ -318,6 +323,31 @@ class Ui_frm_Cadastrar(object):
         QMetaObject.connectSlotsByName(frm_Cadastrar)
     # setupUi
 
+    def voltar(self):
+        self.frm_Cadastrar.close()
+
+    def cadastrar(self):
+        
+        campos = {
+             'Email': self.txt_email.text(),
+             'Senha': self.txt_Senha.text(),
+        }
+
+        for campo, valor in campos.items():
+             if not valor:
+                msg = QMessageBox()
+                msg.setWindowTitle("ERRO!")
+                msg.setText(f"O campo {campo} deve está preenchido!")
+                caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+                msg.setWindowIcon(QIcon(caminho_icone))
+                msg.setIcon(QMessageBox.Warning)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+                return
+        
+        self.txt_email.text()
+        self.txt_Senha.text()
+
     def retranslateUi(self, frm_Cadastrar):
         frm_Cadastrar.setWindowTitle(QCoreApplication.translate("frm_Cadastrar", u"CADASTRE-SE", None))
         self.lbl_usuario.setText(QCoreApplication.translate("frm_Cadastrar", u"E-mail:", None))
@@ -335,6 +365,7 @@ class Ui_frm_Cadastrar(object):
         self.comboBox.setItemText(2, QCoreApplication.translate("frm_Cadastrar", u"Usu\u00e1rio", None))
 
     # retranslateUi
+        self.btn_voltar.clicked.connect(self.voltar)
 
 if __name__ == "__main__":
         app = QApplication([])
