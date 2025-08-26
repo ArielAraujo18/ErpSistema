@@ -679,4 +679,6 @@ if __name__ == "__main__":
     ui.setupUi(frm_Bancos)
     frm_Bancos.show()
     app.exec()
+    
+    
 
