@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="icon_voltar">
+    <file>voltar.png</file>
+  </qresource>
+</RCC>

@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="icon_logoInicial">
+    <file>AvsLogo.png</file>
+  </qresource>
+</RCC>

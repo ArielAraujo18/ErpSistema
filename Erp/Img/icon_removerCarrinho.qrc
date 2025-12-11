@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="icon_removerCarrinho">
+    <file>RemoverCarrinho.png</file>
+  </qresource>
+</RCC>

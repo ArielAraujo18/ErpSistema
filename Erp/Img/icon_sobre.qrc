@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="icon_sobre">
+    <file>sobre.png</file>
+  </qresource>
+</RCC>

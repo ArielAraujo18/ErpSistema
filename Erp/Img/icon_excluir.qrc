@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="icon_excluir">
+    <file>excluir.png</file>
+  </qresource>
+</RCC>

@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="icon_Bancos">
+    <file>avsIconLogo.png</file>
+  </qresource>
+</RCC>

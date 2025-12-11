@@ -1,0 +1,203 @@
+TELA PRINCIPAL
+------------------------------------------------------------------------------------------------
+* MUDAR O LAYOUT check
+* DEIXAR RESPONSIVO check
+------------------------------------------------------------------------------------------------
+
+TELA CLIENTE, TELA FORNECEDOR, TELA PRODUTOS, TELA CONTAS À PAGAR, TELA CONTA À RECEBER
+------------------------------------------------------------------------------------------------
+* PERMITIR DEIXAR CAMPOS VAZIOS
+* ESTUDAR A POSSIBILIDADE DE DEIXAR UM DESIGN RESPONSIVO check
+* MOSTRAR A NOTIFICAÇÃO NA TELA
+------------------------------------------------------------------------------------------------
+
+PDV
+------------------------------------------------------------------------------------------------
+* DEIXAR RESPONSIVO check
+* O VALOR E A QUANTIDADE DE PRODUTOS TEM QUE BATER COM A TABELA DA TELA DE PRODUTOS
+------------------------------------------------------------------------------------------------
+
+TELA BANCOS
+------------------------------------------------------------------------------------------------
+* TEM QUE FICAR RESPONSIVA check
+* MUDAR A LÒGICA DE CALCULAR O LUCRO E O GASTO
+------------------------------------------------------------------------------------------------
+
+TELA TAREFAS
+------------------------------------------------------------------------------------------------
+* TEM QUE APARECER A NOTIFICAÇÃO DAS TAREFAS A REALIZAR
+
+https://www.canva.com/design/DAGxFmyjyew/tCHY_6CGTf44OadcQwdM9Q/edit?ui=e30
+https://www.iloveimg.com/pt/download/p0dk455d6y458p4lq9gvltznAvwxlhf9387tvp479A0vkpsffy6gh9gq6q75n24kc6d771rnlz6sm1df6mkqb2zly34dy1lvdsxmjsg6gbvfAb23xy2p8cl80ty7ynmthvvkA1Ajwgfwjm5lj48hzgw7cqjf85rtpb2r73rm840v41bgshgxlrzphsg5gAm211bhz6xks097w/4g
+https://www.iloveimg.com/pt/redimensionar-imagem#resize-options,pixels
+
+"""
+    def login(self):
+        self.lbl_login.setText(Controle.login)
+
+    def telaCliente(self):
+        if not hasattr(self, 'frm_Cliente') or self.frm_Cliente is None or not self.frm_Cliente.isVisible():
+                self.frm_Cliente = QWidget()
+                self.ui = Ui_frm_Cliente()
+                self.ui.setupUi(self.frm_Cliente)
+
+                self.frm_Cliente.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_Cliente.destroyed.connect(lambda: setattr(self, 'frm_Cliente', None))
+
+                self.frm_Cliente.show()
+        else:
+                self.frm_Cliente.raise_()
+                self.frm_Cliente.activateWindow()
+
+
+
+    def telaFornecedor(self):
+         if not hasattr(self, 'frm_Fornecedor') or self.frm_Fornecedor is None or not self.frm_Fornecedor.isVisible():
+                self.frm_Fornecedor = QWidget()
+                self.ui = Ui_frm_Fornecedor()
+                self.ui.setupUi(self.frm_Fornecedor)
+                
+                self.frm_Fornecedor.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_Fornecedor.destroyed.connect(lambda: setattr(self, 'frm_Fornecedor', None))
+
+                self.frm_Fornecedor.show()
+
+         else:
+                self.frm_Fornecedor.raise_()
+                self.frm_Fornecedor.activateWindow()
+
+
+    def telaProdutos(self):
+         if not hasattr(self, 'frm_Produtos') or self.frm_Produtos is None or not self.frm_Produtos.isVisible():
+                self.frm_Produtos = QWidget()
+                self.ui = Ui_frm_Produtos()
+                self.ui.setupUi(self.frm_Produtos)
+
+                self.frm_Produtos.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_Produtos.destroyed.connect(lambda: setattr(self, 'frm_Produtos', None))
+
+                self.frm_Produtos.show()
+         else:
+                self.frm_Produtos.raise_()
+                self.frm_Produtos.activateWindow()
+
+
+    def sairSistema(self):
+        if not hasattr(self, 'frm_Login') or self.frm_Login is None or not self.frm_Login.isVisible():
+                self.frm_Login = QMainWindow()
+                self.ui = Ui_frm_Login()
+                self.ui.setupUi(self.frm_Login)
+                self.frm_Login.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_Login.destroyed.connect(lambda: setattr(self, 'frm_Login', None))
+
+                #Abre a tela
+                self.frm_Login.show()
+
+        else:
+
+                self.frm_Login.raise_()
+                self.frm_Login.activateWindow()
+
+
+        self.frm_Main.close()
+        
+
+    def telaVendas(self):
+         if not hasattr(self, 'frm_Vendas') or self.frm_Vendas is None or not self.frm_Vendas.isVisible():
+                self.frm_Vendas = QWidget()
+                self.ui = Ui_Frm_Vendas()
+                self.ui.setupUi(self.frm_Vendas)
+
+                self.frm_Vendas.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_Vendas.destroyed.connect(lambda: setattr(self, 'frm_Vendas', None))
+
+                self.frm_Vendas.show()
+
+         else:
+               self.frm_Vendas.raise_()
+               self.frm_Vendas.activateWindow()
+
+    def telaContas(self):
+        if Controle.login == 'Usuário':
+                msg = QMessageBox()
+                msg.setWindowTitle("ERRO!")
+                msg.setText("Você não tem permissão para acessar esse frame!")
+                msg.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+                msg.setIcon(QMessageBox.Warning)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+                return
+         
+        if not hasattr(self, 'frm_Contas') or self.frm_Contas is None or not self.frm_Contas.isVisible():
+
+                self.frm_Contas = QWidget()
+                self.ui = Ui_frm_Contas()
+                self.ui.setupUi(self.frm_Contas)
+
+                self.frm_Contas.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_Contas.destroyed.connect(lambda: setattr(self, 'frm_Contas', None))
+
+                self.frm_Contas.show()
+        else:
+               self.frm_Contas.raise_()
+               self.frm_Contas.activateWindow()
+
+    def telaValores(self):
+        if not hasattr(self, 'frm_ValoresAReceber') or self.frm_ValoresAReceber is None or not self.frm_ValoresAReceber.isVisible():
+
+                self.frm_ValoresAReceber = QWidget()
+                self.ui = Ui_frm_ValoresAReceber()
+                self.ui.setupUi(self.frm_ValoresAReceber)
+
+                self.frm_ValoresAReceber.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_ValoresAReceber.destroyed.connect(lambda: setattr(self, 'frm_ValoresAReceber', None))
+
+                self.frm_ValoresAReceber.show()
+        else:
+               self.frm_ValoresAReceber.raise_()
+               self.frm_ValoresAReceber.activateWindow()
+
+    def telaTarefas(self):
+        if not hasattr(self, 'frm_Tarefas') or self.frm_Tarefas is None or not self.frm_Tarefas.isVisible():
+
+                self.frm_Tarefas = QWidget()
+                self.ui = Ui_frm_Tarefas()
+                self.ui.setupUi(self.frm_Tarefas)
+
+                self.frm_Tarefas.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_Tarefas.destroyed.connect(lambda: setattr(self, 'frm_Tarefas', None))
+
+                self.frm_Tarefas.show()
+
+        else:
+              self.frm_Tarefas.raise_()
+              self.frm_Tarefas.activateWindow()
+
+    def TelaBancos(self):
+        if Controle.login == 'Usuário':
+                msg = QMessageBox()
+                msg.setWindowTitle("ERRO!")
+                msg.setText("Você não tem permissão para acessar esse frame!")
+                msg.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+                msg.setIcon(QMessageBox.Warning)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+                return
+
+        if not hasattr(self, 'frm_Bancos') or self.Frm_Bancos is None or not self.Frm_Bancos.isVisible():
+                self.Frm_Bancos = QWidget()
+                self.ui = Ui_Frm_Bancos()
+                self.ui.setupUi(self.Frm_Bancos)
+
+                self.Frm_Bancos.setAttribute(Qt.WA_DeleteOnClose)
+                self.Frm_Bancos.destroyed.connect(lambda: setattr(self, 'Frm_Bancos', None))
+
+                self.Frm_Bancos.show()
+       
+        else:
+
+                self.Frm_Bancos.raise_()
+                self.Frm_Bancos.activateWindow()
+
+        """ 
+#Programa

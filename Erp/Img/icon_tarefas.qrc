@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="icon_tarefas">
+    <file>tarefa.png</file>
+  </qresource>
+</RCC>
