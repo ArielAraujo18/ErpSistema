@@ -18,13 +18,10 @@ import icon_voltar
 
 class Ui_frm_DadosCliente(object):
     def setupUi(self, frm_DadosCliente):
-        def limpar_texto():
-                campo = self.sender()  # pega quem chamou o sinal
-                if campo.text() == "Nenhum":
-                        campo.clear()
         if not frm_DadosCliente.objectName():
             frm_DadosCliente.setObjectName(u"frm_DadosCliente")
-        frm_DadosCliente.resize(526, 647)
+        frm_DadosCliente.setFixedSize(526, 647)
+        self.frm_DadosCliente = frm_DadosCliente
         frm_DadosCliente.setStyleSheet(u"QWidget {\n"
 "    background-color: #2c2c2c;\n"
 "    border-radius: 8px;\n"
@@ -41,7 +38,6 @@ class Ui_frm_DadosCliente(object):
         self.txt_nome.setObjectName(u"txt_nome")
         self.txt_nome.setGeometry(QRect(120, 40, 371, 41))
         self.txt_nome.setText('Nenhum')
-        self.txt_nome.selectionChanged.connect(limpar_texto)
         self.txt_nome.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
@@ -373,7 +369,6 @@ class Ui_frm_DadosCliente(object):
               "Cpf": self.txt_cpf.text().strip(),
                "Cep": self.txt_cep.text().strip(),
         }
-
         for campos_comuns, valor in campos_comuns.items():
               if not valor.strip():
                     msg = QMessageBox()
@@ -429,10 +424,8 @@ class Ui_frm_DadosCliente(object):
         numeroCliente = self.txt_Numero.text()
         cepCliente = self.txt_cep.text()
         emailCliente = self.txt_cidade_6.text()
-
                 
         mydb = mysql.connector.connect( 
-              
                 host= Controle.host,
                 user= Controle.user,
                 password= Controle.password,
@@ -629,7 +622,7 @@ class Ui_frm_DadosCliente(object):
                 self.txt_cep.setEnabled(True)
                 self.txt_cidade_6.setEnabled(True)
                 self.txt_cidade_7.setEnabled(False)
-                self.btn_cadastrar_3.setEnabled(True)
+                self.btn_cadastrar.setEnabled(True)
                 #Conexão com bd
                 self.host = Controle.host
                 self.user = Controle.user
