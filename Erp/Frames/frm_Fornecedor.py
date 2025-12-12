@@ -1,3 +1,13 @@
+# -*- coding: utf-8 -*-
+
+################################################################################
+## Form generated from reading UI file 'frm_Fornecedor.ui'
+##
+## Created by: Qt User Interface Compiler version 6.10.0
+##
+## WARNING! All changes made in this file will be lost when recompiling UI file!
+################################################################################
+
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
@@ -7,26 +17,20 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QTableWidget, QTableWidgetItem,
-    QWidget, QMessageBox)
-
-import icon_adicionar
-import icon_voltar
-import icon_excluir
-import icon_filtro
-import icon_pesquisar
-import icon_consulta
-import icon_alterar
-
-import mysql.connector
-import pandas as pd
-import Controle
+    QWidget)
+import icon_adicionar_rc
+import icon_voltar_rc
+import icon_excluir_rc
+import icon_filtro_rc
+import icon_pesquisar_rc
+import icon_consulta_rc
+import icon_alterar_rc
 
 class Ui_frm_Fornecedor(object):
     def setupUi(self, frm_Fornecedor):
         if not frm_Fornecedor.objectName():
             frm_Fornecedor.setObjectName(u"frm_Fornecedor")
-        frm_Fornecedor.setFixedSize(581, 592)
-        self.frm_Fornecedor = frm_Fornecedor        
+        frm_Fornecedor.resize(581, 592)
         frm_Fornecedor.setStyleSheet(u"QWidget {\n"
 "    background-color: #2c2c2c;\n"
 "}")
@@ -378,41 +382,6 @@ class Ui_frm_Fornecedor(object):
         QMetaObject.connectSlotsByName(frm_Fornecedor)
     # setupUi
 
-    def consultarGeral(self):
-
-        mydb = mysql.connector.connect(
-                host = Controle.host,
-                user = Controle.user,
-                password = Controle.password,
-                database = Controle.database
-        )
-
-        mycursor = mydb.cursor()
-        consultaSQL = "SELECT * FROM fornecedor"
-        mycursor.execute(consultaSQL)
-        myresult = mycursor.fetchall()                                                                                                                                                                                                                                                                                                                                                                                                          
-
-        df = pd.DataFrame(myresult, columns=["IdFornecedor", "Razão Social", "Contato", "Cnpj", "Cidade", "Rua", "Bairro", "Cep", "E-mail"])
-        self.all_data = df
-
-        numRows = len(self.all_data.index)
-        numCols = len(self.all_data.columns)
-        self.tableWidget.setColumnCount(numCols)
-        self.tableWidget.setRowCount(numRows)
-        self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
-
-        for i in range(numRows):
-                for j in range(numCols):
-                     self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
-
-        self.tableWidget.resizeColumnsToContents()
-        self.tableWidget.resizeRowsToContents()
-
-        mycursor.close()
-
-    def sair(self):
-         self.frm_Fornecedor.close()
-
     def retranslateUi(self, frm_Fornecedor):
         frm_Fornecedor.setWindowTitle(QCoreApplication.translate("frm_Fornecedor", u"Form", None))
         self.btn_Add.setText("")
@@ -442,12 +411,4 @@ class Ui_frm_Fornecedor(object):
         ___qtablewidgetitem8 = self.tableWidget.horizontalHeaderItem(8)
         ___qtablewidgetitem8.setText(QCoreApplication.translate("frm_Fornecedor", u"E-mail", None));
     # retranslateUi
-        self.btn_filtro.clicked.connect(self.consultarGeral)
 
-if __name__ == "__main__":
-    app = QApplication([])
-    frm_Fornecedor = QWidget()
-    ui = Ui_frm_Fornecedor()
-    ui.setupUi(frm_Fornecedor)
-    frm_Fornecedor.show()
-    app.exec()

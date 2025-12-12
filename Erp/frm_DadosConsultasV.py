@@ -7,8 +7,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
     QSizePolicy, QWidget)
-import icon_cadastrar
-import icon_cancelar
+
+import icon_add
+import icon_voltar
 
 import os
 import sys

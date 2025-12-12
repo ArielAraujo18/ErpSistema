@@ -9,26 +9,32 @@ from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QTableWidget, QTableWidgetItem,
     QWidget, QMessageBox)
 
+from frm_DadosFornecedorV import Ui_frm_DadosFornecedor
+
+import mysql.connector
+import Controle
+import pandas as pd
+import os
+
 import icon_adicionar
-import icon_voltar
+import icon_consulta
 import icon_excluir
 import icon_filtro
 import icon_pesquisar
-import icon_consulta
+import icon_voltar
 import icon_alterar
-
-import mysql.connector
-import pandas as pd
-import Controle
 
 class Ui_frm_Fornecedor(object):
     def setupUi(self, frm_Fornecedor):
         if not frm_Fornecedor.objectName():
             frm_Fornecedor.setObjectName(u"frm_Fornecedor")
+        #frm_Fornecedor.resize(581, 592)
         frm_Fornecedor.setFixedSize(581, 592)
-        self.frm_Fornecedor = frm_Fornecedor        
-        frm_Fornecedor.setStyleSheet(u"QWidget {\n"
-"    background-color: #2c2c2c;\n"
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        frm_Fornecedor.setWindowIcon(QIcon(caminho_icone))
+        frm_Fornecedor.setStyleSheet(u"QWidget{\n"
+"	background-color: #264653;\n"
+"\n"
 "}")
         self.btn_Add = QPushButton(frm_Fornecedor)
         self.btn_Add.setObjectName(u"btn_Add")
@@ -38,7 +44,7 @@ class Ui_frm_Fornecedor(object):
 "    border: 2px solid #83C5BE; \n"
 "    border-radius: 10px;\n"
 "    color: #FFFFFF; \n"
-"    background-image: url(:/icon_adicionar/adicionar.png); \n"
+"    background-image: url(:/icon_add/adicionar.png); \n"
 "    background-repeat: no-repeat; \n"
 "    background-position: center; \n"
 "    font-size: 14px; \n"
@@ -68,7 +74,7 @@ class Ui_frm_Fornecedor(object):
 "    border: 2px solid #83C5BE; \n"
 "    border-radius: 10px;\n"
 "    color: #FFFFFF; \n"
-"    background-image: url(:/icon_voltar/voltar.png); \n"
+"    background-image: url(:/icon_volt/retornar.png); \n"
 "    background-repeat: no-repeat; \n"
 "    background-position: center; \n"
 "    font-size: 14px; \n"
@@ -95,7 +101,7 @@ class Ui_frm_Fornecedor(object):
 "    border: 2px solid #83C5BE; \n"
 "    border-radius: 10px;\n"
 "    color: #FFFFFF; \n"
-"    background-image: url(:/icon_consulta/Consultar.png); \n"
+"    background-image: url(:/icon_alt/consultar.png); \n"
 "    background-repeat: no-repeat; \n"
 "    background-position: center; \n"
 "    font-size: 14px; \n"
@@ -125,7 +131,7 @@ class Ui_frm_Fornecedor(object):
 "    border: 2px solid #83C5BE; \n"
 "    border-radius: 10px;\n"
 "    color: #FFFFFF; \n"
-"    background-image: url(:/icon_alterar/alterar.png); \n"
+"    background-image: url(:/icon_alt/alterar.png); \n"
 "    background-repeat: no-repeat; \n"
 "    background-position: center; \n"
 "    font-size: 14px; \n"
@@ -158,7 +164,7 @@ class Ui_frm_Fornecedor(object):
 "    font-size: 14px;\n"
 "    font-weight: bold;\n"
 "    padding: 10px 16px;\n"
-"    background-image:url(:/icon_excluir/excluir.png);\n"
+"    background-image:url(:/icon_exc/excluir.png);\n"
 "    background-repeat: no-repeat;\n"
 "    background-position: center;\n"
 "    padding-left: 40px;\n"
@@ -177,15 +183,15 @@ class Ui_frm_Fornecedor(object):
 "    padding-left: 44px;\n"
 "    padding-top: 2px;\n"
 "}")
-        self.btn_filtro = QPushButton(frm_Fornecedor)
-        self.btn_filtro.setObjectName(u"btn_filtro")
-        self.btn_filtro.setGeometry(QRect(520, 40, 21, 21))
-        self.btn_filtro.setStyleSheet(u"QPushButton {\n"
+        self.btn_pesquisar = QPushButton(frm_Fornecedor)
+        self.btn_pesquisar.setObjectName(u"btn_pesquisar")
+        self.btn_pesquisar.setGeometry(QRect(520, 70, 21, 21))
+        self.btn_pesquisar.setStyleSheet(u"QPushButton {\n"
 "    background-color: #EDE7F6;\n"
 "    border: 2px solid #83C5BE; \n"
 "    border-radius: 10px;\n"
 "    color: #FFFFFF; \n"
-"    background-image: url(:/icon_filtro/filtro.png); \n"
+"    background-image: url(:/icon_pesq/pesquisar.png); \n"
 "    background-repeat: no-repeat; \n"
 "    background-position: center; \n"
 "    font-size: 14px; \n"
@@ -231,7 +237,9 @@ class Ui_frm_Fornecedor(object):
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
+"    color: #000000;"
 "    transition: all 0.3s ease;\n"
+
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -239,15 +247,15 @@ class Ui_frm_Fornecedor(object):
 "    background-color: #FFFFFF; \n"
 "}\n"
 "")
-        self.btn_pesquisar = QPushButton(frm_Fornecedor)
-        self.btn_pesquisar.setObjectName(u"btn_pesquisar")
-        self.btn_pesquisar.setGeometry(QRect(520, 70, 21, 21))
-        self.btn_pesquisar.setStyleSheet(u"QPushButton {\n"
+        self.btn_filtro = QPushButton(frm_Fornecedor)
+        self.btn_filtro.setObjectName(u"btn_filtro")
+        self.btn_filtro.setGeometry(QRect(520, 40, 21, 21))
+        self.btn_filtro.setStyleSheet(u"QPushButton {\n"
 "    background-color: #EDE7F6;\n"
 "    border: 2px solid #83C5BE; \n"
 "    border-radius: 10px;\n"
 "    color: #FFFFFF; \n"
-"    background-image: url(:/icon_pesquisar/pesquisar.png); \n"
+"    background-image: url(:/icon_filt/filtro.png); \n"
 "    background-repeat: no-repeat; \n"
 "    background-position: center; \n"
 "    font-size: 14px; \n"
@@ -377,22 +385,32 @@ class Ui_frm_Fornecedor(object):
 
         QMetaObject.connectSlotsByName(frm_Fornecedor)
     # setupUi
+    ##Funções##
+    def sairTela(self, frm_Fornecedor):
+        frm_Fornecedor.close()
+        self.frm_Fornecedor = None
 
     def consultarGeral(self):
-
+        Controle.tiposTelaDadosCliente = 'consultar'
+        self.host = Controle.host
+        self.user = Controle.user
+        self.password = Controle.user
+        self.database = Controle.database
+        print('Conectando...')
         mydb = mysql.connector.connect(
                 host = Controle.host,
                 user = Controle.user,
                 password = Controle.password,
                 database = Controle.database
         )
-
+        print('Conexão bem sucedida!')
         mycursor = mydb.cursor()
-        consultaSQL = "SELECT * FROM fornecedor"
+        nomeConsulta = self.txt_nomeFornecedor.text()
+        consultaSQL = "SELECT * FROM fornecedor WHERE `Razão Social` LIKE'" + nomeConsulta + "%'"
         mycursor.execute(consultaSQL)
-        myresult = mycursor.fetchall()                                                                                                                                                                                                                                                                                                                                                                                                          
+        myresult = mycursor.fetchall()
 
-        df = pd.DataFrame(myresult, columns=["IdFornecedor", "Razão Social", "Contato", "Cnpj", "Cidade", "Rua", "Bairro", "Cep", "E-mail"])
+        df = pd.DataFrame(myresult, columns=["idFornecedor", "Razão Social", "Contato", "Cnpj", "Cidade", "Rua", "Bairro", "Cep", "E-mail"])
         self.all_data = df
 
         numRows = len(self.all_data.index)
@@ -403,26 +421,224 @@ class Ui_frm_Fornecedor(object):
 
         for i in range(numRows):
                 for j in range(numCols):
-                     self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
+                        self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
+        
+        self.tableWidget.resizeColumnsToContents()
 
+        for row in range(self.tableWidget.rowCount()):
+                self.tableWidget.resizeRowToContents(row)
+                mydb.close()
+
+    def pesquisarFornecedor(self):
+         
+        mydb = mysql.connector.connect(
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
+        )
+        
+        mycursor = mydb.cursor()
+
+        nomeConsulta = self.txt_nomeFornecedor.text().strip()
+        consultaSQL = 'SELECT * FROM fornecedor WHERE `Razão Social` LIKE %s'
+        mycursor.execute(consultaSQL, ('%' + nomeConsulta + '%',)) 
+
+        myresult = mycursor.fetchall() #resultados
+
+        df = pd.DataFrame(myresult, columns=['idFornecedor', 'Razão Social', 'Contato', 'Cnpj', 'Cidade', 'Rua', 'Bairro', 'Cep', 'E-mail'])
+        self.all_data = df
+
+        numRows = len(self.all_data.index)
+        numCols = len(self.all_data.columns)
+        self.tableWidget.setColumnCount(numCols)
+        self.tableWidget.setRowCount(numRows)
+        self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
+
+        for i in range(numRows):
+             for j in range(numCols):
+                  self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
+        
         self.tableWidget.resizeColumnsToContents()
         self.tableWidget.resizeRowsToContents()
 
         mycursor.close()
+    
+    def cadastrarFornecedor(self):
+        Controle.tiposTelaDadosCliente = 'incluir'
+        if not hasattr(self, 'frm_DadosFornecedor') or self.frm_DadosFornecedor is None or not self.frm_DadosFornecedor.isVisible():
+                self.frm_DadosFornecedor= QWidget()
+                self.ui = Ui_frm_DadosFornecedor()
+                self.ui.setupUi(self.frm_DadosFornecedor)
 
-    def sair(self):
-         self.frm_Fornecedor.close()
+                self.frm_DadosFornecedor.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_DadosFornecedor.destroyed.connect(lambda: setattr(self, 'frm_DadosFornecedor', None))
+
+                self.frm_DadosFornecedor.show()
+        else:
+             self.frm_DadosFornecedor.raise__()
+             self.frm_DadosFornecedor.activateWindow()
+
+
+
+    def consultarFornecedor(self):
+         
+        Controle.tiposTelaDadosCliente = 'consultar'
+        print('frmFornecedor', Controle.tiposTelaDadosCliente)
+
+        line = self.tableWidget.currentRow()
+
+        if line == -1:
+             msg = QMessageBox()
+             msg.setWindowTitle('ERRO!')
+             msg.setText('Por favor, selecione um Fornecedor para consultar.')
+             caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+             msg.setWindowIcon(QIcon(caminho_icone))
+             msg.setIcon(QMessageBox.Warning)
+             msg.setStandardButtons(QMessageBox.Ok)
+             msg.exec()
+             return
+        
+        item = self.tableWidget.item(line, 0)
+        
+        if item:
+             Controle.idConsulta = item.text()
+             if not hasattr(self, 'frm_DadosFornecedor') or self.frm_DadosFornecedor is None or not self.frm_DadosFornecedor.isVisible():
+                self.frm_DadosFornecedor = QWidget()
+                self.ui = Ui_frm_DadosFornecedor()
+                self.ui.setupUi(self.frm_DadosFornecedor)
+
+                self.frm_DadosFornecedor.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_DadosFornecedor.destroyed.connect(lambda: setattr(self, 'frm_DadosFornecedor', None))
+
+                self.frm_DadosFornecedor.show()
+             else:
+                self.frm_DadosFornecedor.raise_()
+                self.frm_DadosFornecedor.activateWindow()
+
+        else:
+             msg = QMessageBox()
+             msg.setWindowTitle("Erro de Seleção")
+             msg.setText("Não foi possível obter o ID do cliente selecionado.")
+             msg.setIcon(QMessageBox.Warning)
+             msg.setStandardButtons(QMessageBox.Ok)
+             msg.exec()
+
+    def alterarFornecedor(self):
+        Controle.tiposTelaDadosCliente = 'alterar'
+        print('frm_Fornecedor', Controle.tiposTelaDadosCliente)
+        
+        line = self.tableWidget.currentRow() 
+
+        if line == -1:
+             msg = QMessageBox()
+             msg.setWindowTitle('Erro de Seleção')
+             msg.setText('Por favor, selecione algum fornecedor para alterar')
+             caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+             msg.setWindowIcon(QIcon(caminho_icone))
+             msg.setIcon(QMessageBox.Warning)
+             msg.setStandardButtons(QMessageBox.Ok)
+             msg.exec()
+             return
+        
+        item = self.tableWidget.item(line, 0)
+
+        if item:
+                Controle.idConsulta = item.text()
+                if not hasattr(self, 'frm_DadosFornecedor') or self.frm_DadosFornecedor is None or not self.frm_DadosFornecedor.isVisible():
+                        self.frm_DadosFornecedor = QWidget()
+                        self.ui = Ui_frm_DadosFornecedor()
+                        self.ui.setupUi(self.frm_DadosFornecedor)
+
+        
+                        self.frm_DadosFornecedor.setAttribute(Qt.WA_DeleteOnClose)
+                        self.frm_DadosFornecedor.destroyed.connect(lambda: setattr(self, 'frm_DadosFornecedor', None))
+
+                        self.frm_DadosFornecedor.show()
+                else:
+                        self.frm_DadosFornecedor.raise_()
+                        self.frm_DadosFornecedor.activateWindow()
+        
+    def excluirFornecedor(self):
+        
+        line = self.tableWidget.currentRow()
+
+        if line == -1:
+             msg = QMessageBox()
+             msg.setWindowTitle('Erro!')
+             msg.setText('Por favor, selecione um forncedor para excluir.')
+             caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+             msg.setWindowIcon(QIcon(caminho_icone))
+             msg.setIcon(QMessageBox.Warning)
+             msg.setStandardButtons(QMessageBox.Ok)
+             msg.exec()
+             return 
+        
+        item = self.tableWidget.item(line, 0) 
+
+        if item:
+             idFornecedor = item.text()
+
+             mydb = mysql.connector.connect(
+                        host = Controle.host,
+                        user = Controle.user,
+                        password = Controle.password,
+                        database = Controle.database
+                )
+             
+             mycursor = mydb.cursor()
+             sql = 'DELETE FROM fornecedor WHERE idFornecedor = %s'
+             mycursor.execute(sql, (idFornecedor,))
+             mydb.commit()
+
+             msg = QMessageBox()
+             msg.setWindowTitle('Fornecedor excluído')
+             msg.setText('Fornecedor excluído com sucesso!')
+             caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+             msg.setWindowIcon(QIcon(caminho_icone))
+             msg.setIcon(QMessageBox.Information)
+             msg.setStandardButtons(QMessageBox.Ok)
+             msg.exec()
+
+             mycursor.execute('SELECT * FROM fornecedor')
+             myresult = mycursor.fetchall()
+             df = pd.DataFrame(myresult, columns=['idFornecedor', 'Razão Social', 'Contato', 'Cnpj', 'Cidade', 'Rua', 'Bairro', 'Cep', 'E-mail'])
+             self.all_data = df
+
+             numRows = len(self.all_data.index)
+             self.tableWidget.setColumnCount(len(self.all_data.columns))
+             self.tableWidget.setRowCount(numRows)
+             self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
+
+             for i in range(numRows):
+                  for j in range(len(self.all_data.columns)):
+                       self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
+        
+             self.tableWidget.resizeColumnsToContents()
+             self.tableWidget.resizeRowsToContents()
+
+             mydb.close()
+        
+        else: 
+             msg = QMessageBox()
+             msg.setWindowTitle('Erro seleção')
+             msg.setText('Fornecedor não selecionado!')
+             caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+             msg.setWindowIcon(QIcon(caminho_icone))
+             msg.setIcon(QMessageBox.Warning)
+             msg.setStandardButtons(QMessageBox.Ok)
+             msg.exec()
 
     def retranslateUi(self, frm_Fornecedor):
-        frm_Fornecedor.setWindowTitle(QCoreApplication.translate("frm_Fornecedor", u"Form", None))
+        frm_Fornecedor.setWindowTitle(QCoreApplication.translate("frm_Fornecedor", u"Fornecedor", None))
         self.btn_Add.setText("")
         self.btn_voltar.setText("")
         self.btn_consul.setText("")
         self.btn_alterar.setText("")
         self.btn_excluir.setText("")
-        self.btn_filtro.setText("")
-        self.lbl_nomeFornecedor.setText(QCoreApplication.translate("frm_Fornecedor", u"Nome do Fornecedor: ", None))
         self.btn_pesquisar.setText("")
+        self.lbl_nomeFornecedor.setText(QCoreApplication.translate("frm_Fornecedor", u"Nome do Fornecedor: ", None))
+        self.btn_filtro.setText("")
         ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("frm_Fornecedor", u"idFornecedor", None));
         ___qtablewidgetitem1 = self.tableWidget.horizontalHeaderItem(1)
@@ -442,12 +658,21 @@ class Ui_frm_Fornecedor(object):
         ___qtablewidgetitem8 = self.tableWidget.horizontalHeaderItem(8)
         ___qtablewidgetitem8.setText(QCoreApplication.translate("frm_Fornecedor", u"E-mail", None));
     # retranslateUi
-        self.btn_filtro.clicked.connect(self.consultarGeral)
 
+    #Botões
+        self.btn_voltar.clicked.connect(lambda: self.sairTela(frm_Fornecedor))
+        self.btn_filtro.clicked.connect(self.consultarGeral)
+        self.btn_pesquisar.clicked.connect(self.pesquisarFornecedor)
+        self.btn_Add.clicked.connect(self.cadastrarFornecedor)
+        self.btn_consul.clicked.connect(self.consultarFornecedor)
+        self.btn_alterar.clicked.connect(self.alterarFornecedor)
+        self.btn_excluir.clicked.connect(self.excluirFornecedor)
+
+        
 if __name__ == "__main__":
     app = QApplication([])
-    frm_Fornecedor = QWidget()
+    frm_Fornecedor= QWidget()
     ui = Ui_frm_Fornecedor()
     ui.setupUi(frm_Fornecedor)
     frm_Fornecedor.show()
-    app.exec()
+    app.exec()                           

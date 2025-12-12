@@ -1,13 +1,3 @@
-# -*- coding: utf-8 -*-
-
-################################################################################
-## Form generated from reading UI file 'frm_DadosFornecedor.ui'
-##
-## Created by: Qt User Interface Compiler version 6.10.0
-##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
-################################################################################
-
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
@@ -16,17 +6,29 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
-    QSizePolicy, QWidget)
-import icon_voltar_rc
-import icon_add_rc
+    QSizePolicy, QWidget, QMessageBox)
+
+import pandas as pd
+
+#SQL
+import os
+import mysql.connector
+
+import icon_add
+import icon_voltar
+import Controle
 
 class Ui_frm_DadosFornecedor(object):
     def setupUi(self, frm_DadosFornecedor):
+        self.frm_DadosFornecedor = frm_DadosFornecedor
         if not frm_DadosFornecedor.objectName():
             frm_DadosFornecedor.setObjectName(u"frm_DadosFornecedor")
-        frm_DadosFornecedor.resize(526, 566)
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        frm_DadosFornecedor.setWindowIcon(QIcon(caminho_icone))
+        frm_DadosFornecedor.setFixedSize(526, 566)
         frm_DadosFornecedor.setStyleSheet(u"QWidget {\n"
-"    background-color: #2c2c2c;\n"
+"    background-color: #264653;\n"
+"    border-radius: 8px;\n"
 "}")
         self.lbl_razao = QLabel(frm_DadosFornecedor)
         self.lbl_razao.setObjectName(u"lbl_razao")
@@ -88,7 +90,7 @@ class Ui_frm_DadosFornecedor(object):
 "    font-size: 14px;\n"
 "    font-weight: bold;\n"
 "    padding: 10px 16px;\n"
-"    background-image:url(:/icon_voltar/voltar.png);\n"
+"    background-image:url(:/icon_cancelar/cancelar.png);\n"
 "    background-repeat: no-repeat;\n"
 "    background-position: center;\n"
 "    padding-left: 40px;\n"
@@ -192,7 +194,7 @@ class Ui_frm_DadosFornecedor(object):
 "    font-size: 14px;\n"
 "    font-weight: bold;\n"
 "    padding: 10px 16px;\n"
-"    background-image:url(:/icon_add/add.png); \n"
+"    background-image:url(:/icon_cadastrar/cadastrar.png); \n"
 "    background-repeat: no-repeat;\n"
 "    background-position: center;\n"
 "    transition: all 0.3s ease;\n"
@@ -317,8 +319,98 @@ class Ui_frm_DadosFornecedor(object):
         QMetaObject.connectSlotsByName(frm_DadosFornecedor)
     # setupUi
 
+    def adicionarFornecedor(self):
+        razaoSocial = self.txt_razao.text()
+        contato = self.txt_contato.text()
+        cnpj = self.txt_cnpj.text()
+        cidade = self.txt_cidade.text()
+        rua = self.txt_Rua.text()
+        bairro = self.txt_bairro.text()
+        cep = self.txt_cep.text()
+        email = self.txt_email.text()
+
+        mydb = mysql.connector.connect(
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
+        )
+
+        mycursor = mydb.cursor()
+        sql = "INSERT INTO fornecedor (`Razão Social`, `Contato`, `Cnpj`, `Cidade`, `Rua`, `Bairro`, `Cep`, `E-mail`) values (%s, %s, %s, %s, %s, %s, %s, %s)"
+        val = (razaoSocial, contato, cnpj, cidade, rua, bairro, cep, email)
+        mycursor.execute(sql, val)
+        mydb.commit()
+
+        print(mycursor.rowcount, 'registro(s) inserido(s)')
+        mycursor.close()
+
+        self.txt_razao.setText("")
+        self.txt_contato.setText("")
+        self.txt_cnpj.setText("")
+        self.txt_cidade.setText("")
+        self.txt_Rua.setText("")
+        self.txt_bairro.setText("")
+        self.txt_cep.setText("")
+        self.txt_email.setText("")
+
+        msg = QMessageBox()
+        msg.setWindowTitle('Sucesso!')
+        msg.setText('Fornecedor adicionado com sucesso!')
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        msg.setWindowIcon(QIcon(caminho_icone))
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec()
+
+        self.frm_DadosFornecedor.close()
+
+    def sairTela(self, frm_DadosFornecedor):
+        frm_DadosFornecedor.close()
+
+    def alterarFornecedor(self):
+        razaoSocial = self.txt_razao.text()
+        contato = self.txt_contato.text()
+        cnpj = self.txt_cnpj.text()
+        cidade = self.txt_cidade.text()
+        rua = self.txt_Rua.text()
+        bairro = self.txt_bairro.text()
+        cep = self.txt_cep.text()
+        email = self.txt_email.text()
+
+        
+        mydb = mysql.connector.connect(
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
+        )
+        mycursor = mydb.cursor()
+
+        sql = """
+        UPDATE fornecedor
+        SET `Razão Social` = %s, Contato = %s, cnpj = %s, Cidade = %s, Rua = %s,
+        Bairro = %s, Cep = %s, `E-mail` = %s
+        WHERE IdFornecedor = %s
+                """
+        val = (razaoSocial, contato, cnpj, cidade, rua, bairro, cep, email, Controle.idConsulta)
+
+        mycursor.execute(sql, val)
+        mydb.commit()
+
+        msg = QMessageBox()
+        msg.setWindowTitle('Sucesso!')
+        msg.setText('Fornecedor alterado com sucesso!')
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        msg.setWindowIcon(QIcon(caminho_icone))
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec()
+
+        self.frm_DadosFornecedor.close()
+
     def retranslateUi(self, frm_DadosFornecedor):
-        frm_DadosFornecedor.setWindowTitle(QCoreApplication.translate("frm_DadosFornecedor", u"Form", None))
+        frm_DadosFornecedor.setWindowTitle(QCoreApplication.translate("frm_DadosFornecedor", u"Dados Fornecedor", None))
         self.lbl_razao.setText(QCoreApplication.translate("frm_DadosFornecedor", u"Raz\u00e3o Social:", None))
         self.lbl_contato.setText(QCoreApplication.translate("frm_DadosFornecedor", u"Contato:", None))
         self.lbl_Cnpj.setText(QCoreApplication.translate("frm_DadosFornecedor", u"Cnpj:", None))
@@ -334,4 +426,124 @@ class Ui_frm_DadosFornecedor(object):
         self.txt_cep.setInputMask(QCoreApplication.translate("frm_DadosFornecedor", u"00000-000", None))
         self.lbl_cep.setText(QCoreApplication.translate("frm_DadosFornecedor", u"Cep:", None))
     # retranslateUi
+        ##Condições do botão
+        if Controle.tiposTelaDadosCliente == 'incluir':
+            print('incluindo')
+            self.btn_cadastrar.clicked.connect(self.adicionarFornecedor)
+        if Controle.tiposTelaDadosCliente == 'alterar':
+            print('Alterando')
+            self.btn_cadastrar.clicked.connect(self.alterarFornecedor)
 
+        self.btn_cancelar.clicked.connect(lambda: self.sairTela(frm_DadosFornecedor))
+
+
+
+        ##Condições da tela    
+        if Controle.tiposTelaDadosCliente == 'incluir':
+            print('Frm_DadosFornecedor: ', Controle.tiposTelaDadosCliente)
+            self.txt_razao.setEnabled(True)
+            self.txt_contato.setEnabled(True)
+            self.txt_cnpj.setEnabled(True)
+            self.txt_cidade.setEnabled(True)
+            self.txt_Rua.setEnabled(True)
+            self.txt_bairro.setEnabled(True)
+            self.txt_cep.setEnabled(True)
+            self.txt_email.setEnabled(True)
+
+        elif Controle.tiposTelaDadosCliente == 'consultar':            
+                print('DadosCliente: ', Controle.tiposTelaDadosCliente)
+                self.txt_razao.setEnabled(False)
+                self.txt_contato.setEnabled(False)
+                self.txt_cnpj.setEnabled(False)
+                self.txt_cidade.setEnabled(False)
+                self.txt_Rua.setEnabled(False)
+                self.txt_bairro.setEnabled(False)
+                self.txt_cep.setEnabled(False)
+                self.txt_email.setEnabled(False)
+                self.btn_cadastrar.setEnabled(False)
+        
+                print('Conectando...')
+                mydb = mysql.connector.connect(
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
+                )
+                mycursor = mydb.cursor()
+                consultaSQL = "SELECT * FROM Fornecedor WHERE idFornecedor = '" + Controle.idConsulta + "'"
+                mycursor.execute(consultaSQL)
+                myresult = mycursor.fetchall()
+                print (myresult)
+                mycursor.close()
+
+                df = pd.DataFrame(myresult, columns=["idFornecedor", "Razão Social", "Contato", "Cnpj", "Cidade", "Rua", "Bairro", "Cep", "E-mail"])
+                razaoSocial = df['Razão Social'][0]
+                contatoF = df['Contato'][0]
+                cnpjF = df['Cnpj'][0]
+                cidadeF = df['Cidade'][0]
+                ruaF = df['Rua'][0]
+                bairroF = df['Bairro'][0]
+                CepF = df['Cep'][0]
+                emailF = df['E-mail'][0]
+
+                self.txt_razao.setText(razaoSocial)
+                self.txt_contato.setText(contatoF)
+                self.txt_cnpj.setText(cnpjF)
+                self.txt_cidade.setText(cidadeF)
+                self.txt_Rua.setText(ruaF)
+                self.txt_bairro.setText(bairroF)
+                self.txt_cep.setText(CepF)
+                self.txt_email.setText(emailF)
+
+        elif Controle.tiposTelaDadosCliente == 'alterar':
+                print('DadosFornecedor: ', Controle.tiposTelaDadosCliente)
+                self.txt_razao.setEnabled(True)
+                self.txt_contato.setEnabled(True)
+                self.txt_cnpj.setEnabled(True)
+                self.txt_cidade.setEnabled(True)
+                self.txt_Rua.setEnabled(True)
+                self.txt_bairro.setEnabled(True)
+                self.txt_cep.setEnabled(True)
+                self.txt_email.setEnabled(True)
+                self.btn_cadastrar.setEnabled(True)
+                print('Conectando...')
+                mydb = mysql.connector.connect(
+                        host = Controle.host,
+                        user = Controle.user,
+                        password = Controle.password,
+                        database = Controle.database
+                )
+                mycursor = mydb.cursor()
+                consultaSQL = "SELECT * FROM fornecedor WHERE idFornecedor = '" + Controle.idConsulta + "'"
+                mycursor.execute(consultaSQL)
+                myresult = mycursor.fetchall()
+                mycursor.close()
+
+                df = pd.DataFrame(myresult, columns=["idFornecedor", "Razão Social", "Contato", "Cnpj", "Cidade", "Rua", "Bairro", "Cep", "E-mail"])
+                razaoSocial = df['Razão Social'][0]
+                contato = df['Contato'][0]
+                cnpj = df['Cnpj'][0]
+                cidade = df['Cidade'][0]
+                rua = df['Rua'][0]
+                bairro = df['Bairro'][0]
+                cep = df['Cep'][0]
+                email = df['E-mail'][0]
+                
+                self.txt_razao.setText(razaoSocial)
+                self.txt_contato.setText(contato)
+                self.txt_cnpj.setText(cnpj)
+                self.txt_cidade.setText(cidade)
+                self.txt_Rua.setText(rua)
+                self.txt_bairro.setText(bairro)
+                self.txt_cep.setText(cep)
+                self.txt_email.setText(email)
+
+
+
+if __name__ == "__main__":
+    app = QApplication([])
+    frm_DadosFornecedor= QWidget()
+    ui = Ui_frm_DadosFornecedor()
+    ui.setupUi(frm_DadosFornecedor)
+    frm_DadosFornecedor.show()
+    app.exec()

@@ -8,30 +8,32 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QTableWidget, QTableWidgetItem,
     QWidget, QMessageBox)
-
 import mysql.connector
 import pandas as pd
 import os
-import Controle
 
+#Import Imagens
 import icon_adicionar
+import icon_consulta
 import icon_excluir
+import icon_filtro
 import icon_pesquisar
 import icon_voltar
-import icon_filtro
-import icon_consulta
 import icon_alterar
+import Controle
 
 from frm_DadosCliente import Ui_frm_DadosCliente
 
 class Ui_frm_Cliente(object):
+    
     def setupUi(self, frm_Cliente):
         if not frm_Cliente.objectName():
             frm_Cliente.setObjectName(u"frm_Cliente")
         frm_Cliente.setFixedSize(581, 592)
-        self.frm_Cliente = frm_Cliente
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        frm_Cliente.setWindowIcon(QIcon(caminho_icone))
         frm_Cliente.setStyleSheet(u"QWidget {\n"
-"    background-color: #2c2c2c;\n"
+"    background-color: #e8f5e9;\n"
 "}")
         self.btn_Add = QPushButton(frm_Cliente)
         self.btn_Add.setObjectName(u"btn_Add")
@@ -44,7 +46,7 @@ class Ui_frm_Cliente(object):
 "    font-size: 14px;\n"
 "    font-weight: bold; \n"
 "    padding: 10px 16px;\n"
-"    background-image:url(:/icon_adicionar/adicionar.png);\n"
+"    background-image:url(:/icon_add/adicionar.png);\n"
 "    background-repeat: no-repeat;\n"
 "    background-position: center;\n"
 "    transition: all 0.3s ease;\n"
@@ -71,7 +73,7 @@ class Ui_frm_Cliente(object):
 "    padding: 10px; \n"
 "    color: #333333; \n"
 "    font-size: 14px; \n"
-"	background-image:url(:/icon_voltar/voltar.png);\n"
+"	background-image:url(:/icon_volt/retornar.png);\n"
 "    background-repeat: no-repeat; \n"
 "    background-position: center;\n"
 "	transition: all 0.3s ease;\n"
@@ -97,7 +99,7 @@ class Ui_frm_Cliente(object):
 "    font-size: 14px;\n"
 "    font-weight: bold;\n"
 "    padding: 10px 16px; \n"
-"    background-image:url(:/icon_consulta/Consultar.png);\n"
+"    background-image:url(:/icon_alt/consultar.png);\n"
 "    background-repeat: no-repeat;\n"
 "    background-position: center;\n"
 "    transition: all 0.3s ease;\n"
@@ -125,7 +127,7 @@ class Ui_frm_Cliente(object):
 "    font-size: 14px;\n"
 "    font-weight: bold; \n"
 "    padding: 10px 16px;\n"
-"    background-image:url(:/icon_alterar/alterar.png);\n"
+"    background-image:url(:/icon_alt/alterar.png);\n"
 "    background-repeat: no-repeat;\n"
 "    background-position: center;\n"
 "    transition: all 0.3s ease;\n"
@@ -153,7 +155,7 @@ class Ui_frm_Cliente(object):
 "    font-size: 14px;\n"
 "    font-weight: bold;\n"
 "    padding: 10px 16px;\n"
-"    background-image:url(:/icon_excluir/excluir.png);\n"
+"    background-image:url(:/icon_exc/excluir.png);\n"
 "    background-repeat: no-repeat;\n"
 "    background-position: center;\n"
 "    padding-left: 40px;\n"
@@ -183,7 +185,7 @@ class Ui_frm_Cliente(object):
 "    font-size: 14px;\n"
 "    font-weight: bold; \n"
 "    padding: 10px 16px;\n"
-"    background-image:url(:/icon_pesquisar/pesquisar.png); \n"
+"    background-image:url(:/icon_pesq/pesquisar.png); \n"
 "    background-repeat: no-repeat;\n"
 "    background-position: center;\n"
 "    transition: all 0.3s ease; \n"
@@ -208,7 +210,7 @@ class Ui_frm_Cliente(object):
         self.lbl_nomeCliente.setFont(font)
         self.lbl_nomeCliente.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
-"    color: #FFFFFF;\n"
+"    color: #333333;\n"
 "    font-weight: bold;\n"
 "    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
 "}\n"
@@ -224,6 +226,7 @@ class Ui_frm_Cliente(object):
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
+"       color: #333333;\n"
 "    transition: all 0.3s ease;\n"
 "}\n"
 "\n"
@@ -243,7 +246,7 @@ class Ui_frm_Cliente(object):
 "    font-size: 14px; \n"
 "    font-weight: bold;\n"
 "    padding: 10px 16px; \n"
-"    background-image:url(:/icon_filtro/filtro.png);\n"
+"    background-image:url(:/icon_filt/filtro.png);\n"
 "    background-repeat: no-repeat;\n"
 "    background-position: center;\n"
 "    transition: all 0.3s ease; \n"
@@ -261,8 +264,8 @@ class Ui_frm_Cliente(object):
 "    padding-top: 4px;\n"
 "}")
         self.tableWidget = QTableWidget(frm_Cliente)
-        if (self.tableWidget.columnCount() < 11):
-            self.tableWidget.setColumnCount(11)
+        if (self.tableWidget.columnCount() < 10):
+            self.tableWidget.setColumnCount(10)
         __qtablewidgetitem = QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem)
         __qtablewidgetitem1 = QTableWidgetItem()
@@ -283,8 +286,6 @@ class Ui_frm_Cliente(object):
         self.tableWidget.setHorizontalHeaderItem(8, __qtablewidgetitem8)
         __qtablewidgetitem9 = QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(9, __qtablewidgetitem9)
-        __qtablewidgetitem10 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(10, __qtablewidgetitem10)
         self.tableWidget.setObjectName(u"tableWidget")
         self.tableWidget.setGeometry(QRect(0, 170, 581, 321))
         self.tableWidget.setStyleSheet(u"QTableWidget, QTableView {\n"
@@ -369,9 +370,13 @@ class Ui_frm_Cliente(object):
 "")
 
         self.retranslateUi(frm_Cliente)
-
         QMetaObject.connectSlotsByName(frm_Cliente)
     # setupUi
+
+
+
+    
+    ##Função dos botões##
     def consultarGeral(self):
         self.host = Controle.host
         self.user = Controle.user
@@ -386,8 +391,8 @@ class Ui_frm_Cliente(object):
         )
         print('Conexão bem-sucedida!')
         mycursor = mydb.cursor()
-        #nomeConsulta = self.txt_nomeCliente.text()
-        consultaSQL = "SELECT * FROM cliente"
+        nomeConsulta = self.txt_nomeCliente.text()
+        consultaSQL = "SELECT * FROM cliente WHERE nome LIKE '" + nomeConsulta + "%'"
         mycursor.execute(consultaSQL)
         myresult = mycursor.fetchall()
 
@@ -411,8 +416,10 @@ class Ui_frm_Cliente(object):
         mycursor.close()
 
 
-    def sairTela(self):
+    def sairTela(self, frm_Cliente):
+
         frm_Cliente.close()
+        self.frm_Cliente = None
 
 
     def pesquisarCliente(self):
@@ -632,7 +639,7 @@ class Ui_frm_Cliente(object):
                 msg.exec()
 
     def retranslateUi(self, frm_Cliente):
-        frm_Cliente.setWindowTitle(QCoreApplication.translate("frm_Cliente", u"Cadastrar cliente", None))
+        frm_Cliente.setWindowTitle(QCoreApplication.translate("frm_Cliente", u"Cliente", None))
         self.btn_Add.setText("")
         self.btn_voltar.setText("")
         self.btn_consul.setText("")
@@ -656,16 +663,16 @@ class Ui_frm_Cliente(object):
         ___qtablewidgetitem6 = self.tableWidget.horizontalHeaderItem(6)
         ___qtablewidgetitem6.setText(QCoreApplication.translate("frm_Cliente", u"Bairro", None));
         ___qtablewidgetitem7 = self.tableWidget.horizontalHeaderItem(7)
-        ___qtablewidgetitem7.setText(QCoreApplication.translate("frm_Cliente", u"N\u00famero", None));
+        ___qtablewidgetitem7.setText(QCoreApplication.translate("frm_Cliente", u"Número", None));
         ___qtablewidgetitem8 = self.tableWidget.horizontalHeaderItem(8)
         ___qtablewidgetitem8.setText(QCoreApplication.translate("frm_Cliente", u"Cep", None));
         ___qtablewidgetitem9 = self.tableWidget.horizontalHeaderItem(9)
         ___qtablewidgetitem9.setText(QCoreApplication.translate("frm_Cliente", u"E-mail", None));
-        ___qtablewidgetitem10 = self.tableWidget.horizontalHeaderItem(10)
-        ___qtablewidgetitem10.setText(QCoreApplication.translate("frm_Cliente", u"Pontos", None));
     # retranslateUi
+
+        ##Botões##
         self.btn_filtro.clicked.connect(self.consultarGeral)
-        self.btn_voltar.clicked.connect(self.sairTela)
+        self.btn_voltar.clicked.connect(lambda: self.sairTela(frm_Cliente))
         self.btn_pesquisar.clicked.connect(self.pesquisarCliente)
         self.btn_Add.clicked.connect(self.cadastrarCliente)
         self.btn_consul.clicked.connect(self.consultarCliente)

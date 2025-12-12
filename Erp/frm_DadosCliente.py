@@ -354,66 +354,6 @@ class Ui_frm_DadosCliente(object):
     # setupUi
     def adicionarCliente(self):
         Controle.pontos = 0
-        
-        #Campos para verificação
-        campos_comuns = {
-              "Nome": self.txt_nome.text().strip(),
-              "Cidade": self.txt_cidade.text().strip(),
-              "Rua": self.txt_Rua.text().strip(),
-              "Bairro": self.txt_bairro.text().strip(),
-              "Número": self.txt_Numero.text().strip(),
-              "E-mail": self.txt_cidade_6.text().strip(),
-        }
-        campos_mask = {
-              "Celular": self.txt_celular.text().strip(),
-              "Cpf": self.txt_cpf.text().strip(),
-               "Cep": self.txt_cep.text().strip(),
-        }
-        for campos_comuns, valor in campos_comuns.items():
-              if not valor.strip():
-                    msg = QMessageBox()
-                    msg.setWindowTitle("ERRO!")
-                    msg.setText(f"O campo '{campos_comuns} é obrigatório, e não pode ficar vazio!' ")
-                    icon_path = r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"
-                    msg.setWindowIcon(QIcon(icon_path)) 
-                    msg.setIcon(QMessageBox.Information)
-                    msg.setStandardButtons(QMessageBox.Ok)
-                    msg.exec()
-                    return
-
-        email = self.txt_cidade_6.text().strip()
-        if "@" not in email or "." not in email.split("@")[-1]:
-                msg = QMessageBox()
-                msg.setWindowTitle("Erro!")
-                msg.setText("O campo E-mail deve conter um endereço válido (ex: exemplo@email.com)")
-                msg.setWindowIcon(QIcon((r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png")))
-                msg.setIcon(QMessageBox.Icon.Warning)
-                msg.setStandardButtons(QMessageBox.Ok)
-                msg.exec()
-                return
-
-        for campos_mask, valor in campos_mask.items():
-                if len(valor.replace("_", "").replace(".", "").strip()) < 6:
-                        msg = QMessageBox()
-                        msg.setWindowTitle("ERRO!")
-                        msg.setText(f"O campo '{campos_mask}' deve ser preenchido!")
-                        icon_path = r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"
-                        msg.setWindowIcon(QIcon(icon_path))
-                        msg.setIcon(QMessageBox.Information)
-                        msg.setStandardButtons(QMessageBox.Ok)
-                        msg.exec()
-                        return
-        
-        numeroCliente = self.txt_Numero.text().strip()
-        if not numeroCliente.isdigit():
-                msg = QMessageBox()
-                msg.setWindowTitle("Erro de Validação")
-                msg.setText("O campo 'Número' deve conter apenas números!")
-                msg.setIcon(QMessageBox.Warning)
-                msg.setStandardButtons(QMessageBox.Ok)
-                msg.exec()
-                return 
-
 
         nomeCliente = self.txt_nome.text()
         celularCliente = self.txt_celular.text()
@@ -424,6 +364,9 @@ class Ui_frm_DadosCliente(object):
         numeroCliente = self.txt_Numero.text()
         cepCliente = self.txt_cep.text()
         emailCliente = self.txt_cidade_6.text()
+
+        if numeroCliente == '':
+              numeroCliente = 0
                 
         mydb = mysql.connector.connect( 
                 host= Controle.host,
