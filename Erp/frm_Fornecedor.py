@@ -232,6 +232,7 @@ class Ui_frm_Fornecedor(object):
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
 "    transition: all 0.3s ease;\n"
+"    color: #000000;\n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -379,7 +380,6 @@ class Ui_frm_Fornecedor(object):
     # setupUi
 
     def consultarGeral(self):
-
         mydb = mysql.connector.connect(
                 host = Controle.host,
                 user = Controle.user,
@@ -413,6 +413,38 @@ class Ui_frm_Fornecedor(object):
     def sair(self):
          self.frm_Fornecedor.close()
 
+    def pesquisarNome(self):
+        mydb = mysql.connector.connect(
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
+        )
+
+        mycursor = mydb.cursor()
+        nomeConsulta = self.txt_nomeFornecedor.text()
+        consultaSQL = "SELECT * FROM fornecedor WHERE `Razão Social` LIKE %s"
+        mycursor.execute(consultaSQL, ('%' + nomeConsulta + '%',))
+        myresult = mycursor.fetchall()                                                                                                                                                                                                                                                                                                                                                                                                          
+
+        df = pd.DataFrame(myresult, columns=["IdFornecedor", "Razão Social", "Contato", "Cnpj", "Cidade", "Rua", "Bairro", "Cep", "E-mail"])
+        self.all_data = df
+
+        numRows = len(self.all_data.index)
+        numCols = len(self.all_data.columns)
+        self.tableWidget.setColumnCount(numCols)
+        self.tableWidget.setRowCount(numRows)
+        self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
+
+        for i in range(numRows):
+                for j in range(numCols):
+                     self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
+
+        self.tableWidget.resizeColumnsToContents()
+        self.tableWidget.resizeRowsToContents()
+
+        mycursor.close()
+
     def retranslateUi(self, frm_Fornecedor):
         frm_Fornecedor.setWindowTitle(QCoreApplication.translate("frm_Fornecedor", u"Form", None))
         self.btn_Add.setText("")
@@ -443,6 +475,8 @@ class Ui_frm_Fornecedor(object):
         ___qtablewidgetitem8.setText(QCoreApplication.translate("frm_Fornecedor", u"E-mail", None));
     # retranslateUi
         self.btn_filtro.clicked.connect(self.consultarGeral)
+        self.btn_voltar.clicked.connect(self.sair)
+        self.btn_pesquisar.clicked.connect(self.pesquisarNome)
 
 if __name__ == "__main__":
     app = QApplication([])
