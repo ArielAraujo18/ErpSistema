@@ -1,13 +1,3 @@
-# -*- coding: utf-8 -*-
-
-################################################################################
-## Form generated from reading UI file 'frm_DadosFornecedor.ui'
-##
-## Created by: Qt User Interface Compiler version 6.10.0
-##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
-################################################################################
-
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
@@ -17,14 +7,16 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
     QSizePolicy, QWidget)
-import icon_voltar_rc
-import icon_add_rc
+
+import icon_voltar
+import icon_add
 
 class Ui_frm_DadosFornecedor(object):
     def setupUi(self, frm_DadosFornecedor):
         if not frm_DadosFornecedor.objectName():
             frm_DadosFornecedor.setObjectName(u"frm_DadosFornecedor")
-        frm_DadosFornecedor.resize(526, 566)
+        frm_DadosFornecedor.setFixedSize(526, 566)
+        self.frm_DadosFornecedor = frm_DadosFornecedor
         frm_DadosFornecedor.setStyleSheet(u"QWidget {\n"
 "    background-color: #2c2c2c;\n"
 "}")
@@ -335,3 +327,10 @@ class Ui_frm_DadosFornecedor(object):
         self.lbl_cep.setText(QCoreApplication.translate("frm_DadosFornecedor", u"Cep:", None))
     # retranslateUi
 
+if __name__ == "__main__":
+    app = QApplication([])
+    frm_DadosFornecedor = QWidget()
+    ui = Ui_frm_DadosFornecedor()
+    ui.setupUi(frm_DadosFornecedor)
+    frm_DadosFornecedor.show()
+    app.exec()

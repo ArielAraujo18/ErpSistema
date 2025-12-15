@@ -225,6 +225,7 @@ class Ui_frm_Cliente(object):
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
 "    transition: all 0.3s ease;\n"
+"    color: #000000;\n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"

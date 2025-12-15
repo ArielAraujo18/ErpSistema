@@ -21,6 +21,8 @@ import mysql.connector
 import pandas as pd
 import Controle
 
+from frm_DadosFornecedor import Ui_frm_DadosFornecedor
+
 class Ui_frm_Fornecedor(object):
     def setupUi(self, frm_Fornecedor):
         if not frm_Fornecedor.objectName():
@@ -445,8 +447,23 @@ class Ui_frm_Fornecedor(object):
 
         mycursor.close()
 
+    def adicionarFornecedor(self):
+        Controle.tiposTelaDadosCliente = 'incluir'
+        if not hasattr(self, 'frm_DadosFornecedor') or self.frm_DadosFornecedor is None or not self.frm_DadosFornecedor.isVisible():
+                self.frm_DadosFornecedor= QWidget()
+                self.ui = Ui_frm_DadosFornecedor()
+                self.ui.setupUi(self.frm_DadosFornecedor)
+
+                self.frm_DadosFornecedor.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_DadosFornecedor.destroyed.connect(lambda: setattr(self, 'frm_DadosFornecedor', None))
+
+                self.frm_DadosFornecedor.show()
+        else:
+             self.frm_DadosFornecedor.raise__()
+             self.frm_DadosFornecedor.activateWindow()
+
     def retranslateUi(self, frm_Fornecedor):
-        frm_Fornecedor.setWindowTitle(QCoreApplication.translate("frm_Fornecedor", u"Form", None))
+        frm_Fornecedor.setWindowTitle(QCoreApplication.translate("frm_Fornecedor", u"Fornecedor", None))
         self.btn_Add.setText("")
         self.btn_voltar.setText("")
         self.btn_consul.setText("")
@@ -477,6 +494,7 @@ class Ui_frm_Fornecedor(object):
         self.btn_filtro.clicked.connect(self.consultarGeral)
         self.btn_voltar.clicked.connect(self.sair)
         self.btn_pesquisar.clicked.connect(self.pesquisarNome)
+        self.btn_Add.clicked.connect(self.adicionarFornecedor)
 
 if __name__ == "__main__":
     app = QApplication([])
