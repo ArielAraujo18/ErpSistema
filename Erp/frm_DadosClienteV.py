@@ -5,22 +5,22 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QComboBox, QLabel, QLineEdit,
-    QPushButton, QSizePolicy, QWidget, QMessageBox)
-from validate_docbr import CPF
+from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
+    QSizePolicy, QWidget, QMessageBox)
+
+import mysql.connector
+import pandas as pd
+import Controle
+import os
 
 import icon_add
 import icon_voltar
-
-import Controle
-import mysql.connector
-import pandas as pd
 
 class Ui_frm_DadosCliente(object):
     def setupUi(self, frm_DadosCliente):
         if not frm_DadosCliente.objectName():
             frm_DadosCliente.setObjectName(u"frm_DadosCliente")
-        frm_DadosCliente.setFixedSize(498, 603)
+        frm_DadosCliente.setFixedSize(526, 647)
         self.frm_DadosCliente = frm_DadosCliente
         frm_DadosCliente.setStyleSheet(u"QWidget {\n"
 "    background-color: #2c2c2c;\n"
@@ -28,7 +28,7 @@ class Ui_frm_DadosCliente(object):
 "}")
         self.lbl_nome = QLabel(frm_DadosCliente)
         self.lbl_nome.setObjectName(u"lbl_nome")
-        self.lbl_nome.setGeometry(QRect(10, 40, 51, 21))
+        self.lbl_nome.setGeometry(QRect(50, 50, 51, 21))
         self.lbl_nome.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
@@ -36,15 +36,16 @@ class Ui_frm_DadosCliente(object):
 "")
         self.txt_nome = QLineEdit(frm_DadosCliente)
         self.txt_nome.setObjectName(u"txt_nome")
-        self.txt_nome.setGeometry(QRect(60, 30, 201, 41))
+        self.txt_nome.setGeometry(QRect(120, 40, 371, 41))
+        self.txt_nome.setText('Nenhum')
         self.txt_nome.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #FFFFFF ;\n"
+"    color: #000000 ;\n"
 "    transition: all 0.3s ease;\n"
-"    color: #000000;\n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -54,7 +55,7 @@ class Ui_frm_DadosCliente(object):
 "")
         self.lbl_celular = QLabel(frm_DadosCliente)
         self.lbl_celular.setObjectName(u"lbl_celular")
-        self.lbl_celular.setGeometry(QRect(280, 40, 61, 16))
+        self.lbl_celular.setGeometry(QRect(40, 100, 61, 16))
         self.lbl_celular.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
@@ -62,7 +63,7 @@ class Ui_frm_DadosCliente(object):
 "")
         self.lbl_cpf = QLabel(frm_DadosCliente)
         self.lbl_cpf.setObjectName(u"lbl_cpf")
-        self.lbl_cpf.setGeometry(QRect(10, 120, 41, 20))
+        self.lbl_cpf.setGeometry(QRect(60, 150, 41, 20))
         self.lbl_cpf.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
@@ -70,15 +71,15 @@ class Ui_frm_DadosCliente(object):
 "")
         self.txt_celular = QLineEdit(frm_DadosCliente)
         self.txt_celular.setObjectName(u"txt_celular")
-        self.txt_celular.setGeometry(QRect(340, 30, 131, 41))
+        self.txt_celular.setGeometry(QRect(120, 90, 371, 41))
         self.txt_celular.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #FFFFFF ;\n"
+"    color: #000000 ;\n"
 "    transition: all 0.3s ease;\n"
-"    color: #000000;\n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -88,16 +89,15 @@ class Ui_frm_DadosCliente(object):
 "")
         self.txt_cpf = QLineEdit(frm_DadosCliente)
         self.txt_cpf.setObjectName(u"txt_cpf")
-        self.txt_cpf.setGeometry(QRect(50, 110, 121, 41))
+        self.txt_cpf.setGeometry(QRect(120, 140, 371, 41))
         self.txt_cpf.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #FFFFFF ;\n"
+"    color: #000000 ;\n"
 "    transition: all 0.3s ease;\n"
-"    color: #000000;\n"
-
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -107,7 +107,7 @@ class Ui_frm_DadosCliente(object):
 "")
         self.lbl_Rua = QLabel(frm_DadosCliente)
         self.lbl_Rua.setObjectName(u"lbl_Rua")
-        self.lbl_Rua.setGeometry(QRect(250, 200, 31, 16))
+        self.lbl_Rua.setGeometry(QRect(60, 250, 41, 20))
         self.lbl_Rua.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
@@ -115,15 +115,15 @@ class Ui_frm_DadosCliente(object):
 "")
         self.txt_Rua = QLineEdit(frm_DadosCliente)
         self.txt_Rua.setObjectName(u"txt_Rua")
-        self.txt_Rua.setGeometry(QRect(290, 190, 181, 41))
+        self.txt_Rua.setGeometry(QRect(120, 240, 371, 41))
         self.txt_Rua.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #FFFFFF ;\n"
+"    color: #000000 ;\n"
 "    transition: all 0.3s ease;\n"
-"    color: #000000;\n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -133,7 +133,7 @@ class Ui_frm_DadosCliente(object):
 "")
         self.lbl_cidade = QLabel(frm_DadosCliente)
         self.lbl_cidade.setObjectName(u"lbl_cidade")
-        self.lbl_cidade.setGeometry(QRect(10, 200, 61, 20))
+        self.lbl_cidade.setGeometry(QRect(40, 200, 61, 20))
         self.lbl_cidade.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
@@ -141,15 +141,15 @@ class Ui_frm_DadosCliente(object):
 "")
         self.txt_cidade = QLineEdit(frm_DadosCliente)
         self.txt_cidade.setObjectName(u"txt_cidade")
-        self.txt_cidade.setGeometry(QRect(70, 190, 161, 41))
+        self.txt_cidade.setGeometry(QRect(120, 190, 371, 41))
         self.txt_cidade.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #FFFFFF ;\n"
+"    color: #000000 ;\n"
 "    transition: all 0.3s ease;\n"
-"    color: #000000;\n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -159,7 +159,7 @@ class Ui_frm_DadosCliente(object):
 "")
         self.lbl_bairro = QLabel(frm_DadosCliente)
         self.lbl_bairro.setObjectName(u"lbl_bairro")
-        self.lbl_bairro.setGeometry(QRect(10, 280, 51, 21))
+        self.lbl_bairro.setGeometry(QRect(40, 300, 61, 21))
         self.lbl_bairro.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
@@ -167,15 +167,15 @@ class Ui_frm_DadosCliente(object):
 "")
         self.txt_bairro = QLineEdit(frm_DadosCliente)
         self.txt_bairro.setObjectName(u"txt_bairro")
-        self.txt_bairro.setGeometry(QRect(70, 270, 151, 41))
+        self.txt_bairro.setGeometry(QRect(120, 290, 371, 41))
         self.txt_bairro.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #FFFFFF ;\n"
+"    color: #000000 ;\n"
 "    transition: all 0.3s ease;\n"
-"    color: #000000;\n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -185,7 +185,7 @@ class Ui_frm_DadosCliente(object):
 "")
         self.lbl_cep = QLabel(frm_DadosCliente)
         self.lbl_cep.setObjectName(u"lbl_cep")
-        self.lbl_cep.setGeometry(QRect(10, 360, 41, 21))
+        self.lbl_cep.setGeometry(QRect(60, 400, 41, 21))
         self.lbl_cep.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
@@ -193,15 +193,15 @@ class Ui_frm_DadosCliente(object):
 "")
         self.txt_cep = QLineEdit(frm_DadosCliente)
         self.txt_cep.setObjectName(u"txt_cep")
-        self.txt_cep.setGeometry(QRect(50, 350, 91, 41))
+        self.txt_cep.setGeometry(QRect(120, 390, 371, 41))
         self.txt_cep.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #FFFFFF ;\n"
+"    color: #000000 ;\n"
 "    transition: all 0.3s ease;\n"
-"    color: #000000;\n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -211,15 +211,15 @@ class Ui_frm_DadosCliente(object):
 "")
         self.txt_Numero = QLineEdit(frm_DadosCliente)
         self.txt_Numero.setObjectName(u"txt_Numero")
-        self.txt_Numero.setGeometry(QRect(310, 270, 61, 41))
+        self.txt_Numero.setGeometry(QRect(120, 340, 371, 41))
         self.txt_Numero.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #FFFFFF ;\n"
+"    color: #000000 ;\n"
 "    transition: all 0.3s ease;\n"
-"    color: #000000;\n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -229,23 +229,23 @@ class Ui_frm_DadosCliente(object):
 "")
         self.lbl_Numero = QLabel(frm_DadosCliente)
         self.lbl_Numero.setObjectName(u"lbl_Numero")
-        self.lbl_Numero.setGeometry(QRect(240, 280, 61, 21))
+        self.lbl_Numero.setGeometry(QRect(30, 350, 71, 21))
         self.lbl_Numero.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
 "}\n"
 "")
-        self.txt_email = QLineEdit(frm_DadosCliente)
-        self.txt_email.setObjectName(u"txt_email")
-        self.txt_email.setGeometry(QRect(70, 410, 371, 41))
-        self.txt_email.setStyleSheet(u"QLineEdit {\n"
+        self.txt_cidade_6 = QLineEdit(frm_DadosCliente)
+        self.txt_cidade_6.setObjectName(u"txt_cidade_6")
+        self.txt_cidade_6.setGeometry(QRect(120, 440, 371, 41))
+        self.txt_cidade_6.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #FFFFFF ;\n"
+"    color: #000000 ;\n"
 "    transition: all 0.3s ease;\n"
-"    color: #000000;\n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -255,24 +255,24 @@ class Ui_frm_DadosCliente(object):
 "")
         self.lbl_email = QLabel(frm_DadosCliente)
         self.lbl_email.setObjectName(u"lbl_email")
-        self.lbl_email.setGeometry(QRect(10, 420, 51, 21))
+        self.lbl_email.setGeometry(QRect(40, 450, 61, 21))
         self.lbl_email.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
 "}\n"
 "")
-        self.txt_pontuacao = QLineEdit(frm_DadosCliente)
-        self.txt_pontuacao.setObjectName(u"txt_pontuacao")
-        self.txt_pontuacao.setEnabled(False)
-        self.txt_pontuacao.setGeometry(QRect(250, 350, 51, 41))
-        self.txt_pontuacao.setStyleSheet(u"QLineEdit {\n"
+        self.txt_cidade_7 = QLineEdit(frm_DadosCliente)
+        self.txt_cidade_7.setObjectName(u"txt_cidade_7")
+        self.txt_cidade_7.setEnabled(False)
+        self.txt_cidade_7.setGeometry(QRect(120, 490, 371, 41))
+        self.txt_cidade_7.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
 "    background-color: #FFFFFF ;\n"
+"    color: #000000 ;\n"
 "    transition: all 0.3s ease;\n"
-"    color: #000000;\n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -282,7 +282,7 @@ class Ui_frm_DadosCliente(object):
 "")
         self.lbl_email_2 = QLabel(frm_DadosCliente)
         self.lbl_email_2.setObjectName(u"lbl_email_2")
-        self.lbl_email_2.setGeometry(QRect(160, 360, 81, 21))
+        self.lbl_email_2.setGeometry(QRect(10, 500, 91, 21))
         self.lbl_email_2.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
@@ -290,7 +290,7 @@ class Ui_frm_DadosCliente(object):
 "")
         self.btn_cadastrar = QPushButton(frm_DadosCliente)
         self.btn_cadastrar.setObjectName(u"btn_cadastrar")
-        self.btn_cadastrar.setGeometry(QRect(270, 500, 101, 91))
+        self.btn_cadastrar.setGeometry(QRect(290, 550, 101, 91))
         self.btn_cadastrar.setStyleSheet(u"QPushButton {\n"
 "    background-color: #ffffff;\n"
 "    border: 2px solid #d1c4b2;\n"
@@ -318,7 +318,7 @@ class Ui_frm_DadosCliente(object):
 "}")
         self.btn_cancelar = QPushButton(frm_DadosCliente)
         self.btn_cancelar.setObjectName(u"btn_cancelar")
-        self.btn_cancelar.setGeometry(QRect(140, 500, 101, 91))
+        self.btn_cancelar.setGeometry(QRect(160, 550, 101, 91))
         self.btn_cancelar.setAutoFillBackground(False)
         self.btn_cancelar.setStyleSheet(u"QPushButton {\n"
 "    background-color: #ffebee; \n"
@@ -347,222 +347,27 @@ class Ui_frm_DadosCliente(object):
 "    padding-left: 44px;\n"
 "    padding-top: 2px;\n"
 "}")
-        self.lbl_celularT = QLabel(frm_DadosCliente)
-        self.lbl_celularT.setObjectName(u"lbl_celularT")
-        self.lbl_celularT.setGeometry(QRect(280, 80, 191, 20))
-        self.lbl_celularT.setStyleSheet(u"QLabel {\n"
-"    font-size: 12px;\n"
-"    color: #FFFFFF;\n"
-"}\n"
-"")
-        self.lbl_cpfT = QLabel(frm_DadosCliente)
-        self.lbl_cpfT.setObjectName(u"lbl_cpfT")
-        self.lbl_cpfT.setGeometry(QRect(10, 160, 191, 20))
-        self.lbl_cpfT.setStyleSheet(u"QLabel {\n"
-"    font-size: 12px;\n"
-"    color: #FFFFFF;\n"
-"}\n"
-"")
-        self.lbl_cpf_2 = QLabel(frm_DadosCliente)
-        self.lbl_cpf_2.setObjectName(u"lbl_cpf_2")
-        self.lbl_cpf_2.setGeometry(QRect(190, 120, 31, 20))
-        self.lbl_cpf_2.setStyleSheet(u"QLabel {\n"
-"    font-size: 16px;\n"
-"    color: #FFFFFF;\n"
-"}\n"
-"")
-        self.comboSituacao = QComboBox(frm_DadosCliente)
-        self.comboSituacao.addItem("")
-        self.comboSituacao.addItem("")
-        self.comboSituacao.addItem("")
-        self.comboSituacao.addItem("")
-        self.comboSituacao.addItem("")
-        self.comboSituacao.addItem("")
-        self.comboSituacao.addItem("")
-        self.comboSituacao.addItem("")
-        self.comboSituacao.addItem("")
-        self.comboSituacao.addItem("")
-        self.comboSituacao.addItem("")
-        self.comboSituacao.addItem("")
-        self.comboSituacao.addItem("")
-        self.comboSituacao.addItem("")
-        self.comboSituacao.addItem("")
-        self.comboSituacao.addItem("")
-        self.comboSituacao.addItem("")
-        self.comboSituacao.addItem("")
-        self.comboSituacao.addItem("")
-        self.comboSituacao.addItem("")
-        self.comboSituacao.addItem("")
-        self.comboSituacao.addItem("")
-        self.comboSituacao.addItem("")
-        self.comboSituacao.addItem("")
-        self.comboSituacao.addItem("")
-        self.comboSituacao.addItem("")
-        self.comboSituacao.addItem("")
-        self.comboSituacao.setObjectName(u"comboSituacao")
-        self.comboSituacao.setGeometry(QRect(220, 110, 271, 41))
-        self.comboSituacao.setStyleSheet(u"QComboBox {\n"
-"    background-color: #2c3e50;\n"
-"    color: #ecf0f1;\n"
-"    border: 1px solid #34495e;\n"
-"    border-radius: 5px;\n"
-"    padding: 5px;\n"
-"    font-size: 14px;\n"
-"    min-width: 100px;\n"
-"}\n"
-"\n"
-"QComboBox::drop-down {\n"
-"    subcontrol-origin: padding;\n"
-"    subcontrol-position: center right;\n"
-"    width: 30px;\n"
-"    border-left: 1px solid #34495e;\n"
-"    background-color: #34495e;\n"
-"    border-top-right-radius: 5px;\n"
-"    border-bottom-right-radius: 5px;\n"
-"}\n"
-"\n"
-"QComboBox::down-arrow {\n"
-"    width: 0px;\n"
-"    height: 0px;\n"
-"    border-left: 6px solid transparent;\n"
-"    border-right: 6px solid transparent;\n"
-"    border-top: 8px solid #ecf0f1;\n"
-"    margin: 4px;\n"
-"}\n"
-"\n"
-"QComboBox QAbstractItemView {\n"
-"    background-color: #34495e;\n"
-"    color: #ecf0f1;\n"
-"    selection-background-color: #1abc9c;\n"
-"    selection-color: #ffffff;\n"
-"    border: 1px solid #34495e;\n"
-"    border-radius: 5px;\n"
-"    outline: none;\n"
-"    min-width: 100px;\n"
-""
-                        "}\n"
-"\n"
-"QComboBox QAbstractItemView::item {\n"
-"    padding: 10px;\n"
-"    font-size: 14px;\n"
-"}\n"
-"\n"
-"QComboBox QAbstractItemView::item:selected {\n"
-"    background-color: #1abc9c;\n"
-"}\n"
-"\n"
-"QComboBox QAbstractItemView::item:hover {\n"
-"    background-color: #16a085;\n"
-"}\n"
-"\n"
-"/* Barra de rolagem vertical personalizada */\n"
-"QScrollBar:vertical {\n"
-"    border: none;\n"
-"    background: #2c3e50;\n"
-"    width: 10px;\n"
-"    border-radius: 5px;\n"
-"}\n"
-"\n"
-"QScrollBar::handle:vertical {\n"
-"    background: #1abc9c;\n"
-"    border-radius: 5px;\n"
-"}\n"
-"\n"
-"QScrollBar::handle:vertical:hover {\n"
-"    background: #16a085;\n"
-"}\n"
-"\n"
-"QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
-"    background: none;\n"
-"    border: none;\n"
-"}\n"
-"\n"
-"QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {\n"
-"    border: none;\n"
-"    background: none;\n"
-"}\n"
-"\n"
-"/* Barra de rolagem horizontal personalizada */\n"
-"QScrollBar:horizontal {\n"
-"    border: none;\n"
-"   "
-                        " background: #2c3e50;\n"
-"    height: 10px;\n"
-"    border-radius: 5px;\n"
-"}\n"
-"\n"
-"QScrollBar::handle:horizontal {\n"
-"    background: #1abc9c;\n"
-"    border-radius: 5px;\n"
-"}\n"
-"\n"
-"QScrollBar::handle:horizontal:hover {\n"
-"    background: #16a085;\n"
-"}\n"
-"\n"
-"QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {\n"
-"    background: none;\n"
-"    border: none;\n"
-"}\n"
-"\n"
-"QScrollBar::left-arrow:horizontal, QScrollBar::right-arrow:horizontal {\n"
-"    border: none;\n"
-"    background: none;\n"
-"}\n"
-"")
-        self.lbl_EmailT = QLabel(frm_DadosCliente)
-        self.lbl_EmailT.setObjectName(u"lbl_EmailT")
-        self.lbl_EmailT.setGeometry(QRect(70, 460, 201, 20))
-        self.lbl_EmailT.setStyleSheet(u"QLabel {\n"
-"    font-size: 12px;\n"
-"    color: #FFFFFF;\n"
-"}\n"
-"")
 
         self.retranslateUi(frm_DadosCliente)
 
         QMetaObject.connectSlotsByName(frm_DadosCliente)
     # setupUi
-    
-    def validarCpf(self, cpfCliente):
-        if cpfCliente != '':
-                cpf = CPF()
-
-                cpf_numero = int(cpfCliente)
-
-                if cpf.validate(cpf_numero):
-                        self.lbl_cpfT.setText("✅ CPF VÁLIDO")
-                else:
-                        self.lbl_cpfT.setText("❌ CPF INVÁLIDO")
-
     def adicionarCliente(self):
         Controle.pontos = 0
 
         nomeCliente = self.txt_nome.text()
         celularCliente = self.txt_celular.text()
         cpfCliente = self.txt_cpf.text()
-        uf = self.comboSituacao.currentText()
         cidadeCliente = self.txt_cidade.text()
         ruaCliente = self.txt_Rua.text()
         bairroCliente = self.txt_bairro.text()
         numeroCliente = self.txt_Numero.text()
         cepCliente = self.txt_cep.text()
-        emailCliente = self.txt_email.text()
+        emailCliente = self.txt_cidade_6.text()
 
         if numeroCliente == '':
               numeroCliente = 0
-
-        if cpfCliente != '':
-                cpf = CPF()
-
-                cpf_numero = cpfCliente.replace(".", "").replace("-","")
                 
-                if cpf.validate(cpf_numero):
-                        self.lbl_cpfT.setText("✅ CPF VÁLIDO")
-                else:
-                        self.lbl_cpfT.setText("❌ CPF INVÁLIDO")
-                        return
-
         mydb = mysql.connector.connect( 
                 host= Controle.host,
                 user= Controle.user,
@@ -571,8 +376,8 @@ class Ui_frm_DadosCliente(object):
         )
 
         mycursor = mydb.cursor()
-        sql = "INSERT INTO cliente(`Nome`, `Celular`, `Cpf`, `UF`, `Cidade`, `Rua`, `Bairro`, `Número`, `Cep`, `E-mail`, `Pontos`) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        val = (nomeCliente, celularCliente, cpfCliente, uf, cidadeCliente, ruaCliente, bairroCliente, numeroCliente, cepCliente, emailCliente, Controle.pontos)
+        sql = "INSERT INTO cliente(`Nome`, `Celular`, `Cpf`, `Cidade`, `Rua`, `Bairro`, `Número`, `Cep`, `E-mail`, `Pontos`) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        val = (nomeCliente, celularCliente, cpfCliente, cidadeCliente, ruaCliente, bairroCliente, numeroCliente, cepCliente, emailCliente, Controle.pontos)
         mycursor.execute(sql, val)
         mydb.commit()
         print(mycursor.rowcount, 'Record(s) inserted')
@@ -581,14 +386,13 @@ class Ui_frm_DadosCliente(object):
         #limpando os campos
         self.txt_nome.setText("")
         self.txt_celular.setText("")
-        self.txt_cidade.setText("")
         self.txt_cpf.setText("")
-        self.comboSituacao.setCurrentIndex(0)
+        self.txt_cidade.setText("")
         self.txt_Rua.setText("")
         self.txt_bairro.setText("")
         self.txt_Numero.setText("")
         self.txt_cep.setText("")
-        self.txt_email.setText("")
+        self.txt_cidade_6.setText("")
         
         msg = QMessageBox()
         msg.setWindowTitle("Sucesso!")
@@ -609,14 +413,13 @@ class Ui_frm_DadosCliente(object):
         nomeCliente = self.txt_nome.text()
         celularCliente = self.txt_celular.text()
         cpfCliente = self.txt_cpf.text()
-        uf = self.comboSituacao.currentText()
         cidadeCliente = self.txt_cidade.text()
         ruaCliente = self.txt_Rua.text()
         bairroCliente = self.txt_bairro.text()
         numeroCliente = self.txt_Numero.text()
         cepCliente = self.txt_cep.text()
-        emailCliente = self.txt_email.text() #email
-        pontuacao = self.txt_pontuacao.text() #data
+        emailCliente = self.txt_cidade_6.text() #email
+        pontuacao = self.txt_cidade_7.text() #data
 
         #conectando ao bd
         mydb = mysql.connector.connect(
@@ -635,13 +438,13 @@ class Ui_frm_DadosCliente(object):
 
         sql = """
         UPDATE cliente
-        SET Nome = %s, Celular = %s, Cpf = %s, UF = %s, Cidade = %s, Rua = %s,
+        SET Nome = %s, Celular = %s, Cpf = %s, Cidade = %s, Rua = %s,
         Bairro = %s, Número = %s, Cep = %s, `E-mail` = %s, Pontos = %s
         WHERE IdCliente = %s
         """
 
         val = (
-                nomeCliente, celularCliente, cpfCliente, uf, cidadeCliente,
+                nomeCliente, celularCliente, cpfCliente, cidadeCliente,
                 ruaCliente, bairroCliente, numeroCliente, cepCliente,
                 emailCliente, pontuacao, Controle.idConsulta
         )
@@ -662,7 +465,7 @@ class Ui_frm_DadosCliente(object):
         self.frm_DadosCliente.close()
 
     def retranslateUi(self, frm_DadosCliente):
-        frm_DadosCliente.setWindowTitle(QCoreApplication.translate("frm_DadosCliente", u"Dados do cliente", None))
+        frm_DadosCliente.setWindowTitle(QCoreApplication.translate("frm_DadosCliente", u"Dados cliente", None))
         self.lbl_nome.setText(QCoreApplication.translate("frm_DadosCliente", u"Nome:", None))
         self.lbl_celular.setText(QCoreApplication.translate("frm_DadosCliente", u"Celular: ", None))
         self.lbl_cpf.setText(QCoreApplication.translate("frm_DadosCliente", u"CPF:", None))
@@ -674,45 +477,14 @@ class Ui_frm_DadosCliente(object):
         self.lbl_cep.setText(QCoreApplication.translate("frm_DadosCliente", u"CEP:", None))
         self.txt_cep.setInputMask(QCoreApplication.translate("frm_DadosCliente", u"00000-000", None))
         self.lbl_Numero.setText(QCoreApplication.translate("frm_DadosCliente", u"N\u00famero:", None))
-        self.txt_email.setText("")
+        self.txt_cidade_6.setText("")
         self.lbl_email.setText(QCoreApplication.translate("frm_DadosCliente", u"E-mail:", None))
-        self.txt_pontuacao.setText("")
+        self.txt_cidade_7.setText("")
         self.lbl_email_2.setText(QCoreApplication.translate("frm_DadosCliente", u"Pontua\u00e7\u00e3o:", None))
         self.btn_cadastrar.setText("")
         self.btn_cancelar.setText("")
-        self.lbl_celularT.setText(QCoreApplication.translate("frm_DadosCliente", u"INFORME O N\u00daMERO DE CELULAR", None))
-        self.lbl_cpfT.setText(QCoreApplication.translate("frm_DadosCliente", u"INFORME O CPF DO CLIENTE", None))
-        self.lbl_cpf_2.setText(QCoreApplication.translate("frm_DadosCliente", u"UF:", None))
-        self.comboSituacao.setItemText(0, QCoreApplication.translate("frm_DadosCliente", u"Prefiro n\u00e3o informar", None))
-        self.comboSituacao.setItemText(1, QCoreApplication.translate("frm_DadosCliente", u"Acre (AC)", None))
-        self.comboSituacao.setItemText(2, QCoreApplication.translate("frm_DadosCliente", u"Alagoas (AL)", None))
-        self.comboSituacao.setItemText(3, QCoreApplication.translate("frm_DadosCliente", u"Amap\u00e1 (AP)", None))
-        self.comboSituacao.setItemText(4, QCoreApplication.translate("frm_DadosCliente", u"Amazonas (AM)", None))
-        self.comboSituacao.setItemText(5, QCoreApplication.translate("frm_DadosCliente", u"Bahia (BA)", None))
-        self.comboSituacao.setItemText(6, QCoreApplication.translate("frm_DadosCliente", u"Cear\u00e1 (CE)", None))
-        self.comboSituacao.setItemText(7, QCoreApplication.translate("frm_DadosCliente", u"Esp\u00edrito Santo (ES)", None))
-        self.comboSituacao.setItemText(8, QCoreApplication.translate("frm_DadosCliente", u"Goi\u00e1s (GO)", None))
-        self.comboSituacao.setItemText(9, QCoreApplication.translate("frm_DadosCliente", u"Maranh\u00e3o (MA)", None))
-        self.comboSituacao.setItemText(10, QCoreApplication.translate("frm_DadosCliente", u"Mato Grosso (MT)", None))
-        self.comboSituacao.setItemText(11, QCoreApplication.translate("frm_DadosCliente", u"Mato Grosso do Sul (MS)", None))
-        self.comboSituacao.setItemText(12, QCoreApplication.translate("frm_DadosCliente", u"Minas Gerais (MG)", None))
-        self.comboSituacao.setItemText(13, QCoreApplication.translate("frm_DadosCliente", u"Par\u00e1 (PA)", None))
-        self.comboSituacao.setItemText(14, QCoreApplication.translate("frm_DadosCliente", u"Para\u00edba (PB)", None))
-        self.comboSituacao.setItemText(15, QCoreApplication.translate("frm_DadosCliente", u"Paran\u00e1 (PR)", None))
-        self.comboSituacao.setItemText(16, QCoreApplication.translate("frm_DadosCliente", u"Pernambuco (PE)", None))
-        self.comboSituacao.setItemText(17, QCoreApplication.translate("frm_DadosCliente", u"Piau\u00ed (PI)", None))
-        self.comboSituacao.setItemText(18, QCoreApplication.translate("frm_DadosCliente", u"Rio de Janeiro (RJ)", None))
-        self.comboSituacao.setItemText(19, QCoreApplication.translate("frm_DadosCliente", u"Rio Grande do Norte (RN)", None))
-        self.comboSituacao.setItemText(20, QCoreApplication.translate("frm_DadosCliente", u"Rio Grande do Sul (RS)", None))
-        self.comboSituacao.setItemText(21, QCoreApplication.translate("frm_DadosCliente", u"Rond\u00f4nia (RO)", None))
-        self.comboSituacao.setItemText(22, QCoreApplication.translate("frm_DadosCliente", u"Roraima (RR)", None))
-        self.comboSituacao.setItemText(23, QCoreApplication.translate("frm_DadosCliente", u"Santa Catarina (SC)", None))
-        self.comboSituacao.setItemText(24, QCoreApplication.translate("frm_DadosCliente", u"S\u00e3o Paulo (SP)", None))
-        self.comboSituacao.setItemText(25, QCoreApplication.translate("frm_DadosCliente", u"Sergipe (SE)", None))
-        self.comboSituacao.setItemText(26, QCoreApplication.translate("frm_DadosCliente", u"Tocantins (TO)", None))
-
-        self.lbl_EmailT.setText(QCoreApplication.translate("frm_DadosCliente", u"INFORME O E-MAIL DO SEU CLIENTE", None))
     # retranslateUi
+
         if Controle.tiposTelaDadosCliente == 'incluir':
                 self.btn_cadastrar.clicked.connect(self.adicionarCliente)
         if Controle.tiposTelaDadosCliente == 'alterar':
@@ -725,14 +497,13 @@ class Ui_frm_DadosCliente(object):
                 self.txt_nome.setEnabled(True)
                 self.txt_celular.setEnabled(True)
                 self.txt_cpf.setEnabled(True)
-                self.comboSituacao.setEnabled(True)
                 self.txt_cidade.setEnabled(True)
                 self.txt_Rua.setEnabled(True)
                 self.txt_bairro.setEnabled(True)
                 self.txt_Numero.setEnabled(True)
                 self.txt_cep.setEnabled(True)
-                self.txt_email.setEnabled(True)
-                self.txt_pontuacao.setEnabled(False)
+                self.txt_cidade_6.setEnabled(True)
+                self.txt_cidade_7.setEnabled(False)
                 self.btn_cadastrar.setEnabled(True)
         elif Controle.tiposTelaDadosCliente == 'consultar':            
                 print('DadosCliente: ', Controle.tiposTelaDadosCliente)
@@ -744,8 +515,8 @@ class Ui_frm_DadosCliente(object):
                 self.txt_bairro.setEnabled(False)
                 self.txt_Numero.setEnabled(False)
                 self.txt_cep.setEnabled(False)
-                self.txt_email.setEnabled(False)
-                self.txt_pontuacao.setEnabled(False)
+                self.txt_cidade_6.setEnabled(False)
+                self.txt_cidade_7.setEnabled(False)
                 self.btn_cadastrar.setEnabled(False)
                 #Conexão com bd
                 print('Conectando...')
@@ -760,7 +531,7 @@ class Ui_frm_DadosCliente(object):
                 mycursor.execute(consultaSQL)
                 myresult = mycursor.fetchall()
                 mycursor.close()
-                df = pd.DataFrame(myresult, columns=["idCliente", "Nome", "Celular", "Cpf", "UF", "Cidade", "Rua", "Bairro", "Número", "Cep", "E-mail", "Pontos"])
+                df = pd.DataFrame(myresult, columns=["idCliente", "Nome", "Celular", "Cpf", "Cidade", "Rua", "Bairro", "Número", "Cep", "E-mail", "Pontos"])
                 nomeCliente = df['Nome'][0]
                 celularCliente = df['Celular'][0]
                 cpfCliente = df['Cpf'][0]
@@ -780,8 +551,8 @@ class Ui_frm_DadosCliente(object):
                 self.txt_bairro.setText(bairroCliente)
                 self.txt_Numero.setText(str(NumeroCliente))
                 self.txt_cep.setText(cepCliente)
-                self.txt_email.setText(emailCliente)
-                self.txt_pontuacao.setText(str(pontos))
+                self.txt_cidade_6.setText(emailCliente)
+                self.txt_cidade_7.setText(str(pontos))
         elif Controle.tiposTelaDadosCliente == 'alterar':
                 print('DadosCliente: ', Controle.tiposTelaDadosCliente)
                 self.txt_nome.setEnabled(True)
@@ -792,8 +563,8 @@ class Ui_frm_DadosCliente(object):
                 self.txt_bairro.setEnabled(True)
                 self.txt_Numero.setEnabled(True)
                 self.txt_cep.setEnabled(True)
-                self.txt_email.setEnabled(True)
-                self.txt_pontuacao.setEnabled(False)
+                self.txt_cidade_6.setEnabled(True)
+                self.txt_cidade_7.setEnabled(False)
                 self.btn_cadastrar.setEnabled(True)
                 #Conexão com bd
                 self.host = Controle.host
@@ -812,11 +583,10 @@ class Ui_frm_DadosCliente(object):
                 mycursor.execute(consultaSQL)
                 myresult = mycursor.fetchall()
                 mycursor.close()
-                df = pd.DataFrame(myresult, columns=["idCliente", "Nome", "Celular", "Cpf", "UF", "Cidade", "Rua", "Bairro", "Número", "Cep", "E-mail", "Pontos"])
+                df = pd.DataFrame(myresult, columns=["idCliente", "Nome", "Celular", "Cpf", "Cidade", "Rua", "Bairro", "Número", "Cep", "E-mail", "Pontos"])
                 nomeCliente = df['Nome'][0]
                 celularCliente = df['Celular'][0]
                 cpfCliente = df['Cpf'][0]
-                uf = df['UF'][0]
                 cidadeCliente = df['Cidade'][0]
                 ruaCliente = df['Rua'][0]
                 bairroCliente = df['Bairro'][0]
@@ -833,8 +603,8 @@ class Ui_frm_DadosCliente(object):
                 self.txt_bairro.setText(bairroCliente)
                 self.txt_Numero.setText(str(NumeroCliente))
                 self.txt_cep.setText(cepCliente)
-                self.txt_email.setText(emailCliente)
-                self.txt_pontuacao.setText(str(pontos))
+                self.txt_cidade_6.setText(emailCliente)
+                self.txt_cidade_7.setText(str(pontos))
 
 if __name__ == "__main__":
     app = QApplication([])

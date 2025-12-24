@@ -392,7 +392,7 @@ class Ui_frm_Cliente(object):
         mycursor.execute(consultaSQL)
         myresult = mycursor.fetchall()
 
-        df = pd.DataFrame(myresult, columns=["idCliente", "Nome", "Celular", "Cpf", "Cidade", "Rua", "Bairro", "Número", "Cep", "E-mail", "Pontos"])
+        df = pd.DataFrame(myresult, columns=["idCliente", "Nome", "Celular", "Cpf", "UF", "Cidade", "Rua", "Bairro", "Número", "Cep", "E-mail", "Pontos"])
         self.all_data = df
 
         numRows = len(self.all_data.index)
@@ -439,7 +439,7 @@ class Ui_frm_Cliente(object):
 
         myresult = mycursor.fetchall()
 
-        df = pd.DataFrame(myresult, columns=["idCliente", "Nome", "Celular", "Cpf", "Cidade", "Rua", "Bairro", "Número", "Cep", "E-mail", "Pontos"])
+        df = pd.DataFrame(myresult, columns=["idCliente", "Nome", "Celular", "Cpf", "UF", "Cidade", "Rua", "Bairro", "Número", "Cep", "E-mail", "Pontos"])
         self.all_data = df
 
         numRows = len(self.all_data.index)
@@ -606,7 +606,7 @@ class Ui_frm_Cliente(object):
 
                 mycursor.execute("SELECT * FROM cliente")
                 myresult = mycursor.fetchall()
-                df = pd.DataFrame(myresult, columns=['idCliente', 'Nome', 'Celular', 'Cpf', 'Cidade', 'Rua', 'Bairro', 'Número', 'Cep', 'E-mail', 'Pontos'])
+                df = pd.DataFrame(myresult, columns=['idCliente', 'Nome', 'Celular', 'Cpf', 'UF', 'Cidade', 'Rua', 'Bairro', 'Número', 'Cep', 'E-mail', 'Pontos'])
                 self.all_data = df
                 numRows = len(self.all_data.index)
                 self.tableWidget.setColumnCount(len(self.all_data.columns))
