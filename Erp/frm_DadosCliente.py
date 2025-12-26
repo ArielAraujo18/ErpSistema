@@ -15,6 +15,7 @@ import icon_voltar
 import Controle
 import mysql.connector
 import pandas as pd
+import requests
 
 class Ui_frm_DadosCliente(object):
     def setupUi(self, frm_DadosCliente):
@@ -87,6 +88,7 @@ class Ui_frm_DadosCliente(object):
 "}\n"
 "")
         self.txt_cpf = QLineEdit(frm_DadosCliente)
+        self.txt_cpf.textChanged.connect(self.validarCpf)
         self.txt_cpf.setObjectName(u"txt_cpf")
         self.txt_cpf.setGeometry(QRect(50, 110, 121, 41))
         self.txt_cpf.setStyleSheet(u"QLineEdit {\n"
@@ -194,6 +196,7 @@ class Ui_frm_DadosCliente(object):
         self.txt_cep = QLineEdit(frm_DadosCliente)
         self.txt_cep.setObjectName(u"txt_cep")
         self.txt_cep.setGeometry(QRect(50, 350, 91, 41))
+        self.txt_cep.textChanged.connect(self.buscaCep)
         self.txt_cep.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
@@ -523,21 +526,52 @@ class Ui_frm_DadosCliente(object):
 
         QMetaObject.connectSlotsByName(frm_DadosCliente)
     # setupUi
-    
-    def validarCpf(self, cpfCliente):
-        if cpfCliente != '':
-                cpf = CPF()
 
-                cpf_numero = int(cpfCliente)
+    def buscaCep(self):
+        # remove traços ou espaços
+        cep = self.txt_cep.text().replace(".", "").replace("-", "")
+        if len(cep) >= 8:
+                url = f"https://viacep.com.br/ws/{cep}/json/"
+                resposta = requests.get(url, timeout=5)
+                dados = resposta.json()
+                uf = dados.get("uf", "")
 
-                if cpf.validate(cpf_numero):
-                        self.lbl_cpfT.setText("✅ CPF VÁLIDO")
-                else:
-                        self.lbl_cpfT.setText("❌ CPF INVÁLIDO")
+                if "erro" in dados:
+                        msg = QMessageBox()
+                        msg.setWindowTitle("CEP INVÁLIDO!")
+                        msg.setText("Digite um cep valido!")
+                        msg.setWindowIcon(QIcon((r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png")))
+                        msg.setIcon(QMessageBox.Icon.Information)
+                        msg.setStandardButtons(QMessageBox.Ok)
+                        msg.exec()
+                        return 
+
+                self.txt_Rua.setText(dados.get("logradouro", ""))
+                self.txt_bairro.setText(dados.get("bairro", ""))
+                self.txt_cidade.setText(dados.get("localidade", ""))
+                self.comboSituacao.setCurrentText(dados.get("uf", ""))
+                for i in range(self.comboSituacao.count()):
+                      texto = self.comboSituacao.itemText(i)
+                      if f'({uf})' in texto:
+                                self.comboSituacao.setCurrentIndex(i)
+                                break
+
+    def validarCpf(self):
+        cpf = CPF()
+        clienteCpf = self.txt_cpf.text()
+
+        cpf_numero = clienteCpf.replace(".", "").replace("-","")
+
+        if cpf.validate(cpf_numero):
+                self.lbl_cpfT.setText("✅ CPF VÁLIDO")
+                return
+        else:
+                self.lbl_cpfT.setText("❌ CPF INVÁLIDO")
+                return
 
     def adicionarCliente(self):
         Controle.pontos = 0
-
+        #Pegando os dados digitados
         nomeCliente = self.txt_nome.text()
         celularCliente = self.txt_celular.text()
         cpfCliente = self.txt_cpf.text()
@@ -549,20 +583,16 @@ class Ui_frm_DadosCliente(object):
         cepCliente = self.txt_cep.text()
         emailCliente = self.txt_email.text()
 
+        #VERIFICAÇÕES
         if numeroCliente == '':
-              numeroCliente = 0
+                numeroCliente = 0
 
-        if cpfCliente != '':
-                cpf = CPF()
+        #if cpfCliente != '':
+                self.validarCpf(cpfCliente)
 
-                cpf_numero = cpfCliente.replace(".", "").replace("-","")
-                
-                if cpf.validate(cpf_numero):
-                        self.lbl_cpfT.setText("✅ CPF VÁLIDO")
-                else:
-                        self.lbl_cpfT.setText("❌ CPF INVÁLIDO")
-                        return
 
+
+        #CONECTANDO BANCO DE DADOS
         mydb = mysql.connector.connect( 
                 host= Controle.host,
                 user= Controle.user,
