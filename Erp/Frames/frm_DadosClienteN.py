@@ -181,7 +181,7 @@ class Ui_frm_DadosCliente(object):
 "")
         self.lbl_cep = QLabel(frm_DadosCliente)
         self.lbl_cep.setObjectName(u"lbl_cep")
-        self.lbl_cep.setGeometry(QRect(10, 360, 41, 21))
+        self.lbl_cep.setGeometry(QRect(190, 120, 41, 21))
         self.lbl_cep.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
@@ -189,7 +189,7 @@ class Ui_frm_DadosCliente(object):
 "")
         self.txt_cep = QLineEdit(frm_DadosCliente)
         self.txt_cep.setObjectName(u"txt_cep")
-        self.txt_cep.setGeometry(QRect(50, 350, 91, 41))
+        self.txt_cep.setGeometry(QRect(230, 110, 91, 41))
         self.txt_cep.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
@@ -231,7 +231,7 @@ class Ui_frm_DadosCliente(object):
 "")
         self.txt_email = QLineEdit(frm_DadosCliente)
         self.txt_email.setObjectName(u"txt_email")
-        self.txt_email.setGeometry(QRect(70, 410, 371, 41))
+        self.txt_email.setGeometry(QRect(70, 430, 371, 41))
         self.txt_email.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
@@ -248,7 +248,7 @@ class Ui_frm_DadosCliente(object):
 "")
         self.lbl_email = QLabel(frm_DadosCliente)
         self.lbl_email.setObjectName(u"lbl_email")
-        self.lbl_email.setGeometry(QRect(10, 420, 51, 21))
+        self.lbl_email.setGeometry(QRect(10, 440, 51, 21))
         self.lbl_email.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
@@ -257,7 +257,7 @@ class Ui_frm_DadosCliente(object):
         self.txt_pontuacao = QLineEdit(frm_DadosCliente)
         self.txt_pontuacao.setObjectName(u"txt_pontuacao")
         self.txt_pontuacao.setEnabled(True)
-        self.txt_pontuacao.setGeometry(QRect(250, 350, 51, 41))
+        self.txt_pontuacao.setGeometry(QRect(430, 110, 51, 41))
         self.txt_pontuacao.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
@@ -274,7 +274,7 @@ class Ui_frm_DadosCliente(object):
 "")
         self.lbl_email_2 = QLabel(frm_DadosCliente)
         self.lbl_email_2.setObjectName(u"lbl_email_2")
-        self.lbl_email_2.setGeometry(QRect(160, 360, 81, 21))
+        self.lbl_email_2.setGeometry(QRect(340, 120, 81, 21))
         self.lbl_email_2.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
@@ -339,17 +339,9 @@ class Ui_frm_DadosCliente(object):
 "    padding-left: 44px;\n"
 "    padding-top: 2px;\n"
 "}")
-        self.lbl_celularT = QLabel(frm_DadosCliente)
-        self.lbl_celularT.setObjectName(u"lbl_celularT")
-        self.lbl_celularT.setGeometry(QRect(280, 80, 191, 20))
-        self.lbl_celularT.setStyleSheet(u"QLabel {\n"
-"    font-size: 12px;\n"
-"    color: #FFFFFF;\n"
-"}\n"
-"")
         self.lbl_cpfT = QLabel(frm_DadosCliente)
         self.lbl_cpfT.setObjectName(u"lbl_cpfT")
-        self.lbl_cpfT.setGeometry(QRect(10, 160, 191, 20))
+        self.lbl_cpfT.setGeometry(QRect(10, 160, 161, 20))
         self.lbl_cpfT.setStyleSheet(u"QLabel {\n"
 "    font-size: 12px;\n"
 "    color: #FFFFFF;\n"
@@ -357,7 +349,7 @@ class Ui_frm_DadosCliente(object):
 "")
         self.lbl_cpf_2 = QLabel(frm_DadosCliente)
         self.lbl_cpf_2.setObjectName(u"lbl_cpf_2")
-        self.lbl_cpf_2.setGeometry(QRect(190, 120, 31, 20))
+        self.lbl_cpf_2.setGeometry(QRect(10, 360, 31, 20))
         self.lbl_cpf_2.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
@@ -392,7 +384,7 @@ class Ui_frm_DadosCliente(object):
         self.comboSituacao.addItem("")
         self.comboSituacao.addItem("")
         self.comboSituacao.setObjectName(u"comboSituacao")
-        self.comboSituacao.setGeometry(QRect(220, 110, 271, 41))
+        self.comboSituacao.setGeometry(QRect(40, 350, 201, 41))
         self.comboSituacao.setStyleSheet(u"QComboBox {\n"
 "    background-color: #2c3e50;\n"
 "    color: #ecf0f1;\n"
@@ -504,7 +496,7 @@ class Ui_frm_DadosCliente(object):
 "")
         self.lbl_EmailT = QLabel(frm_DadosCliente)
         self.lbl_EmailT.setObjectName(u"lbl_EmailT")
-        self.lbl_EmailT.setGeometry(QRect(70, 460, 201, 20))
+        self.lbl_EmailT.setGeometry(QRect(180, 160, 201, 20))
         self.lbl_EmailT.setStyleSheet(u"QLabel {\n"
 "    font-size: 12px;\n"
 "    color: #FFFFFF;\n"
@@ -535,7 +527,6 @@ class Ui_frm_DadosCliente(object):
         self.lbl_email_2.setText(QCoreApplication.translate("frm_DadosCliente", u"Pontua\u00e7\u00e3o:", None))
         self.btn_cadastrar.setText("")
         self.btn_cancelar.setText("")
-        self.lbl_celularT.setText(QCoreApplication.translate("frm_DadosCliente", u"INFORME O N\u00daMERO DE CELULAR", None))
         self.lbl_cpfT.setText(QCoreApplication.translate("frm_DadosCliente", u"INFORME O CPF DO CLIENTE", None))
         self.lbl_cpf_2.setText(QCoreApplication.translate("frm_DadosCliente", u"UF:", None))
         self.comboSituacao.setItemText(0, QCoreApplication.translate("frm_DadosCliente", u"Prefiro n\u00e3o informar", None))
@@ -566,6 +557,6 @@ class Ui_frm_DadosCliente(object):
         self.comboSituacao.setItemText(25, QCoreApplication.translate("frm_DadosCliente", u"Sergipe (SE)", None))
         self.comboSituacao.setItemText(26, QCoreApplication.translate("frm_DadosCliente", u"Tocantins (TO)", None))
 
-        self.lbl_EmailT.setText(QCoreApplication.translate("frm_DadosCliente", u"INFORME O E-MAIL DO SEU CLIENTE", None))
+        self.lbl_EmailT.setText(QCoreApplication.translate("frm_DadosCliente", u"INFORME O CEP DO SEU CLIENTE", None))
     # retranslateUi
 
