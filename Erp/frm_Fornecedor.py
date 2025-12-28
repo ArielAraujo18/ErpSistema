@@ -20,6 +20,7 @@ import icon_alterar
 import mysql.connector
 import pandas as pd
 import Controle
+import os
 
 from frm_DadosFornecedor import Ui_frm_DadosFornecedor
 
@@ -394,7 +395,7 @@ class Ui_frm_Fornecedor(object):
         mycursor.execute(consultaSQL)
         myresult = mycursor.fetchall()                                                                                                                                                                                                                                                                                                                                                                                                          
 
-        df = pd.DataFrame(myresult, columns=["IdFornecedor", "Razão Social", "Contato", "Cnpj", "Cidade", "Rua", "Bairro", "Cep", "E-mail"])
+        df = pd.DataFrame(myresult, columns=["IdFornecedor", "Razão Social", "Cnpj", "Contato", "Cep", "Número", "Cidade", "Rua", "Bairro", "UF", "E-mail"])
         self.all_data = df
 
         numRows = len(self.all_data.index)
@@ -429,7 +430,7 @@ class Ui_frm_Fornecedor(object):
         mycursor.execute(consultaSQL, ('%' + nomeConsulta + '%',))
         myresult = mycursor.fetchall()                                                                                                                                                                                                                                                                                                                                                                                                          
 
-        df = pd.DataFrame(myresult, columns=["IdFornecedor", "Razão Social", "Contato", "Cnpj", "Cidade", "Rua", "Bairro", "Cep", "E-mail"])
+        df = pd.DataFrame(myresult, columns=["IdFornecedor", "Razão Social", "Cnpj", "Contato", "Cep", "Número", "Cidade", "Rua", "Bairro", "UF", "E-mail"])
         self.all_data = df
 
         numRows = len(self.all_data.index)
@@ -462,6 +463,154 @@ class Ui_frm_Fornecedor(object):
              self.frm_DadosFornecedor.raise__()
              self.frm_DadosFornecedor.activateWindow()
 
+    def consultarFornecedor(self):
+         
+        Controle.tiposTelaDadosCliente = 'consultar'
+        print('frmFornecedor', Controle.tiposTelaDadosCliente)
+
+        line = self.tableWidget.currentRow()
+
+        if line == -1:
+             msg = QMessageBox()
+             msg.setWindowTitle('ERRO!')
+             msg.setText('Por favor, selecione um Fornecedor para consultar.')
+             caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+             msg.setWindowIcon(QIcon(caminho_icone))
+             msg.setIcon(QMessageBox.Warning)
+             msg.setStandardButtons(QMessageBox.Ok)
+             msg.exec()
+             return
+        
+        item = self.tableWidget.item(line, 0)
+        
+        if item:
+             Controle.idConsulta = item.text()
+             if not hasattr(self, 'frm_DadosFornecedor') or self.frm_DadosFornecedor is None or not self.frm_DadosFornecedor.isVisible():
+                self.frm_DadosFornecedor = QWidget()
+                self.ui = Ui_frm_DadosFornecedor()
+                self.ui.setupUi(self.frm_DadosFornecedor)
+
+                self.frm_DadosFornecedor.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_DadosFornecedor.destroyed.connect(lambda: setattr(self, 'frm_DadosFornecedor', None))
+
+                self.frm_DadosFornecedor.show()
+             else:
+                self.frm_DadosFornecedor.raise_()
+                self.frm_DadosFornecedor.activateWindow()
+
+        else:
+             msg = QMessageBox()
+             msg.setWindowTitle("Erro de Seleção")
+             msg.setText("Não foi possível obter o ID do cliente selecionado.")
+             msg.setIcon(QMessageBox.Warning)
+             msg.setStandardButtons(QMessageBox.Ok)
+             msg.exec()
+
+    def alterarFornecedor(self):
+        Controle.tiposTelaDadosCliente = 'alterar'
+        print('frm_Fornecedor', Controle.tiposTelaDadosCliente)
+        
+        line = self.tableWidget.currentRow() 
+
+        if line == -1:
+             msg = QMessageBox()
+             msg.setWindowTitle('Erro de Seleção')
+             msg.setText('Por favor, selecione algum fornecedor para alterar')
+             caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+             msg.setWindowIcon(QIcon(caminho_icone))
+             msg.setIcon(QMessageBox.Warning)
+             msg.setStandardButtons(QMessageBox.Ok)
+             msg.exec()
+             return
+        
+        item = self.tableWidget.item(line, 0)
+
+        if item:
+                Controle.idConsulta = item.text()
+                if not hasattr(self, 'frm_DadosFornecedor') or self.frm_DadosFornecedor is None or not self.frm_DadosFornecedor.isVisible():
+                        self.frm_DadosFornecedor = QWidget()
+                        self.ui = Ui_frm_DadosFornecedor()
+                        self.ui.setupUi(self.frm_DadosFornecedor)
+
+        
+                        self.frm_DadosFornecedor.setAttribute(Qt.WA_DeleteOnClose)
+                        self.frm_DadosFornecedor.destroyed.connect(lambda: setattr(self, 'frm_DadosFornecedor', None))
+
+                        self.frm_DadosFornecedor.show()
+                else:
+                        self.frm_DadosFornecedor.raise_()
+                        self.frm_DadosFornecedor.activateWindow()
+        
+    def excluirFornecedor(self):
+        
+        line = self.tableWidget.currentRow()
+
+        if line == -1:
+             msg = QMessageBox()
+             msg.setWindowTitle('Erro!')
+             msg.setText('Por favor, selecione um forncedor para excluir.')
+             caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+             msg.setWindowIcon(QIcon(caminho_icone))
+             msg.setIcon(QMessageBox.Warning)
+             msg.setStandardButtons(QMessageBox.Ok)
+             msg.exec()
+             return 
+        
+        item = self.tableWidget.item(line, 0) 
+
+        if item:
+             idFornecedor = item.text()
+
+             mydb = mysql.connector.connect(
+                        host = Controle.host,
+                        user = Controle.user,
+                        password = Controle.password,
+                        database = Controle.database
+                )
+             
+             mycursor = mydb.cursor()
+             sql = 'DELETE FROM fornecedor WHERE idFornecedor = %s'
+             mycursor.execute(sql, (idFornecedor,))
+             mydb.commit()
+
+             msg = QMessageBox()
+             msg.setWindowTitle('Fornecedor excluído')
+             msg.setText('Fornecedor excluído com sucesso!')
+             caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+             msg.setWindowIcon(QIcon(caminho_icone))
+             msg.setIcon(QMessageBox.Information)
+             msg.setStandardButtons(QMessageBox.Ok)
+             msg.exec()
+
+             mycursor.execute('SELECT * FROM fornecedor')
+             myresult = mycursor.fetchall()
+             df = pd.DataFrame(myresult, columns=["IdFornecedor", "Razão Social", "Cnpj", "Contato", "Cep", "Número", "Cidade", "Rua", "Bairro", "UF", "E-mail"])
+             self.all_data = df
+
+             numRows = len(self.all_data.index)
+             self.tableWidget.setColumnCount(len(self.all_data.columns))
+             self.tableWidget.setRowCount(numRows)
+             self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
+
+             for i in range(numRows):
+                  for j in range(len(self.all_data.columns)):
+                       self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
+        
+             self.tableWidget.resizeColumnsToContents()
+             self.tableWidget.resizeRowsToContents()
+
+             mydb.close()
+        
+        else: 
+             msg = QMessageBox()
+             msg.setWindowTitle('Erro seleção')
+             msg.setText('Fornecedor não selecionado!')
+             caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+             msg.setWindowIcon(QIcon(caminho_icone))
+             msg.setIcon(QMessageBox.Warning)
+             msg.setStandardButtons(QMessageBox.Ok)
+             msg.exec()
+
     def retranslateUi(self, frm_Fornecedor):
         frm_Fornecedor.setWindowTitle(QCoreApplication.translate("frm_Fornecedor", u"Fornecedor", None))
         self.btn_Add.setText("")
@@ -491,10 +640,14 @@ class Ui_frm_Fornecedor(object):
         ___qtablewidgetitem8 = self.tableWidget.horizontalHeaderItem(8)
         ___qtablewidgetitem8.setText(QCoreApplication.translate("frm_Fornecedor", u"E-mail", None));
     # retranslateUi
+        self.consultarGeral()
         self.btn_filtro.clicked.connect(self.consultarGeral)
         self.btn_voltar.clicked.connect(self.sair)
         self.btn_pesquisar.clicked.connect(self.pesquisarNome)
         self.btn_Add.clicked.connect(self.adicionarFornecedor)
+        self.btn_consul.clicked.connect(self.consultarFornecedor)
+        self.btn_alterar.clicked.connect(self.alterarFornecedor)
+        self.btn_excluir.clicked.connect(self.excluirFornecedor)
 
 if __name__ == "__main__":
     app = QApplication([])

@@ -520,22 +520,15 @@ class Ui_frm_DadosCliente(object):
     # setupUi
 
     def buscaCep(self):
-        # remove traços ou espaços
         cep = self.txt_cep.text().replace(".", "").replace("-", "")
-        if len(cep) >= 8:
+        if len(cep) == 8:
                 url = f"https://viacep.com.br/ws/{cep}/json/"
                 resposta = requests.get(url, timeout=5)
                 dados = resposta.json()
                 uf = dados.get("uf", "")
 
                 if "erro" in dados:
-                        msg = QMessageBox()
-                        msg.setWindowTitle("CEP INVÁLIDO!")
-                        msg.setText("Digite um cep valido!")
-                        msg.setWindowIcon(QIcon((r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png")))
-                        msg.setIcon(QMessageBox.Icon.Information)
-                        msg.setStandardButtons(QMessageBox.Ok)
-                        msg.exec()
+                        self.lbl_EmailT.setText('❌ CEP INVÁLIDO')
                         return 
 
                 self.txt_Rua.setText(dados.get("logradouro", ""))
@@ -637,8 +630,8 @@ class Ui_frm_DadosCliente(object):
         bairroCliente = self.txt_bairro.text()
         numeroCliente = self.txt_Numero.text()
         cepCliente = self.txt_cep.text()
-        emailCliente = self.txt_email.text() #email
-        pontuacao = self.txt_pontuacao.text() #data
+        emailCliente = self.txt_email.text() 
+        pontuacao = self.txt_pontuacao.text() 
 
         #conectando ao bd
         mydb = mysql.connector.connect(
@@ -794,6 +787,7 @@ class Ui_frm_DadosCliente(object):
                 NumeroCliente = df['Número'][0]
                 cepCliente = df['Cep'][0]
                 emailCliente = df['E-mail'][0]
+                uf = df['UF'][0]
                 pontos = df['Pontos'][0]
                 #setar na tela do sitema
                 self.txt_nome.setText(nomeCliente)
@@ -806,6 +800,7 @@ class Ui_frm_DadosCliente(object):
                 self.txt_cep.setText(cepCliente)
                 self.txt_email.setText(emailCliente)
                 self.txt_pontuacao.setText(str(pontos))
+                self.comboSituacao.setCurrentText(uf)
         elif Controle.tiposTelaDadosCliente == 'alterar':
                 print('DadosCliente: ', Controle.tiposTelaDadosCliente)
                 self.txt_nome.setEnabled(True)
@@ -859,6 +854,7 @@ class Ui_frm_DadosCliente(object):
                 self.txt_cep.setText(cepCliente)
                 self.txt_email.setText(emailCliente)
                 self.txt_pontuacao.setText(str(pontos))
+                self.comboSituacao.setCurrentText(uf)
 
 if __name__ == "__main__":
     app = QApplication([])

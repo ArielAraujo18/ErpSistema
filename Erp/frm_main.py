@@ -25,7 +25,7 @@ import Controle
 import os
 
 from frm_Cliente import Ui_frm_Cliente
-#from frm_Fornecedor import Ui_frm_Fornecedor
+from frm_Fornecedor import Ui_frm_Fornecedor
 #from frm_Produtos import Ui_frm_Produtos
 #from frm_Vendas import Ui_Frm_Vendas
 #from frm_Contas import Ui_frm_Contas
@@ -493,10 +493,23 @@ class Ui_frm_main(object):
                 self.frm_Cliente.raise_()
                 self.frm_Cliente.activateWindow()
 
+    def telaFornecedor(self):
+        if not hasattr(self, 'frm_Fornecedor') or self.frm_Fornecedor is None or not self.frm_Fornecedor.isVisible():
+                self.frm_Fornecedor = QWidget()
+                self.ui = Ui_frm_Fornecedor()
+                self.ui.setupUi(self.frm_Fornecedor)
 
+                self.frm_Fornecedor.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_Fornecedor.destroyed.connect(lambda: setattr(self, 'frm_Fornecedor', None))
+
+                self.frm_Fornecedor.show()
+        
+        else:
+                self.frm_Fornecedor.raise_()
+                self.frm_Fornecedor.activateWindow()
         
     def retranslateUi(self, frm_main):
-        frm_main.setWindowTitle(QCoreApplication.translate("frm_main", u"MainWindow", None))
+        frm_main.setWindowTitle(QCoreApplication.translate("frm_main", u"Tela principal", None))
         self.actionCliente.setText(QCoreApplication.translate("frm_main", u"Cliente", None))
         self.actionFornecedor.setText(QCoreApplication.translate("frm_main", u"Fornecedor", None))
         self.actionProdutos.setText(QCoreApplication.translate("frm_main", u"Produtos", None))
@@ -528,12 +541,14 @@ class Ui_frm_main(object):
         self.menuSobre.setTitle(QCoreApplication.translate("frm_main", u"Sobre", None))
     # retranslateUi
         self.btn_cliente.clicked.connect(self.telaCliente)
+        self.btn_fornecedor.clicked.connect(self.telaFornecedor) 
+
         """
         self.login()
 
         self.btn_sair.clicked.connect(self.sairSistema)
         
-        self.btn_fornecedor.clicked.connect(self.telaFornecedor)        
+               
         self.btn_produtos.clicked.connect(self.telaProdutos)
         self.btn_vendas.clicked.connect(self.telaVendas)
         self.btn_pagar.clicked.connect(self.telaContas)

@@ -666,6 +666,7 @@ class Ui_frm_Cliente(object):
         ___qtablewidgetitem10.setText(QCoreApplication.translate("frm_Cliente", u"Pontos", None));
     # retranslateUi
         self.btn_filtro.clicked.connect(self.consultarGeral)
+        self.consultarGeral()
         self.btn_voltar.clicked.connect(self.sairTela)
         self.btn_pesquisar.clicked.connect(self.pesquisarCliente)
         self.btn_Add.clicked.connect(self.cadastrarCliente)
