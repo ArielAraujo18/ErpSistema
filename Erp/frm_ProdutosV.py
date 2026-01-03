@@ -18,7 +18,7 @@ import os
 
 
 import icon_adicionar
-import icon_consultar
+import icon_consulta
 import icon_excluir
 import icon_filtro
 import icon_pesquisar

@@ -1,13 +1,3 @@
-# -*- coding: utf-8 -*-
-
-################################################################################
-## Form generated from reading UI file 'frm_DadosProdutos.ui'
-##
-## Created by: Qt User Interface Compiler version 6.10.0
-##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
-################################################################################
-
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
@@ -16,15 +6,21 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QLabel, QLineEdit,
-    QPushButton, QSizePolicy, QTextEdit, QWidget)
-import icon_voltar_rc
-import icon_add_rc
+    QPushButton, QSizePolicy, QTextEdit, QWidget, QMessageBox)
+import icon_voltar
+import icon_add
+
+import os
+import mysql.connector
+import Controle
+import pandas as pd
 
 class Ui_frm_DadosProdutos(object):
     def setupUi(self, frm_DadosProdutos):
         if not frm_DadosProdutos.objectName():
             frm_DadosProdutos.setObjectName(u"frm_DadosProdutos")
-        frm_DadosProdutos.resize(518, 554)
+        frm_DadosProdutos.setFixedSize(518, 554)
+        self.frm_DadosProdutos = frm_DadosProdutos
         frm_DadosProdutos.setStyleSheet(u"QWidget {\n"
 "    background-color: #2c2c2c;\n"
 "}")
@@ -332,10 +328,10 @@ class Ui_frm_DadosProdutos(object):
 "    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
 "}\n"
 "")
-        self.txt_nome_2 = QLineEdit(frm_DadosProdutos)
-        self.txt_nome_2.setObjectName(u"txt_nome_2")
-        self.txt_nome_2.setGeometry(QRect(90, 100, 101, 41))
-        self.txt_nome_2.setStyleSheet(u"QLineEdit {\n"
+        self.txt_emissao = QLineEdit(frm_DadosProdutos)
+        self.txt_emissao.setObjectName(u"txt_emissao")
+        self.txt_emissao.setGeometry(QRect(90, 100, 101, 41))
+        self.txt_emissao.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
 "    padding: 6px; \n"
@@ -370,10 +366,10 @@ class Ui_frm_DadosProdutos(object):
 "    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
 "}\n"
 "")
-        self.txt_nome_3 = QLineEdit(frm_DadosProdutos)
-        self.txt_nome_3.setObjectName(u"txt_nome_3")
-        self.txt_nome_3.setGeometry(QRect(350, 100, 101, 41))
-        self.txt_nome_3.setStyleSheet(u"QLineEdit {\n"
+        self.txt_Validade = QLineEdit(frm_DadosProdutos)
+        self.txt_Validade.setObjectName(u"txt_Validade")
+        self.txt_Validade.setGeometry(QRect(350, 100, 101, 41))
+        self.txt_Validade.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
 "    padding: 6px; \n"
@@ -404,24 +400,214 @@ class Ui_frm_DadosProdutos(object):
         QMetaObject.connectSlotsByName(frm_DadosProdutos)
     # setupUi
 
+    def adiconarProdutos(self):
+        nome = self.txt_nome.text()
+        emissao = self.txt_emissao.text()
+        validade = self.txt_Validade.text()
+        quantidade = self.txt_qtd.text()
+        valor = self.txt_valor.text()
+        fornecedor = self.comboBox.currentText() 
+        obs = self.textEdit.toPlainText()
+
+        if emissao == '//':
+              emissao = None
+        if validade == '//':
+              validade = None
+        if quantidade == '':
+              quantidade = 0
+
+        mydb = mysql.connector.connect(
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
+        )
+
+        mycursor = mydb.cursor()
+
+        sql = "INSERT INTO produtos(`Nome`, `Emissão`, `Validade`, `Quantidade`, `Valor`, `Fornecedor`, `Observação`) values (%s, %s, %s, %s, %s, %s, %s)"
+        val = (nome, emissao, validade, quantidade, valor, fornecedor, obs)
+        mycursor.execute(sql, val)
+        mydb.commit()
+        print(mycursor.rowcount, 'Registro(s) inserido(s)')
+
+        mycursor.close()
+        mydb.close()
+
+        self.carregarFornecedores()        
+
+        self.txt_nome.setText("")
+        self.txt_emissao.setText("")
+        self.txt_Validade.setText("")
+        self.txt_qtd.setText("")
+        self.txt_valor.setText("R$")
+        self.textEdit.setPlainText("")
+        self.comboBox.setCurrentIndex(0)
+
+        msg = QMessageBox()
+        msg.setWindowTitle("Sucesso!")
+        msg.setText("Produto adicionado com sucesso!")
+        icon_path = r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"
+        msg.setWindowIcon(QIcon(icon_path))
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec()
+
+    def carregarFornecedores(self):
+        mydb = mysql.connector.connect(
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
+        )
+        mycursor = mydb.cursor()
+
+        mycursor.execute("SELECT `Razão Social` FROM fornecedor")
+        resultados = mycursor.fetchall()
+                
+        self.comboBox.clear()
+
+        for fornecedor in resultados:
+                print(f"Adicionando fornecedor: {fornecedor[0]}")  # Imprime para depuração
+                self.comboBox.addItem(fornecedor[0])
+
+        mycursor.close()
+
+        mydb.close()
+
     def retranslateUi(self, frm_DadosProdutos):
-        frm_DadosProdutos.setWindowTitle(QCoreApplication.translate("frm_DadosProdutos", u"Form", None))
+        frm_DadosProdutos.setWindowTitle(QCoreApplication.translate("frm_DadosProdutos", u"Dados Produtos", None))
         self.lbl_nome.setText(QCoreApplication.translate("frm_DadosProdutos", u"Nome do Produto:", None))
         self.lbl_qtd.setText(QCoreApplication.translate("frm_DadosProdutos", u"Quantidade:", None))
         self.lbl_Valor.setText(QCoreApplication.translate("frm_DadosProdutos", u"Valor:", None))
         self.btn_cancelar.setText("")
         self.txt_qtd.setText("")
-        self.txt_valor.setInputMask(QCoreApplication.translate("frm_DadosProdutos", u"R$", None))
+        self.txt_valor.setText("R$")
         self.lbl_Fornecedor.setText(QCoreApplication.translate("frm_DadosProdutos", u"Fornecedor:", None))
         self.lbl_obs.setText(QCoreApplication.translate("frm_DadosProdutos", u"Observa\u00e7\u00e3o:", None))
         self.btn_cadastrar.setText("")
         self.lbl_maxCarac.setText(QCoreApplication.translate("frm_DadosProdutos", u"max: 500 caracteres", None))
-        self.txt_nome_2.setInputMask(QCoreApplication.translate("frm_DadosProdutos", u"00/00/0000", None))
-        self.txt_nome_2.setText(QCoreApplication.translate("frm_DadosProdutos", u"//", None))
+        self.txt_emissao.setInputMask(QCoreApplication.translate("frm_DadosProdutos", u"00/00/0000", None))
+        self.txt_emissao.setText(QCoreApplication.translate("frm_DadosProdutos", u"//", None))
         self.lbl_nome_2.setText(QCoreApplication.translate("frm_DadosProdutos", u"Emiss\u00e3o:", None))
         self.lbl_nome_3.setText(QCoreApplication.translate("frm_DadosProdutos", u"Data de validade:", None))
-        self.txt_nome_3.setInputMask(QCoreApplication.translate("frm_DadosProdutos", u"00/00/0000", None))
-        self.txt_nome_3.setText(QCoreApplication.translate("frm_DadosProdutos", u"//", None))
+        self.txt_Validade.setInputMask(QCoreApplication.translate("frm_DadosProdutos", u"00/00/0000", None))
+        self.txt_Validade.setText(QCoreApplication.translate("frm_DadosProdutos", u"//", None))
         self.lbl_maxCarac_2.setText(QCoreApplication.translate("frm_DadosProdutos", u"0", None))
     # retranslateUi
+        self.carregarFornecedores()
 
+        if Controle.tiposTelaDadosCliente == 'incluir':
+              print('incluir')
+              self.btn_cadastrar.clicked.connect(self.adiconarProdutos)
+        if Controle.tiposTelaDadosCliente == 'alterar':
+               print('alterar')
+               self.btn_cadastrar.clicked.connect(self.alterarProdutos)
+
+        self.btn_cancelar.clicked.connect(lambda: self.sairTela(frm_DadosProdutos))
+
+        ##Condições da tela
+        if Controle.tiposTelaDadosCliente == 'consultar':
+                print('DadosProdutos: ', Controle.tiposTelaDadosCliente)
+                self.txt_nome.setEnabled(False)
+                self.txt_qtd.setEnabled(False)
+                self.txt_valor.setEnabled(False)
+                self.comboBox.setEnabled(False)
+                self.textEdit.setEnabled(False)
+                self.btn_cadastrar.setEnabled(False)
+                print('Conectando')
+
+                mydb = mysql.connector.connect(
+                        host = Controle.host,
+                        user = Controle.user,
+                        password = Controle.password,
+                        database = Controle.database
+                )
+                mycursor = mydb.cursor()
+                consultaSQL = """
+                SELECT Nome, Quantidade, Valor, Fornecedor, Observação
+                FROM produtos
+                WHERE idProdutos = %s
+                """
+                mycursor.execute(consultaSQL, (Controle.idConsulta,))
+                myresult = mycursor.fetchall()
+                
+                df = pd.DataFrame(myresult, columns=["Nome", "Quantidade", "Valor", "Fornecedor", "Observação"])
+                
+                self.txt_nome.setText(str(df['Nome'][0]))
+                self.txt_qtd.setText(str(df['Quantidade'][0]))
+                self.txt_valor.setText(str(df['Valor'][0]))
+                #adicionando fornecedor na combobox
+                fornecedor = str(df['Fornecedor'][0])
+                print("Fornecedor:", fornecedor)
+                #verificando se o fornecedor existe
+                if fornecedor not in [self.comboBox.itemText(i) for i in range(self.comboBox.count())]:
+                        self.comboBox.addItem(fornecedor)
+                self.comboBox.setCurrentText(fornecedor)
+                self.textEdit.setText(str(df['Observação'][0]))
+        elif Controle.tiposTelaDadosCliente == 'incluir':
+                self.carregarFornecedores()
+                print('incluindo')
+                self.txt_nome.setEnabled(True)
+                self.txt_emissao.setEnabled(True)
+                self.txt_Validade.setEnabled(True)
+                self.txt_qtd.setEnabled(True)
+                self.txt_valor.setEnabled(True)
+                self.comboBox.setEnabled(True)
+                self.textEdit.setEnabled(True)
+                self.btn_cadastrar.setEnabled(True)                                               
+        elif Controle.tiposTelaDadosCliente == 'alterar':
+                print('DadosProdutos: ', Controle.tiposTelaDadosCliente)
+                self.txt_nome.setEnabled(True)
+                self.txt_qtd.setEnabled(True)
+                self.txt_valor.setEnabled(True)
+                self.comboBox.setEnabled(True)
+                self.textEdit.setEnabled(True)
+                
+                print('Conectando...')
+                
+                
+                mydb = mysql.connector.connect(
+                        host = Controle.host,
+                        user = Controle.user,
+                        password = Controle.password,
+                        database = Controle.database
+                )
+                mycursor = mydb.cursor()
+                
+                consultarSQL = "SELECT * FROM produtos WHERE idProdutos = '" + Controle.idConsulta + "'"
+                mycursor.execute(consultarSQL)
+                myresult = mycursor.fetchone()
+                
+                nome = myresult[1]
+                quantidade = myresult[2]
+                valor = myresult[3]
+                fornecedor_atual = myresult[4]
+                obs = myresult[5]
+
+               
+                self.txt_nome.setText(nome)
+                self.txt_qtd.setText(str(quantidade))
+                self.txt_valor.setText(str(valor))
+                self.textEdit.setText(obs)
+                
+                self.comboBox.clear()
+
+                mycursor.execute("SELECT `Razão Social` FROM fornecedor")
+                fornecedores = mycursor.fetchall()
+                
+                for fornecedor_item in fornecedores:
+                        self.comboBox.addItem(fornecedor_item[0])
+                
+                self.comboBox.setCurrentText(fornecedor_atual)
+                
+                mycursor.close()
+                mydb.close()
+
+if __name__ == "__main__":
+    app = QApplication([])
+    frm_DadosProdutos = QWidget()
+    ui = Ui_frm_DadosProdutos()
+    ui.setupUi(frm_DadosProdutos)
+    frm_DadosProdutos.show()
+    app.exec()

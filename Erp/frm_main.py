@@ -26,7 +26,7 @@ import os
 
 from frm_Cliente import Ui_frm_Cliente
 from frm_Fornecedor import Ui_frm_Fornecedor
-#from frm_Produtos import Ui_frm_Produtos
+from frm_Produtos import Ui_frm_Produtos
 #from frm_Vendas import Ui_Frm_Vendas
 #from frm_Contas import Ui_frm_Contas
 #from frm_ValoresAReceber import Ui_frm_ValoresAReceber
@@ -508,6 +508,28 @@ class Ui_frm_main(object):
                 self.frm_Fornecedor.raise_()
                 self.frm_Fornecedor.activateWindow()
         
+    def telaProdutos(self):
+        if not hasattr(self, 'frm_Produtos') or self.frm_Produtos is None or not self.frm_Produtos.isVisible():
+                self.frm_Produtos = QWidget()
+                self.ui = Ui_frm_Produtos()
+                self.ui.setupUi(self.frm_Produtos)
+
+                self.frm_Produtos.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_Produtos.destroyed.connect(lambda: setattr(self, 'frm_Produtos', None))
+
+                self.frm_Produtos.show()
+        
+        else:
+                self.frm_Produtos.raise_()
+                self.frm_Produtos.activateWindow()
+
+        """
+        frm_Produtos = QWidget()
+    ui = Ui_frm_Produtos()
+    ui.setupUi(frm_Produtos)
+    frm_Produtos.show()
+    """
+
     def retranslateUi(self, frm_main):
         frm_main.setWindowTitle(QCoreApplication.translate("frm_main", u"Tela principal", None))
         self.actionCliente.setText(QCoreApplication.translate("frm_main", u"Cliente", None))
@@ -542,17 +564,13 @@ class Ui_frm_main(object):
     # retranslateUi
         self.btn_cliente.clicked.connect(self.telaCliente)
         self.btn_fornecedor.clicked.connect(self.telaFornecedor) 
+        self.btn_produtos.clicked.connect(self.telaProdutos)
 
         """
         self.login()
 
         self.btn_sair.clicked.connect(self.sairSistema)
-        
-               
-        self.btn_produtos.clicked.connect(self.telaProdutos)
 
-
-        
         self.btn_vendas.clicked.connect(self.telaVendas)
         self.btn_pagar.clicked.connect(self.telaContas)
         self.btn_receber.clicked.connect(self.telaValores)

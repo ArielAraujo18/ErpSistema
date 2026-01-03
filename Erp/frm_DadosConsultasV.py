@@ -145,10 +145,10 @@ class Ui_frm_DadosConsultasV(object):
 "    background-color: #f5f5f5; \n"
 "}\n"
 "")
-        self.txt_nome_2 = QLineEdit(frm_DadosConsultasV)
-        self.txt_nome_2.setObjectName(u"txt_nome_2")
-        self.txt_nome_2.setGeometry(QRect(140, 100, 101, 41))
-        self.txt_nome_2.setStyleSheet(u"QLineEdit {\n"
+        self.txt_emissao = QLineEdit(frm_DadosConsultasV)
+        self.txt_emissao.setObjectName(u"txt_emissao")
+        self.txt_emissao.setGeometry(QRect(140, 100, 101, 41))
+        self.txt_emissao.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
 "    padding: 6px; \n"

@@ -213,6 +213,9 @@ QLineEdit:hover {
 </string>
    </property>
    <property name="inputMask">
+    <string/>
+   </property>
+   <property name="text">
     <string>R$</string>
    </property>
   </widget>
@@ -469,7 +472,7 @@ QTextEdit:hover {
     <string>max: 500 caracteres</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="txt_nome_2">
+  <widget class="QLineEdit" name="txt_emissao">
    <property name="geometry">
     <rect>
      <x>90</x>
@@ -546,7 +549,7 @@ QLineEdit:hover {
     <string>Data de validade:</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="txt_nome_3">
+  <widget class="QLineEdit" name="txt_validade">
    <property name="geometry">
     <rect>
      <x>350</x>
