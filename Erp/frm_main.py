@@ -550,6 +550,9 @@ class Ui_frm_main(object):
         
                
         self.btn_produtos.clicked.connect(self.telaProdutos)
+
+
+        
         self.btn_vendas.clicked.connect(self.telaVendas)
         self.btn_pagar.clicked.connect(self.telaContas)
         self.btn_receber.clicked.connect(self.telaValores)

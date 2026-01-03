@@ -1,13 +1,3 @@
-# -*- coding: utf-8 -*-
-
-################################################################################
-## Form generated from reading UI file 'frm_Produtos.ui'
-##
-## Created by: Qt User Interface Compiler version 6.10.0
-##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
-################################################################################
-
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
@@ -17,22 +7,35 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QTableWidget, QTableWidgetItem,
-    QWidget)
-import icon_adicionar_rc
-import icon_voltar_rc
-import icon_excluir_rc
-import icon_pesquisar_rc
-import icon_filtro_rc
-import icon_consulta_rc
-import icon_alterar_rc
+    QWidget, QMessageBox)
+ 
+import Controle
+from frm_DadosProdutos import Ui_frm_DadosProdutos
+
+import mysql.connector
+import pandas as pd
+import os
+
+
+import icon_adicionar
+import icon_consultar
+import icon_excluir
+import icon_filtro
+import icon_pesquisar
+import icon_voltar
+import icon_alterar
 
 class Ui_frm_Produtos(object):
     def setupUi(self, frm_Produtos):
         if not frm_Produtos.objectName():
             frm_Produtos.setObjectName(u"frm_Produtos")
-        frm_Produtos.resize(581, 592)
-        frm_Produtos.setStyleSheet(u"QWidget {\n"
-"    background-color: #2c2c2c;\n"
+        frm_Produtos.setFixedSize(581, 592)
+        self.frm_Produtos = frm_Produtos
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        frm_Produtos.setWindowIcon(QIcon(caminho_icone))
+        frm_Produtos.setStyleSheet(u"QWidget{\n"
+"	background-color: #FAF3E0;\n"
+"\n"
 "}")
         self.btn_Add = QPushButton(frm_Produtos)
         self.btn_Add.setObjectName(u"btn_Add")
@@ -42,7 +45,7 @@ class Ui_frm_Produtos(object):
 "    border: 2px solid #83C5BE; \n"
 "    border-radius: 10px;\n"
 "    color: #FFFFFF; \n"
-"    background-image: url(:/icon_adicionar/adicionar.png); \n"
+"    background-image: url(:/icon_add/adicionar.png); \n"
 "    background-repeat: no-repeat; \n"
 "    background-position: center; \n"
 "    font-size: 14px; \n"
@@ -72,7 +75,7 @@ class Ui_frm_Produtos(object):
 "    border: 2px solid #83C5BE; \n"
 "    border-radius: 10px;\n"
 "    color: #FFFFFF; \n"
-"    background-image: url(:/icon_voltar/voltar.png); \n"
+"    background-image: url(:/icon_volt/retornar.png); \n"
 "    background-repeat: no-repeat; \n"
 "    background-position: center; \n"
 "    font-size: 14px; \n"
@@ -100,7 +103,7 @@ class Ui_frm_Produtos(object):
 "    border: 2px solid #83C5BE; \n"
 "    border-radius: 10px;\n"
 "    color: #FFFFFF; \n"
-"    background-image: url(:/icon_consulta/Consultar.png); \n"
+"    background-image: url(:/icon_alt/consultar.png); \n"
 "    background-repeat: no-repeat; \n"
 "    background-position: center; \n"
 "    font-size: 14px; \n"
@@ -130,7 +133,7 @@ class Ui_frm_Produtos(object):
 "    border: 2px solid #83C5BE; \n"
 "    border-radius: 10px;\n"
 "    color: #FFFFFF; \n"
-"    background-image: url(:/icon_alterar/alterar.png); \n"
+"    background-image: url(:/icon_alt/alterar.png); \n"
 "    background-repeat: no-repeat; \n"
 "    background-position: center; \n"
 "    font-size: 14px; \n"
@@ -164,7 +167,7 @@ class Ui_frm_Produtos(object):
 "    font-size: 14px;\n"
 "    font-weight: bold;\n"
 "    padding: 10px 16px;\n"
-"    background-image:url(:/icon_excluir/excluir.png);\n"
+"    background-image:url(:/icon_exc/excluir.png);\n"
 "    background-repeat: no-repeat;\n"
 "    background-position: center;\n"
 "    padding-left: 40px;\n"
@@ -191,7 +194,7 @@ class Ui_frm_Produtos(object):
 "    border: 2px solid #83C5BE; \n"
 "    border-radius: 10px;\n"
 "    color: #FFFFFF; \n"
-"    background-image: url(:/icon_pesquisar/pesquisar.png); \n"
+"    background-image: url(:/icon_pesq/pesquisar.png); \n"
 "    background-repeat: no-repeat; \n"
 "    background-position: center; \n"
 "    font-size: 14px; \n"
@@ -221,7 +224,7 @@ class Ui_frm_Produtos(object):
         self.lbl_Produtos.setFont(font)
         self.lbl_Produtos.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
-"    color: #FFFFFF;\n"
+"    color: #000000;\n"
 "    font-weight: bold;\n"
 "    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
 "}\n"
@@ -236,6 +239,7 @@ class Ui_frm_Produtos(object):
 "    border-radius: 5px; \n"
 "    padding: 6px; \n"
 "    font-size: 14px; \n"
+"	color: #000000;\n"
 "    background-color: #ffffff;\n"
 "    transition: all 0.3s ease;\n"
 "}\n"
@@ -253,7 +257,7 @@ class Ui_frm_Produtos(object):
 "    border: 2px solid #83C5BE; \n"
 "    border-radius: 10px;\n"
 "    color: #FFFFFF; \n"
-"    background-image: url(:/icon_filtro/filtro.png); \n"
+"    background-image: url(:/icon_filt/filtro.png); \n"
 "    background-repeat: no-repeat; \n"
 "    background-position: center; \n"
 "    font-size: 14px; \n"
@@ -276,8 +280,8 @@ class Ui_frm_Produtos(object):
 "}\n"
 "")
         self.tableWidget = QTableWidget(frm_Produtos)
-        if (self.tableWidget.columnCount() < 6):
-            self.tableWidget.setColumnCount(6)
+        if (self.tableWidget.columnCount() < 5):
+            self.tableWidget.setColumnCount(5)
         __qtablewidgetitem = QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem)
         __qtablewidgetitem1 = QTableWidgetItem()
@@ -288,8 +292,6 @@ class Ui_frm_Produtos(object):
         self.tableWidget.setHorizontalHeaderItem(3, __qtablewidgetitem3)
         __qtablewidgetitem4 = QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(4, __qtablewidgetitem4)
-        __qtablewidgetitem5 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(5, __qtablewidgetitem5)
         self.tableWidget.setObjectName(u"tableWidget")
         self.tableWidget.setGeometry(QRect(0, 170, 581, 321))
         self.tableWidget.setStyleSheet(u"QTableWidget, QTableView {\n"
@@ -377,9 +379,246 @@ class Ui_frm_Produtos(object):
 
         QMetaObject.connectSlotsByName(frm_Produtos)
     # setupUi
+##Funções##
+    def sairTela(self, frm_Produtos):
+        self.frm_Produtos.close()
+        self.frm_Produtos = None
+ 
+    def consultarGeral(self):
+        print('conectando')
+        mydb = mysql.connector.connect(
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
+        )
+        print('Conexão bem sucedida')
+        mycursor = mydb.cursor()
+        #Esqueci de mudar o nome do txt fornecedor para txtProdutos
+        nomeConsulta = self.txt_nomeFornecedor.text()
+        consultaSQL = "SELECT * FROM produtos WHERE Nome LIKE '" +  nomeConsulta + "%'"
+        mycursor.execute(consultaSQL)
+        myresult = mycursor.fetchall()
+
+        df = pd.DataFrame(myresult, columns=["idProdutos", "Nome", "Quantidade", "Valor", "Fornecedor", "Observação"])
+        self.all_data = df
+
+        numRows = len(self.all_data.index)
+        numCols = len(self.all_data.columns)
+        self.tableWidget.setColumnCount(numCols)
+        self.tableWidget.setRowCount(numRows)
+        self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
+
+        #Preenchendo a tabela
+        for i in range(numRows):
+            for j in range(numCols):
+                self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i,j])))
+
+        #Layout das colunas e linhas
+        self.tableWidget.resizeColumnsToContents()
+
+        self.tableWidget.resizeRowsToContents()
+
+        mydb.close()
+
+    def pesquisarProdutos(self):
+        print('Conectando')
+        mydb = mysql.connector.connect(
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
+        )
+
+        mycursor = mydb.cursor()
+
+        nomeConsulta = self.txt_nomeFornecedor.text()
+        consultaSQL = "SELECT * FROM produtos WHERE nome LIKE %s"
+        mycursor.execute(consultaSQL, ('%' + nomeConsulta + '%',))
+
+        myresult = mycursor.fetchall()
+
+        df = pd.DataFrame(myresult, columns=["idProdutos", "Nome", "Quantidade", "Valor", "Fornecedor", "Observação"])
+        self.all_data = df
+
+        numRows = len(self.all_data.index)
+        numCols = len(self.all_data.columns)
+        self.tableWidget.setColumnCount(numCols)
+        self.tableWidget.setRowCount(numRows)
+        self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
+
+        for i in range(numRows):
+            for j in range(numCols):
+                self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
+        
+        self.tableWidget.resizeColumnsToContents()
+        self.tableWidget.resizeRowsToContents()
+    
+        mydb.close()
+    def cadastrarProdutos(self):
+        Controle.tiposTelaDadosCliente = "incluir"
+        if not hasattr(self, 'frmDadosProdutos') or self.frm_DadosProdutos is None or not self.frm_DadosProdutos.isVisible():
+            self.frm_DadosProdutos = QWidget()
+            self.ui = Ui_frm_DadosProdutos()
+            self.ui.setupUi(self.frm_DadosProdutos)
+
+            self.frm_DadosProdutos.setAttribute(Qt.WA_DeleteOnClose)
+            self.frm_DadosProdutos.destroyed.connect(lambda: setattr(self, 'frm_DadosProdutos', None))
+
+            self.frm_DadosProdutos.show()
+
+        else:
+            self.frm_DadosProdutos.raise_()
+            self.frm_DadosProdutos.activateWindow()
+
+    def consultarProdutos(self):
+
+        Controle.tiposTelaDadosCliente = 'consultar'
+        print('frmFornecedor: ', Controle.tiposTelaDadosCliente)
+
+        line = self.tableWidget.currentRow()
+        if line == -1:
+            msg = QMessageBox()
+            msg.setWindowTitle('ERRO!')
+            msg.setText('Por favor, selecione um Fornecedor para consultar.')
+            caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+            msg.setWindowIcon(QIcon(caminho_icone))
+            msg.setIcon(QMessageBox.Warning)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+            return
+
+        item = self.tableWidget.item(line, 0)
+        if item:
+            Controle.idConsulta = item.text()
+            if not hasattr(self, 'frm_DadosProdutos') or self.frm_DadosProdutos is None or not self.frm_DadosProdutos.isVisible():
+                self.frm_DadosProdutos = QWidget()
+                self.ui = Ui_frm_DadosProdutos()
+                self.ui.setupUi(self.frm_DadosProdutos)
+
+                self.frm_DadosProdutos.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_DadosProdutos.destroyed.connect(lambda: setattr(self, 'frm_DadosProdutos', None))
+
+                self.frm_DadosProdutos.show()
+            else:
+                self.frm_DadosProdutos.raise_()
+                self.frm_DadosProdutos.activateWindow()
+        else:
+            msg = QMessageBox()
+            msg.setWindowTitle("Erro de Seleção")
+            msg.setText("Não foi possível obter o ID do produto selecionado.")
+            msg.setIcon(QMessageBox.Warning)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+
+    def alterarProdutos(self):
+        Controle.tiposTelaDadosCliente = 'alterar'
+        print('frm_Produtos ', Controle.tiposTelaDadosCliente)
+
+        line = self.tableWidget.currentRow()
+
+        if line == -1:
+            msg = QMessageBox()
+            msg.setWindowTitle('Erro de Seleção')
+            msg.setText('Por favor, selecione algum produto para alterar')
+            caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+            msg.setWindowIcon(QIcon(caminho_icone))
+            msg.setIcon(QMessageBox.Warning)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+            return
+
+        item = self.tableWidget.item(line, 0)
+
+        if item:
+            Controle.idConsulta = item.text()
+            if not hasattr(self, 'frm_DadosProdutos') or self.frm_DadosProdutos is None or not self.frm_DadosProdutos.isVisible():
+                self.frm_DadosProdutos = QWidget()
+                self.ui = Ui_frm_DadosProdutos()
+                self.ui.setupUi(self.frm_DadosProdutos)
+
+                self.frm_DadosProdutos.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_DadosProdutos.destroyed.connect(lambda: setattr(self, 'frm_DadosProdutos', None))
+
+                self.frm_DadosProdutos.show()
+
+            else: 
+                self.frm_DadosProdutos.raise_()
+                self.frm_DadosProdutos.activateWindow()
+    def excluirProdutos(self):
+
+        line = self.tableWidget.currentRow()
+
+        if line == -1:
+            msg = QMessageBox()
+            msg.setWindowTitle('Erro!')
+            msg.setText('Por favor, selecione um produto para excluir.')
+            caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+            msg.setWindowIcon(QIcon(caminho_icone))
+            msg.setIcon(QMessageBox.Warning)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+            return
+
+        item = self.tableWidget.item(line, 0)
+
+        if item:
+            idProduto = item.text()
+            mydb = mysql.connector.connect(
+                host = Controle.host,
+                user = Controle.user,
+                password = Controle.password,
+                database = Controle.database
+            )
+            
+            mycursor = mydb.cursor()
+            sql = "DELETE FROM produtos WHERE idProdutos = %s"
+            mycursor.execute(sql, (idProduto,))
+            mydb.commit()
+
+            msg = QMessageBox()
+            msg.setWindowTitle('Produto excluído')
+            msg.setText('Produto excluído com sucesso!')
+            caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+            msg.setWindowIcon(QIcon(caminho_icone))
+            msg.setIcon(QMessageBox.Information)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+
+            mycursor.execute("SELECT * FROM produtos")
+            myresult = mycursor.fetchall()
+            df = pd.DataFrame(myresult, columns=['idProdutos', 'Nome', 'Quantidade', 'Valor', 'Fornecedor', '`Observação`'])
+            self.all_data = df
+
+            numRows = len(self.all_data.index)
+            self.tableWidget.setColumnCount(len(self.all_data.columns))
+            self.tableWidget.setRowCount(numRows)
+            self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
+
+            for i in range(numRows):
+                for j in range(len(self.all_data.columns)):
+                    self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
+
+            self.tableWidget.resizeColumnsToContents()
+
+            for row in range(self.tableWidget.rowCount()):
+                self.tableWidget.resizeRowToContents(row)
+
+            mydb.close()
+        
+        else:
+            msg = QMessageBox()
+            msg.setWindowTitle('Erro seleção')
+            msg.setText('Produto não selecionado!')
+            caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+            msg.setWindowIcon(QIcon(caminho_icone))
+            msg.setIcon(QMessageBox.Warning)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+
 
     def retranslateUi(self, frm_Produtos):
-        frm_Produtos.setWindowTitle(QCoreApplication.translate("frm_Produtos", u"Form", None))
+        frm_Produtos.setWindowTitle(QCoreApplication.translate("frm_Produtos", u"Produtos", None))
         self.btn_Add.setText("")
         self.btn_voltar.setText("")
         self.btn_consul.setText("")
@@ -393,12 +632,26 @@ class Ui_frm_Produtos(object):
         ___qtablewidgetitem1 = self.tableWidget.horizontalHeaderItem(1)
         ___qtablewidgetitem1.setText(QCoreApplication.translate("frm_Produtos", u"Nome", None));
         ___qtablewidgetitem2 = self.tableWidget.horizontalHeaderItem(2)
-        ___qtablewidgetitem2.setText(QCoreApplication.translate("frm_Produtos", u"Emiss\u00e3o", None));
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("frm_Produtos", u"Quantidade", None));
         ___qtablewidgetitem3 = self.tableWidget.horizontalHeaderItem(3)
-        ___qtablewidgetitem3.setText(QCoreApplication.translate("frm_Produtos", u"Quantidade", None));
+        ___qtablewidgetitem3.setText(QCoreApplication.translate("frm_Produtos", u"Valor", None));
         ___qtablewidgetitem4 = self.tableWidget.horizontalHeaderItem(4)
-        ___qtablewidgetitem4.setText(QCoreApplication.translate("frm_Produtos", u"Valor", None));
-        ___qtablewidgetitem5 = self.tableWidget.horizontalHeaderItem(5)
-        ___qtablewidgetitem5.setText(QCoreApplication.translate("frm_Produtos", u"Forncedor", None));
+        ___qtablewidgetitem4.setText(QCoreApplication.translate("frm_Produtos", u"Forncedor", None));
     # retranslateUi
 
+        #Botões
+        self.btn_voltar.clicked.connect(self.sairTela)
+        self.btn_filtro.clicked.connect(self.consultarGeral)
+        self.btn_pesquisar.clicked.connect(self.pesquisarProdutos)
+        self.btn_Add.clicked.connect(self.cadastrarProdutos)
+        self.btn_consul.clicked.connect(self.consultarProdutos)
+        self.btn_alterar.clicked.connect(self.alterarProdutos)
+        self.btn_excluir.clicked.connect(self.excluirProdutos)
+
+if __name__ == "__main__":
+    app = QApplication([])
+    frm_Produtos = QWidget()
+    ui = Ui_frm_Produtos()
+    ui.setupUi(frm_Produtos)
+    frm_Produtos.show()
+    app.exec()
