@@ -236,6 +236,7 @@ class Ui_frm_Produtos(object):
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
 "    transition: all 0.3s ease;\n"
+"    color: #000000"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -569,7 +570,7 @@ class Ui_frm_Produtos(object):
             )
             
             mycursor = mydb.cursor()
-            sql = "DELETE FROM produtos WHERE idProdutos = %s"
+            sql = "DELETE FROM produtos WHERE idProduto = %s"
             mycursor.execute(sql, (idProduto,))
             mydb.commit()
 
@@ -584,7 +585,7 @@ class Ui_frm_Produtos(object):
 
             mycursor.execute("SELECT * FROM produtos")
             myresult = mycursor.fetchall()
-            df = pd.DataFrame(myresult, columns=["idProdutos", "Nome", "Emissão", "Validade", "Quantidade", "Valor", "Fornecedor", "`Observação`"])
+            df = pd.DataFrame(myresult, columns=["idProduto", "Nome", "Emissão", "Validade", "Quantidade", "Valor", "Fornecedor", "`Observação`"])
             self.all_data = df
 
             numRows = len(self.all_data.index)

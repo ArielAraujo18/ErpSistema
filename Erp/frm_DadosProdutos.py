@@ -475,6 +475,44 @@ class Ui_frm_DadosProdutos(object):
 
         mydb.close()
 
+    def sairTela(self, frm_DadosProdutos):
+        frm_DadosProdutos.close()
+
+    def alterarProdutos(self):
+        nome = self.txt_nome.text()
+        emissao = self.txt_emissao.text()
+        validade = self.txt_Validade.text()
+        quantidade = self.txt_qtd.text()
+        valor = self.txt_valor.text()
+        fornecedor = self.comboBox.currentText() 
+        obs = self.textEdit.toPlainText()
+
+        mydb = mysql.connector.connect(
+        host = Controle.host,
+        user = Controle.user,
+        password = Controle.password,
+        database = Controle.database
+        )
+        mycursor = mydb.cursor()
+        sql = """ UPDATE produtos
+                SET Nome = %s, Emissão = %s, Validade = %s, Quantidade = %s, Valor = %s, Fornecedor = %s, `Observação` = %s
+                WHERE IdProduto = %s
+                        """
+        val = (nome, emissao, validade, quantidade, valor, fornecedor, obs, Controle.idConsulta)
+        mycursor.execute(sql, val)
+        mydb.commit()
+
+        msg = QMessageBox()
+        msg.setWindowTitle('Sucesso!')
+        msg.setText('Fornecedor alterado com sucesso!')
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        msg.setWindowIcon(QIcon(caminho_icone))
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec()
+
+        self.frm_DadosProdutos.close()
+
     def retranslateUi(self, frm_DadosProdutos):
         frm_DadosProdutos.setWindowTitle(QCoreApplication.translate("frm_DadosProdutos", u"Dados Produtos", None))
         self.lbl_nome.setText(QCoreApplication.translate("frm_DadosProdutos", u"Nome do Produto:", None))
@@ -511,6 +549,8 @@ class Ui_frm_DadosProdutos(object):
                 print('DadosProdutos: ', Controle.tiposTelaDadosCliente)
                 self.txt_nome.setEnabled(False)
                 self.txt_qtd.setEnabled(False)
+                self.txt_emissao.setEnabled(False)
+                self.txt_Validade.setEnabled(False)
                 self.txt_valor.setEnabled(False)
                 self.comboBox.setEnabled(False)
                 self.textEdit.setEnabled(False)
@@ -525,16 +565,18 @@ class Ui_frm_DadosProdutos(object):
                 )
                 mycursor = mydb.cursor()
                 consultaSQL = """
-                SELECT Nome, Quantidade, Valor, Fornecedor, Observação
+                SELECT Nome, Emissão, Validade, Quantidade, Valor, Fornecedor, Observação
                 FROM produtos
-                WHERE idProdutos = %s
+                WHERE idProduto = %s
                 """
                 mycursor.execute(consultaSQL, (Controle.idConsulta,))
                 myresult = mycursor.fetchall()
                 
-                df = pd.DataFrame(myresult, columns=["Nome", "Quantidade", "Valor", "Fornecedor", "Observação"])
+                df = pd.DataFrame(myresult, columns=["Nome", "Emissão", "Validade", "Quantidade", "Valor", "Fornecedor", "Observação"])
                 
                 self.txt_nome.setText(str(df['Nome'][0]))
+                self.txt_emissao.setText(str(df['Emissão']))
+                self.txt_Validade.setText(str(df['Validade']))
                 self.txt_qtd.setText(str(df['Quantidade'][0]))
                 self.txt_valor.setText(str(df['Valor'][0]))
                 #adicionando fornecedor na combobox
@@ -559,6 +601,8 @@ class Ui_frm_DadosProdutos(object):
         elif Controle.tiposTelaDadosCliente == 'alterar':
                 print('DadosProdutos: ', Controle.tiposTelaDadosCliente)
                 self.txt_nome.setEnabled(True)
+                self.txt_emissao.setEnabled(True)
+                self.txt_Validade.setEnabled(True)
                 self.txt_qtd.setEnabled(True)
                 self.txt_valor.setEnabled(True)
                 self.comboBox.setEnabled(True)
@@ -575,18 +619,22 @@ class Ui_frm_DadosProdutos(object):
                 )
                 mycursor = mydb.cursor()
                 
-                consultarSQL = "SELECT * FROM produtos WHERE idProdutos = '" + Controle.idConsulta + "'"
+                consultarSQL = "SELECT * FROM produtos WHERE idProduto = '" + Controle.idConsulta + "'"
                 mycursor.execute(consultarSQL)
                 myresult = mycursor.fetchone()
                 
                 nome = myresult[1]
-                quantidade = myresult[2]
-                valor = myresult[3]
-                fornecedor_atual = myresult[4]
-                obs = myresult[5]
+                emissao = myresult[2]
+                validade = myresult[3]
+                quantidade = myresult[4]
+                valor = myresult[5]
+                fornecedor_atual = myresult[6]
+                obs = myresult[7]
 
                
                 self.txt_nome.setText(nome)
+                self.txt_emissao.setText(emissao)
+                self.txt_Validade.setText(validade)
                 self.txt_qtd.setText(str(quantidade))
                 self.txt_valor.setText(str(valor))
                 self.textEdit.setText(obs)
