@@ -30,7 +30,7 @@ from frm_Produtos import Ui_frm_Produtos
 #from frm_Vendas import Ui_Frm_Vendas
 #from frm_Contas import Ui_frm_Contas
 #from frm_ValoresAReceber import Ui_frm_ValoresAReceber
-#from frm_Tarefas import Ui_frm_Tarefas
+from frm_Tarefas import Ui_frm_Tarefas
 #from frm_Bancos import Ui_Frm_Bancos
 #from frm_Login import Ui_frm_Login
 
@@ -523,12 +523,20 @@ class Ui_frm_main(object):
                 self.frm_Produtos.raise_()
                 self.frm_Produtos.activateWindow()
 
-        """
-        frm_Produtos = QWidget()
-    ui = Ui_frm_Produtos()
-    ui.setupUi(frm_Produtos)
-    frm_Produtos.show()
-    """
+    def telaTarefas(self):
+        if not hasattr(self, 'frm_Tarefas') or self.frm_Tarefas is None or not self.frm_Tarefas.isVisible():
+                self.frm_Tarefas = QWidget()
+                self.ui = Ui_frm_Tarefas()
+                self.ui.setupUi(self.frm_Tarefas)
+
+                self.frm_Tarefas.setAttribute(Qt.WA_DeleteOnClose)
+                self.frm_Tarefas.destroyed.connect(lambda: setattr(self, 'frm_Tarefas', None))
+
+                self.frm_Tarefas.show()
+        
+        else:
+                self.frm_Tarefas.raise_()
+                self.frm_Tarefas.activateWindow()
 
     def retranslateUi(self, frm_main):
         frm_main.setWindowTitle(QCoreApplication.translate("frm_main", u"Tela principal", None))
@@ -565,7 +573,7 @@ class Ui_frm_main(object):
         self.btn_cliente.clicked.connect(self.telaCliente)
         self.btn_fornecedor.clicked.connect(self.telaFornecedor) 
         self.btn_produtos.clicked.connect(self.telaProdutos)
-
+        self.btn_tarefas.clicked.connect(self.telaTarefas)
         """
         self.login()
 

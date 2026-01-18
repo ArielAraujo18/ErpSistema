@@ -16,11 +16,11 @@ import Controle
 import os
 
 import icon_adicionar
-import icon_voltar
-import icon_excluir
-import icon_pesquisar
-import icon_filtro
 import icon_consulta
+import icon_excluir
+import icon_filtro
+import icon_pesquisar
+import icon_voltar
 import icon_alterar
 
 class Ui_frm_Tarefas(object):
@@ -29,8 +29,11 @@ class Ui_frm_Tarefas(object):
             frm_Tarefas.setObjectName(u"frm_Tarefas")
         frm_Tarefas.setFixedSize(581, 593)
         self.frm_Tarefas = frm_Tarefas
-        frm_Tarefas.setStyleSheet(u"QWidget {\n"
-"    background-color: #2c2c2c;\n"
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        frm_Tarefas.setWindowIcon(QIcon(caminho_icone))
+        frm_Tarefas.setStyleSheet(u"QWidget{\n"
+"	background-color: #001F3F;\n"
+"\n"
 "}")
         self.btn_Add = QPushButton(frm_Tarefas)
         self.btn_Add.setObjectName(u"btn_Add")
@@ -40,7 +43,7 @@ class Ui_frm_Tarefas(object):
 "    border: 2px solid #83C5BE; \n"
 "    border-radius: 10px;\n"
 "    color: #FFFFFF; \n"
-"    background-image: url(:/icon_adicionar/adicionar.png); \n"
+"    background-image: url(:/icon_add/adicionar.png); \n"
 "    background-repeat: no-repeat; \n"
 "    background-position: center; \n"
 "    font-size: 14px; \n"
@@ -70,7 +73,7 @@ class Ui_frm_Tarefas(object):
 "    border: 2px solid #83C5BE; \n"
 "    border-radius: 10px;\n"
 "    color: #FFFFFF; \n"
-"    background-image: url(:/icon_voltar/voltar.png); \n"
+"    background-image: url(:/icon_volt/retornar.png); \n"
 "    background-repeat: no-repeat; \n"
 "    background-position: center; \n"
 "    font-size: 14px; \n"
@@ -98,7 +101,7 @@ class Ui_frm_Tarefas(object):
 "    border: 2px solid #83C5BE; \n"
 "    border-radius: 10px;\n"
 "    color: #FFFFFF; \n"
-"    background-image: url(:/icon_consulta/Consultar.png); \n"
+"    background-image: url(:/icon_alt/consultar.png); \n"
 "    background-repeat: no-repeat; \n"
 "    background-position: center; \n"
 "    font-size: 14px; \n"
@@ -128,7 +131,7 @@ class Ui_frm_Tarefas(object):
 "    border: 2px solid #83C5BE; \n"
 "    border-radius: 10px;\n"
 "    color: #FFFFFF; \n"
-"    background-image: url(:/icon_alterar/alterar.png); \n"
+"    background-image: url(:/icon_alt/alterar.png); \n"
 "    background-repeat: no-repeat; \n"
 "    background-position: center; \n"
 "    font-size: 14px; \n"
@@ -162,7 +165,7 @@ class Ui_frm_Tarefas(object):
 "    font-size: 14px;\n"
 "    font-weight: bold;\n"
 "    padding: 10px 16px;\n"
-"    background-image:url(:/icon_excluir/excluir.png);\n"
+"    background-image:url(:/icon_exc/excluir.png);\n"
 "    background-repeat: no-repeat;\n"
 "    background-position: center;\n"
 "    padding-left: 40px;\n"
@@ -189,7 +192,7 @@ class Ui_frm_Tarefas(object):
 "    border: 2px solid #83C5BE; \n"
 "    border-radius: 10px;\n"
 "    color: #FFFFFF; \n"
-"    background-image: url(:/icon_pesquisar/pesquisar.png); \n"
+"    background-image: url(:/icon_pesq/pesquisar.png); \n"
 "    background-repeat: no-repeat; \n"
 "    background-position: center; \n"
 "    font-size: 14px; \n"
@@ -251,7 +254,7 @@ class Ui_frm_Tarefas(object):
 "    border: 2px solid #83C5BE; \n"
 "    border-radius: 10px;\n"
 "    color: #FFFFFF; \n"
-"    background-image: url(:/icon_filtro/filtro.png); \n"
+"    background-image: url(:/icon_filt/filtro.png); \n"
 "    background-repeat: no-repeat; \n"
 "    background-position: center; \n"
 "    font-size: 14px; \n"
@@ -636,7 +639,6 @@ class Ui_frm_Tarefas(object):
         ___qtablewidgetitem5 = self.tableWidget.horizontalHeaderItem(5)
         ___qtablewidgetitem5.setText(QCoreApplication.translate("frm_Tarefas", u"Situa\u00e7\u00e3o", None));
     # retranslateUi
-        
         self.btn_filtro.clicked.connect(self.consultarGeral)
         self.btn_pesquisar.clicked.connect(self.pesquisarGeral)
         self.btn_voltar.clicked.connect(self.sairTela)

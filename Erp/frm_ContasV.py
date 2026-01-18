@@ -8,13 +8,13 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QTableWidget, QTableWidgetItem,
     QWidget, QMessageBox)
-
 import icon_adicionar
-import icon_voltar
+import icon_attConta
+import icon_consultar
 import icon_excluir
-import icon_pesquisar
 import icon_filtro
-import icon_consulta
+import icon_pesquisar
+import icon_voltar
 import icon_alterar
 
 import pandas as pd
@@ -30,8 +30,10 @@ class Ui_frm_Contas(object):
             frm_Contas.setObjectName(u"frm_Contas")
         frm_Contas.setFixedSize(953, 593)
         self.frm_Contas = frm_Contas
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        frm_Contas.setWindowIcon(QIcon(caminho_icone))
         frm_Contas.setStyleSheet(u"QWidget{\n"
-"	background-color: #2c2c2c;\n"
+"	background-color: #4E342E;\n"
 "\n"
 "}")
         self.btn_Add = QPushButton(frm_Contas)
@@ -42,7 +44,7 @@ class Ui_frm_Contas(object):
 "    border: 2px solid #83C5BE; \n"
 "    border-radius: 10px;\n"
 "    color: #FFFFFF; \n"
-"    background-image: url(:/icon_adicionar/adicionar.png); \n"
+"    background-image: url(:/icon_add/adicionar.png); \n"
 "    background-repeat: no-repeat; \n"
 "    background-position: center; \n"
 "    font-size: 14px; \n"
@@ -72,7 +74,7 @@ class Ui_frm_Contas(object):
 "    border: 2px solid #83C5BE; \n"
 "    border-radius: 10px;\n"
 "    color: #FFFFFF; \n"
-"    background-image: url(:/icon_voltar/voltar.png); \n"
+"    background-image: url(:/icon_volt/retornar.png); \n"
 "    background-repeat: no-repeat; \n"
 "    background-position: center; \n"
 "    font-size: 14px; \n"
@@ -100,7 +102,7 @@ class Ui_frm_Contas(object):
 "    border: 2px solid #83C5BE; \n"
 "    border-radius: 10px;\n"
 "    color: #FFFFFF; \n"
-"    background-image: url(:/icon_consulta/Consultar.png); \n"
+"    background-image: url(:/icon_alt/consultar.png); \n"
 "    background-repeat: no-repeat; \n"
 "    background-position: center; \n"
 "    font-size: 14px; \n"
@@ -130,7 +132,7 @@ class Ui_frm_Contas(object):
 "    border: 2px solid #83C5BE; \n"
 "    border-radius: 10px;\n"
 "    color: #FFFFFF; \n"
-"    background-image: url(:/icon_alterar/alterar.png); \n"
+"    background-image: url(:/icon_alt/alterar.png); \n"
 "    background-repeat: no-repeat; \n"
 "    background-position: center; \n"
 "    font-size: 14px; \n"
@@ -164,7 +166,7 @@ class Ui_frm_Contas(object):
 "    font-size: 14px;\n"
 "    font-weight: bold;\n"
 "    padding: 10px 16px;\n"
-"    background-image:url(:/icon_excluir/excluir.png);\n"
+"    background-image:url(:/icon_exc/excluir.png);\n"
 "    background-repeat: no-repeat;\n"
 "    background-position: center;\n"
 "    padding-left: 40px;\n"
@@ -191,7 +193,7 @@ class Ui_frm_Contas(object):
 "    border: 2px solid #83C5BE; \n"
 "    border-radius: 10px;\n"
 "    color: #FFFFFF; \n"
-"    background-image: url(:/icon_pesquisar/pesquisar.png); \n"
+"    background-image: url(:/icon_pesq/pesquisar.png); \n"
 "    background-repeat: no-repeat; \n"
 "    background-position: center; \n"
 "    font-size: 14px; \n"
@@ -238,6 +240,7 @@ class Ui_frm_Contas(object):
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
 "    transition: all 0.3s ease;\n"
+"    color: #000000; \n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -253,7 +256,7 @@ class Ui_frm_Contas(object):
 "    border: 2px solid #83C5BE; \n"
 "    border-radius: 10px;\n"
 "    color: #FFFFFF; \n"
-"    background-image: url(:/icon_filtro/filtro.png); \n"
+"    background-image: url(:/icon_filt/filtro.png); \n"
 "    background-repeat: no-repeat; \n"
 "    background-position: center; \n"
 "    font-size: 14px; \n"
@@ -402,6 +405,7 @@ class Ui_frm_Contas(object):
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
 "    transition: all 0.3s ease;\n"
+"    color: #000000; \n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -421,6 +425,7 @@ class Ui_frm_Contas(object):
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
 "    transition: all 0.3s ease;\n"
+"    color: #000000; \n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -450,6 +455,7 @@ class Ui_frm_Contas(object):
 "    font-size: 14px; \n"
 "    background-color: #ffffff;\n"
 "    transition: all 0.3s ease;\n"
+"    color: #000000; \n"
 "}\n"
 "\n"
 "QLineEdit:hover {\n"
@@ -467,14 +473,45 @@ class Ui_frm_Contas(object):
 "    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
 "}\n"
 "")
+        self.btn_atualizar = QPushButton(frm_Contas)
+        self.btn_atualizar.setObjectName(u"btn_atualizar")
+        self.btn_atualizar.setGeometry(QRect(870, 130, 31, 31))
+        self.btn_atualizar.setStyleSheet(u"QPushButton {\n"
+"    background-color: #EDE7F6;\n"
+"    border: 2px solid #83C5BE; \n"
+"    border-radius: 14px;\n"
+"    color: #FFFFFF; \n"
+"    background-image:url(:/icon_attConta/atualizar (1).png); \n"
+"    background-repeat: no-repeat; \n"
+"    background-position: center; \n"
+"    font-size: 14px; \n"
+"    font-weight: bold; \n"
+"    padding: 10px 16px;\n"
+"    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); \n"
+"    transition: all 0.3s ease; \n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: #FFFFFF;\n"
+"    box-shadow: none; \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: #7C3AED; \n"
+"    color: #FFFFFF; \n"
+"    padding-top: 2px; \n"
+"    padding-left: 2px;\n"
+"}\n"
+"")
 
         self.retranslateUi(frm_Contas)
 
         QMetaObject.connectSlotsByName(frm_Contas)
-    # setupUidef
+    # setupUi
+
     def sairTela(self, frm_Contas):
         self.frm_Contas.close()
-
+        self.frm_Contas = None
 
     def consultarGeral(self):
         print("Conectando")
@@ -775,7 +812,7 @@ class Ui_frm_Contas(object):
 
 
     def retranslateUi(self, frm_Contas):
-        frm_Contas.setWindowTitle(QCoreApplication.translate("frm_Contas", u"Form", None))
+        frm_Contas.setWindowTitle(QCoreApplication.translate("frm_Contas", u"Contas", None))
         self.btn_Add.setText("")
         self.btn_voltar.setText("")
         self.btn_consul.setText("")
@@ -807,6 +844,7 @@ class Ui_frm_Contas(object):
         self.lbl_SomaDasDividas.setText(QCoreApplication.translate("frm_Contas", u"Soma das D\u00edvidas:", None))
         self.lbl_MaiorDivida.setText(QCoreApplication.translate("frm_Contas", u"Maior D\u00edvida:", None))
         self.label_3.setText(QCoreApplication.translate("frm_Contas", u"Valor da maior d\u00edvida:", None))
+        self.btn_atualizar.setText("")
     # retranslateUi
 
         self.btn_voltar.clicked.connect(self.sairTela)
@@ -816,8 +854,8 @@ class Ui_frm_Contas(object):
         self.btn_alterar.clicked.connect(self.alterarContas)
         self.btn_excluir.clicked.connect(self.excluirContas)
         self.btn_consul.clicked.connect(self.consultarContas)
-        #self.btn_atualizar.clicked.connect(self.visualizar)
-        #self.btn_atualizar.clicked.connect(self.calcular_total_dividas)
+        self.btn_atualizar.clicked.connect(self.visualizar)
+        self.btn_atualizar.clicked.connect(self.calcular_total_dividas)
 
 if __name__ == "__main__":
     app = QApplication([])
@@ -826,4 +864,3 @@ if __name__ == "__main__":
     ui.setupUi(frm_Contas)
     frm_Contas.show()
     app.exec()  
-

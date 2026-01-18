@@ -7,13 +7,14 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QTextEdit, QWidget, QMessageBox)
-import icon_voltar
-import icon_add
 
 import Controle
 import pandas as pd
 import mysql.connector
 import os
+
+import icon_add
+import icon_voltar
 
 class Ui_frm_DadosTarefas(object):
     def setupUi(self, frm_DadosTarefas):
@@ -21,8 +22,10 @@ class Ui_frm_DadosTarefas(object):
             frm_DadosTarefas.setObjectName(u"frm_DadosTarefas")
         frm_DadosTarefas.setFixedSize(558, 560)
         self.frm_DadosTarefas = frm_DadosTarefas
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        frm_DadosTarefas.setWindowIcon(QIcon(caminho_icone))
         frm_DadosTarefas.setStyleSheet(u"QWidget{\n"
-"	background-color: #2c2c2c;;\n"
+"	background-color: #001F3F;\n"
 "\n"
 "}")
         self.lbl_nome = QLabel(frm_DadosTarefas)
@@ -85,7 +88,7 @@ class Ui_frm_DadosTarefas(object):
 "    font-size: 14px;\n"
 "    font-weight: bold;\n"
 "    padding: 10px 16px;\n"
-"    background-image:url(:/icon_voltar/voltar.png);\n"
+"    background-image:url(:/icon_cancelar/cancelar.png);\n"
 "    background-repeat: no-repeat;\n"
 "    background-position: center;\n"
 "    padding-left: 40px;\n"
@@ -161,7 +164,7 @@ class Ui_frm_DadosTarefas(object):
 "    font-size: 14px;\n"
 "    font-weight: bold;\n"
 "    padding: 10px 16px;\n"
-"    background-image:url(:/icon_add/add.png); \n"
+"    background-image:url(:/icon_cadastrar/cadastrar.png); \n"
 "    background-repeat: no-repeat;\n"
 "    background-position: center;\n"
 "    transition: all 0.3s ease;\n"
@@ -332,6 +335,37 @@ class Ui_frm_DadosTarefas(object):
         self.frm_DadosTarefas = None
 
     def adicionarTarefas(self):
+        campos_comuns = {
+            "Nome": self.txt_nome.text().strip(),
+            "Observacao": self.textEdit.toPlainText().strip(),
+        }
+        campos_mask = {
+            "Inicio": self.txt_inicio.text().strip(),
+            "Fim": self.txt_fim.text().strip(),
+        }
+
+        for campo, valor in campos_comuns.items():
+             if not valor:
+                 msg = QMessageBox()
+                 msg.setWindowTitle("Erro!")
+                 msg.setText(f"O campo {campo} é obrigatório e não pode ficar vazio!")
+                 msg.setWindowIcon(QIcon(r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png"))
+                 msg.setIcon(QMessageBox.Warning)
+                 msg.setStandardButtons(QMessageBox.Ok)
+                 msg.exec()
+                 return
+        
+        obs = self.textEdit.toPlainText()
+        if len(obs) > 500:
+                msg = QMessageBox()
+                msg.setWindowTitle("Erro!")
+                msg.setText("Preencha o campo de observação com 500 caracteres ou menos!")
+                msg.setWindowIcon(QIcon((r"C:\Users\Ariel\PycharmProjects\Scripts\Sistema\avsIcon.png")))
+                msg.setIcon(QMessageBox.Icon.Warning)
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec()
+                return
+        
         nome = self.txt_nome.text()
         inicio = self.txt_inicio.text()
         fim = self.txt_fim.text()
@@ -380,6 +414,8 @@ class Ui_frm_DadosTarefas(object):
         obs = self.textEdit.toPlainText()
         situacao = self.comboSituacao.currentText()
 
+
+
         mydb = mysql.connector.connect(
                 host = Controle.host,
                 user = Controle.user,
@@ -408,8 +444,9 @@ class Ui_frm_DadosTarefas(object):
 
         self.frm_DadosTarefas.close()
 
+
     def retranslateUi(self, frm_DadosTarefas):
-        frm_DadosTarefas.setWindowTitle(QCoreApplication.translate("frm_DadosTarefas", u"Form", None))
+        frm_DadosTarefas.setWindowTitle(QCoreApplication.translate("frm_DadosTarefas", u"Dados Tarefas", None))
         self.lbl_nome.setText(QCoreApplication.translate("frm_DadosTarefas", u"Nome:", None))
         self.lbl_inicio.setText(QCoreApplication.translate("frm_DadosTarefas", u"In\u00edcio:", None))
         self.lbl_fim.setText(QCoreApplication.translate("frm_DadosTarefas", u"Fim:", None))
@@ -420,9 +457,9 @@ class Ui_frm_DadosTarefas(object):
         self.lbl_obs.setText(QCoreApplication.translate("frm_DadosTarefas", u"Observa\u00e7\u00e3o:", None))
         self.btn_cadastrar.setText("")
         self.lbl_Situacao.setText(QCoreApplication.translate("frm_DadosTarefas", u"Situa\u00e7\u00e3o:", None))
-        self.comboSituacao.setItemText(0, QCoreApplication.translate("frm_DadosTarefas", u"EM ANDAMENTO", None))
-        self.comboSituacao.setItemText(1, QCoreApplication.translate("frm_DadosTarefas", u"PRONTO", None))
-
+        self.comboSituacao.setItemText(0, QCoreApplication.translate("frm_DadosTarefas", u"PENDENTE", None))
+        self.comboSituacao.setItemText(1, QCoreApplication.translate("frm_DadosTarefas", u"FINALIZADO", None))
+        #Condições do botão
         if Controle.tiposTelaDadosCliente == 'incluir':
             self.btn_cadastrar.clicked.connect(self.adicionarTarefas)
         if Controle.tiposTelaDadosCliente == 'alterar':
@@ -508,6 +545,7 @@ class Ui_frm_DadosTarefas(object):
             self.textEdit.setText(str(df['Observação'][0]))
             comboSituacao = str(df['Situação'][0]) if not df.empty else ""
             self.comboSituacao.setCurrentText(comboSituacao)
+
     # retranslateUi
 
 if __name__ == "__main__":

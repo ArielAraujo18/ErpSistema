@@ -1,3 +1,4 @@
+
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
@@ -8,26 +9,29 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QComboBox, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QTextEdit, QWidget, QMessageBox)
 
-import icon_voltar
-import icon_add
-
 import Controle
 import pandas as pd
 import mysql.connector
 import os
 
+import icon_cadastrar
+import icon_cancelar
+
 class Ui_frm_DadosContas(object):
     def setupUi(self, frm_DadosContas):
         if not frm_DadosContas.objectName():
             frm_DadosContas.setObjectName(u"frm_DadosContas")
-        frm_DadosContas.setFixedSize(586, 585)
+        frm_DadosContas.setFixedSize(580, 644)
+        caminho_icone = os.path.join(os.path.dirname(__file__), "avsIcon.png")
+        frm_DadosContas.setWindowIcon(QIcon(caminho_icone))
         self.frm_DadosContas = frm_DadosContas
         frm_DadosContas.setStyleSheet(u"QWidget {\n"
-"    background-color: #2c2c2c;\n"
+"    background-color: #4E342E;\n"
+"    border-radius: 8px;\n"
 "}")
         self.lbl_nome = QLabel(frm_DadosContas)
         self.lbl_nome.setObjectName(u"lbl_nome")
-        self.lbl_nome.setGeometry(QRect(10, 40, 61, 21))
+        self.lbl_nome.setGeometry(QRect(70, 50, 61, 21))
         self.lbl_nome.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
@@ -37,7 +41,7 @@ class Ui_frm_DadosContas(object):
 "")
         self.txt_nome = QLineEdit(frm_DadosContas)
         self.txt_nome.setObjectName(u"txt_nome")
-        self.txt_nome.setGeometry(QRect(70, 30, 191, 41))
+        self.txt_nome.setGeometry(QRect(130, 40, 361, 41))
         self.txt_nome.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
@@ -55,7 +59,7 @@ class Ui_frm_DadosContas(object):
 "")
         self.lbl_emissao = QLabel(frm_DadosContas)
         self.lbl_emissao.setObjectName(u"lbl_emissao")
-        self.lbl_emissao.setGeometry(QRect(10, 100, 71, 20))
+        self.lbl_emissao.setGeometry(QRect(50, 110, 71, 20))
         self.lbl_emissao.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
@@ -65,7 +69,7 @@ class Ui_frm_DadosContas(object):
 "")
         self.lbl_vencimento = QLabel(frm_DadosContas)
         self.lbl_vencimento.setObjectName(u"lbl_vencimento")
-        self.lbl_vencimento.setGeometry(QRect(210, 100, 101, 20))
+        self.lbl_vencimento.setGeometry(QRect(250, 110, 101, 20))
         self.lbl_vencimento.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
@@ -75,7 +79,7 @@ class Ui_frm_DadosContas(object):
 "")
         self.btn_cancelar = QPushButton(frm_DadosContas)
         self.btn_cancelar.setObjectName(u"btn_cancelar")
-        self.btn_cancelar.setGeometry(QRect(180, 480, 101, 91))
+        self.btn_cancelar.setGeometry(QRect(180, 550, 101, 91))
         self.btn_cancelar.setAutoFillBackground(False)
         self.btn_cancelar.setStyleSheet(u"QPushButton {\n"
 "    background-color: #ffebee; \n"
@@ -85,7 +89,7 @@ class Ui_frm_DadosContas(object):
 "    font-size: 14px;\n"
 "    font-weight: bold;\n"
 "    padding: 10px 16px;\n"
-"    background-image:url(:/icon_voltar/voltar.png);\n"
+"    background-image:url(:/icon_cancelar/cancelar.png);\n"
 "    background-repeat: no-repeat;\n"
 "    background-position: center;\n"
 "    padding-left: 40px;\n"
@@ -106,7 +110,7 @@ class Ui_frm_DadosContas(object):
 "}")
         self.txt_emissao = QLineEdit(frm_DadosContas)
         self.txt_emissao.setObjectName(u"txt_emissao")
-        self.txt_emissao.setGeometry(QRect(90, 90, 101, 41))
+        self.txt_emissao.setGeometry(QRect(130, 100, 101, 41))
         self.txt_emissao.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
@@ -124,7 +128,7 @@ class Ui_frm_DadosContas(object):
 "")
         self.txt_vencimento = QLineEdit(frm_DadosContas)
         self.txt_vencimento.setObjectName(u"txt_vencimento")
-        self.txt_vencimento.setGeometry(QRect(320, 90, 101, 41))
+        self.txt_vencimento.setGeometry(QRect(360, 100, 101, 41))
         self.txt_vencimento.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
@@ -142,7 +146,7 @@ class Ui_frm_DadosContas(object):
 "")
         self.lbl_Fornecedor = QLabel(frm_DadosContas)
         self.lbl_Fornecedor.setObjectName(u"lbl_Fornecedor")
-        self.lbl_Fornecedor.setGeometry(QRect(10, 220, 91, 20))
+        self.lbl_Fornecedor.setGeometry(QRect(20, 230, 101, 20))
         self.lbl_Fornecedor.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
@@ -152,7 +156,7 @@ class Ui_frm_DadosContas(object):
 "")
         self.lbl_obs = QLabel(frm_DadosContas)
         self.lbl_obs.setObjectName(u"lbl_obs")
-        self.lbl_obs.setGeometry(QRect(7, 320, 101, 20))
+        self.lbl_obs.setGeometry(QRect(20, 340, 101, 20))
         self.lbl_obs.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
@@ -162,7 +166,7 @@ class Ui_frm_DadosContas(object):
 "")
         self.btn_cadastrar = QPushButton(frm_DadosContas)
         self.btn_cadastrar.setObjectName(u"btn_cadastrar")
-        self.btn_cadastrar.setGeometry(QRect(320, 480, 101, 91))
+        self.btn_cadastrar.setGeometry(QRect(320, 550, 101, 91))
         self.btn_cadastrar.setStyleSheet(u"QPushButton {\n"
 "    background-color: #ffffff;\n"
 "    border: 2px solid #d1c4b2;\n"
@@ -171,7 +175,7 @@ class Ui_frm_DadosContas(object):
 "    font-size: 14px;\n"
 "    font-weight: bold;\n"
 "    padding: 10px 16px;\n"
-"    background-image:url(:/icon_add/add.png); \n"
+"    background-image:url(:/icon_cadastrar/cadastrar.png); \n"
 "    background-repeat: no-repeat;\n"
 "    background-position: center;\n"
 "    transition: all 0.3s ease;\n"
@@ -190,7 +194,7 @@ class Ui_frm_DadosContas(object):
 "}")
         self.textEdit = QTextEdit(frm_DadosContas)
         self.textEdit.setObjectName(u"textEdit")
-        self.textEdit.setGeometry(QRect(110, 270, 371, 121))
+        self.textEdit.setGeometry(QRect(123, 290, 371, 121))
         self.textEdit.setStyleSheet(u"QTextEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
@@ -209,28 +213,21 @@ class Ui_frm_DadosContas(object):
 "}")
         self.lbl_maxCarac = QLabel(frm_DadosContas)
         self.lbl_maxCarac.setObjectName(u"lbl_maxCarac")
-        self.lbl_maxCarac.setGeometry(QRect(390, 400, 101, 16))
+        self.lbl_maxCarac.setGeometry(QRect(410, 410, 111, 16))
         self.lbl_maxCarac.setStyleSheet(u"QLabel {\n"
 "    font-size: 10px;\n"
-"    color: #FFFFFF;\n"
+"    color: #333333;\n"
 "    font-weight: bold;\n"
 "    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
 "}\n"
 "")
         self.lbl_contador = QLabel(frm_DadosContas)
         self.lbl_contador.setObjectName(u"lbl_contador")
-        self.lbl_contador.setGeometry(QRect(460, 250, 21, 20))
-        self.lbl_contador.setStyleSheet(u"QLabel {\n"
-"    font-size: 10px;\n"
-"    color: #FFFFFF;\n"
-"    font-weight: bold;\n"
-"    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);\n"
-"}\n"
-"")
+        self.lbl_contador.setGeometry(QRect(470, 270, 21, 20))
         self.comboFornecedor = QComboBox(frm_DadosContas)
         self.comboFornecedor.addItem("")
         self.comboFornecedor.setObjectName(u"comboFornecedor")
-        self.comboFornecedor.setGeometry(QRect(110, 210, 241, 41))
+        self.comboFornecedor.setGeometry(QRect(130, 230, 361, 31))
         self.comboFornecedor.setStyleSheet(u"QComboBox {\n"
 "    background-color: #2c3e50;\n"
 "    color: #ecf0f1;\n"
@@ -342,7 +339,7 @@ class Ui_frm_DadosContas(object):
 "")
         self.lbl_valor = QLabel(frm_DadosContas)
         self.lbl_valor.setObjectName(u"lbl_valor")
-        self.lbl_valor.setGeometry(QRect(10, 160, 51, 20))
+        self.lbl_valor.setGeometry(QRect(70, 170, 51, 20))
         self.lbl_valor.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
@@ -352,7 +349,7 @@ class Ui_frm_DadosContas(object):
 "")
         self.txt_valor = QLineEdit(frm_DadosContas)
         self.txt_valor.setObjectName(u"txt_valor")
-        self.txt_valor.setGeometry(QRect(70, 150, 141, 41))
+        self.txt_valor.setGeometry(QRect(130, 160, 141, 41))
         self.txt_valor.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
@@ -370,7 +367,7 @@ class Ui_frm_DadosContas(object):
 "")
         self.lbl_parcelas = QLabel(frm_DadosContas)
         self.lbl_parcelas.setObjectName(u"lbl_parcelas")
-        self.lbl_parcelas.setGeometry(QRect(230, 160, 91, 20))
+        self.lbl_parcelas.setGeometry(QRect(290, 170, 91, 20))
         self.lbl_parcelas.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
@@ -380,7 +377,7 @@ class Ui_frm_DadosContas(object):
 "")
         self.txt_parcelas = QLineEdit(frm_DadosContas)
         self.txt_parcelas.setObjectName(u"txt_parcelas")
-        self.txt_parcelas.setGeometry(QRect(310, 150, 61, 41))
+        self.txt_parcelas.setGeometry(QRect(370, 160, 61, 41))
         self.txt_parcelas.setStyleSheet(u"QLineEdit {\n"
 "    border: 2px solid #cccccc; \n"
 "    border-radius: 5px; \n"
@@ -398,7 +395,7 @@ class Ui_frm_DadosContas(object):
 "")
         self.lbl_formaDePagamento = QLabel(frm_DadosContas)
         self.lbl_formaDePagamento.setObjectName(u"lbl_formaDePagamento")
-        self.lbl_formaDePagamento.setGeometry(QRect(10, 430, 171, 20))
+        self.lbl_formaDePagamento.setGeometry(QRect(10, 430, 181, 20))
         self.lbl_formaDePagamento.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
@@ -414,7 +411,7 @@ class Ui_frm_DadosContas(object):
         self.comboFormaDePagamento.addItem("")
         self.comboFormaDePagamento.addItem("")
         self.comboFormaDePagamento.setObjectName(u"comboFormaDePagamento")
-        self.comboFormaDePagamento.setGeometry(QRect(190, 420, 191, 41))
+        self.comboFormaDePagamento.setGeometry(QRect(200, 430, 361, 31))
         self.comboFormaDePagamento.setStyleSheet(u"QComboBox {\n"
 "    background-color: #2c3e50;\n"
 "    color: #ecf0f1;\n"
@@ -526,7 +523,7 @@ class Ui_frm_DadosContas(object):
 "")
         self.lbl_Situacao = QLabel(frm_DadosContas)
         self.lbl_Situacao.setObjectName(u"lbl_Situacao")
-        self.lbl_Situacao.setGeometry(QRect(280, 40, 71, 20))
+        self.lbl_Situacao.setGeometry(QRect(110, 480, 81, 20))
         self.lbl_Situacao.setStyleSheet(u"QLabel {\n"
 "    font-size: 16px;\n"
 "    color: #FFFFFF;\n"
@@ -538,7 +535,7 @@ class Ui_frm_DadosContas(object):
         self.comboSituacao.addItem("")
         self.comboSituacao.addItem("")
         self.comboSituacao.setObjectName(u"comboSituacao")
-        self.comboSituacao.setGeometry(QRect(360, 30, 191, 41))
+        self.comboSituacao.setGeometry(QRect(200, 480, 361, 31))
         self.comboSituacao.setStyleSheet(u"QComboBox {\n"
 "    background-color: #2c3e50;\n"
 "    color: #ecf0f1;\n"
@@ -856,7 +853,7 @@ class Ui_frm_DadosContas(object):
         self.frm_DadosContas.close()
 
     def retranslateUi(self, frm_DadosContas):
-        frm_DadosContas.setWindowTitle(QCoreApplication.translate("frm_DadosContas", u"Form", None))
+        frm_DadosContas.setWindowTitle(QCoreApplication.translate("frm_DadosContas", u"Dados Contas", None))
         self.lbl_nome.setText(QCoreApplication.translate("frm_DadosContas", u"Nome:", None))
         self.lbl_emissao.setText(QCoreApplication.translate("frm_DadosContas", u"Emiss\u00e3o:", None))
         self.lbl_vencimento.setText(QCoreApplication.translate("frm_DadosContas", u"Vencimento:", None))
@@ -870,9 +867,9 @@ class Ui_frm_DadosContas(object):
         self.textEdit.setHtml(QCoreApplication.translate("frm_DadosContas", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'Ubuntu Sans'; font-size:16px; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'MS Shell Dlg 2'; font-size:16px;\">ND</span></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2';\"><br /></p></body></html>", None))
+"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:16px; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:16px;\">ND</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", None))
         self.lbl_maxCarac.setText(QCoreApplication.translate("frm_DadosContas", u"max: 500 caracteres", None))
         self.lbl_contador.setText(QCoreApplication.translate("frm_DadosContas", u"000", None))
         self.comboFornecedor.setItemText(0, QCoreApplication.translate("frm_DadosContas", u"Nenhum", None))
@@ -890,10 +887,9 @@ class Ui_frm_DadosContas(object):
         self.comboFormaDePagamento.setItemText(5, QCoreApplication.translate("frm_DadosContas", u"Transfer\u00eancia banc\u00e1ria", None))
 
         self.lbl_Situacao.setText(QCoreApplication.translate("frm_DadosContas", u"Situa\u00e7\u00e3o:", None))
-        self.comboSituacao.setItemText(0, QCoreApplication.translate("frm_DadosContas", u"PENDENTE", None))
-        self.comboSituacao.setItemText(1, QCoreApplication.translate("frm_DadosContas", u"PAGO", None))
+        self.comboSituacao.setItemText(0, QCoreApplication.translate("frm_DadosContas", u"PAGO", None))
+        self.comboSituacao.setItemText(1, QCoreApplication.translate("frm_DadosContas", u"PENDENTE", None))
 
-    # retranslateUi
         if Controle.tiposTelaDadosCliente == 'incluir':
              print("incluir")
              self.btn_cadastrar.clicked.connect(self.adiconarContas)
