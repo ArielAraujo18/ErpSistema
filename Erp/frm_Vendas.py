@@ -1265,3 +1265,5 @@ if __name__ == "__main__":
     ui.setupUi(frm_Vendas)
     frm_Vendas.show()
     app.exec()
+    
+    
